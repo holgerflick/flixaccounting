@@ -1,4 +1,5 @@
 object DataManager: TDataManager
+  OnCreate = DataModuleCreate
   Height = 480
   Width = 640
   object Connection: TAureliusConnection

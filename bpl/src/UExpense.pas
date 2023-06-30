@@ -2,16 +2,15 @@ unit UExpense;
 
 interface
 uses
-  Aurelius.Mapping.Automapping,
-  Aurelius.Mapping.Attributes,
-  Aurelius.Mapping.Metadata,
-  Aurelius.Types.Blob,
-  Aurelius.Mapping.Explorer,
+  Aurelius.Mapping.Automapping
+  , Aurelius.Mapping.Attributes
+  , Aurelius.Mapping.Metadata
+  , Aurelius.Types.Blob
+  , Aurelius.Mapping.Explorer
+  , Bcl.Types.Nullable
 
-  Bcl.Types.Nullable,
-
-  System.SysUtils,
-  System.Generics.Collections
+  , System.SysUtils
+  , System.Generics.Collections
 
   ;
 
@@ -26,12 +25,15 @@ type
     FCategory: String;
     FTitle: String;
     FAmount: Double;
+    FPercentage: Double;
     function GetAmountTotal: Double;
     function GetMonth: Integer;
     function GetMonthsPaid: Integer;
     function GetYear: Integer;
 
   public
+    constructor Create;
+
     property Id: Integer read FId write FId;
 
     property PaidOn: TDateTime read FPaidOn write FPaidOn;
@@ -39,6 +41,7 @@ type
     property Category: String read FCategory write FCategory;
     property Title: String read FTitle write FTitle;
     property Amount: Double read FAmount write FAmount;
+    property Percentage: Double read FPercentage write FPercentage;
 
     property Year: Integer read GetYear;
     property Month: Integer read GetMonth;
@@ -54,6 +57,13 @@ uses
   ;
 
 { TExpense }
+
+constructor TExpense.Create;
+begin
+  inherited;
+
+  FPercentage := 1;
+end;
 
 function TExpense.GetAmountTotal: Double;
 begin
@@ -74,5 +84,8 @@ function TExpense.GetYear: Integer;
 begin
   Result := PaidOn.Year;
 end;
+
+initialization
+  RegisterEntity(TExpense);
 
 end.

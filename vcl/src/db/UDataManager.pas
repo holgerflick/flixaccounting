@@ -6,6 +6,8 @@ uses
   System.SysUtils
   , System.Classes
 
+  , System.IOUtils
+
   , Aurelius.Drivers.Interfaces
   , Aurelius.Drivers.SQLite
   , Aurelius.Drivers.FireDac
@@ -15,11 +17,15 @@ uses
   , Aurelius.Engine.DatabaseManager
   , Aurelius.Engine.ObjectManager, Aurelius.Comp.Connection
 
+  , UExpense
+  , UIncome
+
   ;
 
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
 
@@ -48,6 +54,18 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure TDataManager.DataModuleCreate(Sender: TObject);
+begin
+  Connection.Params.Values['Database'] :=
+    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+
+  TInvoice.Create.Free;
+  TExpense.Create.Free;
+
+
+  UpdateDatabase;
+end;
 
 { TDataManager }
 
