@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="vcl\src\FlixLLCPL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bpl\src\FlixLLCPL.Model.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FlixLLCPL">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPL:Clean">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPL:Make">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model:Clean">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model:Make">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FlixLLCPL;FlixLLCPL_Model"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FlixLLCPL:Clean;FlixLLCPL_Model:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FlixLLCPL:Make;FlixLLCPL_Model:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
