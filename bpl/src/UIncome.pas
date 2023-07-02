@@ -13,6 +13,8 @@ uses
   , System.SysUtils
   , System.Generics.Collections
 
+  , UDocument
+
   ;
 
 type
@@ -28,16 +30,25 @@ type
     FCategory: String;
     FTitle: String;
     FAmount: Double;
+    FOriginalFilename: String;
+
+    [Association([], CascadeTypeAllButRemove)]
+    FDocument: TDocument;
 
   protected
     function GetTotalAmount: Double; virtual;
 
   public
+    constructor Create;
+    destructor Destroy; override;
+
     property Id: Integer read FId write FId;
     property DateReceived: TDateTime read FDateReceived write FDateReceived;
     property Category: String read FCategory write FCategory;
     property Title: String read FTitle write FTitle;
     property Amount: Double read FAmount write FAmount;
+
+    property Document: TDocument read FDocument;
 
     property TotalAmount: Double read GetTotalAmount;
 
@@ -92,6 +103,16 @@ type
 implementation
 
 { TIncome }
+
+constructor TIncome.Create;
+begin
+
+end;
+
+destructor TIncome.Destroy;
+begin
+
+end;
 
 function TIncome.GetTotalAmount: Double;
 begin

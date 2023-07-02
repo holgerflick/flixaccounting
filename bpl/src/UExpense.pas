@@ -12,6 +12,8 @@ uses
   , System.SysUtils
   , System.Generics.Collections
 
+  , UDocument
+
   ;
 
 type
@@ -26,6 +28,10 @@ type
     FTitle: String;
     FAmount: Double;
     FPercentage: Double;
+
+    [Association([], CascadeTypeAll )]
+    FDocument: TDocument;
+
     function GetAmountTotal: Double;
     function GetMonth: Integer;
     function GetMonthsPaid: Integer;
@@ -33,6 +39,7 @@ type
 
   public
     constructor Create;
+    destructor Destroy; override;
 
     property Id: Integer read FId write FId;
 
@@ -42,6 +49,8 @@ type
     property Title: String read FTitle write FTitle;
     property Amount: Double read FAmount write FAmount;
     property Percentage: Double read FPercentage write FPercentage;
+
+    property Document: TDocument read FDocument write FDocument;
 
     property Year: Integer read GetYear;
     property Month: Integer read GetMonth;
@@ -60,9 +69,14 @@ uses
 
 constructor TExpense.Create;
 begin
-  inherited;
-
+  FDocument := nil;
   FPercentage := 1;
+  FIsMonthly := False;
+end;
+
+destructor TExpense.Destroy;
+begin
+
 end;
 
 function TExpense.GetAmountTotal: Double;

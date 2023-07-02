@@ -79,6 +79,7 @@
         <DCCReference Include="aurelius.dcp"/>
         <DCCReference Include="UExpense.pas"/>
         <DCCReference Include="UIncome.pas"/>
+        <DCCReference Include="UDocument.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

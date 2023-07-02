@@ -35,6 +35,7 @@ requires
 
 contains
   UExpense in 'UExpense.pas',
-  UIncome in 'UIncome.pas';
+  UIncome in 'UIncome.pas',
+  UDocument in 'UDocument.pas';
 
 end.

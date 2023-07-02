@@ -60,10 +60,6 @@ begin
   Connection.Params.Values['Database'] :=
     TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
 
-  TInvoice.Create.Free;
-  TExpense.Create.Free;
-
-
   UpdateDatabase;
 end;
 
