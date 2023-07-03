@@ -81,7 +81,7 @@ end;
 
 function TExpense.GetAmountTotal: Double;
 begin
-  Result := Amount * MonthsPaid;
+  Result := Amount * MonthsPaid * Percentage;
 end;
 
 function TExpense.GetMonth: Integer;
@@ -91,7 +91,14 @@ end;
 
 function TExpense.GetMonthsPaid: Integer;
 begin
-  Result := 12 - Month + 1;
+  if self.IsMonthly then
+  begin
+    Result := 12 - Month + 1
+  end
+  else
+  begin
+    Result := 1;
+  end;
 end;
 
 function TExpense.GetYear: Integer;

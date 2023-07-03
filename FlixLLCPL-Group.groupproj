@@ -3,11 +3,11 @@
         <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="vcl\src\FlixLLCPL.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="bpl\src\FlixLLCPL.Model.dproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="vcl\src\FlixLLCPL.dproj">
+            <Dependencies>bpl\src\FlixLLCPL.Model.dproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -17,15 +17,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="FlixLLCPL">
-        <MSBuild Projects="vcl\src\FlixLLCPL.dproj"/>
-    </Target>
-    <Target Name="FlixLLCPL:Clean">
-        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="FlixLLCPL:Make">
-        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Make"/>
-    </Target>
     <Target Name="FlixLLCPL_Model">
         <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj"/>
     </Target>
@@ -35,14 +26,23 @@
     <Target Name="FlixLLCPL_Model:Make">
         <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj" Targets="Make"/>
     </Target>
+    <Target Name="FlixLLCPL" DependsOnTargets="FlixLLCPL.Model">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPL:Clean" DependsOnTargets="FlixLLCPL.Model:Clean">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPL:Make" DependsOnTargets="FlixLLCPL.Model:Make">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="FlixLLCPL;FlixLLCPL_Model"/>
+        <CallTarget Targets="FlixLLCPL_Model;FlixLLCPL"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FlixLLCPL:Clean;FlixLLCPL_Model:Clean"/>
+        <CallTarget Targets="FlixLLCPL_Model:Clean;FlixLLCPL:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FlixLLCPL:Make;FlixLLCPL_Model:Make"/>
+        <CallTarget Targets="FlixLLCPL_Model:Make;FlixLLCPL:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

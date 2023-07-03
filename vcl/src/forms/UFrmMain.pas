@@ -16,19 +16,16 @@ uses
   , Vcl.Dialogs
   , Vcl.StdCtrls
 
-  , UDataManager
-
   , Aurelius.Engine.ObjectManager
+  , UFrmBase
   ;
 
 type
-  TFrmMain = class(TForm)
+  TFrmMain = class(TFrmBase)
     Button1: TButton;
     procedure Button1Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
-    FDataManager: TDataManager;
 
   public
     { Public declarations }
@@ -40,29 +37,24 @@ var
 implementation
 
 uses
-    UAppGlobals
-  , UDataImportManager
+  UFrmExpenses
   ;
+
+
 
 {$R *.dfm}
 
 procedure TFrmMain.Button1Click(Sender: TObject);
 var
-  LObjManager : TObjectManager;
+  LFrm: TFrmExpenses;
 
 begin
-  LObjManager := FDataManager.ObjectManager;
-  var LManager := TDataImportManager.Create(LObjManager);
-  LManager.ImportExpensesFromFolder('\\192.168.0.50\fe\accounting\expenses\2023');
-  ShowMessage( LManager.Duplicates.CommaText );
-  ShowMessage( LManager.ImportErrors.Count.ToString );
-end;
-
-procedure TFrmMain.FormCreate(Sender: TObject);
-begin
-   Caption := TAppGlobals.AppFullName;
-
-   FDataManager := TDataManager.Shared;
+  LFrm := TFrmExpenses.Create(self);
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
 end;
 
 end.

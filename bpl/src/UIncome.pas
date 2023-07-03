@@ -66,11 +66,13 @@ type
     FTitle: String;
     FQuantity: Double;
     FValue: Double;
+    FCategory: String;
     function GetTotalValue: Double;
 
   public
     property Id: Integer read FId write FId;
     property Idx: Integer read FIdx write FIdx;
+    property Category: String read FCategory write FCategory;
     property Title: String read FTitle write FTitle;
     property Quantity: Double read FQuantity write FQuantity;
     property Value: Double read FValue write FValue;
