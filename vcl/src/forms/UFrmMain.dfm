@@ -1,5 +1,4 @@
 inherited FrmMain: TFrmMain
-  Caption = 'FrmMain'
   ClientHeight = 441
   ClientWidth = 624
   Font.Height = -12

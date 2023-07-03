@@ -165,7 +165,7 @@ begin
           on E: EConvertError do
           begin
             var LError := TImportError.Create;
-            LError.FileName := LFile;
+            LError.FileName := TPath.GetFileName(LFile);
             LError.Description := E.Message;
             FImportErrors.Add( LError );
           end;
@@ -176,7 +176,7 @@ begin
     end
     else
     begin
-      FDuplicates.Add(LFile);
+      FDuplicates.Add(TPath.GetFileName(LFile));
     end;
   end;
 end;

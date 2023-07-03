@@ -1,7 +1,6 @@
 object FrmBase: TFrmBase
   Left = 0
   Top = 0
-  Caption = 'Base Form!'
   ClientHeight = 471
   ClientWidth = 711
   Color = clBtnFace

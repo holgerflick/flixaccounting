@@ -552,6 +552,7 @@ inherited FrmExpenses: TFrmExpenses
     Height = 33
     Caption = 'Import from Folder...'
     TabOrder = 1
+    OnClick = btnImportClick
   end
   object dbExpenses: TAureliusDataset
     FieldDefs = <
@@ -693,5 +694,14 @@ inherited FrmExpenses: TFrmExpenses
     DataSet = dbExpenses
     Left = 144
     Top = 424
+  end
+  object DlgOpen: TFileOpenDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    OkButtonLabel = 'Import'
+    Options = [fdoPickFolders, fdoPathMustExist]
+    Title = 'Pick folder with expense documents'
+    Left = 296
+    Top = 24
   end
 end

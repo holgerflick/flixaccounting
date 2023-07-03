@@ -54,13 +54,16 @@ type
     sourceExpenses: TDataSource;
     Expenses: TDBAdvGrid;
     btnImport: TButton;
-
+    DlgOpen: TFileOpenDialog;
+    procedure btnImportClick(Sender: TObject);
     procedure dbExpensesPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
     procedure dbExpensesPercentageSetText(Sender: TField; const Text: string);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    procedure ImportFromFolder;
+    procedure OpenDataset;
   public
     { Public declarations }
   end;
@@ -72,7 +75,16 @@ implementation
 
 {$R *.dfm}
 
+uses
+    UFrmReportImport
+  , UDataImportManager
+  ;
 
+
+procedure TFrmExpenses.btnImportClick(Sender: TObject);
+begin
+  ImportFromFolder;
+end;
 
 procedure TFrmExpenses.dbExpensesPercentageGetText(Sender: TField; var Text:
     string; DisplayText: Boolean);
@@ -91,6 +103,44 @@ begin
   inherited;
 
   Caption := 'List of all expenses';
+
+  OpenDataset;
+end;
+
+procedure TFrmExpenses.ImportFromFolder;
+var
+  LPath: String;
+
+begin
+  if DlgOpen.Execute then
+  begin
+    LPath := DlgOpen.FileName;
+    var LImport := TDataImportManager.Create(self.ObjectManager);
+    try
+      LImport.ImportExpensesFromFolder(LPath);
+
+      // show report only if there are errors or duplicates
+      if LImport.HasNoErrors = False then
+      begin
+        var LReport := TFrmReportImport.Create(self, LImport );
+        try
+          LReport.ShowModal;
+        finally
+          LReport.Free;
+        end;
+      end;
+
+      OpenDataset;
+
+    finally
+      LImport.Free;
+    end;
+  end;
+end;
+
+procedure TFrmExpenses.OpenDataset;
+begin
+  dbExpenses.Close;
   dbExpenses.Manager := self.ObjectManager;
   dbExpenses.SetSourceCriteria( self.ObjectManager
     .Find<TExpense>

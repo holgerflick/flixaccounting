@@ -62,10 +62,13 @@ end;
 
 procedure TFrmBase.FormCreate(Sender: TObject);
 begin
-   Caption := TAppGlobals.AppFullName;
+  if self.Caption = '' then
+  begin
+    Caption := TAppGlobals.AppFullName;
+  end;
 
-   FDataManager := TDataManager.Shared;
-   FObjectManager := nil;
+  FDataManager := TDataManager.Shared;
+  FObjectManager := nil;
 end;
 
 function TFrmBase.GetObjectManager: TObjectManager;
