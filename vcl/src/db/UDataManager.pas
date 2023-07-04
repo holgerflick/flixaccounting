@@ -18,13 +18,18 @@ uses
   , Aurelius.Engine.ObjectManager, Aurelius.Comp.Connection
 
   , UExpense
-  , UIncome
+  , UIncome, FireDAC.Phys.MySQLDef, FireDAC.Stan.Intf, FireDAC.Phys,
+  FireDAC.Phys.MySQL, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client
 
   ;
 
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    FDConnection1: TFDConnection;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -57,8 +62,8 @@ implementation
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
-  Connection.Params.Values['Database'] :=
-    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+  //Connection.Params.Values['Database'] :=
+  //  TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
 
   UpdateDatabase;
 end;

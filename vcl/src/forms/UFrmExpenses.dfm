@@ -1,16 +1,16 @@
 inherited FrmExpenses: TFrmExpenses
   Caption = 'FrmExpenses'
-  ClientHeight = 594
-  ClientWidth = 979
-  ExplicitWidth = 995
-  ExplicitHeight = 633
+  ClientHeight = 605
+  ClientWidth = 1015
+  ExplicitWidth = 1031
+  ExplicitHeight = 644
   TextHeight = 21
   object Expenses: TDBAdvGrid
     Left = 8
-    Top = 57
-    Width = 963
-    Height = 529
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Top = 47
+    Width = 999
+    Height = 550
+    Anchors = [akLeft, akRight, akBottom]
     ColCount = 9
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic

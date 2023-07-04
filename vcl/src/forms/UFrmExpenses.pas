@@ -1,4 +1,4 @@
-unit UFrmExpenses;
+﻿unit UFrmExpenses;
 
 interface
 
@@ -59,6 +59,7 @@ type
     procedure dbExpensesPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
     procedure dbExpensesPercentageSetText(Sender: TField; const Text: string);
+
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }

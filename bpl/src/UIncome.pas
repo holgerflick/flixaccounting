@@ -56,6 +56,28 @@ type
 
   [Entity]
   [Automapping]
+  TInvoicePayment = class
+  private
+    FPaidOn: TDate;
+    FAmount: Double;
+
+    [Association([], CascadeTypeAllButRemove)]
+    FInvoice: TInvoice;
+
+    FId: Integer;
+  public
+    property Id: Integer read FId write FId;
+
+    property Invoice: TInvoice read FInvoice write FInvoice;
+
+    property PaidOn: TDate read FPaidOn write FPaidOn;
+    property Amount: Double read FAmount write FAmount;
+  end;
+
+  TInvoicePayments = TList<TInvoicePayment>;
+
+  [Entity]
+  [Automapping]
   TInvoiceItem = class
   private
     FId: Integer;
@@ -84,20 +106,39 @@ type
 
   [Entity]
   [Automapping]
-  TInvoice = class(TIncome)
+  TInvoice = class
 
   private
     [ManyValuedAssociation([], CascadeTypeAll, 'FInvoice')]
     FItems: TInvoiceItems;
 
-  protected
-    function GetTotalAmount: Double; override;
+    [ManyValuedAssociation([], CascadeTypeAll, 'FInvoice')]
+    FPayments: TInvoicePayments;
+    FId: Integer;
+
+    [Column('Number', [TColumnProp.Unique] )]
+    FNumber: Integer;
+    FIssuedOn: TDate;
+    FDueOn: TDate;
+
+    function GetTotalAmount: Double;
+    function GetAmountDue: Double;
 
   public
     constructor Create;
     destructor  Destroy; override;
 
+    property Id: Integer read FId write FId;
+
+    property Number: Integer read FNumber write FNumber;
+    property IssuedOn: TDate read FIssuedOn write FIssuedOn;
+    property DueOn: TDate read FDueOn write FDueOn;
+
     property Items: TInvoiceItems read FItems;
+    property Payments: TInvoicePayments read FPayments;
+
+    property TotalAmount: Double read GetTotalAmount;
+    property AmountDue: Double read GetAmountDue;
 
   end;
 
@@ -133,13 +174,20 @@ end;
 constructor TInvoice.Create;
 begin
   FItems := TInvoiceItems.Create;
+  FPayments := TInvoicePayments.Create;
 end;
 
 destructor TInvoice.Destroy;
 begin
+  FPayments.Free;
   FItems.Free;
 
   inherited;
+end;
+
+function TInvoice.GetAmountDue: Double;
+begin
+
 end;
 
 function TInvoice.GetTotalAmount: Double;
