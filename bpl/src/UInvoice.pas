@@ -1,4 +1,4 @@
-unit UIncome;
+unit UInvoice;
 
 interface
 uses
@@ -13,46 +13,11 @@ uses
   , System.SysUtils
   , System.Generics.Collections
 
-  , UDocument
-
+  , UIncome
   ;
 
 type
-
   TInvoice = class;
-
-  [Entity]
-  [Automapping]
-  TIncome = class
-  private
-    FId: Integer;
-    FDateReceived: TDateTime;
-    FCategory: String;
-    FTitle: String;
-    FAmount: Double;
-    FOriginalFilename: String;
-
-    [Association([], CascadeTypeAllButRemove)]
-    FDocument: TDocument;
-
-  protected
-    function GetTotalAmount: Double; virtual;
-
-  public
-    constructor Create;
-    destructor Destroy; override;
-
-    property Id: Integer read FId write FId;
-    property DateReceived: TDateTime read FDateReceived write FDateReceived;
-    property Category: String read FCategory write FCategory;
-    property Title: String read FTitle write FTitle;
-    property Amount: Double read FAmount write FAmount;
-
-    property Document: TDocument read FDocument;
-
-    property TotalAmount: Double read GetTotalAmount;
-
-  end;
 
   [Entity]
   [Automapping]
@@ -152,23 +117,6 @@ type
 
 implementation
 
-{ TIncome }
-
-constructor TIncome.Create;
-begin
-
-end;
-
-destructor TIncome.Destroy;
-begin
-
-end;
-
-function TIncome.GetTotalAmount: Double;
-begin
-  Result := Amount;
-end;
-
 { TInvoiceItem }
 
 function TInvoiceItem.GetTotalValue: Double;
@@ -219,12 +167,15 @@ end;
 procedure TInvoice.Process;
 begin
   // only create income for amount that was paid
+  if AmountPaid > 0 then
+  begin
 
+  end;
 
 end;
 
+
 initialization
-  RegisterEntity(TIncome);
   RegisterEntity(TInvoiceItem);
   RegisterEntity(TInvoice);
 

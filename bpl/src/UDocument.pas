@@ -20,7 +20,7 @@ type
   [Automapping]
   TDocument = class
   private
-    [Column('Document',[TColumnProp.Lazy])]
+    [Column('Document', [TColumnProp.Lazy])]
     FDocument: TBlob;
     FId: Integer;
     FOriginalFilename: String;
