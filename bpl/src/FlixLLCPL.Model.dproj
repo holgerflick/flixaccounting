@@ -82,6 +82,9 @@
         <DCCReference Include="UExpense.pas"/>
         <DCCReference Include="UIncome.pas"/>
         <DCCReference Include="UDocument.pas"/>
+        <DCCReference Include="UExceptions.pas"/>
+        <DCCReference Include="UInvoice.pas"/>
+        <DCCReference Include="UTransaction.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -8,7 +8,8 @@ uses
   UDataImportManager in 'db\UDataImportManager.pas',
   UFrmBase in 'forms\UFrmBase.pas' {FrmBase},
   UFrmExpenses in 'forms\UFrmExpenses.pas' {FrmExpenses},
-  UFrmReportImport in 'forms\UFrmReportImport.pas' {FrmReportImport};
+  UFrmReportImport in 'forms\UFrmReportImport.pas' {FrmReportImport},
+  UReportManager in 'UReportManager.pas' {ReportManager: TDataModule};
 
 {$R *.res}
 

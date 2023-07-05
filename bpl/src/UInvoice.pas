@@ -6,6 +6,7 @@ uses
   , Aurelius.Mapping.Attributes
   , Aurelius.Mapping.Metadata
   , Aurelius.Types.Blob
+  , Aurelius.Types.Proxy
   , Aurelius.Mapping.Explorer
 
   , Bcl.Types.Nullable
@@ -74,24 +75,34 @@ type
   TInvoice = class
 
   private
-    [ManyValuedAssociation([], CascadeTypeAll, 'FInvoice')]
-    FItems: TInvoiceItems;
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FInvoice')]
+    FItems: Proxy<TInvoiceItems>;
 
-    [ManyValuedAssociation([], CascadeTypeAll, 'FInvoice')]
-    FPayments: TInvoicePayments;
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FInvoice')]
+    FPayments: Proxy<TInvoicePayments>;
+
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll)]
+    FIncomeItems: Proxy<TIncomes>;
+
     FId: Integer;
 
     [Column('Number', [TColumnProp.Unique] )]
     FNumber: Integer;
     FIssuedOn: TDate;
     FDueOn: TDate;
-    FIncome: TIncome;
 
     procedure Process;
 
     function GetTotalAmount: Double;
     function GetAmountDue: Double;
     function GetAmountPaid: Double;
+    function GetItems: TInvoiceItems;
+    function GetPayments: TInvoicePayments;
+    procedure SetItems(const Value: TInvoiceItems);
+    procedure SetPayments(const Value: TInvoicePayments);
+    function GetCanBeProcessed: Boolean;
+    function GetIncomeItems: TIncomes;
+    procedure SetIncomeItems(const Value: TIncomes);
 
   public
     constructor Create;
@@ -103,19 +114,28 @@ type
     property IssuedOn: TDate read FIssuedOn write FIssuedOn;
     property DueOn: TDate read FDueOn write FDueOn;
 
-    property Items: TInvoiceItems read FItems;
-    property Payments: TInvoicePayments read FPayments;
+    property Items: TInvoiceItems read GetItems write SetItems;
+    property Payments: TInvoicePayments read GetPayments write SetPayments;
+
+    property IncomeItems: TIncomes read GetIncomeItems write SetIncomeItems;
 
     property TotalAmount: Double read GetTotalAmount;
     property AmountDue: Double read GetAmountDue;
     property AmountPaid: Double read GetAmountPaid;
 
-    property Income: TIncome read FIncome;
+    property CanBeProcessed: Boolean read GetCanBeProcessed;
 
   end;
 
 
 implementation
+uses
+  UExceptions
+  ;
+
+resourcestring
+  SCannotProcessInvoice = 'Cannot process invoice  %d as not fully paid or no total amount.';
+
 
 { TInvoiceItem }
 
@@ -128,14 +148,18 @@ end;
 
 constructor TInvoice.Create;
 begin
-  FItems := TInvoiceItems.Create;
-  FPayments := TInvoicePayments.Create;
+  inherited;
+
+  FItems.SetInitialValue(TInvoiceItems.Create);
+  FPayments.SetInitialValue(TInvoicePayments.Create);
+  FIncomeItems.SetInitialValue(TIncomes.Create);
 end;
 
 destructor TInvoice.Destroy;
 begin
-  FPayments.Free;
-  FItems.Free;
+  FIncomeItems.DestroyValue;
+  FPayments.DestroyValue;
+  FItems.DestroyValue;
 
   inherited;
 end;
@@ -155,6 +179,26 @@ begin
   end;
 end;
 
+function TInvoice.GetCanBeProcessed: Boolean;
+begin
+  Result := (AmountDue = 0) and (TotalAmount>0) and (IncomeItems.Count=0)
+end;
+
+function TInvoice.GetIncomeItems: TIncomes;
+begin
+  Result := FIncomeItems.Value;
+end;
+
+function TInvoice.GetItems: TInvoiceItems;
+begin
+  Result := FItems.Value;
+end;
+
+function TInvoice.GetPayments: TInvoicePayments;
+begin
+  Result := FPayments.Value;
+end;
+
 function TInvoice.GetTotalAmount: Double;
 begin
   Result := 0;
@@ -166,14 +210,29 @@ end;
 
 procedure TInvoice.Process;
 begin
-  // only create income for amount that was paid
-  if AmountPaid > 0 then
+  // only allow processing if all has been paid
+  // -- otherwise it is tough to decide which items have been paid
+  //    and which have not
+  if not CanBeProcessed then
   begin
-
+    raise ECannotProcessInvoice.CreateFmt(SCannotProcessInvoice, [self.Number]);
   end;
-
 end;
 
+procedure TInvoice.SetIncomeItems(const Value: TIncomes);
+begin
+  FIncomeItems.Value := Value;
+end;
+
+procedure TInvoice.SetItems(const Value: TInvoiceItems);
+begin
+  FItems.Value := Value;
+end;
+
+procedure TInvoice.SetPayments(const Value: TInvoicePayments);
+begin
+  FPayments.Value := Value;
+end;
 
 initialization
   RegisterEntity(TInvoiceItem);

@@ -2,7 +2,7 @@ unit UDocument;
 
 interface
 uses
-  Aurelius.Mapping.Automapping
+    Aurelius.Mapping.Automapping
   , Aurelius.Mapping.Attributes
   , Aurelius.Mapping.Metadata
   , Aurelius.Types.Blob
@@ -25,6 +25,7 @@ type
     FId: Integer;
     FOriginalFilename: String;
     function GetKeyFilename: String;
+
   public
     property Id: Integer read FId write FId;
 

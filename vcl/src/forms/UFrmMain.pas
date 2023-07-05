@@ -22,8 +22,12 @@ uses
 
 type
   TFrmMain = class(TFrmBase)
-    Button1: TButton;
-    procedure Button1Click(Sender: TObject);
+    btnExpenses: TButton;
+    btnCreateDatabase: TButton;
+    btnReportEndOfYear: TButton;
+    procedure btnCreateDatabaseClick(Sender: TObject);
+    procedure btnExpensesClick(Sender: TObject);
+    procedure btnReportEndOfYearClick(Sender: TObject);
   private
     { Private declarations }
 
@@ -37,14 +41,24 @@ var
 implementation
 
 uses
-  UFrmExpenses
+    UReportManager
+  , UFrmExpenses
   ;
 
 
 
 {$R *.dfm}
 
-procedure TFrmMain.Button1Click(Sender: TObject);
+procedure TFrmMain.btnCreateDatabaseClick(Sender: TObject);
+begin
+
+  if MessageDlg('Recreate database?', mtConfirmation, [mbYes,mbNo], 0) = mrYes then
+  begin
+    self.DataManager.CreateDatabase;
+  end;
+end;
+
+procedure TFrmMain.btnExpensesClick(Sender: TObject);
 var
   LFrm: TFrmExpenses;
 
@@ -54,6 +68,16 @@ begin
     LFrm.ShowModal;
   finally
     LFrm.Free;
+  end;
+end;
+
+procedure TFrmMain.btnReportEndOfYearClick(Sender: TObject);
+begin
+  var LReport := TReportManager.Create(nil);
+  try
+
+  finally
+    LReport.Free;
   end;
 end;
 

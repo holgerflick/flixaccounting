@@ -8,21 +8,35 @@ uses
 
   , System.IOUtils
 
+  , Data.DB
+
   , Aurelius.Drivers.Interfaces
   , Aurelius.Drivers.SQLite
   , Aurelius.Drivers.FireDac
   , Aurelius.Sql.MySQL
   , Aurelius.Schema.MySQL
   , Aurelius.Sql.SQLite
+  , Aurelius.Sql.Register
   , Aurelius.Engine.DatabaseManager
   , Aurelius.Engine.ObjectManager, Aurelius.Comp.Connection
 
-  , UExpense
-  , UIncome, FireDAC.Phys.MySQLDef, FireDAC.Stan.Intf, FireDAC.Phys,
-  FireDAC.Phys.MySQL, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
-  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
-  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client
+  , FireDAC.Phys.MySQLDef
+  , FireDAC.Stan.Intf
+  , FireDAC.Phys
+  , FireDAC.Phys.MySQL
+  , FireDAC.Stan.Option
+  , FireDAC.Stan.Error
+  , FireDAC.UI.Intf
+  , FireDAC.Phys.Intf
+  , FireDAC.Stan.Def
+  , FireDAC.Stan.Pool
+  , FireDAC.Stan.Async
+  , FireDAC.VCLUI.Wait
+  , FireDAC.Comp.Client
 
+  , UExpense
+  , UIncome
+  , UInvoice
   ;
 
 type
@@ -49,6 +63,7 @@ type
     property ObjectManager: TObjectManager read GetObjectManager;
 
     procedure UpdateDatabase;
+    procedure CreateDatabase;
   end;
 
 var
@@ -60,10 +75,29 @@ implementation
 
 {$R *.dfm}
 
+procedure TDataManager.CreateDatabase;
+begin
+  var LDatabaseManager := DatabaseManager;
+  try
+    LDatabaseManager.DestroyDatabase;
+    LDatabaseManager.BuildDatabase;
+
+  finally
+    LDatabaseManager.Free;
+  end;
+
+end;
+
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
-  //Connection.Params.Values['Database'] :=
-  //  TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+  Connection.Params.Values['Database'] :=
+    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+
+  // set difference encoding for dates
+  var LSQLiteGenerator := TSQLiteSQLGenerator.Create;
+  LSQLiteGenerator.DateType := TSQLiteSQLGenerator.TDateType.Text;
+
+  TSQLGeneratorRegister.GetInstance.RegisterGenerator(LSQLiteGenerator);
 
   UpdateDatabase;
 end;
@@ -108,6 +142,7 @@ begin
   LDatabaseManager := DatabaseManager;
   try
     LDatabaseManager.UpdateDatabase;
+
   finally
     LDatabaseManager.Free;
   end;

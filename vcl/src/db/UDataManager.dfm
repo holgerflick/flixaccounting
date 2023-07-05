@@ -3,9 +3,7 @@ object DataManager: TDataManager
   Height = 480
   Width = 640
   object Connection: TAureliusConnection
-    AdapterName = 'FireDac'
-    AdaptedConnection = FDConnection1
-    SQLDialect = 'MySQL'
+    DriverName = 'SQLite'
     Params.Strings = (
       'Database=C:\dev\FlixLLCPL\vcl\bin\flixllcpl.db'
       'EnableForeignKeys=True')

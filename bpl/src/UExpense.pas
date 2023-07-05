@@ -2,16 +2,18 @@ unit UExpense;
 
 interface
 uses
-  Aurelius.Mapping.Automapping
+    Aurelius.Mapping.Automapping
   , Aurelius.Mapping.Attributes
   , Aurelius.Mapping.Metadata
   , Aurelius.Types.Blob
+  , Aurelius.Types.Proxy
   , Aurelius.Mapping.Explorer
   , Bcl.Types.Nullable
 
   , System.SysUtils
   , System.Generics.Collections
 
+  , UTransaction
   , UDocument
 
   ;
@@ -19,43 +21,31 @@ uses
 type
   [Entity]
   [Automapping]
-  TExpense = class
+  TExpense = class(TTransaction)
   private
-    FId: Integer;
-    FPaidOn: TDateTime;
     FIsMonthly: Boolean;
-    FCategory: String;
-    FTitle: String;
-    FAmount: Double;
     FPercentage: Double;
 
-    [Association([], CascadeTypeAll )]
-    FDocument: TDocument;
+    [Association([TAssociationProp.Lazy], CascadeTypeAll )]
+    FDocument: Proxy<TDocument>;
 
-    function GetAmountTotal: Double;
-    function GetMonth: Integer;
     function GetMonthsPaid: Integer;
-    function GetYear: Integer;
+    function GetDocument: TDocument;
+    procedure SetDocument(const Value: TDocument);
+
+  protected
+    function GetAmountTotal: Double; override;
 
   public
     constructor Create;
     destructor Destroy; override;
 
-    property Id: Integer read FId write FId;
-
-    property PaidOn: TDateTime read FPaidOn write FPaidOn;
     property IsMonthly: Boolean read FIsMonthly write FIsMonthly;
-    property Category: String read FCategory write FCategory;
-    property Title: String read FTitle write FTitle;
-    property Amount: Double read FAmount write FAmount;
     property Percentage: Double read FPercentage write FPercentage;
 
-    property Document: TDocument read FDocument write FDocument;
+    property Document: TDocument read GetDocument write SetDocument;
 
-    property Year: Integer read GetYear;
-    property Month: Integer read GetMonth;
     property MonthsPaid: Integer read GetMonthsPaid;
-    property AmountTotal: Double read GetAmountTotal;
 
   end;
 
@@ -69,14 +59,13 @@ uses
 
 constructor TExpense.Create;
 begin
-  FDocument := nil;
   FPercentage := 1;
   FIsMonthly := False;
 end;
 
 destructor TExpense.Destroy;
 begin
-
+  // nothing
 end;
 
 function TExpense.GetAmountTotal: Double;
@@ -84,10 +73,11 @@ begin
   Result := Amount * MonthsPaid * Percentage;
 end;
 
-function TExpense.GetMonth: Integer;
+function TExpense.GetDocument: TDocument;
 begin
-  Result := PaidOn.Month;
+  Result := FDocument.Value;
 end;
+
 
 function TExpense.GetMonthsPaid: Integer;
 begin
@@ -101,9 +91,9 @@ begin
   end;
 end;
 
-function TExpense.GetYear: Integer;
+procedure TExpense.SetDocument(const Value: TDocument);
 begin
-  Result := PaidOn.Year;
+  FDocument.Value := Value;
 end;
 
 initialization
