@@ -1,14 +1,16 @@
 inherited FrmTransactions: TFrmTransactions
+  Caption = 'popTxKind'
   ClientHeight = 605
   ClientWidth = 1015
+  DoubleBuffered = True
   ExplicitWidth = 1031
   ExplicitHeight = 644
   TextHeight = 21
   object Expenses: TDBAdvGrid
     Left = 8
-    Top = 47
+    Top = 80
     Width = 999
-    Height = 550
+    Height = 517
     Anchors = [akLeft, akRight, akBottom]
     ColCount = 9
     DefaultRowHeight = 28
@@ -545,13 +547,31 @@ inherited FrmTransactions: TFrmTransactions
       28)
   end
   object btnImport: TButton
-    Left = 8
-    Top = 8
+    Left = 279
+    Top = 16
     Width = 185
-    Height = 33
-    Caption = 'Import from Folder...'
+    Height = 41
+    Caption = 'Import'
+    DoubleBuffered = True
+    DropDownMenu = popTxKind
+    ParentDoubleBuffered = False
+    Style = bsSplitButton
     TabOrder = 1
     OnClick = btnImportClick
+  end
+  object rbFilterKind: TRadioGroup
+    Left = 8
+    Top = 8
+    Width = 265
+    Height = 49
+    Caption = 'Show Transactions'
+    Columns = 3
+    Items.Strings = (
+      '&Income'
+      '&Expense'
+      '&All')
+    TabOrder = 2
+    OnClick = rbFilterKindClick
   end
   object dbExpenses: TAureliusDataset
     FieldDefs = <
@@ -702,5 +722,15 @@ inherited FrmTransactions: TFrmTransactions
     Title = 'Pick folder with expense documents'
     Left = 248
     Top = 424
+  end
+  object popTxKind: TPopupMenu
+    Left = 448
+    Top = 32
+    object menTxKindIncome: TMenuItem
+      Caption = 'Income'
+    end
+    object menTxKindExpenses: TMenuItem
+      Caption = 'Expenses'
+    end
   end
 end

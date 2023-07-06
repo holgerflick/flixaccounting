@@ -10,7 +10,7 @@ inherited FrmMain: TFrmMain
     Top = 16
     Width = 209
     Height = 73
-    Caption = 'Expenses'
+    Caption = 'Transactions'
     TabOrder = 0
     OnClick = btnExpensesClick
   end

@@ -14,6 +14,8 @@ uses
   , Vcl.Forms
   , Vcl.Dialogs
   , Vcl.StdCtrls
+  , Vcl.Menus
+  , Vcl.ExtCtrls
 
   , Data.DB
 
@@ -30,6 +32,8 @@ uses
   , AdvGrid
   , BaseGrid
   , DBAdvGrid
+
+  , UTransaction
 
   ;
 
@@ -53,18 +57,27 @@ type
     Expenses: TDBAdvGrid;
     btnImport: TButton;
     DlgOpen: TFileOpenDialog;
+    rbFilterKind: TRadioGroup;
+    popTxKind: TPopupMenu;
+    menTxKindIncome: TMenuItem;
+    menTxKindExpenses: TMenuItem;
     procedure btnImportClick(Sender: TObject);
     procedure dbExpensesPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
     procedure dbExpensesPercentageSetText(Sender: TField; const Text: string);
 
     procedure FormCreate(Sender: TObject);
+    procedure rbFilterKindClick(Sender: TObject);
   private
     { Private declarations }
+    function GetFilterTxKind: TTransactionKind;
+
     procedure ImportFromFolder;
     procedure OpenDataset;
   public
     { Public declarations }
+
+    property FilterKind: TTransactionKind read GetFilterTxKind;
   end;
 
 var
@@ -78,13 +91,20 @@ uses
     UFrmReportImport
 
   , UDataImportManager
-  , UTransaction
+
   ;
+
+resourcestring
+  SCaption = 'List of all transactions';
 
 
 procedure TFrmTransactions.btnImportClick(Sender: TObject);
+var
+  LP: TPoint;
+
 begin
-  ImportFromFolder;
+  LP := btnImport.ClientToScreen( Point( 0, btnImport.ClientHeight ) );
+  popTxKind.Popup( LP.X, LP.Y );
 end;
 
 procedure TFrmTransactions.dbExpensesPercentageGetText(Sender: TField; var Text:
@@ -103,7 +123,7 @@ procedure TFrmTransactions.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  Caption := 'List of all expenses';
+  Caption := SCaption;
 
   OpenDataset;
 end;
@@ -141,14 +161,35 @@ end;
 
 procedure TFrmTransactions.OpenDataset;
 begin
+  var LCriteria := self.ObjectManager
+    .Find<TTransaction>
+    .OrderBy(Linq['PaidOn'], False)
+    ;
+
+  if FilterKind <> TTransactionKind.All then
+  begin
+    LCriteria.Add( Linq['Kind'] = FilterKind );
+  end;
+
+
   dbExpenses.Close;
   dbExpenses.Manager := self.ObjectManager;
-  dbExpenses.SetSourceCriteria( self.ObjectManager
-    .Find<TTransaction>
-    .Where(Linq['Kind'] = TTransactionKind.Expense )
-    .OrderBy(Linq['PaidOn'], False)
-   );
+  dbExpenses.SetSourceCriteria( LCriteria );
   dbExpenses.Active := True;
+end;
+
+function TFrmTransactions.GetFilterTxKind: TTransactionKind;
+begin
+  case rbFilterKind.ItemIndex of
+    0 : Result := TTransactionKind.Income;
+    1 : Result := TTransactionKind.Expense;
+    2 : Result := TTransactionKind.All;
+  end;
+end;
+
+procedure TFrmTransactions.rbFilterKindClick(Sender: TObject);
+begin
+  OpenDataset;
 end;
 
 end.
