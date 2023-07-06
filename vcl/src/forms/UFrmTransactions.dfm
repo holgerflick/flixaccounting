@@ -8,10 +8,10 @@ inherited FrmTransactions: TFrmTransactions
   TextHeight = 21
   object Expenses: TDBAdvGrid
     Left = 8
-    Top = 80
+    Top = 63
     Width = 999
-    Height = 517
-    Anchors = [akLeft, akRight, akBottom]
+    Height = 534
+    Anchors = [akLeft, akTop, akRight, akBottom]
     ColCount = 9
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
@@ -393,7 +393,7 @@ inherited FrmTransactions: TFrmTransactions
         ReadOnly = True
         Width = 93
       end>
-    DataSource = sourceExpenses
+    DataSource = sourceTransactions
     EditPostMode = epRow
     InvalidPicture.Data = {
       055449636F6E0000010001002020200000000000A81000001600000028000000
@@ -566,6 +566,7 @@ inherited FrmTransactions: TFrmTransactions
     Height = 49
     Caption = 'Show Transactions'
     Columns = 3
+    ItemIndex = 1
     Items.Strings = (
       '&Income'
       '&Expense'
@@ -573,7 +574,7 @@ inherited FrmTransactions: TFrmTransactions
     TabOrder = 2
     OnClick = rbFilterKindClick
   end
-  object dbExpenses: TAureliusDataset
+  object dbTransactions: TAureliusDataset
     FieldDefs = <
       item
         Name = 'Self'
@@ -644,73 +645,73 @@ inherited FrmTransactions: TFrmTransactions
     Left = 56
     Top = 424
     DesignClass = 'UExpense.TExpense'
-    object dbExpensesSelf: TAureliusEntityField
+    object dbTransactionsSelf: TAureliusEntityField
       FieldName = 'Self'
       ReadOnly = True
     end
-    object dbExpensesId: TIntegerField
+    object dbTransactionsId: TIntegerField
       FieldName = 'Id'
       ReadOnly = True
       Required = True
     end
-    object dbExpensesPaidOn: TDateTimeField
+    object dbTransactionsPaidOn: TDateTimeField
       Alignment = taRightJustify
       FieldName = 'PaidOn'
       Required = True
       DisplayFormat = 'mm/dd/yy'
     end
-    object dbExpensesIsMonthly: TBooleanField
+    object dbTransactionsIsMonthly: TBooleanField
       FieldName = 'IsMonthly'
       Required = True
     end
-    object dbExpensesCategory: TStringField
+    object dbTransactionsCategory: TStringField
       FieldName = 'Category'
       Required = True
       Size = 255
     end
-    object dbExpensesTitle: TStringField
+    object dbTransactionsTitle: TStringField
       FieldName = 'Title'
       Required = True
       Size = 255
     end
-    object dbExpensesAmount: TFloatField
+    object dbTransactionsAmount: TFloatField
       FieldName = 'Amount'
       Required = True
       DisplayFormat = '0,.00'
     end
-    object dbExpensesPercentage: TFloatField
+    object dbTransactionsPercentage: TFloatField
       FieldName = 'Percentage'
       Required = True
-      OnGetText = dbExpensesPercentageGetText
-      OnSetText = dbExpensesPercentageSetText
+      OnGetText = dbTransactionsPercentageGetText
+      OnSetText = dbTransactionsPercentageSetText
     end
-    object dbExpensesDocument: TAureliusEntityField
+    object dbTransactionsDocument: TAureliusEntityField
       FieldName = 'Document'
     end
-    object dbExpensesYear: TIntegerField
+    object dbTransactionsYear: TIntegerField
       FieldName = 'Year'
       ReadOnly = True
       Required = True
     end
-    object dbExpensesMonth: TIntegerField
+    object dbTransactionsMonth: TIntegerField
       FieldName = 'Month'
       ReadOnly = True
       Required = True
     end
-    object dbExpensesMonthsPaid: TIntegerField
+    object dbTransactionsMonthsPaid: TIntegerField
       FieldName = 'MonthsPaid'
       ReadOnly = True
       Required = True
     end
-    object dbExpensesAmountTotal: TFloatField
+    object dbTransactionsAmountTotal: TFloatField
       FieldName = 'AmountTotal'
       ReadOnly = True
       Required = True
       DisplayFormat = '0,.00'
     end
   end
-  object sourceExpenses: TDataSource
-    DataSet = dbExpenses
+  object sourceTransactions: TDataSource
+    DataSet = dbTransactions
     Left = 144
     Top = 424
   end

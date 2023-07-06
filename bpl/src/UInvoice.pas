@@ -42,7 +42,10 @@ type
     property Amount: Double read FAmount write FAmount;
   end;
 
-  TInvoicePayments = TList<TInvoicePayment>;
+  TInvoicePayments = class( TList<TInvoicePayment> )
+  public
+    function LastPaymentDate: NullableDate;
+  end;
 
   [Entity]
   [Automapping]
@@ -221,6 +224,25 @@ begin
   begin
     raise ECannotProcessInvoice.CreateFmt(SCannotProcessInvoice, [self.Number]);
   end;
+
+  // get last payment for paid on date
+  var LLastPayment := self.Payments.LastPaymentDate;
+
+  if LLastPayment.IsNull then
+  begin
+    raise ECannotProcessInvoice.CreateFmt('No payments found. (%d)', [self.Number] );
+  end;
+
+  // process each item in invoice as one transaction
+  for var LItem in self.Items do
+  begin
+    var LTx := TTransaction.Create(TTransactionKind.Income);
+    LTx.PaidOn := self.Payments.LastPaymentDate;
+    LTx.Category := LItem.Category;
+    LTx.Title := LItem.Title;
+    LTx.Amount := LItem.TotalValue;
+    self.Transactions.Add(LTx);
+  end;
 end;
 
 procedure TInvoice.SetItems(const Value: TInvoiceItems);
@@ -236,6 +258,28 @@ end;
 procedure TInvoice.SetTransactions(const Value: TTransactions);
 begin
   FTransactions.Value := Value;
+end;
+
+{ TInvoicePayments }
+
+function TInvoicePayments.LastPaymentDate: NullableDate;
+begin
+  Result := SNull;
+
+  for var LPayment in self do
+  begin
+    if Result.IsNull then
+    begin
+      Result := LPayment.PaidOn;
+    end
+    else
+    begin
+      if Result < LPayment.PaidOn then
+      begin
+        Result := LPayment.PaidOn;
+      end;
+    end;
+  end;
 end;
 
 initialization

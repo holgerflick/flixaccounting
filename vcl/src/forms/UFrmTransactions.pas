@@ -39,21 +39,21 @@ uses
 
 type
   TFrmTransactions = class(TFrmBase)
-    dbExpenses: TAureliusDataset;
-    dbExpensesSelf: TAureliusEntityField;
-    dbExpensesId: TIntegerField;
-    dbExpensesPaidOn: TDateTimeField;
-    dbExpensesIsMonthly: TBooleanField;
-    dbExpensesCategory: TStringField;
-    dbExpensesTitle: TStringField;
-    dbExpensesAmount: TFloatField;
-    dbExpensesPercentage: TFloatField;
-    dbExpensesDocument: TAureliusEntityField;
-    dbExpensesYear: TIntegerField;
-    dbExpensesMonth: TIntegerField;
-    dbExpensesMonthsPaid: TIntegerField;
-    dbExpensesAmountTotal: TFloatField;
-    sourceExpenses: TDataSource;
+    dbTransactions: TAureliusDataset;
+    dbTransactionsSelf: TAureliusEntityField;
+    dbTransactionsId: TIntegerField;
+    dbTransactionsPaidOn: TDateTimeField;
+    dbTransactionsIsMonthly: TBooleanField;
+    dbTransactionsCategory: TStringField;
+    dbTransactionsTitle: TStringField;
+    dbTransactionsAmount: TFloatField;
+    dbTransactionsPercentage: TFloatField;
+    dbTransactionsDocument: TAureliusEntityField;
+    dbTransactionsYear: TIntegerField;
+    dbTransactionsMonth: TIntegerField;
+    dbTransactionsMonthsPaid: TIntegerField;
+    dbTransactionsAmountTotal: TFloatField;
+    sourceTransactions: TDataSource;
     Expenses: TDBAdvGrid;
     btnImport: TButton;
     DlgOpen: TFileOpenDialog;
@@ -62,9 +62,9 @@ type
     menTxKindIncome: TMenuItem;
     menTxKindExpenses: TMenuItem;
     procedure btnImportClick(Sender: TObject);
-    procedure dbExpensesPercentageGetText(Sender: TField; var Text: string;
+    procedure dbTransactionsPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
-    procedure dbExpensesPercentageSetText(Sender: TField; const Text: string);
+    procedure dbTransactionsPercentageSetText(Sender: TField; const Text: string);
 
     procedure FormCreate(Sender: TObject);
     procedure rbFilterKindClick(Sender: TObject);
@@ -107,13 +107,13 @@ begin
   popTxKind.Popup( LP.X, LP.Y );
 end;
 
-procedure TFrmTransactions.dbExpensesPercentageGetText(Sender: TField; var Text:
+procedure TFrmTransactions.dbTransactionsPercentageGetText(Sender: TField; var Text:
     string; DisplayText: Boolean);
 begin
   Text := FloatToStr(Sender.AsFloat * 100);
 end;
 
-procedure TFrmTransactions.dbExpensesPercentageSetText(Sender: TField; const Text:
+procedure TFrmTransactions.dbTransactionsPercentageSetText(Sender: TField; const Text:
     string);
 begin
   Sender.AsFloat := StrToInt(Text) / 100;
@@ -171,19 +171,19 @@ begin
     LCriteria.Add( Linq['Kind'] = FilterKind );
   end;
 
-
-  dbExpenses.Close;
-  dbExpenses.Manager := self.ObjectManager;
-  dbExpenses.SetSourceCriteria( LCriteria );
-  dbExpenses.Active := True;
+  dbTransactions.Close;
+  dbTransactions.Manager := self.ObjectManager;
+  dbTransactions.SetSourceCriteria( LCriteria );
+  dbTransactions.Active := True;
 end;
 
 function TFrmTransactions.GetFilterTxKind: TTransactionKind;
 begin
+  Result := TTransactionKind.All;
+
   case rbFilterKind.ItemIndex of
     0 : Result := TTransactionKind.Income;
     1 : Result := TTransactionKind.Expense;
-    2 : Result := TTransactionKind.All;
   end;
 end;
 

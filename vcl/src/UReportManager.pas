@@ -39,7 +39,7 @@ type
 
     constructor Create( AObjManager: TObjectManager ); reintroduce;
 
-    procedure GetCategories( ACategories: TStringlist );
+    procedure GetCategories(ACategories: TStrings);
 
     property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
     property RangeStart: TDate read FRangeStart write FRangeStart;
@@ -74,7 +74,7 @@ begin
   RangeEnd   := TDateTime.Now.EndOfTheYear;
 end;
 
-procedure TReportManager.GetCategories(ACategories: TStringlist);
+procedure TReportManager.GetCategories(ACategories: TStrings);
 begin
   if not Assigned(ACategories) then
   begin
@@ -83,6 +83,7 @@ begin
 
   ACategories.Clear;
 
+  // retrieve all categories in defined range
   var LCategories := ObjectManager.Find<TTransaction>
     .Select(TProjections.Group('Category'))
     .Where(
@@ -90,10 +91,14 @@ begin
     )
     .ListValues
     ;
-
-  for var i := 0 to LCategories.Count -1 do
-  begin
-    ACategories.Add( LCategories[i].Values[0] );
+  try
+    // assign category names to list of strings
+    for var i := 0 to LCategories.Count -1 do
+    begin
+      ACategories.Add( LCategories[i].Values[0] );
+    end;
+  finally
+    LCategories.Free;  // list needs to be freed
   end;
 end;
 
