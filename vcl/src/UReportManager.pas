@@ -20,8 +20,6 @@ uses
   , Bcl.Types.Nullable
 
   , UTransaction
-  , UIncome
-  , UExpense
   , UInvoice
 
   ;
@@ -36,12 +34,12 @@ type
     FRangeEnd: TDate;
     FObjectManager: TObjectManager;
 
-    procedure GetCategories( ACategories: TStringlist );
-
   public
     { Public declarations }
 
     constructor Create( AObjManager: TObjectManager ); reintroduce;
+
+    procedure GetCategories( ACategories: TStringlist );
 
     property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
     property RangeStart: TDate read FRangeStart write FRangeStart;
@@ -86,7 +84,10 @@ begin
   ACategories.Clear;
 
   var LCategories := ObjectManager.Find<TTransaction>
-    .Select(TProjections.Sum('Category'))
+    .Select(TProjections.Group('Category'))
+    .Where(
+       (Linq['PaidOn'] > self.RangeStart) AND (Linq['PaidOn'] < self.RangeEnd)
+    )
     .ListValues
     ;
 

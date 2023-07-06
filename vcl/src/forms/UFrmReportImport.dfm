@@ -23,9 +23,6 @@ inherited FrmReportImport: TFrmReportImport
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = 48
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
@@ -40,7 +37,6 @@ inherited FrmReportImport: TFrmReportImport
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 137
       ExplicitWidth = 267
     end
     object Duplicates: TListBox
@@ -51,8 +47,6 @@ inherited FrmReportImport: TFrmReportImport
       Align = alClient
       ItemHeight = 21
       TabOrder = 0
-      ExplicitLeft = 3
-      ExplicitTop = 21
     end
   end
   object Panel2: TPanel
@@ -86,7 +80,6 @@ inherited FrmReportImport: TFrmReportImport
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitHeight = 249
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
@@ -136,8 +129,8 @@ inherited FrmReportImport: TFrmReportImport
   object dbErrors: TAureliusDataset
     FieldDefs = <>
     CreateSelfField = False
-    Left = 392
-    Top = 248
+    Left = 376
+    Top = 240
     object dbErrorsDescription: TStringField
       FieldName = 'Description'
       Size = 500

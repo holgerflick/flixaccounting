@@ -14,8 +14,6 @@ uses
   , Aurelius.Criteria.Exceptions
 
   , UDataManager
-  , UExpense
-  , UIncome
   , UDocument
   ;
 
@@ -31,7 +29,7 @@ type
 
   TImportErrors = TObjectList<TImportError>;
 
-  TExpenseFilename = class
+  TFilename = class
   strict private
     FTitle: String;
     FAmount: Double;

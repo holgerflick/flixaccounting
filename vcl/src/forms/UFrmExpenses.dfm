@@ -701,7 +701,7 @@ inherited FrmExpenses: TFrmExpenses
     OkButtonLabel = 'Import'
     Options = [fdoPickFolders, fdoPathMustExist]
     Title = 'Pick folder with expense documents'
-    Left = 296
-    Top = 24
+    Left = 248
+    Top = 424
   end
 end

@@ -22,8 +22,10 @@ type
   private
     [Column('Document', [TColumnProp.Lazy])]
     FDocument: TBlob;
+
     FId: Integer;
     FOriginalFilename: String;
+
     function GetKeyFilename: String;
 
   public

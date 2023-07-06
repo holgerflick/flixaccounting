@@ -14,7 +14,9 @@ uses
   , System.SysUtils
   , System.Generics.Collections
 
-  , UIncome
+
+  , UTransaction
+
   ;
 
 type
@@ -82,7 +84,7 @@ type
     FPayments: Proxy<TInvoicePayments>;
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll)]
-    FIncomeItems: Proxy<TIncomes>;
+    FTransactions: Proxy<TTransactions>;
 
     FId: Integer;
 
@@ -101,8 +103,8 @@ type
     procedure SetItems(const Value: TInvoiceItems);
     procedure SetPayments(const Value: TInvoicePayments);
     function GetCanBeProcessed: Boolean;
-    function GetIncomeItems: TIncomes;
-    procedure SetIncomeItems(const Value: TIncomes);
+    function GetTransactions: TTransactions;
+    procedure SetTransactions(const Value: TTransactions);
 
   public
     constructor Create;
@@ -115,9 +117,11 @@ type
     property DueOn: TDate read FDueOn write FDueOn;
 
     property Items: TInvoiceItems read GetItems write SetItems;
-    property Payments: TInvoicePayments read GetPayments write SetPayments;
+    property Payments: TInvoicePayments
+      read GetPayments write SetPayments;
 
-    property IncomeItems: TIncomes read GetIncomeItems write SetIncomeItems;
+    property Transactions: TTransactions
+      read GetTransactions write SetTransactions;
 
     property TotalAmount: Double read GetTotalAmount;
     property AmountDue: Double read GetAmountDue;
@@ -152,12 +156,12 @@ begin
 
   FItems.SetInitialValue(TInvoiceItems.Create);
   FPayments.SetInitialValue(TInvoicePayments.Create);
-  FIncomeItems.SetInitialValue(TIncomes.Create);
+  FTransactions.SetInitialValue(TTransactions.Create);
 end;
 
 destructor TInvoice.Destroy;
 begin
-  FIncomeItems.DestroyValue;
+  FTransactions.DestroyValue;
   FPayments.DestroyValue;
   FItems.DestroyValue;
 
@@ -181,12 +185,7 @@ end;
 
 function TInvoice.GetCanBeProcessed: Boolean;
 begin
-  Result := (AmountDue = 0) and (TotalAmount>0) and (IncomeItems.Count=0)
-end;
-
-function TInvoice.GetIncomeItems: TIncomes;
-begin
-  Result := FIncomeItems.Value;
+  Result := (AmountDue = 0) and (TotalAmount>0) and (Transactions.Count=0)
 end;
 
 function TInvoice.GetItems: TInvoiceItems;
@@ -208,6 +207,11 @@ begin
   end;
 end;
 
+function TInvoice.GetTransactions: TTransactions;
+begin
+  Result := FTransactions.Value;
+end;
+
 procedure TInvoice.Process;
 begin
   // only allow processing if all has been paid
@@ -219,11 +223,6 @@ begin
   end;
 end;
 
-procedure TInvoice.SetIncomeItems(const Value: TIncomes);
-begin
-  FIncomeItems.Value := Value;
-end;
-
 procedure TInvoice.SetItems(const Value: TInvoiceItems);
 begin
   FItems.Value := Value;
@@ -232,6 +231,11 @@ end;
 procedure TInvoice.SetPayments(const Value: TInvoicePayments);
 begin
   FPayments.Value := Value;
+end;
+
+procedure TInvoice.SetTransactions(const Value: TTransactions);
+begin
+  FTransactions.Value := Value;
 end;
 
 initialization

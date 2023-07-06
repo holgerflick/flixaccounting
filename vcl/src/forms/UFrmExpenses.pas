@@ -3,7 +3,7 @@
 interface
 
 uses
-  UFrmBase
+    UFrmBase
   , Winapi.Windows
   , Winapi.Messages
   , System.SysUtils
@@ -23,8 +23,6 @@ uses
   , Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
-
-  , UExpense
 
   , AdvUtil
   , AdvObj
