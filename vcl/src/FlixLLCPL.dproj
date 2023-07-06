@@ -76,9 +76,9 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <DCC_UnitSearchPath>..\..\bpl\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Release>1</VerInfo_Release>
@@ -111,8 +111,8 @@
             <Form>FrmBase</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="forms\UFrmExpenses.pas">
-            <Form>FrmExpenses</Form>
+        <DCCReference Include="forms\UFrmTransactions.pas">
+            <Form>FrmTransactions</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmReportImport.pas">

@@ -7,7 +7,7 @@ uses
   UDataManager in 'db\UDataManager.pas' {DataManager: TDataModule},
   UDataImportManager in 'db\UDataImportManager.pas',
   UFrmBase in 'forms\UFrmBase.pas' {FrmBase},
-  UFrmExpenses in 'forms\UFrmExpenses.pas' {FrmExpenses},
+  UFrmTransactions in 'forms\UFrmTransactions.pas' {FrmTransactions},
   UFrmReportImport in 'forms\UFrmReportImport.pas' {FrmReportImport},
   UReportManager in 'UReportManager.pas' {ReportManager: TDataModule};
 

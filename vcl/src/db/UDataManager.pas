@@ -34,8 +34,7 @@ uses
   , FireDAC.VCLUI.Wait
   , FireDAC.Comp.Client
 
-  , UExpense
-  , UIncome
+
   , UInvoice
   ;
 
