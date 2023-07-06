@@ -15,6 +15,8 @@ uses
 
   , UDataManager
   , UDocument
+  , UTransaction
+
   ;
 
 type
@@ -29,7 +31,7 @@ type
 
   TImportErrors = TObjectList<TImportError>;
 
-  TFilename = class
+  TFilenameData = class
   strict private
     FTitle: String;
     FAmount: Double;
@@ -45,7 +47,7 @@ type
   public
     constructor Create;
 
-    procedure AssignToExpense(AExpense: TExpense);
+    procedure AssignToTransaction(ATx: TTransaction);
 
     property HasValidDate: Boolean read GetHasValidDate;
 
@@ -63,7 +65,7 @@ type
 type
   TDataImportManager = class
   strict private
-    procedure UnclutterExpenseFilename(APath: String; AExpenseFilename: TExpenseFilename );
+    procedure UnclutterFilename(APath: String; AData: TFilenameData);
   strict private
     FManager: TObjectManager;
 
@@ -71,15 +73,16 @@ type
     FImportErrors: TImportErrors;
 
     procedure SetDuplicates(const Value: TStringList);
-    function ExpenseFileIsInDatabase( AFile: String ): Boolean;
+    function FileIsInDatabase( AFile: String ): Boolean;
   private
     function GetHasNoErrors: Boolean;
   public
     constructor Create(AManager: TObjectManager);
     destructor  Destroy; override;
 
-    procedure ImportExpensesFromFolder(AFolder: String );
-    procedure ImportIncomeFromFolder(AFolder: String);
+    procedure ImportTransactionsFromFolder(
+      ATxKind: TTransactionKind;
+      AFolder: String );
 
     property ImportErrors: TImportErrors read FImportErrors;
     property Duplicates: TStringList read FDuplicates write SetDuplicates;
@@ -120,7 +123,7 @@ begin
   inherited;
 end;
 
-function TDataImportManager.ExpenseFileIsInDatabase(AFile: String): Boolean;
+function TDataImportManager.FileIsInDatabase(AFile: String): Boolean;
 begin
   var LDocument := FManager.Find<TDocument>
     .Where( Linq['OriginalFilename'] = AFile )
@@ -135,11 +138,14 @@ begin
   Result := (FDuplicates.Count=0) AND (FImportErrors.Count=0);
 end;
 
-procedure TDataImportManager.ImportExpensesFromFolder(AFolder: String);
+procedure TDataImportManager.ImportTransactionsFromFolder(
+  ATxKind: TTransactionKind;
+  AFolder: String
+  );
 var
-  LExpense: TExpense;
+  LTx: TTransaction;
   LFiles: TArray<String>;
-  LExpenseData: TExpenseFilename;
+  LData: TFilenameData;
 
 begin
   FImportErrors.Clear;
@@ -149,16 +155,18 @@ begin
   for var LFile in LFiles do
   begin
     // check if file is already in database
-    if ExpenseFileIsInDatabase( LFile ) = False  then
+    if FileIsInDatabase( LFile ) = False  then
     begin
-      LExpenseData := TExpenseFilename.Create;
+      LData := TFilenameData.Create;
       try
         try
-          UnclutterExpenseFilename( LFile, LExpenseData );
+          UnclutterFilename( LFile, LData );
 
-          LExpense := TExpense.Create;
-          LExpenseData.AssignToExpense(LExpense);
-          FManager.Save(LExpense);
+          LTx := TTransaction.Create;
+          LTx.Kind := ATxKind;
+
+          LData.AssignToTransaction(LTx);
+          FManager.Save(LTx);
         except
           on E: EConvertError do
           begin
@@ -169,7 +177,7 @@ begin
           end;
         end;
       finally
-        LExpenseData.Free;
+        LData.Free;
       end;
     end
     else
@@ -179,19 +187,13 @@ begin
   end;
 end;
 
-procedure TDataImportManager.ImportIncomeFromFolder(AFolder: String);
-begin
-
-end;
-
-
 procedure TDataImportManager.SetDuplicates(const Value: TStringList);
 begin
   FDuplicates := Value;
 end;
 
-procedure TDataImportManager.UnclutterExpenseFilename(APath: String;
-    AExpenseFilename: TExpenseFilename);
+procedure TDataImportManager.UnclutterFilename(APath: String;
+    AData: TFilenameData);
 var
   LSplits: TArray<string>;
   LPaidOn: TDateTime;
@@ -213,35 +215,35 @@ begin
 
   if TryStrToDate( LSplits[0], LPaidOn, LFormat ) then
   begin
-    AExpenseFilename.PaidOn := LPaidOn;
+    AData.PaidOn := LPaidOn;
   end
   else
   begin
-    AExpenseFilename.PaidOn := SNull;
+    AData.PaidOn := SNull;
   end;
 
-  if AExpenseFilename.HasValidDate = false then
+  if AData.HasValidDate = false then
   begin
     raise EConvertError.Create('Invalid date');
   end;
 
-  if AExpenseFilename.HasValidDate then
+  if AData.HasValidDate then
   begin
-    AExpenseFilename.Category := LSplits[1];
-    AExpenseFilename.Title := LSplits[2];
+    AData.Category := LSplits[1];
+    AData.Title := LSplits[2];
 
     LFormat.DecimalSeparator := '.';
     if not TryStrToFloat( LSplits[3], LAmount, LFormat ) then
     begin
       raise EConvertError.Create('Invalid amount');
     end;
-    AExpenseFilename.Amount := LAmount;
+    AData.Amount := LAmount;
 
     if Length(LSplits) > 4 then
     begin
       if LowerCase(LSplits[4]) = 'm' then
       begin
-        AExpenseFilename.IsMonthly := True;
+        AData.IsMonthly := True;
       end;
     end;
 
@@ -250,40 +252,38 @@ begin
       var LPercentage: Integer := 0;
       if TryStrToInt( LSplits[5], LPercentage ) then
       begin
-        AExpenseFilename.Percentage := LPercentage / 100;
+        AData.Percentage := LPercentage / 100;
       end;
     end;
 
-    AExpenseFilename.OriginalFileName := APath;
+    AData.OriginalFileName := APath;
   end;
 end;
 
 { TImportFileName }
 
-procedure TExpenseFilename.AssignToExpense(AExpense: TExpense);
+procedure TFilenameData.AssignToTransaction(ATx: TTransaction);
 begin
-  AExpense.PaidOn := self.PaidOn;
-  AExpense.IsMonthly := self.IsMonthly;
-  AExpense.Category := self.Category;
-  AExpense.Title := self.Title;
-  AExpense.Amount := self.Amount;
-  AExpense.Percentage := self.Percentage;
-  AExpense.Document := TDocument.Create;
-  AExpense.Document.OriginalFilename := self.OriginalFileName;
-  AExpense.Document.Document := TFile.ReadAllBytes(self.OriginalFileName);
+  ATx.PaidOn := self.PaidOn;
+  ATx.IsMonthly := self.IsMonthly;
+  ATx.Category := self.Category;
+  ATx.Title := self.Title;
+  ATx.Amount := self.Amount;
+  ATx.Percentage := self.Percentage;
+  ATx.Document := TDocument.Create;
+  ATx.Document.OriginalFilename := self.OriginalFileName;
+  ATx.Document.Document := TFile.ReadAllBytes(self.OriginalFileName);
 end;
 
-constructor TExpenseFileName.Create;
+constructor TFileNameData.Create;
 begin
   inherited;
-
-
 
   FPercentage := 1;
   FIsMonthly := False;
 end;
 
-function TExpenseFileName.GetHasValidDate: Boolean;
+function TFileNameData.GetHasValidDate: Boolean;
 begin
   Result := self.PaidOn.IsNull = False;
 end;

@@ -1,5 +1,7 @@
 unit UTransaction;
 
+{$SCOPEDENUMS ON}
+
 interface
 uses
     Aurelius.Mapping.Automapping
@@ -19,6 +21,7 @@ uses
   ;
 
 type
+  [Automapping]
   TTransactionKind = ( Income, Expense );
 
   [Entity]

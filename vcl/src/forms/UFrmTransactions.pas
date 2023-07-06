@@ -1,4 +1,4 @@
-﻿unit UFrmExpenses;
+﻿unit UFrmTransactions;
 
 interface
 
@@ -34,7 +34,7 @@ uses
   ;
 
 type
-  TFrmExpenses = class(TFrmBase)
+  TFrmTransactions = class(TFrmBase)
     dbExpenses: TAureliusDataset;
     dbExpensesSelf: TAureliusEntityField;
     dbExpensesId: TIntegerField;
@@ -68,7 +68,7 @@ type
   end;
 
 var
-  FrmExpenses: TFrmExpenses;
+  FrmTransactions: TFrmTransactions;
 
 implementation
 
@@ -82,24 +82,24 @@ uses
   ;
 
 
-procedure TFrmExpenses.btnImportClick(Sender: TObject);
+procedure TFrmTransactions.btnImportClick(Sender: TObject);
 begin
   ImportFromFolder;
 end;
 
-procedure TFrmExpenses.dbExpensesPercentageGetText(Sender: TField; var Text:
+procedure TFrmTransactions.dbExpensesPercentageGetText(Sender: TField; var Text:
     string; DisplayText: Boolean);
 begin
   Text := FloatToStr(Sender.AsFloat * 100);
 end;
 
-procedure TFrmExpenses.dbExpensesPercentageSetText(Sender: TField; const Text:
+procedure TFrmTransactions.dbExpensesPercentageSetText(Sender: TField; const Text:
     string);
 begin
   Sender.AsFloat := StrToInt(Text) / 100;
 end;
 
-procedure TFrmExpenses.FormCreate(Sender: TObject);
+procedure TFrmTransactions.FormCreate(Sender: TObject);
 begin
   inherited;
 
@@ -108,7 +108,7 @@ begin
   OpenDataset;
 end;
 
-procedure TFrmExpenses.ImportFromFolder;
+procedure TFrmTransactions.ImportFromFolder;
 var
   LPath: String;
 
@@ -139,7 +139,7 @@ begin
   end;
 end;
 
-procedure TFrmExpenses.OpenDataset;
+procedure TFrmTransactions.OpenDataset;
 begin
   dbExpenses.Close;
   dbExpenses.Manager := self.ObjectManager;
