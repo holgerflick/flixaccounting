@@ -22,7 +22,6 @@ uses
   ;
 
 type
-  TInvoice = class;
 
   [Automapping]
   TTransactionKind = ( Income, Expense, All ); // all is used for filtering
@@ -41,10 +40,6 @@ type
     [Association([TAssociationProp.Lazy], CascadeTypeAll )]
     FDocument: Proxy<TDocument>;
 
-    [Association([TAssociationProp.Lazy], CascadeTypeAll )]
-    FInvoice: Proxy<TInvoice>;
-
-
     FKind: TTransactionKind;
     FPercentage: Double;
     FIsMonthly: Boolean;
@@ -54,8 +49,6 @@ type
     function GetDocument: TDocument;
     procedure SetDocument(const Value: TDocument);
     function GetMonthsPaid: Integer;
-    function GetInvoice: TInvoice;
-    procedure SetInvoice(const Value: TInvoice);
 
   protected
     function GetAmountTotal: Double; virtual;
@@ -72,7 +65,6 @@ type
     property Amount: Double read FAmount write FAmount;
 
     property Document: TDocument read GetDocument write SetDocument;
-    property Invoice: TInvoice read GetInvoice write SetInvoice;
 
     property IsMonthly: Boolean read FIsMonthly write FIsMonthly;
     property Percentage: Double read FPercentage write FPercentage;
@@ -116,11 +108,6 @@ begin
   Result := FDocument.Value;
 end;
 
-function TTransaction.GetInvoice: TInvoice;
-begin
-  Result := FInvoice.Value;
-end;
-
 function TTransaction.GetMonth: Integer;
 begin
   Result := PaidOn.Month;
@@ -146,11 +133,6 @@ end;
 procedure TTransaction.SetDocument(const Value: TDocument);
 begin
   FDocument.Value := Value;
-end;
-
-procedure TTransaction.SetInvoice(const Value: TInvoice);
-begin
-  FInvoice.Value := Value;
 end;
 
 end.

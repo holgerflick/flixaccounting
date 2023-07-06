@@ -108,6 +108,7 @@ type
     function GetCanBeProcessed: Boolean;
     function GetTransactions: TTransactions;
     procedure SetTransactions(const Value: TTransactions);
+    function GetCanModify: Boolean;
 
   public
     constructor Create;
@@ -131,6 +132,7 @@ type
     property AmountPaid: Double read GetAmountPaid;
 
     property CanBeProcessed: Boolean read GetCanBeProcessed;
+    property CanModify: Boolean read GetCanModify;
 
   end;
 
@@ -191,6 +193,11 @@ begin
   Result := (AmountDue = 0) and (TotalAmount>0) and (Transactions.Count=0)
 end;
 
+function TInvoice.GetCanModify: Boolean;
+begin
+  Result := Transactions.Count = 0;
+end;
+
 function TInvoice.GetItems: TInvoiceItems;
 begin
   Result := FItems.Value;
@@ -216,6 +223,10 @@ begin
 end;
 
 procedure TInvoice.Process;
+var
+  LTxCats : TDictionary<String, TTransaction>;
+  LTx: TTransaction;
+
 begin
   // only allow processing if all has been paid
   // -- otherwise it is tough to decide which items have been paid
@@ -233,15 +244,38 @@ begin
     raise ECannotProcessInvoice.CreateFmt('No payments found. (%d)', [self.Number] );
   end;
 
-  // process each item in invoice as one transaction
+  // process each category in invoice as one transaction
+  // thus we create a transaction for each category and add total amounts
+
+  LTxCats := TDictionary<String, TTransaction>.Create;
+
   for var LItem in self.Items do
   begin
-    var LTx := TTransaction.Create(TTransactionKind.Income);
+    var LCurrentCat := LItem.Category;
+    if not LTxCats.ContainsKey(LCurrentCat) then
+    begin
+      LTx := TTransaction.Create(TTransactionKind.Income);
+      LTx.Amount := 0;
+      LTx.IsMonthly := False;
+      LTx.Percentage := 1;
+      LTxCats.Add( LCurrentCat, LTx );
+    end
+    else
+    begin
+      LTx := LTxCats[LCurrentCat];
+    end;
+
     LTx.PaidOn := self.Payments.LastPaymentDate;
     LTx.Category := LItem.Category;
-    LTx.Title := LItem.Title;
-    LTx.Amount := LItem.TotalValue;
-    self.Transactions.Add(LTx);
+    LTx.Title := 'Invoice ' + self.Number.ToString;
+    LTx.Amount := LTx.Amount + LItem.TotalValue;
+  end;
+
+  // add all transactions to invoice
+  // this will lock it from any further processing
+  for LTx in LTxCats.Values do
+  begin
+    self.Transactions.Add(LTx)
   end;
 end;
 
