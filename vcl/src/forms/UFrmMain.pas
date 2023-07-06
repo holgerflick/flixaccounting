@@ -42,7 +42,7 @@ implementation
 
 uses
     UReportManager
-  , UFrmExpenses
+  , UFrmTransactions
   ;
 
 
@@ -60,10 +60,10 @@ end;
 
 procedure TFrmMain.btnExpensesClick(Sender: TObject);
 var
-  LFrm: TFrmExpenses;
+  LFrm: TFrmTransactions;
 
 begin
-  LFrm := TFrmExpenses.Create(self);
+  LFrm := TFrmTransactions.Create(self);
   try
     LFrm.ShowModal;
   finally
@@ -73,7 +73,7 @@ end;
 
 procedure TFrmMain.btnReportEndOfYearClick(Sender: TObject);
 begin
-  var LReport := TReportManager.Create(nil);
+  var LReport := TReportManager.Create(self.ObjectManager);
   try
 
   finally
