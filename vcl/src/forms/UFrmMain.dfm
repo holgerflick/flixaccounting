@@ -30,14 +30,5 @@ inherited FrmMain: TFrmMain
     Height = 73
     Caption = 'End of year report'
     TabOrder = 2
-    OnClick = btnReportEndOfYearClick
-  end
-  object Categories: TListBox
-    Left = 223
-    Top = 16
-    Width = 393
-    Height = 354
-    ItemHeight = 15
-    TabOrder = 3
   end
 end

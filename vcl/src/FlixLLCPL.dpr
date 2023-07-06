@@ -9,7 +9,8 @@ uses
   UFrmBase in 'forms\UFrmBase.pas' {FrmBase},
   UFrmTransactions in 'forms\UFrmTransactions.pas' {FrmTransactions},
   UFrmReportImport in 'forms\UFrmReportImport.pas' {FrmReportImport},
-  UReportManager in 'UReportManager.pas' {ReportManager: TDataModule};
+  UReportManager in 'UReportManager.pas' {ReportManager: TDataModule},
+  UFrmCustomer in 'forms\UFrmCustomer.pas' {FrmCustomer};
 
 {$R *.res}
 

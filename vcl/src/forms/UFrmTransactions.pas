@@ -80,9 +80,6 @@ type
     property FilterKind: TTransactionKind read GetFilterTxKind;
   end;
 
-var
-  FrmTransactions: TFrmTransactions;
-
 implementation
 
 {$R *.dfm}

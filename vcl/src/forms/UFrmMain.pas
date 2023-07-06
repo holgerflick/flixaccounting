@@ -25,10 +25,8 @@ type
     btnExpenses: TButton;
     btnCreateDatabase: TButton;
     btnReportEndOfYear: TButton;
-    Categories: TListBox;
     procedure btnCreateDatabaseClick(Sender: TObject);
     procedure btnExpensesClick(Sender: TObject);
-    procedure btnReportEndOfYearClick(Sender: TObject);
   private
     { Private declarations }
 
@@ -69,16 +67,6 @@ begin
     LFrm.ShowModal;
   finally
     LFrm.Free;
-  end;
-end;
-
-procedure TFrmMain.btnReportEndOfYearClick(Sender: TObject);
-begin
-  var LReport := TReportManager.Create(self.ObjectManager);
-  try
-    LReport.GetCategories(Categories.Items);
-  finally
-    LReport.Free;
   end;
 end;
 

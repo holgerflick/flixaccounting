@@ -16,6 +16,7 @@ uses
 
 
   , UTransaction
+  , UCustomer
 
   ;
 
@@ -96,6 +97,9 @@ type
     FIssuedOn: TDate;
     FDueOn: TDate;
 
+    [Association([TAssociationProp.Lazy], CascadeTypeAllButRemove )]
+    FCustomer: Proxy<TCustomer>;
+
     procedure Process;
 
     function GetTotalAmount: Double;
@@ -109,6 +113,8 @@ type
     function GetTransactions: TTransactions;
     procedure SetTransactions(const Value: TTransactions);
     function GetCanModify: Boolean;
+    function GetCustomer: TCustomer;
+    procedure SetCustomer(const Value: TCustomer);
 
   public
     constructor Create;
@@ -119,6 +125,8 @@ type
     property Number: Integer read FNumber write FNumber;
     property IssuedOn: TDate read FIssuedOn write FIssuedOn;
     property DueOn: TDate read FDueOn write FDueOn;
+
+    property Customer: TCustomer read GetCustomer write SetCustomer;
 
     property Items: TInvoiceItems read GetItems write SetItems;
     property Payments: TInvoicePayments
@@ -196,6 +204,11 @@ end;
 function TInvoice.GetCanModify: Boolean;
 begin
   Result := Transactions.Count = 0;
+end;
+
+function TInvoice.GetCustomer: TCustomer;
+begin
+  Result := FCustomer.Value;
 end;
 
 function TInvoice.GetItems: TInvoiceItems;
@@ -277,6 +290,11 @@ begin
   begin
     self.Transactions.Add(LTx)
   end;
+end;
+
+procedure TInvoice.SetCustomer(const Value: TCustomer);
+begin
+  FCustomer.Value := Value;
 end;
 
 procedure TInvoice.SetItems(const Value: TInvoiceItems);

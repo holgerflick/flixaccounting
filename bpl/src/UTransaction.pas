@@ -18,7 +18,6 @@ uses
 
   , UDocument
 
-
   ;
 
 type
@@ -134,5 +133,8 @@ procedure TTransaction.SetDocument(const Value: TDocument);
 begin
   FDocument.Value := Value;
 end;
+
+initialization
+  RegisterEntity(TTransaction);
 
 end.

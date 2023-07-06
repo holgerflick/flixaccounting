@@ -38,6 +38,7 @@ contains
   UDocument in 'UDocument.pas',
   UExceptions in 'UExceptions.pas',
   UInvoice in 'UInvoice.pas',
-  UTransaction in 'UTransaction.pas';
+  UTransaction in 'UTransaction.pas',
+  UCustomer in 'UCustomer.pas';
 
 end.
