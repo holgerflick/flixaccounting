@@ -67,7 +67,9 @@ type
     procedure dbTransactionsPercentageSetText(Sender: TField; const Text: string);
 
     procedure FormCreate(Sender: TObject);
+    procedure menTxKindExpensesClick(Sender: TObject);
     procedure rbFilterKindClick(Sender: TObject);
+
   private
     { Private declarations }
     function GetFilterTxKind: TTransactionKind;
@@ -85,10 +87,11 @@ implementation
 {$R *.dfm}
 
 uses
-    UFrmReportImport
+    System.Types
+  , UFrmReportImport
 
   , UDataImportManager
-
+  , UDictionary
   ;
 
 resourcestring
@@ -160,12 +163,12 @@ procedure TFrmTransactions.OpenDataset;
 begin
   var LCriteria := self.ObjectManager
     .Find<TTransaction>
-    .OrderBy(Linq['PaidOn'], False)
+    .OrderBy(Dic.Transaction.PaidOn, False)
     ;
 
   if FilterKind <> TTransactionKind.All then
   begin
-    LCriteria.Add( Linq['Kind'] = FilterKind );
+    LCriteria.Add( Dic.Transaction.Kind = FilterKind );
   end;
 
   dbTransactions.Close;
@@ -182,6 +185,11 @@ begin
     0 : Result := TTransactionKind.Income;
     1 : Result := TTransactionKind.Expense;
   end;
+end;
+
+procedure TFrmTransactions.menTxKindExpensesClick(Sender: TObject);
+begin
+  ImportFromFolder;
 end;
 
 procedure TFrmTransactions.rbFilterKindClick(Sender: TObject);
