@@ -712,7 +712,7 @@ inherited FrmTransactions: TFrmTransactions
   end
   object sourceTransactions: TDataSource
     DataSet = dbTransactions
-    Left = 144
+    Left = 152
     Top = 424
   end
   object DlgOpen: TFileOpenDialog
@@ -732,6 +732,7 @@ inherited FrmTransactions: TFrmTransactions
     end
     object menTxKindExpenses: TMenuItem
       Caption = 'Expenses'
+      OnClick = menTxKindExpensesClick
     end
   end
 end

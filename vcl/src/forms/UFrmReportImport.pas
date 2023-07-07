@@ -3,9 +3,14 @@ unit UFrmReportImport;
 interface
 
 uses
-   UFrmBase
+    UFrmBase
+
+  , Aurelius.Bind.BaseDataset
+  , Aurelius.Bind.Dataset
+
   , Winapi.Windows
   , Winapi.Messages
+
   , System.SysUtils
   , System.Variants
   , System.Classes
@@ -16,11 +21,13 @@ uses
   , Vcl.Dialogs
   , Vcl.Grids
   , Vcl.DBGrids
+  , Vcl.StdCtrls
+  , Vcl.ExtCtrls
 
   , Data.DB
 
-  , UDataImportManager, Vcl.StdCtrls, Vcl.ExtCtrls, Aurelius.Bind.BaseDataset,
-  Aurelius.Bind.Dataset
+  , UDataImportManager
+
   ;
 
 
@@ -40,14 +47,12 @@ type
     Errors: TDBGrid;
     Label1: TLabel;
   private
-    { Private declarations }
     FManager : TDataImportManager;
     procedure SetManager(const Value: TDataImportManager);
 
     procedure UpdateInterface;
 
   public
-    { Public declarations }
     constructor Create(AOwner: TComponent; AManager: TDataImportManager); reintroduce;
 
     property Manager: TDataImportManager read FManager write SetManager;

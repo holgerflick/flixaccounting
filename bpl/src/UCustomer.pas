@@ -8,12 +8,14 @@ uses
   , Aurelius.Types.Blob
   , Aurelius.Types.Proxy
   , Aurelius.Mapping.Explorer
+
   , Bcl.Types.Nullable
 
   , System.SysUtils
   , System.Generics.Collections
   , System.DateUtils
 
+  , UDictionary
 
   ;
 
@@ -22,40 +24,29 @@ type
   [Automapping]
   TCustomer = class
   private
+
+
     FAddress: string;
     FEmail: String;
     FId: Integer;
 
-    [Column('LookupName', [TColumnProp.Unique])]
-    FLookupName: String;
-
+    [Column('Name', [TColumnProp.Unique])]
     FName: string;
-    function GetName: string;
+    FContact: String;
+
   public
     property Id: Integer read FId write FId;
 
-    property LookupName: String read FLookupName write FLookupName;
-    property Name: string read GetName write FName;
+    property Name: string read FName write FName;
+    property Contact: String read FContact write FContact;
     property Address: string read FAddress write FAddress;
     property Email: String read FEmail write FEmail;
-
   end;
 
 implementation
 
 { TCustomer }
 
-function TCustomer.GetName: string;
-begin
-  if FName.IsEmpty then
-  begin
-    Result := LookupName;
-  end
-  else
-  begin
-    Result := FName;
-  end;
-end;
 
 initialization
   RegisterEntity(TCustomer);

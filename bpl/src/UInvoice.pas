@@ -2,7 +2,7 @@ unit UInvoice;
 
 interface
 uses
-  Aurelius.Mapping.Automapping
+    Aurelius.Mapping.Automapping
   , Aurelius.Mapping.Attributes
   , Aurelius.Mapping.Metadata
   , Aurelius.Types.Blob
