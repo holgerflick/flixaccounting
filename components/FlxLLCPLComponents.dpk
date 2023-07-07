@@ -28,7 +28,11 @@ package FlxLLCPLComponents;
 {$IMPLICITBUILD ON}
 
 requires
-  rtl;
+  rtl,
+  vcl,
+  vclwinx,
+  dbrtl,
+  vcldb;
 
 contains
   uFlxDBLookupComboBox in 'uFlxDBLookupComboBox.pas',
