@@ -27,16 +27,16 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
+
+  protected
     FObjectManager: TObjectManager;
     FDataManager: TDataManager;
 
     function GetObjectManager: TObjectManager;
     procedure SetObjectManager(const Value: TObjectManager);
-    { Private declarations }
-  protected
 
   public
-    { Public declarations }
+
     property ObjectManager: TObjectManager
       read GetObjectManager write SetObjectManager;
 

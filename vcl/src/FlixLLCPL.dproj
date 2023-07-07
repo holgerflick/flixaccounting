@@ -128,6 +128,14 @@
             <Form>FrmCustomer</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\UFrmInvoices.pas">
+            <Form>FrmInvoices</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\UFrmInvoice.pas">
+            <Form>FrmInvoice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
