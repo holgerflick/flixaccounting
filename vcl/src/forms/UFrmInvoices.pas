@@ -3,15 +3,72 @@ unit UFrmInvoices;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase;
+    AdvGrid
+  , AdvObj
+  , AdvUtil
+
+  , Aurelius.Bind.BaseDataset
+  , Aurelius.Bind.Dataset
+
+  , BaseGrid
+
+  , Data.DB
+
+  , DBAdvGrid
+
+  , System.Classes
+  , System.SysUtils
+  , System.Variants
+
+  , Vcl.Controls
+  , Vcl.Dialogs
+  , Vcl.Forms
+  , Vcl.Graphics
+  , Vcl.Grids
+  , Vcl.StdCtrls
+
+  , Winapi.Messages
+  , Winapi.Windows
+
+  , UFrmBase
+  ;
+
+
 
 type
   TFrmInvoices = class(TFrmBase)
+    GridInvoices: TDBAdvGrid;
+    Invoices: TAureliusDataset;
+    sourceInvoices: TDataSource;
+    InvoicesSelf: TAureliusEntityField;
+    InvoicesId: TIntegerField;
+    InvoicesNumber: TIntegerField;
+    InvoicesIssuedOn: TDateField;
+    InvoicesDueOn: TDateField;
+    InvoicesCustomer: TAureliusEntityField;
+    InvoicesItems: TDataSetField;
+    InvoicesPayments: TDataSetField;
+    InvoicesTransactions: TDataSetField;
+    InvoicesTotalAmount: TFloatField;
+    InvoicesAmountDue: TFloatField;
+    InvoicesAmountPaid: TFloatField;
+    InvoicesCanBeProcessed: TBooleanField;
+    InvoicesCanModify: TBooleanField;
+    InvoicesCustomerName: TStringField;
+    btnNew: TButton;
+    btnModify: TButton;
+    btnDelete: TButton;
+    Print: TButton;
+    procedure btnModifyClick(Sender: TObject);
+    procedure btnNewClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     procedure OpenDataset;
+
+    function GetNextNumber: Integer;
+
+    procedure New;
   public
     { Public declarations }
   end;
@@ -22,10 +79,29 @@ var
 implementation
 
 uses
-  UDictionary
+    System.DateUtils
+  , UFrmInvoice
+  , UDictionary
+  , UInvoice
+
   ;
 
 {$R *.dfm}
+
+procedure TFrmInvoices.btnModifyClick(Sender: TObject);
+begin
+  var LFrm := TFrmInvoice.Create( self, ObjectManager, sourceInvoices );
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
+end;
+
+procedure TFrmInvoices.btnNewClick(Sender: TObject);
+begin
+  New;
+end;
 
 procedure TFrmInvoices.FormCreate(Sender: TObject);
 begin
@@ -36,11 +112,53 @@ begin
   OpenDataset;
 end;
 
+function TFrmInvoices.GetNextNumber: Integer;
+begin
+  var LNumber := ObjectManager.Find<TInvoice>
+    .Select(Dic.Invoice.Number.Max.As_('MaxNo'))
+    .UniqueValue;
+
+  try
+    var LRes := LNumber.Values[0];
+    if VarIsNumeric(LRes) then
+    begin
+      Result := LRes + 1;
+    end
+    else
+    begin
+      Result := 1;
+    end;
+
+  finally
+    LNumber.Free;
+  end;
+end;
+
+procedure TFrmInvoices.New;
+begin
+  Invoices.Append;
+  InvoicesNumber.AsInteger := GetNextNumber;
+
+  var LFrm := TFrmInvoice.Create(
+    self, ObjectManager, sourceInvoices );
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
+end;
+
 procedure TFrmInvoices.OpenDataset;
 begin
   var LInvoices := ObjectManager.Find<TInvoice>
-    .OrderBy
+    .OrderBy(Dic.Invoice.Number, False )
+    .List;
 
+  Invoices.Close;
+  Invoices.DefaultsFromObject := True;
+  Invoices.Manager := ObjectManager;
+  Invoices.SetSourceList( LInvoices, True );
+  Invoices.Open;
 end;
 
 end.

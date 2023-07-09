@@ -147,7 +147,8 @@ type
 
 implementation
 uses
-  UExceptions
+  System.DateUtils
+  , UExceptions
   ;
 
 resourcestring
@@ -170,6 +171,9 @@ begin
   FItems.SetInitialValue(TInvoiceItems.Create);
   FPayments.SetInitialValue(TInvoicePayments.Create);
   FTransactions.SetInitialValue(TTransactions.Create);
+
+  FIssuedOn := TDateTime.Today;
+  FDueOn := TDateTime.Now.IncDay(14);
 end;
 
 destructor TInvoice.Destroy;

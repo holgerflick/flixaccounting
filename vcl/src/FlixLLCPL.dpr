@@ -12,7 +12,8 @@ uses
   UReportManager in 'UReportManager.pas' {ReportManager: TDataModule},
   UFrmCustomer in 'forms\UFrmCustomer.pas' {FrmCustomer},
   UFrmInvoices in 'forms\UFrmInvoices.pas' {FrmInvoices},
-  UFrmInvoice in 'forms\UFrmInvoice.pas' {FrmInvoice};
+  UFrmInvoice in 'forms\UFrmInvoice.pas' {FrmInvoice},
+  UFrmInvoiceGrid in 'recycle\UFrmInvoiceGrid.pas' {FrmBase1};
 
 {$R *.res}
 

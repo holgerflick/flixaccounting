@@ -39,6 +39,7 @@ contains
   UExceptions in 'UExceptions.pas',
   UInvoice in 'UInvoice.pas',
   UTransaction in 'UTransaction.pas',
-  UCustomer in 'UCustomer.pas';
+  UCustomer in 'UCustomer.pas',
+  UDictionary in 'UDictionary.pas';
 
 end.

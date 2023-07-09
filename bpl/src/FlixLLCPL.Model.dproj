@@ -84,6 +84,7 @@
         <DCCReference Include="UInvoice.pas"/>
         <DCCReference Include="UTransaction.pas"/>
         <DCCReference Include="UCustomer.pas"/>
+        <DCCReference Include="UDictionary.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

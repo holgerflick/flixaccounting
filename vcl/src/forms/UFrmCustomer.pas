@@ -43,7 +43,7 @@ type
     CustomersAddress: TStringField;
     CustomersEmail: TStringField;
     sourceCustomers: TDataSource;
-    DBMemo1: TDBMemo;
+    txtAddress: TDBMemo;
     CustomersContact: TStringField;
     DBNavigator1: TDBNavigator;
     Image1: TImage;
