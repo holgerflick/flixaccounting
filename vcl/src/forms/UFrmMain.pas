@@ -3,26 +3,26 @@ unit UFrmMain;
 interface
 
 uses
-    Winapi.Windows
-  , Winapi.Messages
+      Aurelius.Dictionary.Generator
+    , Aurelius.Engine.ObjectManager
 
-  , System.SysUtils
-  , System.Variants
-  , System.Classes
-  , System.UITypes
+    , System.Classes
+    , System.SysUtils
+    , System.UITypes
+    , System.Variants
 
-  , Vcl.Graphics
-  , Vcl.Controls
-  , Vcl.Forms
-  , Vcl.Dialogs
-  , Vcl.StdCtrls
+    , Vcl.Controls
+    , Vcl.Dialogs
+    , Vcl.Forms
+    , Vcl.Graphics
+    , Vcl.StdCtrls
 
-  , Aurelius.Engine.ObjectManager
-  , Aurelius.Dictionary.Generator
+    , Winapi.Messages
+    , Winapi.Windows
 
-  , UFrmBase
+    , UFrmBase
+    ;
 
-  ;
 
 type
   TFrmMain = class(TFrmBase)
@@ -31,10 +31,12 @@ type
     btnReportEndOfYear: TButton;
     btnCustomers: TButton;
     btnDictionary: TButton;
+    btnInvoices: TButton;
     procedure btnCreateDatabaseClick(Sender: TObject);
     procedure btnCustomersClick(Sender: TObject);
     procedure btnDictionaryClick(Sender: TObject);
     procedure btnExpensesClick(Sender: TObject);
+    procedure btnInvoicesClick(Sender: TObject);
   private
 
   public
@@ -50,6 +52,7 @@ uses
     UReportManager
   , UFrmTransactions
   , UFrmCustomer
+  , UFrmInvoices
 
   ;
 
@@ -81,6 +84,8 @@ end;
 procedure TFrmMain.btnDictionaryClick(Sender: TObject);
 begin
   {$IFDEF DEBUG}
+
+
   TDictionaryGenerator.GenerateFile(SDictionaryFile);
   {$ENDIF}
 end;
@@ -88,6 +93,16 @@ end;
 procedure TFrmMain.btnExpensesClick(Sender: TObject);
 begin
   var LFrm := TFrmTransactions.Create(self);
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
+end;
+
+procedure TFrmMain.btnInvoicesClick(Sender: TObject);
+begin
+  var LFrm := TFrmInvoices.Create(self);
   try
     LFrm.ShowModal;
   finally

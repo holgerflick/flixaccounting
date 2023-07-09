@@ -15285,7 +15285,7 @@ inherited FrmCustomer: TFrmCustomer
     Font.Name = 'Segoe UI'
     Font.Style = []
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -16
@@ -15311,7 +15311,7 @@ inherited FrmCustomer: TFrmCustomer
         Visible = True
       end>
   end
-  object DBMemo1: TDBMemo
+  object txtAddress: TDBMemo
     Left = 383
     Top = 298
     Width = 262
@@ -15326,7 +15326,7 @@ inherited FrmCustomer: TFrmCustomer
     Font.Name = 'Segoe Print'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 2
   end
   object DBNavigator1: TDBNavigator
     Left = 8
@@ -15336,7 +15336,7 @@ inherited FrmCustomer: TFrmCustomer
     DataSource = sourceCustomers
     VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 2
+    TabOrder = 0
   end
   object btnInvoices: TButton
     Left = 8

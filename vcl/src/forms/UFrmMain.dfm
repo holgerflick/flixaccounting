@@ -49,4 +49,13 @@ inherited FrmMain: TFrmMain
     TabOrder = 4
     OnClick = btnDictionaryClick
   end
+  object btnInvoices: TButton
+    Left = 8
+    Top = 253
+    Width = 209
+    Height = 73
+    Caption = 'Invoices'
+    TabOrder = 5
+    OnClick = btnInvoicesClick
+  end
 end

@@ -1,23 +1,19 @@
-inherited FrmInvoices: TFrmInvoices
-  Caption = 'FrmInvoices'
-  ClientHeight = 539
-  ClientWidth = 807
-  ExplicitWidth = 823
-  ExplicitHeight = 578
+inherited FrmBase1: TFrmBase1
+  Caption = 'FrmBase1'
   TextHeight = 21
-  object GridInvoices: TDBAdvGrid
+  object Expenses: TDBAdvGrid
     Left = 8
-    Top = 48
-    Width = 791
-    Height = 483
+    Top = 296
+    Width = 691
+    Height = 153
     Anchors = [akLeft, akTop, akRight, akBottom]
     ColCount = 7
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
-    RowCount = 5
+    RowCount = 2
     FixedRows = 1
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goTabs, goRowSelect, goFixedRowDefAlign]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goTabs, goFixedRowDefAlign]
     TabOrder = 0
     GridLineColor = 13948116
     GridFixedLineColor = 11250603
@@ -28,6 +24,8 @@ inherited FrmInvoices: TFrmInvoices
     ActiveCellFont.Style = [fsBold]
     ActiveCellColor = 11565130
     ActiveCellColorTo = 11565130
+    AutoThemeAdapt = True
+    AutoFilterUpdate = False
     BorderColor = 11250603
     ControlLook.FixedGradientFrom = clWhite
     ControlLook.FixedGradientTo = clWhite
@@ -86,8 +84,13 @@ inherited FrmInvoices: TFrmInvoices
     HTMLSettings.ImageFolder = 'images'
     HTMLSettings.ImageBaseName = 'img'
     Look = glCustom
+    Navigation.AllowSelectAll = False
     Navigation.AdvanceOnEnter = True
-    Navigation.AdvanceAuto = True
+    Navigation.AdvanceAutoEdit = False
+    Navigation.AutoComboSelect = False
+    Navigation.AppendOnArrowDown = True
+    Navigation.InsertPosition = pInsertAfter
+    Navigation.SkipReadOnly = True
     PrintSettings.DateFormat = 'dd/mm/yyyy'
     PrintSettings.Font.Charset = DEFAULT_CHARSET
     PrintSettings.Font.Color = clWindowText
@@ -126,6 +129,7 @@ inherited FrmInvoices: TFrmInvoices
     SearchFooter.MatchCaseCaption = 'Match case'
     SearchFooter.ResultFormat = '(%d of %d)'
     SelectionColor = 13744549
+    SortSettings.Full = False
     SortSettings.HeaderColor = clWhite
     SortSettings.HeaderColorTo = clWhite
     SortSettings.HeaderMirrorColor = clWhite
@@ -167,11 +171,11 @@ inherited FrmInvoices: TFrmInvoices
         CheckFalse = 'N'
         CheckTrue = 'Y'
         Color = clWindow
-        FieldName = 'Number'
-        Font.Charset = ANSI_CHARSET
+        FieldName = 'Idx'
+        Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'JetBrains Mono'
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
         Font.Style = []
         Header = '#'
         HeaderFont.Charset = DEFAULT_CHARSET
@@ -185,7 +189,7 @@ inherited FrmInvoices: TFrmInvoices
         PrintFont.Height = -12
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 52
+        Width = 46
       end
       item
         Borders = []
@@ -194,79 +198,24 @@ inherited FrmInvoices: TFrmInvoices
         CheckFalse = 'N'
         CheckTrue = 'Y'
         Color = clWindow
-        FieldName = 'IssuedOn'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'JetBrains Mono'
-        Font.Style = []
-        Header = 'Issued'
-        HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = 3881787
-        HeaderFont.Height = -13
-        HeaderFont.Name = 'Segoe UI'
-        HeaderFont.Style = [fsBold]
-        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-        PrintFont.Charset = DEFAULT_CHARSET
-        PrintFont.Color = clWindowText
-        PrintFont.Height = -12
-        PrintFont.Name = 'Segoe UI'
-        PrintFont.Style = []
-        Width = 90
-      end
-      item
-        Borders = []
-        BorderPen.Color = clSilver
-        ButtonHeight = 18
-        CheckFalse = 'N'
-        CheckTrue = 'Y'
-        Color = clWindow
-        FieldName = 'DueOn'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'JetBrains Mono'
-        Font.Style = []
-        Header = 'Due'
-        HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = 3881787
-        HeaderFont.Height = -13
-        HeaderFont.Name = 'Segoe UI'
-        HeaderFont.Style = [fsBold]
-        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-        PrintFont.Charset = DEFAULT_CHARSET
-        PrintFont.Color = clWindowText
-        PrintFont.Height = -12
-        PrintFont.Name = 'Segoe UI'
-        PrintFont.Style = []
-        Width = 90
-      end
-      item
-        Borders = []
-        BorderPen.Color = clSilver
-        ButtonHeight = 18
-        CheckFalse = 'N'
-        CheckTrue = 'Y'
-        Color = clWindow
-        FieldName = 'Customer.Name'
+        FieldName = 'Category'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -15
         Font.Name = 'Segoe UI'
         Font.Style = []
-        Header = 'Customer'
         HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = clWindowText
+        HeaderFont.Color = 3881787
         HeaderFont.Height = -13
         HeaderFont.Name = 'Segoe UI'
         HeaderFont.Style = [fsBold]
         PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
         PrintFont.Charset = DEFAULT_CHARSET
         PrintFont.Color = clWindowText
-        PrintFont.Height = -16
+        PrintFont.Height = -12
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 199
+        Width = 130
       end
       item
         Borders = []
@@ -275,10 +224,92 @@ inherited FrmInvoices: TFrmInvoices
         CheckFalse = 'N'
         CheckTrue = 'Y'
         Color = clWindow
-        FieldName = 'TotalAmount'
+        FieldName = 'Title'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        Header = 'Description'
+        HeaderFont.Charset = DEFAULT_CHARSET
+        HeaderFont.Color = 3881787
+        HeaderFont.Height = -13
+        HeaderFont.Name = 'Segoe UI'
+        HeaderFont.Style = [fsBold]
+        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
+        PrintFont.Charset = DEFAULT_CHARSET
+        PrintFont.Color = clWindowText
+        PrintFont.Height = -12
+        PrintFont.Name = 'Segoe UI'
+        PrintFont.Style = []
+        Width = 196
+      end
+      item
+        Borders = []
+        BorderPen.Color = clSilver
+        ButtonHeight = 18
+        CheckFalse = 'N'
+        CheckTrue = 'Y'
+        Color = clWindow
+        Editor = edFloat
+        FieldName = 'Quantity'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
+        Font.Height = -15
+        Font.Name = 'JetBrains Mono'
+        Font.Style = []
+        HeaderFont.Charset = DEFAULT_CHARSET
+        HeaderFont.Color = 3881787
+        HeaderFont.Height = -13
+        HeaderFont.Name = 'Segoe UI'
+        HeaderFont.Style = [fsBold]
+        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
+        PrintFont.Charset = DEFAULT_CHARSET
+        PrintFont.Color = clWindowText
+        PrintFont.Height = -12
+        PrintFont.Name = 'Segoe UI'
+        PrintFont.Style = []
+        Width = 71
+      end
+      item
+        Borders = []
+        BorderPen.Color = clSilver
+        ButtonHeight = 18
+        CheckFalse = 'N'
+        CheckTrue = 'Y'
+        Color = clWindow
+        Editor = edFloat
+        FieldName = 'Value'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'JetBrains Mono'
+        Font.Style = []
+        Header = 'Rate'
+        HeaderFont.Charset = DEFAULT_CHARSET
+        HeaderFont.Color = 3881787
+        HeaderFont.Height = -13
+        HeaderFont.Name = 'Segoe UI'
+        HeaderFont.Style = [fsBold]
+        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
+        PrintFont.Charset = DEFAULT_CHARSET
+        PrintFont.Color = clWindowText
+        PrintFont.Height = -12
+        PrintFont.Name = 'Segoe UI'
+        PrintFont.Style = []
+        Width = 97
+      end
+      item
+        Borders = []
+        BorderPen.Color = clSilver
+        ButtonHeight = 18
+        CheckFalse = 'N'
+        CheckTrue = 'Y'
+        Color = clWindow
+        FieldName = 'TotalValue'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
         Font.Name = 'JetBrains Mono'
         Font.Style = []
         Header = 'Total'
@@ -293,36 +324,9 @@ inherited FrmInvoices: TFrmInvoices
         PrintFont.Height = -12
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 100
-      end
-      item
-        Borders = []
-        BorderPen.Color = clSilver
-        ButtonHeight = 18
-        CheckFalse = 'N'
-        CheckTrue = 'Y'
-        Color = clWindow
-        FieldName = 'AmountDue'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'JetBrains Mono'
-        Font.Style = []
-        Header = 'Unpaid'
-        HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = 3881787
-        HeaderFont.Height = -13
-        HeaderFont.Name = 'Segoe UI'
-        HeaderFont.Style = [fsBold]
-        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-        PrintFont.Charset = DEFAULT_CHARSET
-        PrintFont.Color = clWindowText
-        PrintFont.Height = -12
-        PrintFont.Name = 'Segoe UI'
-        PrintFont.Style = []
-        Width = 90
+        ReadOnly = True
+        Width = 85
       end>
-    DataSource = sourceInvoices
     EditPostMode = epRow
     InvalidPicture.Data = {
       055449636F6E0000010001002020200000000000A81000001600000028000000
@@ -463,194 +467,14 @@ inherited FrmInvoices: TFrmInvoices
     ShowUnicode = False
     ColWidths = (
       20
-      52
-      90
-      90
-      199
-      100
-      90)
+      46
+      130
+      196
+      71
+      97
+      85)
     RowHeights = (
       28
-      28
-      28
-      28
       28)
-  end
-  object btnNew: TButton
-    Left = 8
-    Top = 8
-    Width = 145
-    Height = 34
-    Caption = 'New'
-    TabOrder = 1
-    OnClick = btnNewClick
-  end
-  object btnModify: TButton
-    Left = 159
-    Top = 8
-    Width = 145
-    Height = 34
-    Caption = 'Modify'
-    TabOrder = 2
-    OnClick = btnModifyClick
-  end
-  object btnDelete: TButton
-    Left = 310
-    Top = 8
-    Width = 145
-    Height = 34
-    Caption = 'Delete'
-    TabOrder = 3
-  end
-  object Print: TButton
-    Left = 461
-    Top = 8
-    Width = 145
-    Height = 34
-    Caption = 'Print'
-    TabOrder = 4
-  end
-  object Invoices: TAureliusDataset
-    FieldDefs = <
-      item
-        Name = 'Self'
-        Attributes = [faReadonly]
-        DataType = ftVariant
-      end
-      item
-        Name = 'Id'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'Number'
-        DataType = ftInteger
-      end
-      item
-        Name = 'IssuedOn'
-        Attributes = [faRequired]
-        DataType = ftDate
-      end
-      item
-        Name = 'DueOn'
-        Attributes = [faRequired]
-        DataType = ftDate
-      end
-      item
-        Name = 'Customer'
-        DataType = ftVariant
-      end
-      item
-        Name = 'Items'
-        Attributes = [faReadonly]
-        DataType = ftDataSet
-      end
-      item
-        Name = 'Payments'
-        Attributes = [faReadonly]
-        DataType = ftDataSet
-      end
-      item
-        Name = 'Transactions'
-        Attributes = [faReadonly]
-        DataType = ftDataSet
-      end
-      item
-        Name = 'TotalAmount'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftFloat
-      end
-      item
-        Name = 'AmountDue'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftFloat
-      end
-      item
-        Name = 'AmountPaid'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftFloat
-      end
-      item
-        Name = 'CanBeProcessed'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftBoolean
-      end
-      item
-        Name = 'CanModify'
-        Attributes = [faReadonly, faRequired]
-        DataType = ftBoolean
-      end>
-    Left = 136
-    Top = 448
-    DesignClass = 'UInvoice.TInvoice'
-    object InvoicesSelf: TAureliusEntityField
-      FieldName = 'Self'
-      ReadOnly = True
-    end
-    object InvoicesId: TIntegerField
-      FieldName = 'Id'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesNumber: TIntegerField
-      FieldName = 'Number'
-    end
-    object InvoicesIssuedOn: TDateField
-      FieldName = 'IssuedOn'
-      Required = True
-    end
-    object InvoicesDueOn: TDateField
-      FieldName = 'DueOn'
-      Required = True
-    end
-    object InvoicesCustomer: TAureliusEntityField
-      FieldName = 'Customer'
-    end
-    object InvoicesItems: TDataSetField
-      FieldName = 'Items'
-      ReadOnly = True
-    end
-    object InvoicesPayments: TDataSetField
-      FieldName = 'Payments'
-      ReadOnly = True
-    end
-    object InvoicesTransactions: TDataSetField
-      FieldName = 'Transactions'
-      ReadOnly = True
-    end
-    object InvoicesTotalAmount: TFloatField
-      FieldName = 'TotalAmount'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesAmountDue: TFloatField
-      FieldName = 'AmountDue'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesAmountPaid: TFloatField
-      FieldName = 'AmountPaid'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesCanBeProcessed: TBooleanField
-      FieldName = 'CanBeProcessed'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesCanModify: TBooleanField
-      FieldName = 'CanModify'
-      ReadOnly = True
-      Required = True
-    end
-    object InvoicesCustomerName: TStringField
-      FieldName = 'Customer.Name'
-      Size = 200
-    end
-  end
-  object sourceInvoices: TDataSource
-    DataSet = Invoices
-    Left = 224
-    Top = 448
   end
 end
