@@ -76,9 +76,9 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Build>12</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.12;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.17;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Release>1</VerInfo_Release>
@@ -96,50 +96,44 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <RcCompile Include="resources.rc">
+            <Form>resources.res</Form>
+        </RcCompile>
         <DCCReference Include="forms\UFrmMain.pas">
             <Form>FrmMain</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="globals\UAppGlobals.pas"/>
         <DCCReference Include="db\UDataManager.pas">
             <Form>DataManager</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="db\UDataImportManager.pas"/>
         <DCCReference Include="forms\UFrmBase.pas">
             <Form>FrmBase</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmTransactions.pas">
             <Form>FrmTransactions</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmReportImport.pas">
             <Form>FrmReportImport</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UReportManager.pas">
             <Form>ReportManager</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="forms\UFrmCustomer.pas">
             <Form>FrmCustomer</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmInvoices.pas">
             <Form>FrmInvoices</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmInvoice.pas">
             <Form>FrmInvoice</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="recycle\UFrmInvoiceGrid.pas">
             <Form>FrmBase1</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="UInvoicePrinter.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

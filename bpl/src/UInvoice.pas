@@ -56,11 +56,13 @@ type
 
     [Association([], CascadeTypeAllButRemove)]
     FInvoice: TInvoice;
+
     FIdx: Integer;
     FTitle: String;
     FQuantity: Double;
     FValue: Double;
     FCategory: String;
+
     function GetTotalValue: Double;
 
   public
@@ -82,9 +84,11 @@ type
 
   private
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FInvoice')]
+    [OrderBy('Idx')]
     FItems: Proxy<TInvoiceItems>;
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FInvoice')]
+    [OrderBy('PaidOn')]
     FPayments: Proxy<TInvoicePayments>;
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll)]
@@ -94,6 +98,7 @@ type
 
     [Column('Number', [TColumnProp.Unique] )]
     FNumber: Integer;
+
     FIssuedOn: TDate;
     FDueOn: TDate;
 
@@ -115,6 +120,7 @@ type
     function GetCanModify: Boolean;
     function GetCustomer: TCustomer;
     procedure SetCustomer(const Value: TCustomer);
+    function GetBillTo: String;
 
   public
     constructor Create;
@@ -139,15 +145,16 @@ type
     property AmountDue: Double read GetAmountDue;
     property AmountPaid: Double read GetAmountPaid;
 
+    property BillTo: String read GetBillTo;
+
     property CanBeProcessed: Boolean read GetCanBeProcessed;
     property CanModify: Boolean read GetCanModify;
-
   end;
 
 
 implementation
 uses
-  System.DateUtils
+    System.DateUtils
   , UExceptions
   ;
 
@@ -198,6 +205,11 @@ begin
   begin
     Result := Result + LPayment.FAmount;
   end;
+end;
+
+function TInvoice.GetBillTo: String;
+begin
+  Result := self.Customer.AddressExcel;
 end;
 
 function TInvoice.GetCanBeProcessed: Boolean;

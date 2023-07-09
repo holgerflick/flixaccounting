@@ -34,6 +34,7 @@ type
     FRangeEnd: TDate;
     FObjectManager: TObjectManager;
 
+
   public
     { Public declarations }
 
@@ -101,5 +102,7 @@ begin
     LCategories.Free;  // list needs to be freed
   end;
 end;
+
+
 
 end.

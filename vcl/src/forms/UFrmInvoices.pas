@@ -62,15 +62,16 @@ type
     procedure btnModifyClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure PrintClick(Sender: TObject);
   private
-    { Private declarations }
     procedure OpenDataset;
 
     function GetNextNumber: Integer;
 
     procedure New;
+    procedure PrintCurrent;
   public
-    { Public declarations }
+
   end;
 
 var
@@ -83,6 +84,7 @@ uses
   , UFrmInvoice
   , UDictionary
   , UInvoice
+  , UInvoicePrinter
 
   ;
 
@@ -159,6 +161,24 @@ begin
   Invoices.Manager := ObjectManager;
   Invoices.SetSourceList( LInvoices, True );
   Invoices.Open;
+end;
+
+procedure TFrmInvoices.PrintClick(Sender: TObject);
+begin
+  PrintCurrent;
+end;
+
+procedure TFrmInvoices.PrintCurrent;
+var
+  LPrinter: TInvoicePrinter;
+begin
+  var LCurrent := Invoices.Current<TInvoice>;
+  LPrinter := TInvoicePrinter.Create(ObjectManager);
+  try
+    LPrinter.Print(LCurrent);
+  finally
+    LPrinter.Free;
+  end;
 end;
 
 end.

@@ -1,7 +1,10 @@
 program FlixLLCPL;
 
+{$R 'resources.res' 'resources.rc'}
+
 uses
   Vcl.Forms,
+  VCL.FlexCel.Core,
   UFrmMain in 'forms\UFrmMain.pas' {FrmMain},
   UAppGlobals in 'globals\UAppGlobals.pas',
   UDataManager in 'db\UDataManager.pas' {DataManager: TDataModule},
@@ -13,7 +16,8 @@ uses
   UFrmCustomer in 'forms\UFrmCustomer.pas' {FrmCustomer},
   UFrmInvoices in 'forms\UFrmInvoices.pas' {FrmInvoices},
   UFrmInvoice in 'forms\UFrmInvoice.pas' {FrmInvoice},
-  UFrmInvoiceGrid in 'recycle\UFrmInvoiceGrid.pas' {FrmBase1};
+  UFrmInvoiceGrid in 'recycle\UFrmInvoiceGrid.pas' {FrmBase1},
+  UInvoicePrinter in 'UInvoicePrinter.pas';
 
 {$R *.res}
 

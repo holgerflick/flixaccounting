@@ -3,34 +3,47 @@ unit UFrmInvoice;
 interface
 
 uses
-    Aurelius.Bind.BaseDataset
+    AdvDateTimePicker
+  , AdvDBDateTimePicker
+  , AdvEdit
+  , AdvGrid
+  , AdvObj
+  , AdvUtil
+
+  , Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
   , Aurelius.Engine.ObjectManager
 
+  , BaseGrid
+
   , Data.DB
+
+  , DBAdvEd
+  , DBAdvGrid
 
   , System.Classes
   , System.SysUtils
   , System.Variants
 
+  , Vcl.ComCtrls
   , Vcl.Controls
   , Vcl.DBCtrls
+  , Vcl.DBGrids
   , Vcl.Dialogs
+  , Vcl.ExtCtrls
   , Vcl.Forms
   , Vcl.Graphics
+  , Vcl.Grids
+  , Vcl.StdCtrls
 
   , Winapi.Messages
   , Winapi.Windows
 
+  , UCustomer
   , uFlxDBLookupComboBox
   , UFrmBase
   , UInvoice
-  , UCustomer, Vcl.StdCtrls, AdvEdit, DBAdvEd, Vcl.ComCtrls, AdvDateTimePicker,
-  AdvDBDateTimePicker, AdvUtil, Vcl.Grids, AdvObj, BaseGrid, AdvGrid, DBAdvGrid,
-  Vcl.ExtCtrls, Vcl.DBGrids
   ;
-
-
 
 type
   TFrmInvoice = class(TFrmBase)
@@ -92,7 +105,10 @@ uses
 
 procedure TFrmInvoice.Cancel;
 begin
-  FInvoices.Cancel;
+  if FInvoices.State in dsEditModes then
+  begin
+    FInvoices.Cancel;
+  end;
 end;
 
 constructor TFrmInvoice.Create(AOwner: TComponent; AObjManager: TObjectManager;
@@ -133,12 +149,14 @@ begin
     ObjectManager.Find<TCustomer>.OrderBy(Dic.Customer.Name).List,
     True );
   Customers.Open;
-
 end;
 
 procedure TFrmInvoice.Post;
 begin
-  FInvoices.Post;
+  if FInvoices.State in dsEditModes then
+  begin
+    FInvoices.Post;
+  end;
 end;
 
 end.

@@ -33,6 +33,7 @@ type
     [Column('Name', [TColumnProp.Unique])]
     FName: string;
     FContact: String;
+    function GetAddressExcel: String;
 
   public
     property Id: Integer read FId write FId;
@@ -41,12 +42,21 @@ type
     property Contact: String read FContact write FContact;
     property Address: string read FAddress write FAddress;
     property Email: String read FEmail write FEmail;
+
+    property AddressExcel: String read GetAddressExcel;
   end;
 
 implementation
 
 { TCustomer }
 
+
+{ TCustomer }
+
+function TCustomer.GetAddressExcel: String;
+begin
+  Result := Address.Replace(#13, '' );
+end;
 
 initialization
   RegisterEntity(TCustomer);
