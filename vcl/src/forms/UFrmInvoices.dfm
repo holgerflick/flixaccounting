@@ -15,7 +15,7 @@ inherited FrmInvoices: TFrmInvoices
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
-    RowCount = 5
+    RowCount = 2
     FixedRows = 1
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goTabs, goRowSelect, goFixedRowDefAlign]
     TabOrder = 0
@@ -471,9 +471,6 @@ inherited FrmInvoices: TFrmInvoices
       90)
     RowHeights = (
       28
-      28
-      28
-      28
       28)
   end
   object btnNew: TButton
@@ -509,6 +506,7 @@ inherited FrmInvoices: TFrmInvoices
     Height = 34
     Caption = 'Print'
     TabOrder = 4
+    OnClick = PrintClick
   end
   object Invoices: TAureliusDataset
     FieldDefs = <

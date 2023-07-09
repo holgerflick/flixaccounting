@@ -289,6 +289,7 @@ inherited FrmInvoice: TFrmInvoice
     object ItemsIdx: TIntegerField
       FieldName = 'Idx'
       Required = True
+      DisplayFormat = '0'
     end
     object ItemsCategory: TStringField
       FieldName = 'Category'
@@ -303,15 +304,18 @@ inherited FrmInvoice: TFrmInvoice
     object ItemsQuantity: TFloatField
       FieldName = 'Quantity'
       Required = True
+      DisplayFormat = '0.##'
     end
     object ItemsValue: TFloatField
       FieldName = 'Value'
       Required = True
+      DisplayFormat = '0,.00'
     end
     object ItemsTotalValue: TFloatField
       FieldName = 'TotalValue'
       ReadOnly = True
       Required = True
+      DisplayFormat = '0,.00'
     end
   end
   object Customers: TAureliusDataset
