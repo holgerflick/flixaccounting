@@ -125,8 +125,6 @@ inherited FrmInvoice: TFrmInvoice
     ModalResult = 1
     TabOrder = 4
     OnClick = btnOKClick
-    ExplicitLeft = 584
-    ExplicitTop = 461
   end
   object btnCancel: TButton
     Left = 494
@@ -139,8 +137,6 @@ inherited FrmInvoice: TFrmInvoice
     ModalResult = 2
     TabOrder = 5
     OnClick = btnCancelClick
-    ExplicitLeft = 463
-    ExplicitTop = 461
   end
   object DBNavigator1: TDBNavigator
     Left = 8
@@ -152,9 +148,9 @@ inherited FrmInvoice: TFrmInvoice
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
   end
-  object DBGrid1: TDBGrid
+  object GridItems: TDBGrid
     Left = 8
-    Top = 98
+    Top = 99
     Width = 722
     Height = 359
     Anchors = [akLeft, akTop, akRight, akBottom]
@@ -165,6 +161,7 @@ inherited FrmInvoice: TFrmInvoice
     TitleFont.Height = -16
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnEditButtonClick = GridItemsEditButtonClick
     Columns = <
       item
         Alignment = taCenter
@@ -190,9 +187,9 @@ inherited FrmInvoice: TFrmInvoice
         Visible = True
       end
       item
+        ButtonStyle = cbsEllipsis
         Expanded = False
         FieldName = 'Title'
-        Title.Caption = 'Description'
         Width = 200
         Visible = True
       end
@@ -297,6 +294,7 @@ inherited FrmInvoice: TFrmInvoice
       Size = 255
     end
     object ItemsTitle: TStringField
+      DisplayLabel = 'Description'
       FieldName = 'Title'
       Required = True
       Size = 255

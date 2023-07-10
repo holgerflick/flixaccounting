@@ -73,9 +73,10 @@ type
     btnOK: TButton;
     btnCancel: TButton;
     DBNavigator1: TDBNavigator;
-    DBGrid1: TDBGrid;
+    GridItems: TDBGrid;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure GridItemsEditButtonClick(Sender: TObject);
   private
     FInvoices: TAureliusDataset;
 
@@ -96,10 +97,15 @@ var
 
 implementation
 uses
+  UFrmEditMemoField,
   UDictionary
   ;
 
 {$R *.dfm}
+
+type
+  THackDBGrid = class(TDBGrid);
+
 
 { TFrmInvoice }
 
@@ -135,6 +141,28 @@ end;
 procedure TFrmInvoice.btnOKClick(Sender: TObject);
 begin
   Post;
+end;
+
+procedure TFrmInvoice.GridItemsEditButtonClick(Sender: TObject);
+begin
+  if GridItems.SelectedField = ItemsTitle then
+  begin
+    var LCurRow := THackDBGrid(GridItems).Row;
+
+
+    var LRect := THackDBGrid(GridItems).CellRect(3, LCurRow);
+
+    LRect := GridItems.ClientToScreen(LRect);
+
+
+    TFrmEditMemoField.Execute(
+        self,
+        sourceItems,
+        'Title',
+        Point( LRect.Left, LRect.Top ),
+        LRect.Right - LRect.Left
+        );
+  end;
 end;
 
 procedure TFrmInvoice.OpenDatasets;

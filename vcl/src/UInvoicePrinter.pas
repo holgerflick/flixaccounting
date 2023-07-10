@@ -39,13 +39,14 @@ type
   public
     constructor Create(AObjManager: TObjectManager);
 
-    procedure Print( AInvoice: TInvoice );
+    procedure Print(AInvoice: TInvoice);
   end;
 
 implementation
 
 uses
-  Winapi.Windows
+    Winapi.Windows
+  , UFrmReportPreview
   ;
 
 
@@ -83,6 +84,7 @@ begin
     raise EArgumentNilException.Create('Invoice cannot be nil.');
   end;
 
+
   LTemplate := TMemoryStream.Create;
   LReport := nil;
   LOutput := nil;
@@ -107,8 +109,7 @@ begin
 
     LXlsFile := TXlsFile.Create(LOutput, True);
 
-    LPdfExport := TFlexCelPdfExport.Create(LXlsFile);
-    LPdfExport.Export('c:\tmp\test.pdf');
+    TFrmReportPreview.Execute( LXlsFile );
   finally
     LXlsFile.Free;
     LPdfExport.Free;
