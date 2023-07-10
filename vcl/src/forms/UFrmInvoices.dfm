@@ -508,6 +508,15 @@ inherited FrmInvoices: TFrmInvoices
     TabOrder = 4
     OnClick = PrintClick
   end
+  object btnPayment: TButton
+    Left = 612
+    Top = 8
+    Width = 145
+    Height = 34
+    Caption = 'Payments'
+    TabOrder = 5
+    OnClick = btnPaymentClick
+  end
   object Invoices: TAureliusDataset
     FieldDefs = <
       item

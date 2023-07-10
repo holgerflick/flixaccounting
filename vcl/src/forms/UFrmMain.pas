@@ -53,7 +53,6 @@ uses
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices
-
   ;
 
 resourcestring
@@ -84,8 +83,6 @@ end;
 procedure TFrmMain.btnDictionaryClick(Sender: TObject);
 begin
   {$IFDEF DEBUG}
-
-
   TDictionaryGenerator.GenerateFile(SDictionaryFile);
   {$ENDIF}
 end;

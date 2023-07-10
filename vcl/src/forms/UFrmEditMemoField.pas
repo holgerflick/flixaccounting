@@ -23,14 +23,13 @@ uses
 
 type
   TFrmEditMemoField = class(TForm)
-    Editor: TDBMemo;
-    procedure FormShow(Sender: TObject);
+    Editor: TMemo;
   private
     { Private declarations }
   public
     { Public declarations }
-    class procedure Execute(AParentForm: TForm; ADataSource: TDataSource;
-        AFieldName: String; AOrigin: TPoint; AWidth: Integer);
+    class procedure Execute(AParentForm: TForm; AField: TField; AOrigin: TPoint;
+        AWidth: Integer);
 
   end;
 
@@ -43,29 +42,36 @@ implementation
 
 { TFrmEditMemoField }
 
-class procedure TFrmEditMemoField.Execute(AParentForm: TForm; ADataSource:
-    TDataSource; AFieldName: String; AOrigin: TPoint; AWidth: Integer);
+class procedure TFrmEditMemoField.Execute(AParentForm: TForm; AField: TField; AOrigin: TPoint; AWidth: Integer);
 begin
   var LFrm := TFrmEditMemoField.Create(AParentForm);
-  if Assigned( AParentForm ) then
-  begin
-    LFrm.Editor.Font := AParentForm.Font;
+  try
+    if Assigned( AParentForm ) then
+    begin
+      LFrm.Editor.Font := AParentForm.Font;
+    end;
+
+
+
+    LFrm.Editor.Lines.Text := AField.AsString;
+
+    LFrm.Left := AOrigin.X;
+    LFrm.Top := AOrigin.Y;
+    LFrm.Width := AWidth * 2;
+    LFrm.Height := 400;
+    LFrm.Caption := AField.DisplayName;
+
+    LFrm.ShowModal;
+
+    if not (AField.DataSet.State in [dsInsert, dsEdit]) then
+    begin
+      AField.DataSet.Edit;
+    end;
+
+    AField.AsString := LFrm.Editor.Lines.Text;
+  finally
+    LFrm.Free;
   end;
-
-  LFrm.Editor.DataField := AFieldName;
-  LFrm.Editor.DataSource := ADataSource;
-
-  LFrm.Left := AOrigin.X;
-  LFrm.Top := AOrigin.Y;
-  LFrm.Width := AWidth * 2;
-  LFrm.Height := 400;
-
-  LFrm.ShowModal;
-end;
-
-procedure TFrmEditMemoField.FormShow(Sender: TObject);
-begin
-  Caption := Editor.Field.DisplayName;
 end;
 
 end.

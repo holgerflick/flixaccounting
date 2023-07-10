@@ -59,8 +59,10 @@ type
     btnModify: TButton;
     btnDelete: TButton;
     Print: TButton;
+    btnPayment: TButton;
     procedure btnModifyClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
+    procedure btnPaymentClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure PrintClick(Sender: TObject);
   private
@@ -70,6 +72,7 @@ type
 
     procedure New;
     procedure PrintCurrent;
+    procedure OpenPayments;
   public
 
   end;
@@ -85,7 +88,7 @@ uses
   , UDictionary
   , UInvoice
   , UInvoicePrinter
-
+  , UFrmPayments
   ;
 
 {$R *.dfm}
@@ -103,6 +106,11 @@ end;
 procedure TFrmInvoices.btnNewClick(Sender: TObject);
 begin
   New;
+end;
+
+procedure TFrmInvoices.btnPaymentClick(Sender: TObject);
+begin
+  OpenPayments;
 end;
 
 procedure TFrmInvoices.FormCreate(Sender: TObject);
@@ -161,6 +169,18 @@ begin
   Invoices.Manager := ObjectManager;
   Invoices.SetSourceList( LInvoices, True );
   Invoices.Open;
+end;
+
+procedure TFrmInvoices.OpenPayments;
+begin
+  var LFrm := TFrmPayments.Create(
+    ObjectManager,
+    sourceInvoices );
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
 end;
 
 procedure TFrmInvoices.PrintClick(Sender: TObject);
