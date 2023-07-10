@@ -11,16 +11,19 @@ object FrmEditMemoField: TFrmEditMemoField
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnShow = FormShow
   TextHeight = 15
-  object Editor: TDBMemo
+  object Editor: TMemo
     Left = 0
     Top = 0
     Width = 485
     Height = 292
     Align = alClient
+    Lines.Strings = (
+      'Editor')
     TabOrder = 0
-    ExplicitWidth = 482
-    ExplicitHeight = 287
+    ExplicitLeft = 176
+    ExplicitTop = 120
+    ExplicitWidth = 185
+    ExplicitHeight = 89
   end
 end

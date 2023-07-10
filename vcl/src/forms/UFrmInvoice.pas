@@ -92,9 +92,6 @@ type
 
   end;
 
-var
-  FrmInvoice: TFrmInvoice;
-
 implementation
 uses
   UFrmEditMemoField,
@@ -157,8 +154,7 @@ begin
 
     TFrmEditMemoField.Execute(
         self,
-        sourceItems,
-        'Title',
+        ItemsTitle,
         Point( LRect.Left, LRect.Top ),
         LRect.Right - LRect.Left
         );

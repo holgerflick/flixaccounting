@@ -142,6 +142,10 @@
             <Form>FrmReportPreview</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\UFrmPayments.pas">
+            <Form>FrmPayments</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
