@@ -17,7 +17,9 @@ uses
   UFrmInvoices in 'forms\UFrmInvoices.pas' {FrmInvoices},
   UFrmInvoice in 'forms\UFrmInvoice.pas' {FrmInvoice},
   UFrmInvoiceGrid in 'recycle\UFrmInvoiceGrid.pas' {FrmBase1},
-  UInvoicePrinter in 'UInvoicePrinter.pas';
+  UInvoicePrinter in 'UInvoicePrinter.pas',
+  UFrmEditMemoField in 'forms\UFrmEditMemoField.pas' {FrmEditMemoField},
+  UFrmReportPreview in 'forms\UFrmReportPreview.pas' {FrmReportPreview};
 
 {$R *.res}
 

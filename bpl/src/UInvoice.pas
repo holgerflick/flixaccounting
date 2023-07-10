@@ -105,8 +105,6 @@ type
     [Association([TAssociationProp.Lazy], CascadeTypeAllButRemove )]
     FCustomer: Proxy<TCustomer>;
 
-    procedure Process;
-
     function GetTotalAmount: Double;
     function GetAmountDue: Double;
     function GetAmountPaid: Double;
@@ -125,6 +123,8 @@ type
   public
     constructor Create;
     destructor  Destroy; override;
+
+    procedure Process;
 
     property Id: Integer read FId write FId;
 
