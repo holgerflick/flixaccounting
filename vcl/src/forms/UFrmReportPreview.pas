@@ -28,7 +28,6 @@ uses
   , UFrmBase
   ;
 
-
 type
   TFrmReportPreview = class(TFrmBase)
     AdvDockPanel1: TAdvDockPanel;
@@ -36,6 +35,7 @@ type
     btnSave: TAdvGlowButton;
     Preview: TFlexCelPreviewer;
     DlgFileSave: TFileSaveDialog;
+    procedure FormDestroy(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -61,6 +61,10 @@ var
 
 implementation
 
+uses
+  UAppSettings
+  ;
+
 {$R *.dfm}
 
 constructor TFrmReportPreview.Create(AXlsFile: TXlsFile);
@@ -76,6 +80,14 @@ end;
 destructor TFrmReportPreview.Destroy;
 begin
   FImgReport.Free;
+
+  inherited;
+end;
+
+procedure TFrmReportPreview.FormDestroy(Sender: TObject);
+begin
+  TAppSettings.Shared.StoreFileSaveDialog(DlgFileSave);
+  TAppSettings.Shared.StoreControl(self);
 
   inherited;
 end;
@@ -103,6 +115,8 @@ begin
   inherited;
 
   Caption := 'Preview';
+  TAppSettings.Shared.RestoreFileSaveDialog(DlgFileSave);
+  TAppSettings.Shared.RestoreControl(self);
 end;
 
 procedure TFrmReportPreview.LoadReport;
