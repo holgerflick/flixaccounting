@@ -11,10 +11,10 @@ object DataManager: TDataManager
     Top = 264
   end
   object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
-    Left = 232
-    Top = 360
+    Left = 320
+    Top = 256
   end
-  object FDConnection1: TFDConnection
+  object FDConnection: TFDConnection
     Params.Strings = (
       'Database=flixllcpl'
       'User_Name=sysdba'

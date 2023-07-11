@@ -30,6 +30,8 @@ type
     procedure StoreFileSaveDialog( ADialog: TFileSaveDialog );
     procedure RestoreFileSaveDialog( ADialog: TFileSaveDialog );
 
+    procedure GetDatabaseParams( AParams: TStringlist );
+
     class function Shared: TAppSettings;
     class destructor Destroy;
 
@@ -58,6 +60,11 @@ begin
 end;
 
 
+procedure TAppSettings.GetDatabaseParams(AParams: TStringlist);
+begin
+  FIniFile.ReadSectionValues('Database', AParams);
+end;
+
 procedure TAppSettings.RestoreControl(AControl: TControl);
 begin
   Assert( Assigned(AControl) );
@@ -77,7 +84,6 @@ begin
   var LSection := ADialog.Name;
 
   ADialog.FileName := FIniFile.ReadString(LSection, 'Filename', ADialog.FileName);
-
 end;
 
 destructor TAppSettings.Destroy;
