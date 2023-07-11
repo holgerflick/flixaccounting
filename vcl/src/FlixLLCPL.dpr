@@ -20,7 +20,8 @@ uses
   UInvoicePrinter in 'UInvoicePrinter.pas',
   UFrmEditMemoField in 'forms\UFrmEditMemoField.pas' {FrmEditMemoField},
   UFrmReportPreview in 'forms\UFrmReportPreview.pas' {FrmReportPreview},
-  UFrmPayments in 'forms\UFrmPayments.pas' {FrmPayments};
+  UFrmPayments in 'forms\UFrmPayments.pas' {FrmPayments},
+  UAppSettings in 'globals\UAppSettings.pas';
 
 {$R *.res}
 
