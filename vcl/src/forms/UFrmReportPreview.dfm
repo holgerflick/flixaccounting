@@ -15,7 +15,7 @@ inherited FrmReportPreview: TFrmReportPreview
     object Toolbar: TAdvToolBar
       Left = 3
       Top = 1
-      Width = 58
+      Width = 705
       Height = 49
       UIStyle = tsOffice2019White
       AllowFloating = False

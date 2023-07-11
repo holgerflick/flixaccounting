@@ -50,7 +50,8 @@ var
 implementation
 
 uses
-  UAppGlobals
+    UAppGlobals
+  , UAppSettings
   ;
 
 {$R *.dfm}
@@ -58,10 +59,13 @@ uses
 procedure TFrmBase.FormDestroy(Sender: TObject);
 begin
   FObjectManager.Free;
+  TAppSettings.Shared.StoreControl(self);
 end;
 
 procedure TFrmBase.FormCreate(Sender: TObject);
 begin
+  TAppSettings.Shared.RestoreControl(self);
+
   if self.Caption = '' then
   begin
     Caption := TAppGlobals.AppFullName;

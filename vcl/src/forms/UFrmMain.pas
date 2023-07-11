@@ -50,6 +50,7 @@ implementation
 
 uses
     UReportManager
+  , UAppSettings
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices

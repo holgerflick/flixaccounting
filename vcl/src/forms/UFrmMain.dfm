@@ -1,18 +1,6 @@
 inherited FrmMain: TFrmMain
   ClientHeight = 441
   ClientWidth = 624
-  CustomTitleBar.BackgroundColor = clWhite
-  CustomTitleBar.ForegroundColor = 65793
-  CustomTitleBar.InactiveBackgroundColor = clWhite
-  CustomTitleBar.InactiveForegroundColor = 10066329
-  CustomTitleBar.ButtonForegroundColor = 65793
-  CustomTitleBar.ButtonBackgroundColor = clWhite
-  CustomTitleBar.ButtonHoverForegroundColor = 65793
-  CustomTitleBar.ButtonHoverBackgroundColor = 16053492
-  CustomTitleBar.ButtonPressedForegroundColor = 65793
-  CustomTitleBar.ButtonPressedBackgroundColor = 15395562
-  CustomTitleBar.ButtonInactiveForegroundColor = 10066329
-  CustomTitleBar.ButtonInactiveBackgroundColor = clWhite
   DoubleBuffered = True
   Font.Height = -12
   StyleElements = [seFont, seClient]
