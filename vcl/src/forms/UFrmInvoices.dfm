@@ -11,7 +11,7 @@ inherited FrmInvoices: TFrmInvoices
     Width = 791
     Height = 483
     Anchors = [akLeft, akTop, akRight, akBottom]
-    ColCount = 7
+    ColCount = 6
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
@@ -249,10 +249,10 @@ inherited FrmInvoices: TFrmInvoices
         CheckTrue = 'Y'
         Color = clWindow
         FieldName = 'Customer.Name'
-        Font.Charset = DEFAULT_CHARSET
+        Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
-        Font.Name = 'Segoe UI'
+        Font.Height = -13
+        Font.Name = 'JetBrains Mono'
         Font.Style = []
         Header = 'Customer'
         HeaderFont.Charset = DEFAULT_CHARSET
@@ -294,33 +294,6 @@ inherited FrmInvoices: TFrmInvoices
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
         Width = 100
-      end
-      item
-        Borders = []
-        BorderPen.Color = clSilver
-        ButtonHeight = 18
-        CheckFalse = 'N'
-        CheckTrue = 'Y'
-        Color = clWindow
-        FieldName = 'AmountDue'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'JetBrains Mono'
-        Font.Style = []
-        Header = 'Unpaid'
-        HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = 3881787
-        HeaderFont.Height = -13
-        HeaderFont.Name = 'Segoe UI'
-        HeaderFont.Style = [fsBold]
-        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-        PrintFont.Charset = DEFAULT_CHARSET
-        PrintFont.Color = clWindowText
-        PrintFont.Height = -12
-        PrintFont.Name = 'Segoe UI'
-        PrintFont.Style = []
-        Width = 90
       end>
     DataSource = sourceInvoices
     EditPostMode = epRow
@@ -467,8 +440,7 @@ inherited FrmInvoices: TFrmInvoices
       90
       90
       199
-      100
-      90)
+      100)
     RowHeights = (
       28
       28)
@@ -498,6 +470,7 @@ inherited FrmInvoices: TFrmInvoices
     Height = 34
     Caption = 'Delete'
     TabOrder = 3
+    OnClick = btnDeleteClick
   end
   object Print: TButton
     Left = 461

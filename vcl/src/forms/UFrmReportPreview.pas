@@ -33,9 +33,10 @@ type
   TFrmReportPreview = class(TFrmBase)
     AdvDockPanel1: TAdvDockPanel;
     Toolbar: TAdvToolBar;
-    btnPdf: TAdvGlowButton;
-    btnXLS: TAdvGlowButton;
+    btnSave: TAdvGlowButton;
     Preview: TFlexCelPreviewer;
+    DlgFileSave: TFileSaveDialog;
+    procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -43,6 +44,10 @@ type
     FXlsFile: TXlsFile;
 
     procedure LoadReport;
+    procedure SaveReport;
+
+    procedure SaveAsExcel(AFilename:String);
+    procedure SaveAsPdf(AFilename:String);
   public
     { Public declarations }
     constructor Create(AXlsFile: TXlsFile); reintroduce;
@@ -75,6 +80,11 @@ begin
   inherited;
 end;
 
+procedure TFrmReportPreview.btnSaveClick(Sender: TObject);
+begin
+  SaveReport;
+end;
+
 class procedure TFrmReportPreview.Execute(AXlsFile: TXlsFile);
 var
   LFrm: TFrmReportPreview;
@@ -102,6 +112,39 @@ begin
   FImgReport := TFlexCelImgExport.Create(FXlsFile);
   Preview.Document := FImgReport;
   Preview.InvalidatePreview;
+end;
+
+procedure TFrmReportPreview.SaveAsExcel(AFilename: String);
+begin
+  FXlsFile.Save(AFilename, TFileFormats.Xlsx);
+end;
+
+procedure TFrmReportPreview.SaveAsPdf(AFilename: String);
+var
+  LExporter: TFlexCelPdfExport;
+
+begin
+  LExporter := TFlexCelPdfExport.Create(FXlsFile, True);
+  try
+    LExporter.Export(AFilename);
+  finally
+    LExporter.Free;
+  end;
+end;
+
+procedure TFrmReportPreview.SaveReport;
+begin
+  if DlgFileSave.Execute then
+  begin
+    if ExtractFileExt(DlgFileSave.FileName) = '.pdf' then
+    begin
+      SaveAsPdf(DlgFileSave.FileName);
+    end;
+    if ExtractFileExt(DlgFileSave.FileName) = '.xlsx' then
+    begin
+      SaveAsExcel(DlgFileSave.FileName);
+    end;
+  end;
 end;
 
 end.

@@ -60,6 +60,7 @@ type
     btnDelete: TButton;
     Print: TButton;
     btnPayment: TButton;
+    procedure btnDeleteClick(Sender: TObject);
     procedure btnModifyClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
     procedure btnPaymentClick(Sender: TObject);
@@ -73,6 +74,7 @@ type
     procedure New;
     procedure PrintCurrent;
     procedure OpenPayments;
+    procedure Delete;
   public
 
   end;
@@ -93,13 +95,29 @@ uses
 
 {$R *.dfm}
 
+procedure TFrmInvoices.btnDeleteClick(Sender: TObject);
+begin
+  Delete;
+end;
+
 procedure TFrmInvoices.btnModifyClick(Sender: TObject);
 begin
-  var LFrm := TFrmInvoice.Create( self, ObjectManager, sourceInvoices );
-  try
-    LFrm.ShowModal;
-  finally
-    LFrm.Free;
+  if InvoicesCanModify.AsBoolean then
+  begin
+    var LFrm := TFrmInvoice.Create( self, ObjectManager, sourceInvoices );
+    try
+      LFrm.ShowModal;
+    finally
+      LFrm.Free;
+    end;
+  end
+  else
+  begin
+    MessageDlg(
+      'Invoice cannot be modified. Payments or transactions already exist.',
+      mtError,
+      [mbOK], 0 );
+
   end;
 end;
 
@@ -111,6 +129,28 @@ end;
 procedure TFrmInvoices.btnPaymentClick(Sender: TObject);
 begin
   OpenPayments;
+end;
+
+procedure TFrmInvoices.Delete;
+begin
+  if InvoicesCanModify.AsBoolean then
+  begin
+    if MessageDlg('Do you really want to delete this invoice?',
+      mtInformation, [mbYes, mbNo], 0 ) = mrYes then
+    begin
+      if Invoices.State in dsEditModes then
+      begin
+        Invoices.Cancel;
+      end;
+
+      Invoices.Delete;
+    end;
+  end
+  else
+  begin
+    MessageDlg('Invoice cannot be deleted from system. Transactions or payments have already been processed.',
+      mtError, [mbOK], 0 );
+  end;
 end;
 
 procedure TFrmInvoices.FormCreate(Sender: TObject);
