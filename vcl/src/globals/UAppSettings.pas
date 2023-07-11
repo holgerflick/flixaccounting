@@ -30,7 +30,7 @@ type
     procedure StoreFileSaveDialog( ADialog: TFileSaveDialog );
     procedure RestoreFileSaveDialog( ADialog: TFileSaveDialog );
 
-    procedure GetDatabaseParams( AParams: TStringlist );
+    procedure GetDatabaseParams( AParams: TStrings );
 
     class function Shared: TAppSettings;
     class destructor Destroy;
@@ -60,9 +60,23 @@ begin
 end;
 
 
-procedure TAppSettings.GetDatabaseParams(AParams: TStringlist);
+procedure TAppSettings.GetDatabaseParams(AParams: TStrings);
+var
+  LParams: TStrings;
+
 begin
-  FIniFile.ReadSectionValues('Database', AParams);
+  LParams := TStringlist.Create;
+  try
+    FIniFile.ReadSectionValues('Database', LParams);
+
+    LParams.Text := LParams.Text.Replace('{APP}', TPath.GetLibraryPath );
+    LParams.Text := LParams.Text.Replace('{HOME}', TPath.GetHomePath );
+    LParams.Text := LParams.Text.Replace('{DOCUMENTS}', TPath.GetDocumentsPath );
+
+    AParams.Text := LParams.Text;
+  finally
+    LParams.Free;
+  end;
 end;
 
 procedure TAppSettings.RestoreControl(AControl: TControl);

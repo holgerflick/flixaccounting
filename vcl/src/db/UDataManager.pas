@@ -69,6 +69,10 @@ var
   DataManager: TDataManager;
 
 implementation
+uses
+  UAppSettings
+  ;
+
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -89,8 +93,10 @@ end;
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
-  Connection.Params.Values['Database'] :=
-    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+//  Connection.Params.Values['Database'] :=
+//    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
+
+  TAppSettings.Shared.GetDatabaseParams(Connection.Params);
 
   // set difference encoding for dates
   var LSQLiteGenerator := TSQLiteSQLGenerator.Create;
