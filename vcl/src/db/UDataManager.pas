@@ -42,7 +42,7 @@ type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
     FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
-    FDConnection1: TFDConnection;
+    FDConnection: TFDConnection;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
