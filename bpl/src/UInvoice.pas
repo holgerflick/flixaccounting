@@ -214,12 +214,16 @@ end;
 
 function TInvoice.GetCanBeProcessed: Boolean;
 begin
-  Result := (AmountDue = 0) and (TotalAmount>0) and (Transactions.Count=0)
+  Result :=
+    (AmountDue = 0) and
+    (TotalAmount>0) and
+    (Transactions.Count=0) and
+    (Payments.Count>0);
 end;
 
 function TInvoice.GetCanModify: Boolean;
 begin
-  Result := Transactions.Count = 0;
+  Result := (Transactions.Count = 0) AND (Payments.Count = 0);
 end;
 
 function TInvoice.GetCustomer: TCustomer;

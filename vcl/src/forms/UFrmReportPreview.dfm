@@ -15,7 +15,7 @@ inherited FrmReportPreview: TFrmReportPreview
     object Toolbar: TAdvToolBar
       Left = 3
       Top = 1
-      Width = 103
+      Width = 58
       Height = 49
       UIStyle = tsOffice2019White
       AllowFloating = False
@@ -34,12 +34,12 @@ inherited FrmReportPreview: TFrmReportPreview
       TextOptionMenu = 'Options'
       ParentOptionPicture = True
       ToolBarIndex = -1
-      object btnPdf: TAdvGlowButton
+      object btnSave: TAdvGlowButton
         Left = 9
         Top = 2
         Width = 45
         Height = 45
-        Caption = 'PDF'
+        Caption = 'Save'
         FocusType = ftHot
         NotesFont.Charset = DEFAULT_CHARSET
         NotesFont.Color = clWindowText
@@ -47,42 +47,8 @@ inherited FrmReportPreview: TFrmReportPreview
         NotesFont.Name = 'Tahoma'
         NotesFont.Style = []
         Rounded = True
-        TabOrder = 1
-        Appearance.Color = clWhite
-        Appearance.ColorTo = clWhite
-        Appearance.ColorChecked = 16111818
-        Appearance.ColorCheckedTo = 16367008
-        Appearance.ColorDisabled = 15921906
-        Appearance.ColorDisabledTo = 15921906
-        Appearance.ColorDown = 16111818
-        Appearance.ColorDownTo = 16367008
-        Appearance.ColorHot = 16117985
-        Appearance.ColorHotTo = 16372402
-        Appearance.ColorMirror = clSilver
-        Appearance.ColorMirrorTo = clWhite
-        Appearance.ColorMirrorHot = 16107693
-        Appearance.ColorMirrorHotTo = 16775412
-        Appearance.ColorMirrorDown = 16102556
-        Appearance.ColorMirrorDownTo = 16768988
-        Appearance.ColorMirrorChecked = 16102556
-        Appearance.ColorMirrorCheckedTo = 16768988
-        Appearance.ColorMirrorDisabled = 11974326
-        Appearance.ColorMirrorDisabledTo = 15921906
-      end
-      object btnXLS: TAdvGlowButton
-        Left = 54
-        Top = 2
-        Width = 45
-        Height = 45
-        Caption = 'XLS'
-        FocusType = ftHot
-        NotesFont.Charset = DEFAULT_CHARSET
-        NotesFont.Color = clWindowText
-        NotesFont.Height = -11
-        NotesFont.Name = 'Tahoma'
-        NotesFont.Style = []
-        Rounded = True
-        TabOrder = 2
+        TabOrder = 0
+        OnClick = btnSaveClick
         Appearance.Color = clWhite
         Appearance.ColorTo = clWhite
         Appearance.ColorChecked = 16111818
@@ -118,5 +84,24 @@ inherited FrmReportPreview: TFrmReportPreview
     Zoom = 1.000000000000000000
     Align = alClient
     TabOrder = 1
+  end
+  object DlgFileSave: TFileSaveDialog
+    DefaultExtension = 'pdf'
+    FavoriteLinks = <>
+    FileName = 'C:\dev\FlixLLCPL\vcl\src\forms'
+    FileTypes = <
+      item
+        DisplayName = 'Adobe PDF Document (*.pdf)'
+        FileMask = '*.pdf'
+      end
+      item
+        DisplayName = 'Microsoft Excel (*.xlsx)'
+        FileMask = '*.xlsx'
+      end>
+    OkButtonLabel = 'Save'
+    Options = [fdoOverWritePrompt, fdoPathMustExist]
+    Title = 'Save report to disk'
+    Left = 168
+    Top = 64
   end
 end
