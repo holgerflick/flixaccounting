@@ -26,7 +26,7 @@ uses
 
 type
   TFrmMain = class(TFrmBase)
-    btnExpenses: TButton;
+    btnTransactions: TButton;
     btnCreateDatabase: TButton;
     btnReportEndOfYear: TButton;
     btnCustomers: TButton;
@@ -35,7 +35,7 @@ type
     procedure btnCreateDatabaseClick(Sender: TObject);
     procedure btnCustomersClick(Sender: TObject);
     procedure btnDictionaryClick(Sender: TObject);
-    procedure btnExpensesClick(Sender: TObject);
+    procedure btnTransactionsClick(Sender: TObject);
     procedure btnInvoicesClick(Sender: TObject);
   private
 
@@ -88,7 +88,7 @@ begin
   {$ENDIF}
 end;
 
-procedure TFrmMain.btnExpensesClick(Sender: TObject);
+procedure TFrmMain.btnTransactionsClick(Sender: TObject);
 begin
   var LFrm := TFrmTransactions.Create(self);
   try

@@ -48,6 +48,7 @@ type
     btnPayOff: TButton;
     txtDue: TLabel;
     procedure btnPayOffClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sourcePaymentsDataChange(Sender: TObject; Field: TField);
     procedure sourcePaymentsStateChange(Sender: TObject);
   private
@@ -89,6 +90,7 @@ begin
 
   Payments.Close;
   Payments.DatasetField := FDataSet.FieldByName('Payments') as TDatasetField;
+  Payments.DefaultsFromObject := True;
   Payments.Open;
 
 
@@ -105,6 +107,14 @@ begin
   PaymentsPaidOn.AsDateTime := TDateTime.Today;
   PaymentsAmount.AsFloat := FAmountDue;
   Payments.Post;
+end;
+
+procedure TFrmPayments.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if Payments.State in dsEditModes then
+  begin
+    Payments.Post;
+  end;
 end;
 
 procedure TFrmPayments.sourcePaymentsDataChange(Sender: TObject; Field: TField);

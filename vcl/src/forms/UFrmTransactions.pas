@@ -33,7 +33,7 @@ uses
   , BaseGrid
   , DBAdvGrid
 
-  , UTransaction
+  , UTransaction, Vcl.DBCtrls
 
   ;
 
@@ -61,6 +61,7 @@ type
     popTxKind: TPopupMenu;
     menTxKindIncome: TMenuItem;
     menTxKindExpenses: TMenuItem;
+    DBNavigator1: TDBNavigator;
     procedure btnImportClick(Sender: TObject);
     procedure dbTransactionsPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
@@ -74,7 +75,7 @@ type
     { Private declarations }
     function GetFilterTxKind: TTransactionKind;
 
-    procedure ImportFromFolder;
+    procedure ImportFromFolder(AKind: TTransactionKind);
     procedure OpenDataset;
   public
     { Public declarations }
@@ -128,7 +129,7 @@ begin
   OpenDataset;
 end;
 
-procedure TFrmTransactions.ImportFromFolder;
+procedure TFrmTransactions.ImportFromFolder( AKind: TTransactionKind );
 var
   LPath: String;
 
@@ -138,7 +139,7 @@ begin
     LPath := DlgOpen.FileName;
     var LImport := TDataImportManager.Create(self.ObjectManager);
     try
-      LImport.ImportTransactionsFromFolder(TTransactionKind.Expense, LPath);
+      LImport.ImportTransactionsFromFolder(AKind, LPath);
 
       // show report only if there are errors or duplicates
       if LImport.HasNoErrors = False then
@@ -189,7 +190,9 @@ end;
 
 procedure TFrmTransactions.menTxKindExpensesClick(Sender: TObject);
 begin
-  ImportFromFolder;
+  Assert(Sender is TMenuItem);
+
+  ImportFromFolder(TTransactionKind(TMenuItem(Sender).Tag));
 end;
 
 procedure TFrmTransactions.rbFilterKindClick(Sender: TObject);

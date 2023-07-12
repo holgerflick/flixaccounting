@@ -7,14 +7,14 @@ inherited FrmMain: TFrmMain
   ExplicitWidth = 640
   ExplicitHeight = 480
   TextHeight = 15
-  object btnExpenses: TButton
+  object btnTransactions: TButton
     Left = 8
     Top = 16
     Width = 209
     Height = 73
     Caption = 'Transactions'
     TabOrder = 0
-    OnClick = btnExpensesClick
+    OnClick = btnTransactionsClick
   end
   object btnCreateDatabase: TButton
     Left = 431

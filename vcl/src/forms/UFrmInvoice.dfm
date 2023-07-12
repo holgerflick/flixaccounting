@@ -226,6 +226,17 @@ inherited FrmInvoice: TFrmInvoice
         Visible = True
       end>
   end
+  object btnQuickItem: TButton
+    Left = 8
+    Top = 464
+    Width = 129
+    Height = 33
+    Anchors = [akRight, akBottom]
+    Cancel = True
+    Caption = '&Quick Item...'
+    TabOrder = 8
+    OnClick = btnQuickItemClick
+  end
   object Items: TAureliusDataset
     FieldDefs = <
       item

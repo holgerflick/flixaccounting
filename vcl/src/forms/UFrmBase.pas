@@ -24,9 +24,11 @@ uses
 
 type
   TFrmBase = class(TForm)
-    procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+
   private
+    FOwnsObjectManager: Boolean;
 
   protected
     FObjectManager: TObjectManager;
@@ -36,12 +38,13 @@ type
     procedure SetObjectManager(const Value: TObjectManager);
 
   public
-
     property ObjectManager: TObjectManager
       read GetObjectManager write SetObjectManager;
 
     property DataManager: TDataManager
       read FDataManager write FDataManager;
+
+    property OwnsObjectManager: Boolean read FOwnsObjectManager;
   end;
 
 var
@@ -56,14 +59,12 @@ uses
 
 {$R *.dfm}
 
-procedure TFrmBase.FormDestroy(Sender: TObject);
-begin
-  FObjectManager.Free;
-  TAppSettings.Shared.StoreControl(self);
-end;
+
 
 procedure TFrmBase.FormCreate(Sender: TObject);
 begin
+  inherited;
+
   TAppSettings.Shared.RestoreControl(self);
 
   if self.Caption = '' then
@@ -73,13 +74,30 @@ begin
 
   FDataManager := TDataManager.Shared;
   FObjectManager := nil;
+
+  FOwnsObjectManager := False;
 end;
+
+procedure TFrmBase.FormDestroy(Sender: TObject);
+begin
+ if FOwnsObjectManager then
+  begin
+    FObjectManager.Free;
+  end;
+
+  TAppSettings.Shared.StoreControl(self);
+
+  inherited;
+end;
+
+
 
 function TFrmBase.GetObjectManager: TObjectManager;
 begin
   if not Assigned( FObjectManager ) then
   begin
     FObjectManager := DataManager.ObjectManager;
+    FOwnsObjectManager := True;
   end;
 
   Result := FObjectManager;
@@ -91,6 +109,7 @@ begin
   begin
     FObjectManager.Free;
     FObjectManager := Value;
+    FOwnsObjectManager := False;
   end;
 end;
 

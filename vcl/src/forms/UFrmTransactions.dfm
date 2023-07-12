@@ -8,9 +8,9 @@ inherited FrmTransactions: TFrmTransactions
   TextHeight = 21
   object Expenses: TDBAdvGrid
     Left = 8
-    Top = 63
+    Top = 55
     Width = 999
-    Height = 534
+    Height = 542
     Anchors = [akLeft, akTop, akRight, akBottom]
     ColCount = 9
     DefaultRowHeight = 28
@@ -29,6 +29,7 @@ inherited FrmTransactions: TFrmTransactions
     ActiveCellFont.Style = [fsBold]
     ActiveCellColor = 11565130
     ActiveCellColorTo = 11565130
+    AutoThemeAdapt = True
     BorderColor = 11250603
     ControlLook.FixedGradientFrom = clWhite
     ControlLook.FixedGradientTo = clWhite
@@ -547,10 +548,11 @@ inherited FrmTransactions: TFrmTransactions
       28)
   end
   object btnImport: TButton
-    Left = 279
-    Top = 16
-    Width = 185
+    Left = 861
+    Top = 8
+    Width = 146
     Height = 41
+    Anchors = [akTop, akRight]
     Caption = 'Import'
     DoubleBuffered = True
     DropDownMenu = popTxKind
@@ -562,17 +564,34 @@ inherited FrmTransactions: TFrmTransactions
   object rbFilterKind: TRadioGroup
     Left = 8
     Top = 8
-    Width = 265
-    Height = 49
+    Width = 257
+    Height = 41
     Caption = 'Show Transactions'
     Columns = 3
+    DefaultHeaderFont = False
+    HeaderFont.Charset = ANSI_CHARSET
+    HeaderFont.Color = clWindowText
+    HeaderFont.Height = -13
+    HeaderFont.Name = 'Segoe UI Semibold'
+    HeaderFont.Style = [fsBold]
     ItemIndex = 1
     Items.Strings = (
       '&Income'
       '&Expense'
       '&All')
+    ShowFrame = False
     TabOrder = 2
     OnClick = rbFilterKindClick
+  end
+  object DBNavigator1: TDBNavigator
+    Left = 232
+    Top = 23
+    Width = 594
+    Height = 25
+    DataSource = sourceTransactions
+    VisibleButtons = [nbFirst, nbLast, nbInsert, nbDelete, nbPost, nbCancel]
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 3
   end
   object dbTransactions: TAureliusDataset
     FieldDefs = <
@@ -725,12 +744,14 @@ inherited FrmTransactions: TFrmTransactions
     Top = 424
   end
   object popTxKind: TPopupMenu
-    Left = 448
-    Top = 32
+    Left = 328
+    Top = 96
     object menTxKindIncome: TMenuItem
       Caption = 'Income'
+      OnClick = menTxKindExpensesClick
     end
     object menTxKindExpenses: TMenuItem
+      Tag = 1
       Caption = 'Expenses'
       OnClick = menTxKindExpensesClick
     end

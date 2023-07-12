@@ -22,7 +22,8 @@ uses
   UFrmReportPreview in 'forms\UFrmReportPreview.pas' {FrmReportPreview},
   UFrmPayments in 'forms\UFrmPayments.pas' {FrmPayments},
   UAppSettings in 'globals\UAppSettings.pas',
-  UInvoiceProcessor in 'UInvoiceProcessor.pas';
+  UInvoiceProcessor in 'UInvoiceProcessor.pas',
+  UFrmQuickItems in 'forms\UFrmQuickItems.pas' {FrmQuickItems};
 
 {$R *.res}
 
