@@ -45,6 +45,7 @@ type
     function Number: TLinqProjection;
     function IssuedOn: TLinqProjection;
     function DueOn: TLinqProjection;
+    function ProcessedCopy: TLinqProjection;
     function Items: IInvoiceItemDictionary;
     function Payments: IInvoicePaymentDictionary;
     function Transactions: ITransactionDictionary;
@@ -102,6 +103,7 @@ type
     function Number: TLinqProjection;
     function IssuedOn: TLinqProjection;
     function DueOn: TLinqProjection;
+    function ProcessedCopy: TLinqProjection;
     function Items: IInvoiceItemDictionary;
     function Payments: IInvoicePaymentDictionary;
     function Transactions: ITransactionDictionary;
@@ -236,6 +238,11 @@ end;
 function TInvoiceDictionary.DueOn: TLinqProjection;
 begin
   Result := Prop('DueOn');
+end;
+
+function TInvoiceDictionary.ProcessedCopy: TLinqProjection;
+begin
+  Result := Prop('ProcessedCopy');
 end;
 
 function TInvoiceDictionary.Items: IInvoiceItemDictionary;
