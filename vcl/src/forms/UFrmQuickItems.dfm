@@ -1,26 +1,26 @@
 inherited FrmQuickItems: TFrmQuickItems
   BorderStyle = bsSizeToolWin
   Caption = 'Quick Items'
-  ClientHeight = 372
-  ClientWidth = 671
-  OnClose = FormClose
-  ExplicitWidth = 687
-  ExplicitHeight = 411
+  ClientHeight = 385
+  ClientWidth = 698
+  ExplicitWidth = 714
+  ExplicitHeight = 424
   TextHeight = 21
   object Splitter1: TSplitter
     Left = 0
-    Top = 243
-    Width = 671
+    Top = 225
+    Width = 698
     Height = 5
     Cursor = crVSplit
     Align = alTop
+    ExplicitTop = 243
     ExplicitWidth = 723
   end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 25
-    Width = 671
-    Height = 218
+    Top = 41
+    Width = 698
+    Height = 184
     Align = alTop
     DataSource = sourceItems
     Font.Charset = ANSI_CHARSET
@@ -35,6 +35,7 @@ inherited FrmQuickItems: TFrmQuickItems
     TitleFont.Height = -16
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
     Columns = <
       item
         Expanded = False
@@ -59,30 +60,54 @@ inherited FrmQuickItems: TFrmQuickItems
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator
-    Left = 0
-    Top = 0
-    Width = 671
-    Height = 25
-    DataSource = sourceItems
-    Align = alTop
-    TabOrder = 1
-    ExplicitTop = -6
-    ExplicitWidth = 723
-  end
   object DBMemo1: TDBMemo
     Left = 0
-    Top = 248
-    Width = 671
-    Height = 124
+    Top = 230
+    Width = 698
+    Height = 155
     Align = alClient
     DataField = 'Description'
     DataSource = sourceItems
-    TabOrder = 2
+    TabOrder = 1
     ExplicitLeft = 232
     ExplicitTop = 263
     ExplicitWidth = 185
     ExplicitHeight = 89
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 698
+    Height = 41
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitLeft = -8
+    ExplicitWidth = 671
+    DesignSize = (
+      698
+      41)
+    object DBNavigator1: TDBNavigator
+      Left = 0
+      Top = 8
+      Width = 540
+      Height = 25
+      DataSource = sourceItems
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 0
+      ExplicitWidth = 520
+    end
+    object btnUse: TButton
+      Left = 553
+      Top = 9
+      Width = 135
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Use item'
+      TabOrder = 1
+      OnClick = btnUseClick
+      ExplicitLeft = 526
+    end
   end
   object Items: TAureliusDataset
     FieldDefs = <

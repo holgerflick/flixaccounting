@@ -74,8 +74,10 @@ type
     btnCancel: TButton;
     DBNavigator1: TDBNavigator;
     GridItems: TDBGrid;
+    btnQuickItem: TButton;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure btnQuickItemClick(Sender: TObject);
     procedure GridItemsEditButtonClick(Sender: TObject);
   private
     FInvoices: TAureliusDataset;
@@ -84,6 +86,8 @@ type
 
     procedure Post;
     procedure Cancel;
+
+    procedure QuickItems;
 
   public
     { Public declarations }
@@ -94,8 +98,9 @@ type
 
 implementation
 uses
-  UFrmEditMemoField,
-  UDictionary
+    UFrmQuickItems
+  , UFrmEditMemoField
+  , UDictionary
   ;
 
 {$R *.dfm}
@@ -119,7 +124,7 @@ constructor TFrmInvoice.Create(AOwner: TComponent; AObjManager: TObjectManager;
 begin
   inherited Create( AOwner );
 
-  FObjectManager := AObjManager;
+  ObjectManager := AObjManager;
   FInvoices := ADataSource.DataSet as TAureliusDataSet;
 
   cbCustomer.DataSource := ADataSource;
@@ -138,6 +143,11 @@ end;
 procedure TFrmInvoice.btnOKClick(Sender: TObject);
 begin
   Post;
+end;
+
+procedure TFrmInvoice.btnQuickItemClick(Sender: TObject);
+begin
+  QuickItems;
 end;
 
 procedure TFrmInvoice.GridItemsEditButtonClick(Sender: TObject);
@@ -180,6 +190,37 @@ begin
   if FInvoices.State in dsEditModes then
   begin
     FInvoices.Post;
+  end;
+end;
+
+procedure TFrmInvoice.QuickItems;
+var
+  LFrm: TFrmQuickItems;
+
+begin
+  if not (Items.State in dsEditModes) then
+  begin
+    Items.Cancel;
+  end;
+
+  LFrm := TFrmQuickItems.Create(ObjectManager);
+  try
+    var LQuickItem := LFrm.Execute;
+    if Assigned( LQuickItem ) then
+    begin
+      // determine next number
+      var LNext := FInvoices.Current<TInvoice>.NextItemIndex;
+
+      Items.Append;
+      Items.FieldByName('Idx').AsInteger := LNext;
+      ItemsTitle.AsString := LQuickItem.Description;
+      ItemsCategory.AsString := LQuickItem.Category;
+      ItemsQuantity.AsFloat := LQuickItem.Quantity;
+      ItemsValue.AsFloat := LQuickItem.Value;
+      Items.Post;
+    end;
+  finally
+    LFrm.Free;
   end;
 end;
 

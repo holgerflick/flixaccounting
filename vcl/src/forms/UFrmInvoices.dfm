@@ -462,8 +462,6 @@ inherited FrmInvoices: TFrmInvoices
       80000001C0000003C0000003E0000007F000000FF800001FFC00003FFF0000FF
       FFC003FF}
     ShowUnicode = False
-    ExplicitWidth = 791
-    ExplicitHeight = 483
     ColWidths = (
       20
       52
@@ -481,54 +479,48 @@ inherited FrmInvoices: TFrmInvoices
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'New'
+    Action = actInvoiceNew
     TabOrder = 1
-    OnClick = btnNewClick
   end
   object btnModify: TButton
     Left = 159
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'Modify'
+    Action = actInvoiceModify
     TabOrder = 2
-    OnClick = btnModifyClick
   end
   object btnDelete: TButton
     Left = 310
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'Delete'
+    Action = actInvoiceDelete
     TabOrder = 3
-    OnClick = btnDeleteClick
   end
   object Print: TButton
     Left = 461
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'Print'
+    Action = actInvoicePrint
     TabOrder = 4
-    OnClick = PrintClick
   end
   object btnPayment: TButton
     Left = 612
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'Payments'
+    Action = actInvoicePayments
     TabOrder = 5
-    OnClick = btnPaymentClick
   end
   object btnProcess: TButton
     Left = 763
     Top = 8
     Width = 145
     Height = 34
-    Caption = 'Process'
+    Action = actInvoiceProcess
     TabOrder = 6
-    OnClick = btnProcessClick
   end
   object Invoices: TAureliusDataset
     FieldDefs = <
@@ -707,5 +699,45 @@ inherited FrmInvoices: TFrmInvoices
     DataSet = Invoices
     Left = 224
     Top = 448
+  end
+  object ActionList1: TActionList
+    Left = 272
+    Top = 280
+    object actInvoiceNew: TAction
+      Caption = 'New'
+      Enabled = False
+      OnExecute = actInvoiceNewExecute
+      OnUpdate = actInvoiceNewUpdate
+    end
+    object actInvoiceModify: TAction
+      Caption = 'Modify'
+      Enabled = False
+      OnExecute = actInvoiceModifyExecute
+      OnUpdate = actInvoiceModifyUpdate
+    end
+    object actInvoiceDelete: TAction
+      Caption = 'Delete'
+      Enabled = False
+      OnExecute = actInvoiceDeleteExecute
+      OnUpdate = actInvoiceDeleteUpdate
+    end
+    object actInvoicePrint: TAction
+      Caption = 'Print'
+      Enabled = False
+      OnExecute = actInvoicePrintExecute
+      OnUpdate = actInvoicePrintUpdate
+    end
+    object actInvoicePayments: TAction
+      Caption = 'Payments'
+      Enabled = False
+      OnExecute = actInvoicePaymentsExecute
+      OnUpdate = actInvoicePaymentsUpdate
+    end
+    object actInvoiceProcess: TAction
+      Caption = 'Process'
+      Enabled = False
+      OnExecute = actInvoiceProcessExecute
+      OnUpdate = actInvoiceProcessUpdate
+    end
   end
 end

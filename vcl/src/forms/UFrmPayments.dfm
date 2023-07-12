@@ -2,6 +2,7 @@ inherited FrmPayments: TFrmPayments
   Caption = 'FrmPayments'
   ClientHeight = 410
   ClientWidth = 704
+  OnClose = FormClose
   ExplicitWidth = 720
   ExplicitHeight = 449
   TextHeight = 21

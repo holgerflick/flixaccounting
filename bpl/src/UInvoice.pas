@@ -26,7 +26,7 @@ type
   TInvoice = class;
 
   [Automapping]
-  TInvoiceStatus = ( ReadyItems, ReadyPayments, ReadyProcess, Processed );
+  TInvoiceStatus = ( ReadyItems, ReadyPayments, ReadyProcess, Processed, Overpaid );
 
 
 
@@ -42,10 +42,10 @@ type
 
     FId: Integer;
   public
+    constructor Create;
+
     property Id: Integer read FId write FId;
-
     property Invoice: TInvoice read FInvoice write FInvoice;
-
     property PaidOn: TDate read FPaidOn write FPaidOn;
     property Amount: Double read FAmount write FAmount;
   end;
@@ -158,6 +158,8 @@ type
   public
     constructor Create;
     destructor  Destroy; override;
+
+    function NextItemIndex: Integer;
 
     property Id: Integer read FId write FId;
 
@@ -291,13 +293,20 @@ begin
     end
     else
     begin
-      if self.Transactions.Count=0 then
+      if self.AmountDue < 0 then
       begin
-        Result := TInvoiceStatus.ReadyProcess;
+        Result := TInvoiceStatus.Overpaid;
       end
       else
       begin
-        Result := TInvoiceStatus.Processed;
+        if self.Transactions.Count=0 then
+        begin
+          Result := TInvoiceStatus.ReadyProcess;
+        end
+        else
+        begin
+          Result := TInvoiceStatus.Processed;
+        end;
       end;
     end;
   end;
@@ -310,6 +319,7 @@ begin
     TInvoiceStatus.ReadyPayments: Result := 'Make payments';
     TInvoiceStatus.ReadyProcess: Result := 'Ready to process';
     TInvoiceStatus.Processed: Result := 'Processed';
+    TInvoiceStatus.Overpaid: Result := 'Overpaid';
   end;
 end;
 
@@ -325,6 +335,23 @@ end;
 function TInvoice.GetTransactions: TTransactions;
 begin
   Result := FTransactions.Value;
+end;
+
+function TInvoice.NextItemIndex: Integer;
+var
+  LMax: Integer;
+
+begin
+  LMax := 1;
+  for var LItem in self.Items do
+  begin
+    if LItem.Idx > LMax then
+    begin
+      LMax := LItem.Idx+1;
+    end;
+  end;
+
+  Result := LMax;
 end;
 
 procedure TInvoice.SetCustomer(const Value: TCustomer);
@@ -367,6 +394,13 @@ begin
       end;
     end;
   end;
+end;
+
+{ TInvoicePayment }
+
+constructor TInvoicePayment.Create;
+begin
+  FPaidOn := TDateTime.Today;
 end;
 
 initialization

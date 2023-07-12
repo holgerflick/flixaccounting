@@ -30,7 +30,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
+  , UFrmBase, System.Actions, Vcl.ActnList
   ;
 
 
@@ -64,13 +64,26 @@ type
     InvoicesStatus: TIntegerField;
     InvoicesStatusText: TStringField;
     btnProcess: TButton;
-    procedure btnDeleteClick(Sender: TObject);
-    procedure btnModifyClick(Sender: TObject);
-    procedure btnNewClick(Sender: TObject);
-    procedure btnPaymentClick(Sender: TObject);
-    procedure btnProcessClick(Sender: TObject);
+    ActionList1: TActionList;
+    actInvoiceNew: TAction;
+    actInvoiceModify: TAction;
+    actInvoiceDelete: TAction;
+    actInvoicePrint: TAction;
+    actInvoicePayments: TAction;
+    actInvoiceProcess: TAction;
+    procedure actInvoiceDeleteExecute(Sender: TObject);
+    procedure actInvoiceDeleteUpdate(Sender: TObject);
+    procedure actInvoiceModifyExecute(Sender: TObject);
+    procedure actInvoiceModifyUpdate(Sender: TObject);
+    procedure actInvoiceNewExecute(Sender: TObject);
+    procedure actInvoiceNewUpdate(Sender: TObject);
+    procedure actInvoicePaymentsExecute(Sender: TObject);
+    procedure actInvoicePaymentsUpdate(Sender: TObject);
+    procedure actInvoicePrintExecute(Sender: TObject);
+    procedure actInvoicePrintUpdate(Sender: TObject);
+    procedure actInvoiceProcessExecute(Sender: TObject);
+    procedure actInvoiceProcessUpdate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure PrintClick(Sender: TObject);
   private
     procedure OpenDataset;
 
@@ -81,6 +94,7 @@ type
     procedure OpenPayments;
     procedure Delete;
     procedure Process;
+    procedure Modify;
   public
 
   end;
@@ -103,66 +117,127 @@ uses
 
 {$R *.dfm}
 
-procedure TFrmInvoices.btnDeleteClick(Sender: TObject);
+procedure TFrmInvoices.actInvoiceDeleteExecute(Sender: TObject);
 begin
   Delete;
 end;
 
-procedure TFrmInvoices.btnModifyClick(Sender: TObject);
-begin
-  if InvoicesCanModify.AsBoolean then
-  begin
-    var LFrm := TFrmInvoice.Create( self, ObjectManager, sourceInvoices );
-    try
-      LFrm.ShowModal;
-    finally
-      LFrm.Free;
-    end;
-  end
-  else
-  begin
-    MessageDlg(
-      'Invoice cannot be modified. Payments or transactions already exist.',
-      mtError,
-      [mbOK], 0 );
+procedure TFrmInvoices.actInvoiceDeleteUpdate(Sender: TObject);
+var
+  LResult: Boolean;
+  LCurrent: TInvoice;
 
+begin
+  LCurrent := Invoices.Current<TInvoice>;
+  LResult := LCurrent <> nil;
+
+  if LResult then
+  begin
+    LResult := LCurrent.Status <> TInvoiceStatus.Processed;
   end;
+
+  actInvoiceDelete.Enabled := LResult;
 end;
 
-procedure TFrmInvoices.btnNewClick(Sender: TObject);
+procedure TFrmInvoices.actInvoiceModifyExecute(Sender: TObject);
+begin
+  Modify;
+end;
+
+procedure TFrmInvoices.actInvoiceModifyUpdate(Sender: TObject);
+var
+  LResult: Boolean;
+  LCurrent: TInvoice;
+begin
+  LCurrent := Invoices.Current<TInvoice>;
+  LResult := LCurrent <> nil;
+
+  if LResult then
+  begin
+    LResult := LCurrent.CanModify;
+  end;
+
+  actInvoiceModify.Enabled := LResult;
+end;
+
+procedure TFrmInvoices.actInvoiceNewExecute(Sender: TObject);
 begin
   New;
 end;
 
-procedure TFrmInvoices.btnPaymentClick(Sender: TObject);
+procedure TFrmInvoices.actInvoiceNewUpdate(Sender: TObject);
+begin
+  actInvoiceNew.Enabled := Invoices.Active;
+end;
+
+procedure TFrmInvoices.actInvoicePaymentsExecute(Sender: TObject);
 begin
   OpenPayments;
 end;
 
-procedure TFrmInvoices.btnProcessClick(Sender: TObject);
+procedure TFrmInvoices.actInvoicePaymentsUpdate(Sender: TObject);
+begin
+  var LCurrent := Invoices.Current<TInvoice>;
+  var LResult := LCurrent <> nil;
+
+  if LResult then
+  begin
+    LResult := LCurrent.Status in
+      [ TInvoiceStatus.ReadyPayments, TInvoiceStatus.ReadyProcess,
+        TInvoiceStatus.Overpaid ];
+  end;
+
+  actInvoicePayments.Enabled := LResult;
+end;
+
+procedure TFrmInvoices.actInvoicePrintExecute(Sender: TObject);
+begin
+  PrintCurrent;
+end;
+
+procedure TFrmInvoices.actInvoicePrintUpdate(Sender: TObject);
+begin
+  var LCurrent := Invoices.Current<TInvoice>;
+  var LResult := LCurrent <> nil;
+
+  if LResult then
+  begin
+    LResult := LCurrent.Status in
+     [ TInvoiceStatus.ReadyPayments, TInvoiceStatus.Processed ];
+  end;
+
+  actInvoicePrint.Enabled := LResult;
+end;
+
+procedure TFrmInvoices.actInvoiceProcessExecute(Sender: TObject);
 begin
   Process;
 end;
 
+procedure TFrmInvoices.actInvoiceProcessUpdate(Sender: TObject);
+begin
+  var LCurrent := Invoices.Current<TInvoice>;
+  var LResult := LCurrent <> nil;
+
+  if LResult then
+  begin
+    LResult := LCurrent.Status = TInvoiceStatus.ReadyProcess;
+  end;
+
+  actInvoiceProcess.Enabled := LResult;
+end;
+
 procedure TFrmInvoices.Delete;
 begin
-  if InvoicesCanModify.AsBoolean then
+  if MessageDlg('Do you really want to delete this invoice?',
+    mtInformation, [mbYes, mbNo], 0 ) = mrYes then
   begin
-    if MessageDlg('Do you really want to delete this invoice?',
-      mtInformation, [mbYes, mbNo], 0 ) = mrYes then
+    if Invoices.State in dsEditModes then
     begin
-      if Invoices.State in dsEditModes then
-      begin
-        Invoices.Cancel;
-      end;
-
-      Invoices.Delete;
+      Invoices.Cancel;
     end;
-  end
-  else
-  begin
-    MessageDlg('Invoice cannot be deleted from system. Transactions or payments have already been processed.',
-      mtError, [mbOK], 0 );
+
+    Invoices.Delete;
   end;
 end;
 
@@ -231,14 +306,13 @@ begin
     sourceInvoices );
   try
     LFrm.ShowModal;
+    if Invoices.State in dsEditModes then
+    begin
+      Invoices.Post;
+    end;
   finally
     LFrm.Free;
   end;
-end;
-
-procedure TFrmInvoices.PrintClick(Sender: TObject);
-begin
-  PrintCurrent;
 end;
 
 procedure TFrmInvoices.PrintCurrent;
@@ -247,18 +321,33 @@ var
   LReport: TMemoryStream;
 
 begin
-  LReport := nil;
-
   var LCurrent := Invoices.Current<TInvoice>;
-  LPrinter := TInvoicePrinter.Create(ObjectManager);
+
+  LReport := TMemoryStream.Create;
   try
-    LReport := TMemoryStream.Create;
-    LPrinter.Print(LCurrent, LReport);
+    // if invoice has been processed, we have a copy
+    // copy will be loaded from database
+    if LCurrent.Status <> TInvoiceStatus.Processed then
+    begin
+      LPrinter := TInvoicePrinter.Create(ObjectManager);
+      try
+        LPrinter.Print(LCurrent, LReport);
+      finally
+        LPrinter.Free;
+      end;
+    end
+    else
+    begin
+      LCurrent.ProcessedCopy.SaveToStream(LReport);
+    end;
+
+    // show preview
+    LReport.Position := 0;
     TFrmReportPreview.Execute(LReport);
   finally
     LReport.Free;
-    LPrinter.Free;
   end;
+
 end;
 
 procedure TFrmInvoices.Process;
@@ -275,6 +364,26 @@ begin
       TInvoiceProcessor.Process(LCurrent, ObjectManager);
       Invoices.RefreshRecord;
     end;
+  end;
+end;
+
+procedure TFrmInvoices.Modify;
+begin
+  if InvoicesCanModify.AsBoolean then
+  begin
+    var LFrm := TFrmInvoice.Create( self, ObjectManager, sourceInvoices );
+    try
+      LFrm.ShowModal;
+    finally
+      LFrm.Free;
+    end;
+  end
+  else
+  begin
+    MessageDlg(
+      'Invoice cannot be modified. Payments or transactions already exist.',
+      mtError,
+      [mbOK], 0 );
   end;
 end;
 
