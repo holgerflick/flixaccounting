@@ -116,7 +116,7 @@ begin
       LPrinter.Free;
     end;
 
-    AObjectManager.Update(AInvoice);
+    AObjectManager.Flush;
   finally
     LTxCats.Free;
   end;
