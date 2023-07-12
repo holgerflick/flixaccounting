@@ -93,16 +93,7 @@ end;
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
-//  Connection.Params.Values['Database'] :=
-//    TPath.Combine( TPath.GetLibraryPath, 'flixllcpl.db' );
-
-  TAppSettings.Shared.GetDatabaseParams(Connection.Params);
-
-  // set difference encoding for dates
-  var LSQLiteGenerator := TSQLiteSQLGenerator.Create;
-  LSQLiteGenerator.DateType := TSQLiteSQLGenerator.TDateType.Text;
-
-  TSQLGeneratorRegister.GetInstance.RegisterGenerator(LSQLiteGenerator);
+  TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
 
   UpdateDatabase;
 end;
