@@ -57,6 +57,29 @@ type
 
   [Entity]
   [Automapping]
+  TQuickItem = class
+  private
+    FCategory: String;
+
+    [Column('Name', [TColumnProp.Unique])]
+    FName: String;
+    FId: Integer;
+    FQuantity: Double;
+    FValue: Double;
+    FDescription: String;
+  public
+    property Id: Integer read FId write FId;
+
+    property Name: String read FName write FName;
+    property Description: String read FDescription write FDescription;
+    property Category: String read FCategory write FCategory;
+    property Quantity: Double read FQuantity write FQuantity;
+    property Value: Double read FValue write FValue;
+  end;
+
+
+  [Entity]
+  [Automapping]
   TInvoiceItem = class
   private
     FId: Integer;
