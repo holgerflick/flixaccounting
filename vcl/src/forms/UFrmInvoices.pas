@@ -60,10 +60,15 @@ type
     btnDelete: TButton;
     Print: TButton;
     btnPayment: TButton;
+    InvoicesBillTo: TStringField;
+    InvoicesStatus: TIntegerField;
+    InvoicesStatusText: TStringField;
+    btnProcess: TButton;
     procedure btnDeleteClick(Sender: TObject);
     procedure btnModifyClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
     procedure btnPaymentClick(Sender: TObject);
+    procedure btnProcessClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure PrintClick(Sender: TObject);
   private
@@ -75,6 +80,7 @@ type
     procedure PrintCurrent;
     procedure OpenPayments;
     procedure Delete;
+    procedure Process;
   public
 
   end;
@@ -91,6 +97,8 @@ uses
   , UInvoice
   , UInvoicePrinter
   , UFrmPayments
+  , UFrmReportPreview
+  , UInvoiceProcessor
   ;
 
 {$R *.dfm}
@@ -129,6 +137,11 @@ end;
 procedure TFrmInvoices.btnPaymentClick(Sender: TObject);
 begin
   OpenPayments;
+end;
+
+procedure TFrmInvoices.btnProcessClick(Sender: TObject);
+begin
+  Process;
 end;
 
 procedure TFrmInvoices.Delete;
@@ -201,7 +214,7 @@ end;
 procedure TFrmInvoices.OpenDataset;
 begin
   var LInvoices := ObjectManager.Find<TInvoice>
-    .OrderBy(Dic.Invoice.Number, False )
+    .OrderBy(Dic.Invoice.Number, True )
     .List;
 
   Invoices.Close;
@@ -231,13 +244,37 @@ end;
 procedure TFrmInvoices.PrintCurrent;
 var
   LPrinter: TInvoicePrinter;
+  LReport: TMemoryStream;
+
 begin
+  LReport := nil;
+
   var LCurrent := Invoices.Current<TInvoice>;
   LPrinter := TInvoicePrinter.Create(ObjectManager);
   try
-    LPrinter.Print(LCurrent);
+    LReport := TMemoryStream.Create;
+    LPrinter.Print(LCurrent, LReport);
+    TFrmReportPreview.Execute(LReport);
   finally
+    LReport.Free;
     LPrinter.Free;
+  end;
+end;
+
+procedure TFrmInvoices.Process;
+var
+  LCurrent: TInvoice;
+
+begin
+  LCurrent := Invoices.Current<TInvoice>;
+
+  if Assigned( LCurrent ) then
+  begin
+    if LCurrent.CanBeProcessed then
+    begin
+      TInvoiceProcessor.Process(LCurrent, ObjectManager);
+      Invoices.RefreshRecord;
+    end;
   end;
 end;
 

@@ -21,7 +21,8 @@ uses
   UFrmEditMemoField in 'forms\UFrmEditMemoField.pas' {FrmEditMemoField},
   UFrmReportPreview in 'forms\UFrmReportPreview.pas' {FrmReportPreview},
   UFrmPayments in 'forms\UFrmPayments.pas' {FrmPayments},
-  UAppSettings in 'globals\UAppSettings.pas';
+  UAppSettings in 'globals\UAppSettings.pas',
+  UInvoiceProcessor in 'UInvoiceProcessor.pas';
 
 {$R *.res}
 

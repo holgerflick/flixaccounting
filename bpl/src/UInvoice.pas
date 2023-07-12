@@ -1,5 +1,7 @@
 unit UInvoice;
 
+{$SCOPEDENUMS ON}
+
 interface
 uses
     Aurelius.Mapping.Automapping
@@ -22,6 +24,11 @@ uses
 
 type
   TInvoice = class;
+
+  [Automapping]
+  TInvoiceStatus = ( ReadyItems, ReadyPayments, ReadyProcess, Processed );
+
+
 
   [Entity]
   [Automapping]
@@ -105,6 +112,9 @@ type
     [Association([TAssociationProp.Lazy], CascadeTypeAllButRemove )]
     FCustomer: Proxy<TCustomer>;
 
+    [Column('ProcessedCopy', [TColumnProp.Lazy])]
+    FProcessedCopy: TBlob;
+
     function GetTotalAmount: Double;
     function GetAmountDue: Double;
     function GetAmountPaid: Double;
@@ -119,12 +129,12 @@ type
     function GetCustomer: TCustomer;
     procedure SetCustomer(const Value: TCustomer);
     function GetBillTo: String;
+    function GetStatus: TInvoiceStatus;
+    function GetStatusText: String;
 
   public
     constructor Create;
     destructor  Destroy; override;
-
-    procedure Process;
 
     property Id: Integer read FId write FId;
 
@@ -145,8 +155,13 @@ type
     property AmountDue: Double read GetAmountDue;
     property AmountPaid: Double read GetAmountPaid;
 
+    property ProcessedCopy: TBlob read FProcessedCopy write FProcessedCopy;
+
     property BillTo: String read GetBillTo;
 
+
+    property Status: TInvoiceStatus read GetStatus;
+    property StatusText: String read GetStatusText;
     property CanBeProcessed: Boolean read GetCanBeProcessed;
     property CanModify: Boolean read GetCanModify;
   end;
@@ -157,10 +172,6 @@ uses
     System.DateUtils
   , UExceptions
   ;
-
-resourcestring
-  SCannotProcessInvoice = 'Cannot process invoice  %d as not fully paid or no total amount.';
-
 
 { TInvoiceItem }
 
@@ -180,7 +191,7 @@ begin
   FTransactions.SetInitialValue(TTransactions.Create);
 
   FIssuedOn := TDateTime.Today;
-  FDueOn := TDateTime.Now.IncDay(14);
+  FDueOn := TDateTime.Now.IncDay(7);
 end;
 
 destructor TInvoice.Destroy;
@@ -209,7 +220,12 @@ end;
 
 function TInvoice.GetBillTo: String;
 begin
-  Result := self.Customer.AddressExcel;
+  Result := '';
+
+  if Assigned( self.Customer ) then
+  begin
+    Result := self.Customer.AddressExcel;
+  end;
 end;
 
 function TInvoice.GetCanBeProcessed: Boolean;
@@ -241,6 +257,39 @@ begin
   Result := FPayments.Value;
 end;
 
+function TInvoice.GetStatus: TInvoiceStatus;
+begin
+  Result := TInvoiceStatus.ReadyItems;
+  if self.TotalAmount > 0 then
+  begin
+    if self.AmountDue > 0 then
+    begin
+      Result := TInvoiceStatus.ReadyPayments;
+    end
+    else
+    begin
+      if self.Transactions.Count=0 then
+      begin
+        Result := TInvoiceStatus.ReadyProcess;
+      end
+      else
+      begin
+        Result := TInvoiceStatus.Processed;
+      end;
+    end;
+  end;
+end;
+
+function TInvoice.GetStatusText: String;
+begin
+  case Status of
+    TInvoiceStatus.ReadyItems: Result := 'Add items';
+    TInvoiceStatus.ReadyPayments: Result := 'Make payments';
+    TInvoiceStatus.ReadyProcess: Result := 'Ready to process';
+    TInvoiceStatus.Processed: Result := 'Processed';
+  end;
+end;
+
 function TInvoice.GetTotalAmount: Double;
 begin
   Result := 0;
@@ -253,63 +302,6 @@ end;
 function TInvoice.GetTransactions: TTransactions;
 begin
   Result := FTransactions.Value;
-end;
-
-procedure TInvoice.Process;
-var
-  LTxCats : TDictionary<String, TTransaction>;
-  LTx: TTransaction;
-
-begin
-  // only allow processing if all has been paid
-  // -- otherwise it is tough to decide which items have been paid
-  //    and which have not
-  if not CanBeProcessed then
-  begin
-    raise ECannotProcessInvoice.CreateFmt(SCannotProcessInvoice, [self.Number]);
-  end;
-
-  // get last payment for paid on date
-  var LLastPayment := self.Payments.LastPaymentDate;
-
-  if LLastPayment.IsNull then
-  begin
-    raise ECannotProcessInvoice.CreateFmt('No payments found. (%d)', [self.Number] );
-  end;
-
-  // process each category in invoice as one transaction
-  // thus we create a transaction for each category and add total amounts
-
-  LTxCats := TDictionary<String, TTransaction>.Create;
-
-  for var LItem in self.Items do
-  begin
-    var LCurrentCat := LItem.Category;
-    if not LTxCats.ContainsKey(LCurrentCat) then
-    begin
-      LTx := TTransaction.Create(TTransactionKind.Income);
-      LTx.Amount := 0;
-      LTx.IsMonthly := False;
-      LTx.Percentage := 1;
-      LTxCats.Add( LCurrentCat, LTx );
-    end
-    else
-    begin
-      LTx := LTxCats[LCurrentCat];
-    end;
-
-    LTx.PaidOn := self.Payments.LastPaymentDate;
-    LTx.Category := LItem.Category;
-    LTx.Title := 'Invoice ' + self.Number.ToString;
-    LTx.Amount := LTx.Amount + LItem.TotalValue;
-  end;
-
-  // add all transactions to invoice
-  // this will lock it from any further processing
-  for LTx in LTxCats.Values do
-  begin
-    self.Transactions.Add(LTx)
-  end;
 end;
 
 procedure TInvoice.SetCustomer(const Value: TCustomer);

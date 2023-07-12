@@ -39,14 +39,14 @@ type
   public
     constructor Create(AObjManager: TObjectManager);
 
-    procedure Print(AInvoice: TInvoice);
+    procedure Print(AInvoice: TInvoice; AReport: TStream);
+
   end;
 
 implementation
 
 uses
     Winapi.Windows
-  , UFrmReportPreview
   ;
 
 
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-procedure TInvoicePrinter.Print(AInvoice: TInvoice);
+procedure TInvoicePrinter.Print(AInvoice: TInvoice; AReport: TStream);
 var
   LTemplate: TMemoryStream;
   LReport: TFlexCelReport;
@@ -79,6 +79,8 @@ var
   LXlsFile: TXlsFile;
 
 begin
+  Assert( Assigned( AReport ) );
+
   if not Assigned(AInvoice) then
   begin
     raise EArgumentNilException.Create('Invoice cannot be nil.');
@@ -108,8 +110,8 @@ begin
     LOutput.Position := 0;
 
     LXlsFile := TXlsFile.Create(LOutput, True);
-
-    TFrmReportPreview.Execute( LXlsFile );
+    LXlsFile.Save(AReport, TFileFormats.Xlsx );
+    AReport.Position := 0;
   finally
     LXlsFile.Free;
     LPdfExport.Free;

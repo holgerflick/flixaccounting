@@ -1,17 +1,17 @@
 inherited FrmInvoices: TFrmInvoices
   Caption = 'FrmInvoices'
-  ClientHeight = 539
-  ClientWidth = 807
-  ExplicitWidth = 823
-  ExplicitHeight = 578
+  ClientHeight = 572
+  ClientWidth = 964
+  ExplicitWidth = 980
+  ExplicitHeight = 611
   TextHeight = 21
   object GridInvoices: TDBAdvGrid
     Left = 8
     Top = 48
-    Width = 791
-    Height = 483
+    Width = 948
+    Height = 516
     Anchors = [akLeft, akTop, akRight, akBottom]
-    ColCount = 6
+    ColCount = 7
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
@@ -266,9 +266,10 @@ inherited FrmInvoices: TFrmInvoices
         PrintFont.Height = -16
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 199
+        Width = 203
       end
       item
+        Alignment = taRightJustify
         Borders = []
         BorderPen.Color = clSilver
         ButtonHeight = 18
@@ -294,6 +295,33 @@ inherited FrmInvoices: TFrmInvoices
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
         Width = 100
+      end
+      item
+        Borders = []
+        BorderPen.Color = clSilver
+        ButtonHeight = 18
+        CheckFalse = 'N'
+        CheckTrue = 'Y'
+        Color = clWindow
+        FieldName = 'StatusText'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'JetBrains Mono'
+        Font.Style = []
+        Header = 'Stage'
+        HeaderFont.Charset = DEFAULT_CHARSET
+        HeaderFont.Color = clWindowText
+        HeaderFont.Height = -13
+        HeaderFont.Name = 'Segoe UI'
+        HeaderFont.Style = [fsBold]
+        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
+        PrintFont.Charset = DEFAULT_CHARSET
+        PrintFont.Color = clWindowText
+        PrintFont.Height = -16
+        PrintFont.Name = 'Segoe UI'
+        PrintFont.Style = []
+        Width = 153
       end>
     DataSource = sourceInvoices
     EditPostMode = epRow
@@ -434,13 +462,16 @@ inherited FrmInvoices: TFrmInvoices
       80000001C0000003C0000003E0000007F000000FF800001FFC00003FFF0000FF
       FFC003FF}
     ShowUnicode = False
+    ExplicitWidth = 791
+    ExplicitHeight = 483
     ColWidths = (
       20
       52
       90
       90
-      199
-      100)
+      203
+      100
+      153)
     RowHeights = (
       28
       28)
@@ -489,6 +520,15 @@ inherited FrmInvoices: TFrmInvoices
     Caption = 'Payments'
     TabOrder = 5
     OnClick = btnPaymentClick
+  end
+  object btnProcess: TButton
+    Left = 763
+    Top = 8
+    Width = 145
+    Height = 34
+    Caption = 'Process'
+    TabOrder = 6
+    OnClick = btnProcessClick
   end
   object Invoices: TAureliusDataset
     FieldDefs = <
@@ -551,6 +591,23 @@ inherited FrmInvoices: TFrmInvoices
         DataType = ftFloat
       end
       item
+        Name = 'BillTo'
+        Attributes = [faReadonly, faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'Status'
+        Attributes = [faReadonly, faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'StatusText'
+        Attributes = [faReadonly, faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
         Name = 'CanBeProcessed'
         Attributes = [faReadonly, faRequired]
         DataType = ftBoolean
@@ -602,6 +659,7 @@ inherited FrmInvoices: TFrmInvoices
       FieldName = 'TotalAmount'
       ReadOnly = True
       Required = True
+      DisplayFormat = '0,.00'
     end
     object InvoicesAmountDue: TFloatField
       FieldName = 'AmountDue'
@@ -626,6 +684,23 @@ inherited FrmInvoices: TFrmInvoices
     object InvoicesCustomerName: TStringField
       FieldName = 'Customer.Name'
       Size = 200
+    end
+    object InvoicesBillTo: TStringField
+      FieldName = 'BillTo'
+      ReadOnly = True
+      Required = True
+      Size = 255
+    end
+    object InvoicesStatus: TIntegerField
+      FieldName = 'Status'
+      ReadOnly = True
+      Required = True
+    end
+    object InvoicesStatusText: TStringField
+      FieldName = 'StatusText'
+      ReadOnly = True
+      Required = True
+      Size = 255
     end
   end
   object sourceInvoices: TDataSource
