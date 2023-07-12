@@ -53,7 +53,7 @@ type
     constructor Create(AXlsFile: TXlsFile); reintroduce;
     destructor Destroy; override;
 
-    class procedure Execute(AXlsFile: TXlsFile);
+    class procedure Execute(AXlsStream: TStream);
   end;
 
 var
@@ -97,15 +97,19 @@ begin
   SaveReport;
 end;
 
-class procedure TFrmReportPreview.Execute(AXlsFile: TXlsFile);
+class procedure TFrmReportPreview.Execute(AXlsStream: TStream);
 var
   LFrm: TFrmReportPreview;
+  LXlsFile: TXlsFile;
 
 begin
-  LFrm := TFrmReportPreview.Create(AXlsFile);
+  LFrm := nil;
+  LXlsFile := TXlsFile.Create( AXlsStream, True );
   try
+    LFrm := TFrmReportPreview.Create(LXlsFile);
     LFrm.ShowModal;
   finally
+    LXlsFile.Free;
     LFrm.Free;
   end;
 end;

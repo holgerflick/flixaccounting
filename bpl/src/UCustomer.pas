@@ -50,9 +50,6 @@ implementation
 
 { TCustomer }
 
-
-{ TCustomer }
-
 function TCustomer.GetAddressExcel: String;
 begin
   Result := Address.Replace(#13, '' );
