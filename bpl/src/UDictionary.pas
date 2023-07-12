@@ -12,6 +12,7 @@ type
   TInvoiceDictionary = class;
   TInvoiceItemDictionary = class;
   TInvoicePaymentDictionary = class;
+  TQuickItemDictionary = class;
   TTransactionDictionary = class;
   
   ICustomerDictionary = interface;
@@ -23,6 +24,8 @@ type
   IInvoiceItemDictionary = interface;
   
   IInvoicePaymentDictionary = interface;
+  
+  IQuickItemDictionary = interface;
   
   ITransactionDictionary = interface;
   
@@ -67,6 +70,15 @@ type
     function Amount: TLinqProjection;
     function Id: TLinqProjection;
     function Invoice: IInvoiceDictionary;
+  end;
+  
+  IQuickItemDictionary = interface(IAureliusEntityDictionary)
+    function Category: TLinqProjection;
+    function Name: TLinqProjection;
+    function Id: TLinqProjection;
+    function Quantity: TLinqProjection;
+    function Value: TLinqProjection;
+    function Description: TLinqProjection;
   end;
   
   ITransactionDictionary = interface(IAureliusEntityDictionary)
@@ -129,6 +141,16 @@ type
     function Invoice: IInvoiceDictionary;
   end;
   
+  TQuickItemDictionary = class(TAureliusEntityDictionary, IQuickItemDictionary)
+  public
+    function Category: TLinqProjection;
+    function Name: TLinqProjection;
+    function Id: TLinqProjection;
+    function Quantity: TLinqProjection;
+    function Value: TLinqProjection;
+    function Description: TLinqProjection;
+  end;
+  
   TTransactionDictionary = class(TAureliusEntityDictionary, ITransactionDictionary)
   public
     function Title: TLinqProjection;
@@ -148,6 +170,7 @@ type
     function Invoice: IInvoiceDictionary;
     function InvoiceItem: IInvoiceItemDictionary;
     function InvoicePayment: IInvoicePaymentDictionary;
+    function QuickItem: IQuickItemDictionary;
     function Transaction: ITransactionDictionary;
   end;
   
@@ -158,6 +181,7 @@ type
     function Invoice: IInvoiceDictionary;
     function InvoiceItem: IInvoiceItemDictionary;
     function InvoicePayment: IInvoicePaymentDictionary;
+    function QuickItem: IQuickItemDictionary;
     function Transaction: ITransactionDictionary;
   end;
   
@@ -324,6 +348,38 @@ begin
   Result := TInvoiceDictionary.Create(PropName('Invoice'));
 end;
 
+{ TQuickItemDictionary }
+
+function TQuickItemDictionary.Category: TLinqProjection;
+begin
+  Result := Prop('Category');
+end;
+
+function TQuickItemDictionary.Name: TLinqProjection;
+begin
+  Result := Prop('Name');
+end;
+
+function TQuickItemDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TQuickItemDictionary.Quantity: TLinqProjection;
+begin
+  Result := Prop('Quantity');
+end;
+
+function TQuickItemDictionary.Value: TLinqProjection;
+begin
+  Result := Prop('Value');
+end;
+
+function TQuickItemDictionary.Description: TLinqProjection;
+begin
+  Result := Prop('Description');
+end;
+
 { TTransactionDictionary }
 
 function TTransactionDictionary.Title: TLinqProjection;
@@ -396,6 +452,11 @@ end;
 function TDefaultDictionary.InvoicePayment: IInvoicePaymentDictionary;
 begin
   Result := TInvoicePaymentDictionary.Create;
+end;
+
+function TDefaultDictionary.QuickItem: IQuickItemDictionary;
+begin
+  Result := TQuickItemDictionary.Create;
 end;
 
 function TDefaultDictionary.Transaction: ITransactionDictionary;

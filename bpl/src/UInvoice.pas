@@ -370,6 +370,7 @@ begin
 end;
 
 initialization
+  RegisterEntity(TQuickItem);
   RegisterEntity(TInvoiceItem);
   RegisterEntity(TInvoice);
 

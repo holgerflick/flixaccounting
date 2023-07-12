@@ -57,7 +57,8 @@ var
 
 implementation
 uses
-  UInvoice
+    UDictionary
+  , UInvoice
   ;
 
 
@@ -69,10 +70,11 @@ constructor TFrmQuickItems.Create;
 begin
   inherited Create(nil);
 
-  Items.Close;
-  Items.SetSourceList(
-    ObjectManager.Find<T>
-  );
+//  Items.Close;
+//  Items.SetSourceList(
+//    ObjectManager.Find<TQuickItem>
+//      .OrderBy(Dic.
+//  );
 
 
 end;
