@@ -30,8 +30,6 @@ uses
   , UFrmBase
   ;
 
-
-
 type
   TFrmMain = class(TFrmBase)
     btnTransactions: TButton;
