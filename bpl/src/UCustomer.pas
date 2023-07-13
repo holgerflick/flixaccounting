@@ -25,17 +25,20 @@ type
   TCustomer = class
   private
 
-
+    [Column('Address', [], 2000)]
     FAddress: string;
     FEmail: String;
     FId: Integer;
 
     [Column('Name', [TColumnProp.Unique])]
-    FName: string;
+    FName: String;
+
     FContact: String;
     function GetAddressExcel: String;
 
   public
+    constructor Create;
+
     property Id: Integer read FId write FId;
 
     property Name: string read FName write FName;
@@ -49,6 +52,14 @@ type
 implementation
 
 { TCustomer }
+
+constructor TCustomer.Create;
+begin
+  FName := '';
+  FContact := '';
+  FAddress := '';
+  FEmail := '';
+end;
 
 function TCustomer.GetAddressExcel: String;
 begin

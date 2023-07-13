@@ -61,3 +61,5 @@ TMSWebIntermediate
 *.user
 
 vcl/bin/flixllcpl.db
+
+vcl/bin/settings.ini

@@ -23,7 +23,8 @@ uses
   UFrmPayments in 'forms\UFrmPayments.pas' {FrmPayments},
   UAppSettings in 'globals\UAppSettings.pas',
   UInvoiceProcessor in 'UInvoiceProcessor.pas',
-  UFrmQuickItems in 'forms\UFrmQuickItems.pas' {FrmQuickItems};
+  UFrmQuickItems in 'forms\UFrmQuickItems.pas' {FrmQuickItems},
+  UBoAImporter in 'UBoAImporter.pas';
 
 {$R *.res}
 
