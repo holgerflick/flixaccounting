@@ -10,10 +10,14 @@ uses
   , FlexCel.Render
   , FlexCel.XlsAdapter
 
+  , System.Actions
   , System.Classes
+  , System.ImageList
   , System.SysUtils
   , System.Variants
 
+  , Vcl.ActnList
+  , Vcl.BaseImageCollection
   , Vcl.Controls
   , Vcl.Dialogs
 
@@ -21,6 +25,10 @@ uses
 
   , Vcl.Forms
   , Vcl.Graphics
+  , Vcl.ImageCollection
+  , Vcl.ImgList
+  , Vcl.StdCtrls
+  , Vcl.VirtualImageList
 
   , Winapi.Messages
   , Winapi.Windows
@@ -28,15 +36,21 @@ uses
   , UFrmBase
   ;
 
+
 type
   TFrmReportPreview = class(TFrmBase)
-    AdvDockPanel1: TAdvDockPanel;
-    Toolbar: TAdvToolBar;
-    btnSave: TAdvGlowButton;
     Preview: TFlexCelPreviewer;
     DlgFileSave: TFileSaveDialog;
+    Images: TVirtualImageList;
+    Collection: TImageCollection;
+    Button1: TButton;
+    Button2: TButton;
+    Actions: TActionList;
+    actExport: TAction;
+    actMail: TAction;
+    procedure actExportExecute(Sender: TObject);
+    procedure actMailExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -84,6 +98,16 @@ begin
   inherited;
 end;
 
+procedure TFrmReportPreview.actExportExecute(Sender: TObject);
+begin
+  SaveReport;
+end;
+
+procedure TFrmReportPreview.actMailExecute(Sender: TObject);
+begin
+  //
+end;
+
 procedure TFrmReportPreview.FormDestroy(Sender: TObject);
 begin
   TAppSettings.Shared.StoreFileSaveDialog(DlgFileSave);
@@ -92,10 +116,6 @@ begin
   inherited;
 end;
 
-procedure TFrmReportPreview.btnSaveClick(Sender: TObject);
-begin
-  SaveReport;
-end;
 
 class procedure TFrmReportPreview.Execute(AXlsStream: TStream);
 var

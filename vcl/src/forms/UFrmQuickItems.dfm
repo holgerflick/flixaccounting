@@ -69,10 +69,6 @@ inherited FrmQuickItems: TFrmQuickItems
     DataField = 'Description'
     DataSource = sourceItems
     TabOrder = 1
-    ExplicitLeft = 232
-    ExplicitTop = 263
-    ExplicitWidth = 185
-    ExplicitHeight = 89
   end
   object Panel1: TPanel
     Left = 0
@@ -82,8 +78,6 @@ inherited FrmQuickItems: TFrmQuickItems
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = -8
-    ExplicitWidth = 671
     DesignSize = (
       698
       41)
@@ -95,18 +89,16 @@ inherited FrmQuickItems: TFrmQuickItems
       DataSource = sourceItems
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-      ExplicitWidth = 520
     end
     object btnUse: TButton
       Left = 553
-      Top = 9
+      Top = 8
       Width = 135
-      Height = 25
+      Height = 27
       Anchors = [akTop, akRight]
       Caption = 'Use item'
       TabOrder = 1
       OnClick = btnUseClick
-      ExplicitLeft = 526
     end
   end
   object Items: TAureliusDataset
