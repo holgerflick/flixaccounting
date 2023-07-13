@@ -78,7 +78,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 2
     Text = '0'
     Visible = True
-    Version = '4.0.4.2'
+    Version = '4.0.4.1'
     DataField = 'Number'
     DataSource = sourceInvoices
   end

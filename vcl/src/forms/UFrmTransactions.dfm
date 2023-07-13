@@ -303,7 +303,7 @@ inherited FrmTransactions: TFrmTransactions
         PrintFont.Height = -16
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 86
+        Width = 138
       end
       item
         Alignment = taRightJustify
@@ -393,7 +393,7 @@ inherited FrmTransactions: TFrmTransactions
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
         ReadOnly = True
-        Width = 93
+        Width = 122
       end>
     DataSource = sourceTransactions
     EditPostMode = epRow
@@ -540,10 +540,10 @@ inherited FrmTransactions: TFrmTransactions
       171
       244
       70
-      86
+      138
       45
       86
-      93)
+      122)
     RowHeights = (
       28
       28)

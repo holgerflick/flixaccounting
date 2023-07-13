@@ -21,6 +21,7 @@ uses
   , DBAdvEd
   , DBAdvGrid
 
+  , System.Types
   , System.Classes
   , System.SysUtils
   , System.Variants

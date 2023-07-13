@@ -49,25 +49,37 @@ begin
       var LLine := LLines[i].Replace('"','');
       var Splits := LLine.Split([#9]);
 
-      var LDate := Splits[0] + ': ';
-      var LAmount := StrToFloat( Splits[2] );
-      var LText := Splits[1];
+      if Length(Splits) = 4 then      // ignore any additional lines
+      begin
+        try
+          var LConversionCheck := StrToDate( Splits[0] );
+          var LAmount := StrToFloat( Splits[2] );
 
-      ADataSet.Append;
-      ADataSet.FieldByName('Idx').AsInteger := i + 1;
-      ADataSet.FieldByName('Category').AsString := 'Consulting';
-      ADataSet.FieldByName('Title').AsString := LDate + LText;
-      if not LUseHourlyBase then
-      begin
-        ADataSet.FieldByName('Quantity').AsFloat := 1;
-        ADataSet.FieldByName('Value').AsFloat := LAmount;
-      end
-      else
-      begin
-        ADataSet.FieldByName('Quantity').AsFloat := LAmount / CHourlyBase;
-        ADataSet.FieldByName('Value').AsFloat := CHourlyBase;
+          var LDate := Splits[0] + ': ';
+          var LText := Splits[1];
+
+          ADataSet.Append;
+          ADataSet.FieldByName('Idx').AsInteger := i + 1;
+          ADataSet.FieldByName('Category').AsString := 'Consulting';
+          ADataSet.FieldByName('Title').AsString := LDate + LText;
+          if not LUseHourlyBase then
+          begin
+            ADataSet.FieldByName('Quantity').AsFloat := 1;
+            ADataSet.FieldByName('Value').AsFloat := LAmount;
+          end
+          else
+          begin
+            ADataSet.FieldByName('Quantity').AsFloat := LAmount / CHourlyBase;
+            ADataSet.FieldByName('Value').AsFloat := CHourlyBase;
+          end;
+          ADataSet.Post;
+        except
+          on E: EConvertError do
+          begin
+            // nothing really - just read the next line
+          end;
+        end;
       end;
-      ADataSet.Post;
     end;
   finally
     LLines.Free;
