@@ -75,6 +75,9 @@ type
     DBNavigator1: TDBNavigator;
     GridItems: TDBGrid;
     btnQuickItem: TButton;
+    btnBoA: TButton;
+    DlgOpen: TFileOpenDialog;
+    procedure btnBoAClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnQuickItemClick(Sender: TObject);
@@ -101,6 +104,7 @@ uses
     UFrmQuickItems
   , UFrmEditMemoField
   , UDictionary
+  , UBoAImporter
   ;
 
 {$R *.dfm}
@@ -133,6 +137,19 @@ begin
   dateDueOn.DataSource := ADataSource;
 
   OpenDatasets;
+end;
+
+procedure TFrmInvoice.btnBoAClick(Sender: TObject);
+begin
+  if DlgOpen.Execute then
+  begin
+    var LImporter := TBoAImporter.Create;
+    try
+      LImporter.Execute(Items, DlgOpen.FileName, True);
+    finally
+      LImporter.Free;
+    end;
+  end;
 end;
 
 procedure TFrmInvoice.btnCancelClick(Sender: TObject);

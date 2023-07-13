@@ -88,6 +88,8 @@ type
     FInvoice: TInvoice;
 
     FIdx: Integer;
+
+    [Column('Title',[], 5000)]
     FTitle: String;
     FQuantity: Double;
     FValue: Double;

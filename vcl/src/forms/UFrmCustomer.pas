@@ -47,8 +47,6 @@ type
     txtAddress: TDBMemo;
     CustomersContact: TStringField;
     DBNavigator1: TDBNavigator;
-    Image1: TImage;
-    btnInvoices: TButton;
     procedure CustomersBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
   private
@@ -102,6 +100,7 @@ end;
 procedure TFrmCustomer.OpenDataset;
 begin
   Customers.Close;
+  Customers.DefaultsFromObject := True;
   Customers.Manager := self.ObjectManager;
 
   Customers.SetSourceList(

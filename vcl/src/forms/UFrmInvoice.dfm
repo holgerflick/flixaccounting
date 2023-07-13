@@ -78,7 +78,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 2
     Text = '0'
     Visible = True
-    Version = '4.0.4.1'
+    Version = '4.0.4.2'
     DataField = 'Number'
     DataSource = sourceInvoices
   end
@@ -237,6 +237,16 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 8
     OnClick = btnQuickItemClick
   end
+  object btnBoA: TButton
+    Left = 143
+    Top = 464
+    Width = 145
+    Height = 32
+    Anchors = [akLeft, akBottom]
+    Caption = 'Import BoA...'
+    TabOrder = 9
+    OnClick = btnBoAClick
+  end
   object Items: TAureliusDataset
     FieldDefs = <
       item
@@ -308,7 +318,7 @@ inherited FrmInvoice: TFrmInvoice
       DisplayLabel = 'Description'
       FieldName = 'Title'
       Required = True
-      Size = 255
+      Size = 5000
     end
     object ItemsQuantity: TFloatField
       FieldName = 'Quantity'
@@ -406,6 +416,20 @@ inherited FrmInvoice: TFrmInvoice
   end
   object sourceInvoices: TDataSource
     Left = 64
+    Top = 368
+  end
+  object DlgOpen: TFileOpenDialog
+    DefaultExtension = 'csv'
+    FavoriteLinks = <>
+    FileTypes = <
+      item
+        DisplayName = 'Bank of America Statements (*.csv)'
+        FileMask = '*.csv'
+      end>
+    OkButtonLabel = 'Import'
+    Options = [fdoPathMustExist, fdoFileMustExist]
+    Title = 'Import Bank of America statement file'
+    Left = 392
     Top = 368
   end
 end
