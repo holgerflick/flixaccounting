@@ -20,6 +20,7 @@ uses
   , Vcl.DBCtrls
   , Vcl.Grids
   , Vcl.DBGrids
+  , Vcl.Imaging.pngimage
 
   , UFrmBase
 
@@ -29,7 +30,7 @@ uses
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
   , Aurelius.Criteria.Expression
-  , Aurelius.Criteria.Projections, Vcl.Imaging.pngimage
+  , Aurelius.Criteria.Projections
 
   ;
 

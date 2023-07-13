@@ -1,4 +1,5 @@
 inherited FrmTransactions: TFrmTransactions
+  BorderIcons = [biSystemMenu]
   Caption = 'popTxKind'
   ClientHeight = 605
   ClientWidth = 1015

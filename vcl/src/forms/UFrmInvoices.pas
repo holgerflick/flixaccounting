@@ -16,24 +16,29 @@ uses
 
   , DBAdvGrid
 
+  , System.Actions
   , System.Classes
+  , System.ImageList
   , System.SysUtils
   , System.Variants
 
+  , Vcl.ActnList
+  , Vcl.BaseImageCollection
   , Vcl.Controls
   , Vcl.Dialogs
   , Vcl.Forms
   , Vcl.Graphics
   , Vcl.Grids
+  , Vcl.ImageCollection
+  , Vcl.ImgList
   , Vcl.StdCtrls
+  , Vcl.VirtualImageList
 
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, System.Actions, Vcl.ActnList
+  , UFrmBase
   ;
-
-
 
 type
   TFrmInvoices = class(TFrmBase)
@@ -64,13 +69,15 @@ type
     InvoicesStatus: TIntegerField;
     InvoicesStatusText: TStringField;
     btnProcess: TButton;
-    ActionList1: TActionList;
+    Actions: TActionList;
     actInvoiceNew: TAction;
     actInvoiceModify: TAction;
     actInvoiceDelete: TAction;
     actInvoicePrint: TAction;
     actInvoicePayments: TAction;
     actInvoiceProcess: TAction;
+    ImgCollection: TImageCollection;
+    Images: TVirtualImageList;
     procedure actInvoiceDeleteExecute(Sender: TObject);
     procedure actInvoiceDeleteUpdate(Sender: TObject);
     procedure actInvoiceModifyExecute(Sender: TObject);

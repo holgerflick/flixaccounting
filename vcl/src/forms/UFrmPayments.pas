@@ -15,21 +15,30 @@ uses
   , Data.DB
 
   , System.Classes
+  , System.ImageList
   , System.SysUtils
   , System.Variants
 
+  , Vcl.BaseImageCollection
   , Vcl.Controls
+  , Vcl.DBCtrls
   , Vcl.DBGrids
   , Vcl.Dialogs
+  , Vcl.ExtCtrls
   , Vcl.Forms
   , Vcl.Graphics
   , Vcl.Grids
+  , Vcl.ImageCollection
+  , Vcl.ImgList
+  , Vcl.StdCtrls
+  , Vcl.VirtualImageList
 
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.ExtCtrls
+  , UFrmBase
   ;
+
 
 
 type
@@ -47,6 +56,8 @@ type
     sourceInvoice: TDataSource;
     btnPayOff: TButton;
     txtDue: TLabel;
+    ImageCollection1: TImageCollection;
+    VirtualImageList1: TVirtualImageList;
     procedure btnPayOffClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sourcePaymentsDataChange(Sender: TObject; Field: TField);

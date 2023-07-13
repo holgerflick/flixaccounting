@@ -1,4 +1,5 @@
 inherited FrmCustomer: TFrmCustomer
+  BorderIcons = [biSystemMenu]
   Caption = 'FrmCustomer'
   ClientHeight = 481
   ClientWidth = 684
