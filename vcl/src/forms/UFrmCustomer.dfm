@@ -1,16 +1,16 @@
 inherited FrmCustomer: TFrmCustomer
   BorderIcons = [biSystemMenu]
   Caption = 'FrmCustomer'
-  ClientHeight = 481
-  ClientWidth = 1084
-  ExplicitWidth = 1100
-  ExplicitHeight = 520
+  ClientHeight = 505
+  ClientWidth = 1120
+  ExplicitWidth = 1136
+  ExplicitHeight = 544
   TextHeight = 21
   object Grid: TDBGrid
     Left = 8
     Top = 40
-    Width = 777
-    Height = 433
+    Width = 813
+    Height = 457
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = sourceCustomers
     Font.Charset = DEFAULT_CHARSET
@@ -46,11 +46,11 @@ inherited FrmCustomer: TFrmCustomer
       end>
   end
   object txtAddress: TDBMemo
-    Left = 791
+    Left = 827
     Top = 40
     Width = 285
-    Height = 433
-    Anchors = [akTop, akRight]
+    Height = 457
+    Anchors = [akTop, akRight, akBottom]
     Color = clWhite
     DataField = 'Address'
     DataSource = sourceCustomers
@@ -61,18 +61,19 @@ inherited FrmCustomer: TFrmCustomer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = 796
+    ExplicitLeft = 791
+    ExplicitHeight = 433
   end
   object DBNavigator1: TDBNavigator
     Left = 8
     Top = 9
-    Width = 1064
+    Width = 1100
     Height = 25
     DataSource = sourceCustomers
     VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ExplicitWidth = 664
+    ExplicitWidth = 1064
   end
   object Customers: TAureliusDataset
     FieldDefs = <
