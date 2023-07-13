@@ -231,7 +231,7 @@ inherited FrmInvoice: TFrmInvoice
     Top = 464
     Width = 129
     Height = 33
-    Anchors = [akRight, akBottom]
+    Anchors = [akLeft, akBottom]
     Cancel = True
     Caption = '&Quick Item...'
     TabOrder = 8

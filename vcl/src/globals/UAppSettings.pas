@@ -126,7 +126,7 @@ begin
   FIniFile.WriteInteger( LSection, 'Left', AControl.Left );
   FIniFile.WriteInteger( LSection, 'Top', AControl.Top );
   FIniFile.WriteInteger( LSection, 'Width', AControl.Width );
-  FIniFile.WriteInteger( LSection, 'Height', AControl.Width );
+  FIniFile.WriteInteger( LSection, 'Height', AControl.Height );
 end;
 
 procedure TAppSettings.StoreFileSaveDialog(ADialog: TFileSaveDialog);

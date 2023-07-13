@@ -3,8 +3,6 @@ inherited FrmCustomer: TFrmCustomer
   Caption = 'FrmCustomer'
   ClientHeight = 481
   ClientWidth = 684
-  Constraints.MinHeight = 520
-  Constraints.MinWidth = 700
   ExplicitWidth = 700
   ExplicitHeight = 520
   TextHeight = 21

@@ -81,12 +81,12 @@ end;
 
 procedure TFrmBase.FormDestroy(Sender: TObject);
 begin
- if FOwnsObjectManager then
+  TAppSettings.Shared.StoreControl(self);
+
+  if FOwnsObjectManager then
   begin
     FObjectManager.Free;
   end;
-
-  TAppSettings.Shared.StoreControl(self);
 
   inherited;
 end;
