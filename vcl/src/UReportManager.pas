@@ -3,29 +3,58 @@ unit UReportManager;
 interface
 
 uses
-    System.SysUtils
-  , System.Classes
-  , System.Generics.Collections
-
-  , Aurelius.Mapping.Automapping
+    Aurelius.Criteria.Expression
+  , Aurelius.Criteria.Linq
+  , Aurelius.Criteria.Projections
+  , Aurelius.Engine.ObjectManager
   , Aurelius.Mapping.Attributes
+  , Aurelius.Mapping.Automapping
+  , Aurelius.Mapping.Explorer
   , Aurelius.Mapping.Metadata
   , Aurelius.Types.Blob
-  , Aurelius.Mapping.Explorer
-  , Aurelius.Engine.ObjectManager
-  , Aurelius.Criteria.Projections
-  , Aurelius.Criteria.Linq
-  , Aurelius.Criteria.Expression
 
   , Bcl.Types.Nullable
 
-  , UTransaction
-  , UInvoice
+  , Data.DB
 
+  , FireDAC.Comp.Client
+  , FireDAC.Comp.DataSet
+  , FireDAC.DApt.Intf
+  , FireDAC.DatS
+  , FireDAC.Phys.Intf
+  , FireDAC.Stan.Error
+  , FireDAC.Stan.Intf
+  , FireDAC.Stan.Option
+  , FireDAC.Stan.Param
+
+  , System.Classes
+  , System.Generics.Collections
+  , System.SysUtils
+
+  , UCustomer
+  , UInvoice
+  , UTransaction
+  , UDictionary, FireDAC.Stan.StorageJSON
   ;
 
 type
   TReportManager = class(TDataModule)
+    CustomerReport: TFDMemTable;
+    CustomerReportCustomerId: TIntegerField;
+    CustomerReportTotal: TFloatField;
+    CustomerReportName: TStringField;
+    CustomerReportInvoices: TDataSetField;
+    CRInvoiceTotals: TFDMemTable;
+    CRInvoiceTotalsInvoiceId: TIntegerField;
+    CRInvoiceTotalsNumber: TIntegerField;
+    CRInvoiceTotalsIssued: TDateField;
+    CRInvoiceTotalsPaid: TDateField;
+    CRInvoiceTotalsTotal: TFloatField;
+    CRInvoiceTotalsCategories: TDataSetField;
+    CRCategoryTotals: TFDMemTable;
+    CRCategoryTotalsCategory: TStringField;
+    CRCategoryTotalsTotal: TFloatField;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
     procedure DataModuleCreate(Sender: TObject);
   strict private
     FObjManager: TObjectManager;
@@ -45,6 +74,8 @@ type
     property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
     property RangeStart: TDate read FRangeStart write FRangeStart;
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
+
+    procedure CreateCustomerReport;
 
   end;
 
@@ -66,6 +97,92 @@ begin
   inherited Create(nil);
 
   FObjectManager := AObjManager;
+end;
+
+procedure TReportManager.CreateCustomerReport;
+begin
+  CustomerReport.Close;
+  CustomerReport.Open;
+
+  // sum up total of all invoices for all customers in range
+  var LCustomers := ObjectManager.Find<TInvoice>
+    .Select(TProjections.ProjectionList
+      .Add(Dic.Invoice.Transactions.Amount.Sum.As_('Total'))
+      .Add(Dic.Invoice.Customer.Id.Group.As_('CustomerId'))
+      .Add(Dic.Invoice.Customer.Name.As_('Name'))
+    )
+    .Where( (Dic.Invoice.IssuedOn >= self.RangeStart) AND
+      ( Dic.Invoice.IssuedOn <= self.RangeEnd )
+    )
+    .OrderBy(Dic.Invoice.Customer.Name)
+    .ListValues;
+  try
+    for var LCustomer in LCustomers do
+    begin
+      CustomerReport.Append;
+      CustomerReportCustomerId.AsInteger := LCustomer['CustomerId'];
+      CustomerReportTotal.AsFloat := LCustomer['Total'];
+      CustomerReportName.AsString := LCustomer['Name'];
+
+      // determine list of invoices for that customer
+      var LInvoices := ObjectManager.Find<TInvoice>
+        .Where(
+          (Dic.Invoice.Transactions.Id>0) AND
+          (Dic.Invoice.Customer.Id = LCustomer.Values['CustomerId'] ) AND
+          (Dic.Invoice.IssuedOn >= self.RangeStart) AND
+          (Dic.Invoice.IssuedOn <= self.RangeEnd )
+          )
+        .List
+        ;
+      try
+        for var LInvoice in LInvoices do
+        begin
+          CRInvoiceTotals.Append;
+
+          // drill down into categories for that invoice
+          var LCategories := ObjectManager.Find<TInvoice>
+            .Select(TProjections.ProjectionList
+              .Add(Dic.Invoice.Transactions.Amount.Sum.As_('Total'))
+              .Add(Dic.Invoice.Transactions.Category.Group.As_('Category'))
+            )
+            .Where(
+              (Dic.Invoice.IssuedOn >= self.RangeStart) AND
+              (Dic.Invoice.IssuedOn <= self.RangeEnd ) AND
+              (Dic.Invoice.Id = LInvoice.Id)
+            )
+            .ListValues
+            ;
+          try
+            for var LCategory in LCategories do
+            begin
+              CRCategoryTotals.Append;
+              CRCategoryTotalsCategory.AsString := LCategory.Values['Category'];
+              CRCategoryTotalsTotal.AsFloat := LCategory.Values['Total'];
+              CRCategoryTotals.Post;
+            end;
+          finally
+            LCategories.Free;
+          end;
+
+          CRInvoiceTotalsInvoiceId.AsInteger := LInvoice.Id;
+          CRInvoiceTotalsNumber.AsInteger := LInvoice.Number;
+          CRInvoiceTotalsIssued.AsDateTime := LInvoice.IssuedOn;
+          CRInvoiceTotalsPaid.AsDateTime := LInvoice.Payments.LastPaymentDate;
+          CRInvoiceTotalsTotal.AsFloat := LInvoice.TotalAmount;
+          CRInvoiceTotals.Post;
+        end;
+      finally
+        LInvoices.Free;
+      end;
+
+      CustomerReport.Post;
+    end;
+
+    CustomerReport.SaveToFile('c:\tmp\list.json', sfJSON );
+  finally
+    LCustomers.Free;
+  end;
+
 end;
 
 procedure TReportManager.DataModuleCreate(Sender: TObject);

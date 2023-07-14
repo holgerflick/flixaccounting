@@ -186,7 +186,6 @@ type
 
     property BillTo: String read GetBillTo;
 
-
     property Status: TInvoiceStatus read GetStatus;
     property StatusText: String read GetStatusText;
     property CanBeProcessed: Boolean read GetCanBeProcessed;
