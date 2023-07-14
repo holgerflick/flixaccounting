@@ -5,6 +5,7 @@ interface
 uses
     Aurelius.Criteria.Expression
   , Aurelius.Criteria.Linq
+  , Aurelius.Criteria.Base
   , Aurelius.Criteria.Projections
   , Aurelius.Engine.ObjectManager
   , Aurelius.Mapping.Attributes
@@ -75,7 +76,7 @@ type
     property RangeStart: TDate read FRangeStart write FRangeStart;
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
-    procedure CreateCustomerReport;
+    procedure BuildProfitsCustomer;
 
   end;
 
@@ -99,23 +100,28 @@ begin
   FObjectManager := AObjManager;
 end;
 
-procedure TReportManager.CreateCustomerReport;
+procedure TReportManager.BuildProfitsCustomer;
+var
+  LCustomers: TObjectList<TCriteriaResult>;
 begin
+  CustomerReport.DisableControls;
   CustomerReport.Close;
   CustomerReport.Open;
 
   // sum up total of all invoices for all customers in range
-  var LCustomers := ObjectManager.Find<TInvoice>
+  LCustomers := ObjectManager.Find<TInvoice>
     .Select(TProjections.ProjectionList
       .Add(Dic.Invoice.Transactions.Amount.Sum.As_('Total'))
       .Add(Dic.Invoice.Customer.Id.Group.As_('CustomerId'))
       .Add(Dic.Invoice.Customer.Name.As_('Name'))
     )
     .Where( (Dic.Invoice.IssuedOn >= self.RangeStart) AND
-      ( Dic.Invoice.IssuedOn <= self.RangeEnd )
+      ( Dic.Invoice.IssuedOn <= self.RangeEnd ) AND
+      ( Dic.Invoice.Transactions.Id>0 )
     )
     .OrderBy(Dic.Invoice.Customer.Name)
     .ListValues;
+
   try
     for var LCustomer in LCustomers do
     begin
@@ -177,12 +183,12 @@ begin
 
       CustomerReport.Post;
     end;
-
-    CustomerReport.SaveToFile('c:\tmp\list.json', sfJSON );
   finally
     LCustomers.Free;
-  end;
 
+    CustomerReport.First;
+    CustomerReport.EnableControls;
+  end;
 end;
 
 procedure TReportManager.DataModuleCreate(Sender: TObject);

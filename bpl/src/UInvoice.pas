@@ -26,7 +26,12 @@ type
   TInvoice = class;
 
   [Automapping]
-  TInvoiceStatus = ( ReadyItems, ReadyPayments, ReadyProcess, Processed, Overpaid );
+  TInvoiceStatus = (
+    ReadyItems,
+    ReadyPayments,
+    ReadyProcess,
+    Processed,
+    Overpaid );
 
 
 

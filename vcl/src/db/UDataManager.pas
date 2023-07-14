@@ -131,7 +131,7 @@ end;
 
 function TDataManager.GetObjectManager: TObjectManager;
 begin
-  Result := TObjectManager.Create(GetConnection, TMappingExplorer.Default);
+  Result := TObjectManager.Create(GetConnection);
 end;
 
 class function TDataManager.Shared: TDataManager;

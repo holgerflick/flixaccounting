@@ -23,6 +23,7 @@ object ReportManager: TReportManager
     end
     object CustomerReportTotal: TFloatField
       FieldName = 'Total'
+      DisplayFormat = '0,.00'
     end
     object CustomerReportInvoices: TDataSetField
       FieldName = 'Invoices'
@@ -49,12 +50,15 @@ object ReportManager: TReportManager
     end
     object CRInvoiceTotalsIssued: TDateField
       FieldName = 'Issued'
+      DisplayFormat = 'mm/dd/yyyy'
     end
     object CRInvoiceTotalsPaid: TDateField
       FieldName = 'Paid'
+      DisplayFormat = 'mm/dd/yyyy'
     end
     object CRInvoiceTotalsTotal: TFloatField
       FieldName = 'Total'
+      DisplayFormat = '0,.00'
     end
     object CRInvoiceTotalsCategories: TDataSetField
       FieldName = 'Categories'
@@ -79,10 +83,11 @@ object ReportManager: TReportManager
     end
     object CRCategoryTotalsTotal: TFloatField
       FieldName = 'Total'
+      DisplayFormat = '0,.00'
     end
   end
   object FDStanStorageJSONLink1: TFDStanStorageJSONLink
     Left = 216
-    Top = 248
+    Top = 232
   end
 end

@@ -1793,31 +1793,35 @@ inherited FrmMain: TFrmMain
     Left = 480
     Top = 80
     object actTransactions: TAction
+      Category = 'Main'
       Caption = 'Transactions'
       ImageIndex = 4
       ImageName = 'trading'
       OnExecute = actTransactionsExecute
     end
     object actCustomers: TAction
+      Category = 'Main'
       Caption = 'Customers'
       ImageIndex = 2
       ImageName = 'chat-room'
       OnExecute = actCustomersExecute
     end
     object actReports: TAction
+      Category = 'Main'
       Caption = 'Reports'
-      Enabled = False
       ImageIndex = 1
       ImageName = 'analytics'
       OnExecute = actReportsExecute
     end
     object actInvoices: TAction
+      Category = 'Main'
       Caption = 'Invoices'
       ImageIndex = 3
       ImageName = 'invoice'
       OnExecute = actInvoicesExecute
     end
     object actExpandForm: TAction
+      Category = 'Main'
       Caption = 'Expand Form'
       ShortCut = 16507
       OnExecute = actExpandFormExecute

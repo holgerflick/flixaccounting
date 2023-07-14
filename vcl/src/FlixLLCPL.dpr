@@ -24,7 +24,8 @@ uses
   UAppSettings in 'globals\UAppSettings.pas',
   UInvoiceProcessor in 'UInvoiceProcessor.pas',
   UFrmQuickItems in 'forms\UFrmQuickItems.pas' {FrmQuickItems},
-  UBoAImporter in 'UBoAImporter.pas';
+  UBoAImporter in 'UBoAImporter.pas',
+  UFrmReportHost in 'forms\UFrmReportHost.pas' {FrmReportHost};
 
 {$R *.res}
 
