@@ -27,7 +27,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
+  , UFrmBase, Vcl.Menus
   ;
 
 type
@@ -73,11 +73,12 @@ var
 implementation
 
 uses
-    UReportManager
+    UFrmReportHost
   , UAppSettings
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices
+
   ;
 
 resourcestring
@@ -145,7 +146,12 @@ end;
 
 procedure TFrmMain.Reports;
 begin
-  // TODO
+  var LReport := TFrmReportHost.Create(nil);
+  try
+    LReport.ShowModal;
+  finally
+    LReport.Free;
+  end;
 end;
 
 procedure TFrmMain.Customers;

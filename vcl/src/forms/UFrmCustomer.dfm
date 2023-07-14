@@ -10,7 +10,7 @@ inherited FrmCustomer: TFrmCustomer
     Left = 8
     Top = 40
     Width = 813
-    Height = 423
+    Height = 463
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = sourceCustomers
     Font.Charset = DEFAULT_CHARSET
@@ -61,7 +61,6 @@ inherited FrmCustomer: TFrmCustomer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitHeight = 457
   end
   object DBNavigator1: TDBNavigator
     Left = 8
@@ -72,15 +71,6 @@ inherited FrmCustomer: TFrmCustomer
     VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-  end
-  object Button1: TButton
-    Left = 16
-    Top = 472
-    Width = 209
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 3
-    OnClick = Button1Click
   end
   object Customers: TAureliusDataset
     FieldDefs = <
