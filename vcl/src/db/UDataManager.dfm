@@ -1,7 +1,7 @@
 object DataManager: TDataManager
   OnCreate = DataModuleCreate
-  Height = 480
-  Width = 640
+  Height = 304
+  Width = 328
   object Connection: TAureliusConnection
     AdapterName = 'FireDac'
     AdaptedConnection = FDConnection
@@ -9,12 +9,12 @@ object DataManager: TDataManager
     Params.Strings = (
       'Database=C:\dev\FlixLLCPL\vcl\bin\flixllcpl.db'
       'EnableForeignKeys=True')
-    Left = 104
-    Top = 264
+    Left = 48
+    Top = 24
   end
-  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
-    Left = 320
-    Top = 256
+  object MySQLDriverLink: TFDPhysMySQLDriverLink
+    Left = 48
+    Top = 152
   end
   object FDConnection: TFDConnection
     Params.Strings = (
@@ -24,7 +24,15 @@ object DataManager: TDataManager
       'Server=localhost'
       'DriverID=MySQL')
     LoginPrompt = False
-    Left = 104
-    Top = 360
+    Left = 48
+    Top = 88
+  end
+  object MemConnection: TAureliusConnection
+    DriverName = 'SQLite'
+    Params.Strings = (
+      'Database=:memory:'
+      'EnableForeignKeys=True')
+    Left = 200
+    Top = 24
   end
 end

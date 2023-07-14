@@ -65,6 +65,7 @@ type
 
     property Document: TDocument read GetDocument write SetDocument;
 
+
     property IsMonthly: Boolean read FIsMonthly write FIsMonthly;
     property Percentage: Double read FPercentage write FPercentage;
 

@@ -19,18 +19,15 @@ type
   // creates invoice items from statement file
   TBoAImporter = class
   public
-    procedure Execute(ADataset: TDataset; AFilename: String; LUseHourlyBase:
-        Boolean = false);
+    procedure Execute(ADataset: TDataset; AFilename: String; AUseHourlyBase:
+        Boolean = false; ARateHourly: Double = 210);
   end;
 
 implementation
 
-const
-  CHourlyBase = 210;
-
 { TBoAImporter }
 
-procedure TBoAImporter.Execute(ADataset: TDataset; AFilename: String; LUseHourlyBase: Boolean = false);
+procedure TBoAImporter.Execute(ADataset: TDataset; AFilename: String; AUseHourlyBase: Boolean = false; ARateHourly: Double = 210);
 var
   LLines: TStringlist;
 begin
@@ -62,15 +59,15 @@ begin
           ADataSet.FieldByName('Idx').AsInteger := i + 1;
           ADataSet.FieldByName('Category').AsString := 'Consulting';
           ADataSet.FieldByName('Title').AsString := LDate + LText;
-          if not LUseHourlyBase then
+          if not AUseHourlyBase then
           begin
             ADataSet.FieldByName('Quantity').AsFloat := 1;
             ADataSet.FieldByName('Value').AsFloat := LAmount;
           end
           else
           begin
-            ADataSet.FieldByName('Quantity').AsFloat := LAmount / CHourlyBase;
-            ADataSet.FieldByName('Value').AsFloat := CHourlyBase;
+            ADataSet.FieldByName('Quantity').AsFloat := LAmount / ARateHourly;
+            ADataSet.FieldByName('Value').AsFloat := ARateHourly;
           end;
           ADataSet.Post;
         except

@@ -3,7 +3,7 @@ unit UDataManager;
 interface
 
 uses
-  System.SysUtils
+    System.SysUtils
   , System.Classes
 
   , System.IOUtils
@@ -18,7 +18,9 @@ uses
   , Aurelius.Sql.SQLite
   , Aurelius.Sql.Register
   , Aurelius.Engine.DatabaseManager
-  , Aurelius.Engine.ObjectManager, Aurelius.Comp.Connection
+  , Aurelius.Engine.ObjectManager
+  , Aurelius.Comp.Connection
+  , Aurelius.Mapping.Explorer
 
   , FireDAC.Phys.MySQLDef
   , FireDAC.Stan.Intf
@@ -41,8 +43,9 @@ uses
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
-    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    MySQLDriverLink: TFDPhysMySQLDriverLink;
     FDConnection: TFDConnection;
+    MemConnection: TAureliusConnection;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -50,6 +53,7 @@ type
     function GetConnection: IDBConnection;
     function GetDatabaseManager: TDatabaseManager;
     function GetObjectManager: TObjectManager;
+    function GetMemoryObjectManager: TObjectManager;
   strict private
     class var FInstance: TDataManager;
 
@@ -60,6 +64,8 @@ type
 
     property DatabaseManager: TDatabaseManager read GetDatabaseManager;
     property ObjectManager: TObjectManager read GetObjectManager;
+
+    property MemoryObjectManager: TObjectManager read GetMemoryObjectManager;
 
     procedure UpdateDatabase;
     procedure CreateDatabase;
@@ -115,9 +121,17 @@ begin
   Result := TDatabaseManager.Create(GetConnection);
 end;
 
+function TDataManager.GetMemoryObjectManager: TObjectManager;
+begin
+  Result := TObjectManager.Create(
+    MemConnection.CreateConnection,
+    TMappingExplorer.Get('Temporary')
+    );
+end;
+
 function TDataManager.GetObjectManager: TObjectManager;
 begin
-  Result := TObjectManager.Create(GetConnection);
+  Result := TObjectManager.Create(GetConnection, TMappingExplorer.Default);
 end;
 
 class function TDataManager.Shared: TDataManager;

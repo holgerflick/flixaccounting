@@ -47,6 +47,8 @@ type
     txtAddress: TDBMemo;
     CustomersContact: TStringField;
     DBNavigator1: TDBNavigator;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
     procedure CustomersBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
   private
@@ -63,7 +65,19 @@ implementation
 uses
     UCustomer
   , UDictionary
+  , UReportManager
   ;
+
+procedure TFrmCustomer.Button1Click(Sender: TObject);
+
+begin
+  var LReport := TReportManager.Create(ObjectManager);
+  try
+    LReport.CreateCustomerReport;
+  finally
+    LReport.Free;
+  end;
+end;
 
 procedure TFrmCustomer.CustomersBeforePost(DataSet: TDataSet);
 begin
