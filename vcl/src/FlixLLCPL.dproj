@@ -76,9 +76,9 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Build>27</VerInfo_Build>
+        <VerInfo_Build>29</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.27;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=FlixEngineering, LLC;FileDescription=$(MSBuildProjectName);FileVersion=0.0.1.29;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Flix LLC Profit &amp; Loss;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Release>1</VerInfo_Release>
@@ -155,6 +155,15 @@
         <DCCReference Include="UBoAImporter.pas"/>
         <DCCReference Include="forms\UFrmReportHost.pas">
             <Form>FrmReportHost</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="globals\UReportInterfaces.pas"/>
+        <DCCReference Include="forms\UFrmReportCustomers.pas">
+            <Form>FrmReportCustomers</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\UFrmReportProfitLoss.pas">
+            <Form>FrmReportProfitLoss</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

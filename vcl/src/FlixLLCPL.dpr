@@ -25,7 +25,10 @@ uses
   UInvoiceProcessor in 'UInvoiceProcessor.pas',
   UFrmQuickItems in 'forms\UFrmQuickItems.pas' {FrmQuickItems},
   UBoAImporter in 'UBoAImporter.pas',
-  UFrmReportHost in 'forms\UFrmReportHost.pas' {FrmReportHost};
+  UFrmReportHost in 'forms\UFrmReportHost.pas' {FrmReportHost},
+  UReportInterfaces in 'globals\UReportInterfaces.pas',
+  UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
+  UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss};
 
 {$R *.res}
 

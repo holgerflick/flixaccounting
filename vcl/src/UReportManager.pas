@@ -35,7 +35,7 @@ uses
   , UCustomer
   , UInvoice
   , UTransaction
-  , UDictionary, FireDAC.Stan.StorageJSON
+  , UDictionary, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin
   ;
 
 type
@@ -55,7 +55,19 @@ type
     CRCategoryTotals: TFDMemTable;
     CRCategoryTotalsCategory: TStringField;
     CRCategoryTotalsTotal: TFloatField;
-    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
+    PLTransactions: TFDMemTable;
+    PLTransactionsPaidOn: TDateField;
+    PLTransactionsTitle: TStringField;
+    PLTransactionsAmount: TFloatField;
+    FDStanStorageBinLink1: TFDStanStorageBinLink;
+    PLTransactionsTxId: TIntegerField;
+    ProfitLoss: TFDMemTable;
+    ProfitLossCategory: TStringField;
+    ProfitLossTotal: TFloatField;
+    ProfitLossTransactions: TDataSetField;
+    ProfitLossTxCount: TIntegerField;
+    ProfitLossIsLoss: TBooleanField;
+    ProfitLossSumTotal: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
   strict private
     FObjManager: TObjectManager;
@@ -77,6 +89,7 @@ type
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
     procedure BuildProfitsCustomer;
+    procedure BuildProfitLoss(ATblIncome, ATblExpense: TFDMemTable);
 
   end;
 
@@ -86,7 +99,8 @@ var
 implementation
 
 uses
-  System.DateUtils
+    System.DateUtils
+  , System.Variants
   ;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
@@ -98,6 +112,73 @@ begin
   inherited Create(nil);
 
   FObjectManager := AObjManager;
+end;
+
+procedure TReportManager.BuildProfitLoss( ATblIncome, ATblExpense: TFDMemTable );
+begin
+
+  ProfitLoss.Close;
+
+  ProfitLoss.Filtered := False;
+  ProfitLoss.Open;
+
+  var LTransactions := ObjectManager.Find<TTransaction>
+    .Where(
+      (Dic.Transaction.PaidOn >= self.RangeStart) AND
+      (Dic.Transaction.PaidOn <= self.RangeEnd)
+    )
+    .OrderBy(Dic.Transaction.PaidOn)
+    .List;
+
+  try
+    for var LTx in LTransactions do
+    begin
+      var LCategory := LTx.Category;
+      var LIsLoss := LTx.Kind = TTransactionKind.Expense;
+
+      // look up and create if does not exist
+      if not ProfitLoss.Locate('Category;IsLoss', VarArrayOf( [LCategory, LIsLoss] ), [] ) then
+      begin
+        ProfitLoss.Append;
+        ProfitLossCategory.AsString := LCategory;
+        ProfitLossIsLoss.AsBoolean := LIsLoss;
+        ProfitLossTotal.AsFloat := 0;
+        ProfitLossTxCount.AsInteger := 0;
+      end
+      else
+      begin
+        ProfitLoss.Edit;
+      end;
+
+      PLTransactions.Append;
+
+      ProfitLossTotal.AsFloat := ProfitLossTotal.AsFloat + LTx.AmountTotal;
+
+      PLTransactionsPaidOn.AsDateTime := LTx.PaidOn;
+      PLTransactionsTitle.AsString := LTx.Title;
+      PLTransactionsAmount.AsFloat := LTx.AmountTotal;
+      PLTransactionsTxId.AsInteger := LTx.Id;
+      PLTransactions.Post;
+    end;
+  finally
+    LTransactions.Free;
+  end;
+
+
+  // copy into actual datasets
+  ProfitLoss.Filter := 'IsLoss=False';
+  ProfitLoss.Filtered := True;
+  ATblIncome.Close;
+//  ATblIncome.CopyDataSet(ProfitLoss, [coStructure, coRestart, coAppend]);
+  ATblIncome.Data := ProfitLoss.FilteredData;
+
+  ProfitLoss.Filtered := False;
+  ProfitLoss.Filter := 'IsLoss=True';
+  ProfitLoss.Filtered := True;
+
+  ATblExpense.Close;
+//  ATblExpense.CopyDataSet(ProfitLoss, [coStructure, coRestart, coAppend]);
+  ATblExpense.Data := ProfitLoss.FilteredData;
 end;
 
 procedure TReportManager.BuildProfitsCustomer;
@@ -225,7 +306,5 @@ begin
     LCategories.Free;  // list needs to be freed
   end;
 end;
-
-
 
 end.

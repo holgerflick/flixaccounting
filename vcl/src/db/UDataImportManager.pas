@@ -269,7 +269,6 @@ begin
   ATx.Category := self.Category;
   ATx.Title := self.Title;
   ATx.Amount := self.Amount;
-  ATx.Percentage := self.Percentage;
   ATx.Document := TDocument.Create;
   ATx.Document.OriginalFilename := self.OriginalFileName;
   ATx.Document.Document := TFile.ReadAllBytes(self.OriginalFileName);

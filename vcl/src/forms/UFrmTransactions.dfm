@@ -13,7 +13,7 @@ inherited FrmTransactions: TFrmTransactions
     Width = 999
     Height = 542
     Anchors = [akLeft, akTop, akRight, akBottom]
-    ColCount = 9
+    ColCount = 8
     DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
@@ -336,36 +336,6 @@ inherited FrmTransactions: TFrmTransactions
         Width = 45
       end
       item
-        Alignment = taCenter
-        Borders = []
-        BorderPen.Color = clSilver
-        ButtonHeight = 18
-        CheckFalse = 'N'
-        CheckTrue = 'Y'
-        Color = clWindow
-        Editor = edPositiveNumeric
-        FieldName = 'Percentage'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'Consolas'
-        Font.Style = []
-        Header = 'Percent/%'
-        HeaderFont.Charset = DEFAULT_CHARSET
-        HeaderFont.Color = clWindowText
-        HeaderFont.Height = -13
-        HeaderFont.Name = 'Arial'
-        HeaderFont.Style = [fsBold]
-        HeaderAlignment = taCenter
-        PrintBorders = [cbTop, cbLeft, cbRight, cbBottom]
-        PrintFont.Charset = DEFAULT_CHARSET
-        PrintFont.Color = clWindowText
-        PrintFont.Height = -16
-        PrintFont.Name = 'Segoe UI'
-        PrintFont.Style = []
-        Width = 86
-      end
-      item
         Alignment = taRightJustify
         Borders = []
         BorderPen.Color = clSilver
@@ -393,7 +363,7 @@ inherited FrmTransactions: TFrmTransactions
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
         ReadOnly = True
-        Width = 122
+        Width = 86
       end>
     DataSource = sourceTransactions
     EditPostMode = epRow
@@ -542,8 +512,7 @@ inherited FrmTransactions: TFrmTransactions
       70
       138
       45
-      86
-      122)
+      86)
     RowHeights = (
       28
       28)
@@ -698,12 +667,6 @@ inherited FrmTransactions: TFrmTransactions
       FieldName = 'Amount'
       Required = True
       DisplayFormat = '0,.00'
-    end
-    object dbTransactionsPercentage: TFloatField
-      FieldName = 'Percentage'
-      Required = True
-      OnGetText = dbTransactionsPercentageGetText
-      OnSetText = dbTransactionsPercentageSetText
     end
     object dbTransactionsDocument: TAureliusEntityField
       FieldName = 'Document'

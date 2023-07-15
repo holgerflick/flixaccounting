@@ -1,24 +1,23 @@
 inherited FrmReportHost: TFrmReportHost
   Caption = 'Reports'
   ClientHeight = 622
-  ClientWidth = 704
-  Constraints.MinWidth = 720
-  ExplicitWidth = 720
+  ClientWidth = 584
+  Constraints.MinWidth = 600
+  ExplicitWidth = 600
   ExplicitHeight = 661
   TextHeight = 21
   object panTop: TFlxPanel
     Left = 0
     Top = 0
-    Width = 704
+    Width = 584
     Height = 105
     Align = alTop
     BevelOuter = bvNone
     Caption = 'panTop'
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 905
     DesignSize = (
-      704
+      584
       105)
     object btnCustomers: TButton
       Left = 8
@@ -55,20 +54,21 @@ inherited FrmReportHost: TFrmReportHost
       TabOrder = 1
     end
     object cbFilterYear: TComboBox
-      Left = 221
+      Left = 220
       Top = 36
-      Width = 256
+      Width = 137
       Height = 29
       Style = csDropDownList
-      Anchors = [akTop, akRight]
+      Anchors = [akLeft, akTop, akRight]
       TabOrder = 2
+      OnChange = cbFilterYearChange
       Items.Strings = (
         'Current Year'
         'Last Year'
         '2 Years Ago')
     end
     object Button2: TButton
-      Left = 483
+      Left = 363
       Top = 7
       Width = 100
       Height = 92
@@ -84,10 +84,9 @@ inherited FrmReportHost: TFrmReportHost
       Images = Images
       ParentFont = False
       TabOrder = 3
-      ExplicitLeft = 684
     end
     object Button3: TButton
-      Left = 589
+      Left = 469
       Top = 7
       Width = 100
       Height = 92
@@ -103,22 +102,18 @@ inherited FrmReportHost: TFrmReportHost
       Images = Images
       ParentFont = False
       TabOrder = 4
-      ExplicitLeft = 790
     end
   end
   object panHost: TFlxPanel
     Left = 0
     Top = 105
-    Width = 704
+    Width = 584
     Height = 517
     Align = alClient
     BevelOuter = bvNone
     Caption = 'panHost'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 127
-    ExplicitWidth = 905
-    ExplicitHeight = 501
   end
   object ActionList1: TActionList
     Images = Images
@@ -134,6 +129,7 @@ inherited FrmReportHost: TFrmReportHost
       Caption = 'Profit && Loss'
       ImageIndex = 1
       ImageName = 'investment'
+      OnExecute = actProfitLossExecute
     end
     object actPrint: TAction
       Caption = 'Print'
