@@ -26,14 +26,13 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     Caption = 'FlxPanel1'
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 553
-    ExplicitHeight = 510
     object Label1: TLabel
       Left = 0
       Top = 0
       Width = 599
       Height = 25
       Align = alTop
+      Alignment = taCenter
       Caption = 'Income'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -41,8 +40,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = -6
-      ExplicitWidth = 553
+      ExplicitWidth = 66
     end
     object Splitter2: TSplitter
       Left = 0
@@ -127,9 +125,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
-      ExplicitLeft = 0
-      ExplicitTop = 672
-      ExplicitWidth = 599
       object DBText1: TDBText
         Left = 0
         Top = 0
@@ -140,7 +135,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         DataField = 'SumTotal'
         DataSource = sourceIncome
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -19
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
@@ -161,13 +156,13 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     Caption = 'FlxPanel1'
     ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = 605
     object Label2: TLabel
       Left = 0
       Top = 0
       Width = 553
       Height = 25
       Align = alTop
+      Alignment = taCenter
       Caption = 'Expense'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -260,8 +255,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
-      ExplicitLeft = 11
-      ExplicitTop = 670
       object DBText2: TDBText
         Left = 0
         Top = 0
@@ -272,7 +265,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         DataField = 'SumTotal'
         DataSource = sourceExpense
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        Font.Color = clRed
         Font.Height = -19
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]

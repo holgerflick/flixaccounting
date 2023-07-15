@@ -25,9 +25,14 @@ type
     Button3: TButton;
     actPrint: TAction;
     actExport: TAction;
+    DlgSave: TFileSaveDialog;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actCustomerProfitsExecute(Sender: TObject);
+    procedure actExportExecute(Sender: TObject);
+    procedure actExportUpdate(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
+    procedure actPrintUpdate(Sender: TObject);
     procedure actProfitLossExecute(Sender: TObject);
     procedure cbFilterYearChange(Sender: TObject);
   private
@@ -97,6 +102,45 @@ begin
   HostForm( LFrm );
 end;
 
+procedure TFrmReportHost.actExportExecute(Sender: TObject);
+begin
+  if Assigned( FHosting ) then
+  begin
+    if DlgSave.Execute then
+    begin
+      FHosting.SaveToFile(DlgSave.FileName);
+    end;
+  end;
+end;
+
+procedure TFrmReportHost.actExportUpdate(Sender: TObject);
+begin
+  var LEnabled := FHosting <> nil;
+  if LEnabled then
+  begin
+    LEnabled := FHosting.CanExport;
+  end;
+  (Sender as TAction).Enabled := LEnabled;
+end;
+
+procedure TFrmReportHost.actPrintExecute(Sender: TObject);
+begin
+  if Assigned( FHosting ) then
+  begin
+    FHosting.Preview;
+  end;
+end;
+
+procedure TFrmReportHost.actPrintUpdate(Sender: TObject);
+begin
+  var LEnabled := FHosting <> nil;
+  if LEnabled then
+  begin
+    LEnabled := FHosting.CanPreview;
+  end;
+  (Sender as TAction).Enabled := LEnabled;
+end;
+
 procedure TFrmReportHost.actProfitLossExecute(Sender: TObject);
 var
   LFrm: IReportConfiguration;
@@ -164,12 +208,10 @@ begin
     var LYear := GetSelectedYear;
     FHosting.SetRangeStart( StartOfAYear( LYear ) );
     FHosting.SetRangeEnd( EndOfAYear( LYear ) );
-    FHosting.BuildReport;
+    FHosting.Display;
 
     self.Caption := CCaptionStart + FHosting.GetName +
       ' (created on ' + DateTimeToStr( TDateTime.Now ) + ')';
-
-    FHosting.SetVisible(True);
   end;
 end;
 
