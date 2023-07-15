@@ -13,11 +13,13 @@ type
     procedure SetRangeStart( ADate: TDate );
     procedure SetRangeEnd( ADate: TDate );
     procedure SetParent( AComponent: TWinControl );
-    procedure SetVisible( AVisible: Boolean );
 
     function GetName: String;
+    function CanExport: Boolean;
+    function CanPreview: Boolean;
 
-    procedure BuildReport;
+    procedure Display;
+    procedure Preview;
 
     procedure SaveToFile( AFilename: String );
   end;

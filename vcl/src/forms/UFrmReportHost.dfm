@@ -1,4 +1,5 @@
 inherited FrmReportHost: TFrmReportHost
+  BorderIcons = [biSystemMenu]
   Caption = 'Reports'
   ClientHeight = 622
   ClientWidth = 584
@@ -135,11 +136,15 @@ inherited FrmReportHost: TFrmReportHost
       Caption = 'Print'
       ImageIndex = 3
       ImageName = 'printer'
+      OnExecute = actPrintExecute
+      OnUpdate = actPrintUpdate
     end
     object actExport: TAction
       Caption = 'Export'
       ImageIndex = 2
       ImageName = 'export (1)'
+      OnExecute = actExportExecute
+      OnUpdate = actExportUpdate
     end
   end
   object Images: TVirtualImageList
@@ -2312,5 +2317,25 @@ inherited FrmReportHost: TFrmReportHost
       end>
     Left = 232
     Top = 152
+  end
+  object DlgSave: TFileSaveDialog
+    DefaultExtension = 'pdf'
+    FavoriteLinks = <>
+    FileName = 'C:\tmp'
+    FileTypes = <
+      item
+        DisplayName = 'Microsoft Excel (*.xlsx)'
+        FileMask = '*.xlsx'
+      end
+      item
+        DisplayName = 'Adobe PDF (*.pdf)'
+        FileMask = '*.pdf'
+      end>
+    FileTypeIndex = 2
+    OkButtonLabel = 'Save'
+    Options = [fdoOverWritePrompt, fdoPathMustExist]
+    Title = 'Export report'
+    Left = 256
+    Top = 241
   end
 end

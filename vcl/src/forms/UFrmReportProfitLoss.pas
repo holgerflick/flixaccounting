@@ -63,18 +63,22 @@ type
     FRangeEnd: TDate;
     FReportManager: TReportManager;
 
+
   public
     property RangeStart: TDate read FRangeStart write FRangeStart;
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
-    procedure BuildReport;
+    procedure Display;
+    procedure Preview;
+
     function GetName: String;
     procedure SaveToFile(AFilename: String);
     procedure SetParent(AComponent: TWinControl);
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
-    procedure SetVisible(AVisible: Boolean);
 
+    function CanPreview: Boolean;
+    function CanExport: Boolean;
   end;
 
 var
@@ -93,6 +97,24 @@ begin
   inherited;
 end;
 
+function TFrmReportProfitLoss.CanExport: Boolean;
+begin
+  Result := False;
+end;
+
+function TFrmReportProfitLoss.CanPreview: Boolean;
+begin
+  Result := False;
+end;
+
+procedure TFrmReportProfitLoss.Display;
+begin
+  FReportManager.RangeStart := self.RangeStart;
+  FReportManager.RangeEnd := self.RangeEnd;
+  FReportManager.BuildProfitLoss(Income, Expense);
+  self.Visible := True;
+end;
+
 procedure TFrmReportProfitLoss.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -100,21 +122,19 @@ begin
   FReportManager := TReportManager.Create(ObjectManager);
 end;
 
-procedure TFrmReportProfitLoss.BuildReport;
-begin
-  FReportManager.RangeStart := self.RangeStart;
-  FReportManager.RangeEnd := self.RangeEnd;
-  FReportManager.BuildProfitLoss(Income, Expense);
-end;
-
 function TFrmReportProfitLoss.GetName: String;
 begin
   Result := 'Profit and Loss';
 end;
 
+procedure TFrmReportProfitLoss.Preview;
+begin
+  raise ENotImplemented.Create('Still to come.');
+end;
+
 procedure TFrmReportProfitLoss.SaveToFile(AFilename: String);
 begin
-  //
+  raise ENotImplemented.Create('Still to come.');
 end;
 
 procedure TFrmReportProfitLoss.SetParent(AComponent: TWinControl);
@@ -130,11 +150,6 @@ end;
 procedure TFrmReportProfitLoss.SetRangeStart(ADate: TDate);
 begin
   FRangeStart := ADate;
-end;
-
-procedure TFrmReportProfitLoss.SetVisible(AVisible: Boolean);
-begin
-  Visible := AVisible;
 end;
 
 end.

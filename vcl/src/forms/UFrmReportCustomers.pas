@@ -44,12 +44,16 @@ type
     FRangeEnd: TDate;
 
   public
-    procedure BuildReport;
+    procedure Display;
+    procedure Preview;
+
     procedure SaveToFile(AFilename: String);
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
     procedure SetParent(AParent: TWinControl);
-    procedure SetVisible( AVisible: Boolean );
+
+    function CanPreview: Boolean;
+    function CanExport: Boolean;
 
     function GetName: String;
     { Public declarations }
@@ -74,6 +78,11 @@ begin
   Result := 'Income per Customer';
 end;
 
+procedure TFrmReportCustomers.Preview;
+begin
+  raise ENotImplemented.Create('Still to come.');
+end;
+
 procedure TFrmReportCustomers.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -84,17 +93,28 @@ begin
   sourceCategories.DataSet := FReportManager.CRCategoryTotals;
 end;
 
-procedure TFrmReportCustomers.BuildReport;
+function TFrmReportCustomers.CanExport: Boolean;
+begin
+  Result := False;
+end;
+
+function TFrmReportCustomers.CanPreview: Boolean;
+begin
+  Result := False;
+end;
+
+procedure TFrmReportCustomers.Display;
 begin
   FReportManager.RangeStart := FRangeStart;
   FReportManager.RangeEnd := FRangeEnd;
 
   FReportManager.BuildProfitsCustomer;
+  self.Visible := True;
 end;
 
 procedure TFrmReportCustomers.SaveToFile(AFilename: String);
 begin
-  // TODO
+  raise ENotImplemented.Create('Still to come.');
 end;
 
 procedure TFrmReportCustomers.SetParent(AParent: TWinControl);
@@ -110,11 +130,6 @@ end;
 procedure TFrmReportCustomers.SetRangeStart(ADate: TDate);
 begin
   FRangeStart := ADate;
-end;
-
-procedure TFrmReportCustomers.SetVisible(AVisible: Boolean);
-begin
-  self.Visible := AVisible;
 end;
 
 end.
