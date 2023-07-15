@@ -17,7 +17,7 @@ uses
   , System.DateUtils
 
   , UDocument
-
+  , UCustomer
   ;
 
 type
@@ -40,7 +40,6 @@ type
     FDocument: Proxy<TDocument>;
 
     FKind: TTransactionKind;
-    FPercentage: Double;
     FIsMonthly: Boolean;
 
     function GetMonth: Integer;
@@ -64,10 +63,7 @@ type
     property Amount: Double read FAmount write FAmount;
 
     property Document: TDocument read GetDocument write SetDocument;
-
-
     property IsMonthly: Boolean read FIsMonthly write FIsMonthly;
-    property Percentage: Double read FPercentage write FPercentage;
 
     property MonthsPaid: Integer read GetMonthsPaid;
 
@@ -87,7 +83,6 @@ constructor TTransaction.Create;
 begin
   inherited;
 
-  FPercentage := 1;
   FIsMonthly := False;
 end;
 
@@ -100,7 +95,7 @@ end;
 
 function TTransaction.GetAmountTotal: Double;
 begin
-  Result := Amount * MonthsPaid * Percentage;
+  Result := Amount * MonthsPaid;
 end;
 
 function TTransaction.GetDocument: TDocument;

@@ -3,6 +3,9 @@
         <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\FlxComponents\FlxComponents.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="bpl\src\FlixLLCPL.Model.dproj">
             <Dependencies/>
         </Projects>
@@ -17,6 +20,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="FlxComponents">
+        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj"/>
+    </Target>
+    <Target Name="FlxComponents:Clean">
+        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlxComponents:Make">
+        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj" Targets="Make"/>
+    </Target>
     <Target Name="FlixLLCPL_Model">
         <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj"/>
     </Target>
@@ -36,13 +48,13 @@
         <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="FlixLLCPL_Model;FlixLLCPL"/>
+        <CallTarget Targets="FlxComponents;FlixLLCPL_Model;FlixLLCPL"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FlixLLCPL_Model:Clean;FlixLLCPL:Clean"/>
+        <CallTarget Targets="FlxComponents:Clean;FlixLLCPL_Model:Clean;FlixLLCPL:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FlixLLCPL_Model:Make;FlixLLCPL:Make"/>
+        <CallTarget Targets="FlxComponents:Make;FlixLLCPL_Model:Make;FlixLLCPL:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -81,7 +81,6 @@ begin
         LTx := TTransaction.Create(TTransactionKind.Income);
         LTx.Amount := 0;
         LTx.IsMonthly := False;
-        LTx.Percentage := 1;
         LTxCats.Add( LCurrentCat, LTx );
       end
       else

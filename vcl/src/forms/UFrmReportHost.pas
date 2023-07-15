@@ -28,6 +28,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actCustomerProfitsExecute(Sender: TObject);
+    procedure actProfitLossExecute(Sender: TObject);
+    procedure cbFilterYearChange(Sender: TObject);
   private
     { Private declarations }
     FHosting: IReportConfiguration;
@@ -51,6 +53,7 @@ uses
   , UDictionary
   , UTransaction
   , UFrmReportCustomers
+  , UFrmReportProfitLoss
   ;
 
 const
@@ -92,6 +95,21 @@ begin
   LFrm := TFrmReportCustomers.Create(nil);
 
   HostForm( LFrm );
+end;
+
+procedure TFrmReportHost.actProfitLossExecute(Sender: TObject);
+var
+  LFrm: IReportConfiguration;
+
+begin
+  LFrm := TFrmReportProfitLoss.Create(nil);
+
+  HostForm( LFrm );
+end;
+
+procedure TFrmReportHost.cbFilterYearChange(Sender: TObject);
+begin
+  UpdateReport;
 end;
 
 procedure TFrmReportHost.HostForm(AForm: IReportConfiguration);
@@ -141,15 +159,18 @@ end;
 
 procedure TFrmReportHost.UpdateReport;
 begin
-  var LYear := GetSelectedYear;
-  FHosting.SetRangeStart( StartOfAYear( LYear ) );
-  FHosting.SetRangeEnd( EndOfAYear( LYear ) );
-  FHosting.BuildReport;
+  if Assigned( FHosting ) then
+  begin
+    var LYear := GetSelectedYear;
+    FHosting.SetRangeStart( StartOfAYear( LYear ) );
+    FHosting.SetRangeEnd( EndOfAYear( LYear ) );
+    FHosting.BuildReport;
 
-  self.Caption := CCaptionStart + FHosting.GetName +
-    ' (created on ' + DateTimeToStr( TDateTime.Now ) + ')';
+    self.Caption := CCaptionStart + FHosting.GetName +
+      ' (created on ' + DateTimeToStr( TDateTime.Now ) + ')';
 
-  FHosting.SetVisible(True);
+    FHosting.SetVisible(True);
+  end;
 end;
 
 end.

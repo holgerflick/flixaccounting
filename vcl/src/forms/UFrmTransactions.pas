@@ -47,7 +47,6 @@ type
     dbTransactionsCategory: TStringField;
     dbTransactionsTitle: TStringField;
     dbTransactionsAmount: TFloatField;
-    dbTransactionsPercentage: TFloatField;
     dbTransactionsDocument: TAureliusEntityField;
     dbTransactionsYear: TIntegerField;
     dbTransactionsMonth: TIntegerField;
