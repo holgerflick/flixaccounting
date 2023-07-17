@@ -1,0 +1,3 @@
+[submodule "FlxComponents"]
+	path = FlxComponents
+	url = https://github.com/holgerflick/FlxComponents.git
