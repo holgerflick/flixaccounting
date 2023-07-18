@@ -3,7 +3,7 @@
         <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\FlxComponents\FlxComponents.dproj">
+        <Projects Include="FlxComponents\FlxComponents.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="bpl\src\FlixLLCPL.Model.dproj">
@@ -21,13 +21,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="FlxComponents">
-        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj"/>
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj"/>
     </Target>
     <Target Name="FlxComponents:Clean">
-        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj" Targets="Clean"/>
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Clean"/>
     </Target>
     <Target Name="FlxComponents:Make">
-        <MSBuild Projects="..\FlxComponents\FlxComponents.dproj" Targets="Make"/>
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Make"/>
     </Target>
     <Target Name="FlixLLCPL_Model">
         <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj"/>
