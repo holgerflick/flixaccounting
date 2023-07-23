@@ -40,6 +40,8 @@ contains
   UInvoice in 'UInvoice.pas',
   UTransaction in 'UTransaction.pas',
   UCustomer in 'UCustomer.pas',
-  UDictionary in 'UDictionary.pas';
+  UDictionary in 'UDictionary.pas',
+  UProfitLoss in 'UProfitLoss.pas',
+  UDictionaryTemporary in 'UDictionaryTemporary.pas';
 
 end.

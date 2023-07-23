@@ -8,7 +8,9 @@ uses
   Vcl.Grids, Vcl.DBGrids  , UReportManager, Vcl.ExtCtrls, Vcl.StdCtrls,
   uFlxPanel, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls,
+  Aurelius.Engine.ObjectManager, Aurelius.Bind.BaseDataset,
+  Aurelius.Bind.Dataset
   ;
 
 type
@@ -28,41 +30,43 @@ type
     GridExpense: TDBGrid;
     sourceExpense: TDataSource;
     sourceExpenseTx: TDataSource;
-    Income: TFDMemTable;
-    IncomeCategory: TStringField;
-    IncomeTotal: TFloatField;
-    IncomeTransactions: TDataSetField;
-    IncomeTxCount: TIntegerField;
-    TxIncome: TFDMemTable;
-    TxIncomePaidOn: TDateField;
-    TxIncomeTitle: TStringField;
-    TxIncomeAmount: TFloatField;
-    TxIncomeTxId: TIntegerField;
-    Expense: TFDMemTable;
-    ExpenseCategory: TStringField;
-    ExpenseTotal: TFloatField;
-    ExpenseTransactions: TDataSetField;
-    ExpenseTxCount: TIntegerField;
-    TxExpense: TFDMemTable;
-    TxExpensePaidOn: TDateField;
-    TxExpenseTitle: TStringField;
-    TxExpenseAmount: TFloatField;
-    TxExpenseTxId: TIntegerField;
-    IncomeIsLoss: TBooleanField;
-    ExpenseIsLoss: TBooleanField;
-    IncomeSumTotal: TAggregateField;
-    ExpenseSumTotal: TAggregateField;
     FlxPanel2: TFlxPanel;
-    DBText1: TDBText;
     FlxPanel3: TFlxPanel;
-    DBText2: TDBText;
+    Income: TAureliusDataset;
+    IncomeTx: TAureliusDataset;
+    IncomeSelf: TAureliusEntityField;
+    IncomeId: TIntegerField;
+    IncomeCategory: TStringField;
+    IncomeSection: TIntegerField;
+    IncomeTotal: TFloatField;
+    IncomeTxSelf: TAureliusEntityField;
+    IncomeTxId: TIntegerField;
+    IncomeTxPaidOn: TDateTimeField;
+    IncomeTxTitle: TStringField;
+    IncomeTxAmount: TFloatField;
+    IncomeTransactions: TDataSetField;
+    txtTotalIncome: TLabel;
+    txtTotalExpense: TLabel;
+    Expense: TAureliusDataset;
+    AureliusEntityField1: TAureliusEntityField;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    IntegerField2: TIntegerField;
+    FloatField1: TFloatField;
+    ExpenseTransactions: TDataSetField;
+    ExpenseTx: TAureliusDataset;
+    AureliusEntityField2: TAureliusEntityField;
+    IntegerField3: TIntegerField;
+    DateTimeField1: TDateTimeField;
+    StringField2: TStringField;
+    FloatField2: TFloatField;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     FRangeStart: TDate;
     FRangeEnd: TDate;
     FReportManager: TReportManager;
-
+    FMemoryObjManager: TObjectManager;
 
   public
     property RangeStart: TDate read FRangeStart write FRangeStart;
@@ -86,13 +90,25 @@ var
 
 implementation
 
+uses
+    UDictionaryTemporary
+  , UDataManager
+  , UProfitLoss
+  ;
+
 {$R *.dfm}
 
 
 
 procedure TFrmReportProfitLoss.FormDestroy(Sender: TObject);
 begin
+  IncomeTx.Close;
+  ExpenseTx.Close;
+  Income.Close;
+  Expense.Close;
+
   FReportManager.Free;
+  FMemoryObjManager.Free;
 
   inherited;
 end;
@@ -108,10 +124,46 @@ begin
 end;
 
 procedure TFrmReportProfitLoss.Display;
+var
+  LProfitLoss: TProfitLoss;
+
 begin
   FReportManager.RangeStart := self.RangeStart;
   FReportManager.RangeEnd := self.RangeEnd;
-  FReportManager.BuildProfitLoss(Income, Expense);
+
+  LProfitLoss := FReportManager.GetProfitLoss( FMemoryObjManager );
+
+  Income.Close;
+  IncomeTx.Close;
+
+  var LIncomeList := FMemoryObjManager.Find<TPLCategory>
+    .Where(
+      (DicTemp.PLCategory.Section = TPLSection.Income) AND
+      (DicTemp.PLCategory.ProfitLoss.Id = LProfitLoss.Id)
+      )
+    .List
+    ;
+
+  var LExpenseList := FMemoryObjManager.Find<TPLCategory>
+    .Where(
+      (DicTemp.PLCategory.Section = TPLSection.Expense) AND
+      (DicTemp.PLCategory.ProfitLoss.Id = LProfitLoss.Id)
+      )
+    .List
+    ;
+
+  Income.SetSourceList( LIncomeList, True );
+  Expense.SetSourceList( LExpenseList, True );
+
+  txtTotalIncome.Caption := Format( '%.2n', [ LProfitLoss.TotalIncome ] );
+  txtTotalExpense.Caption := Format( '%.2n', [ LProfitLoss.TotalExpense ] );
+
+  Income.Open;
+  IncomeTx.Open;
+
+  Expense.Open;
+  ExpenseTx.Open;
+
   self.Visible := True;
 end;
 
@@ -120,6 +172,7 @@ begin
   inherited;
 
   FReportManager := TReportManager.Create(ObjectManager);
+  FMemoryObjManager := TDataManager.Shared.MemoryObjectManager;
 end;
 
 function TFrmReportProfitLoss.GetName: String;

@@ -49,6 +49,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
+    FMemoryConnection: IDBConnection;
 
     function GetConnection: IDBConnection;
     function GetDatabaseManager: TDatabaseManager;
@@ -69,6 +70,8 @@ type
 
     procedure UpdateDatabase;
     procedure CreateDatabase;
+
+    procedure CreateTemporaryDatabase;
   end;
 
 var
@@ -90,17 +93,31 @@ begin
   try
     LDatabaseManager.DestroyDatabase;
     LDatabaseManager.BuildDatabase;
-
   finally
     LDatabaseManager.Free;
   end;
+end;
 
+procedure TDataManager.CreateTemporaryDatabase;
+begin
+  var LDatabase := TDatabaseManager.Create(
+    FMemoryConnection,
+    TMappingExplorer.Get('Temporary')
+    );
+  try
+    LDatabase.DestroyDatabase;
+    LDatabase.BuildDatabase;
+  finally
+    LDatabase.Free;
+  end;
 end;
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
   TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
 
+  FMemoryConnection := MemConnection.CreateConnection;
+  CreateTemporaryDatabase;
   UpdateDatabase;
 end;
 
@@ -124,7 +141,7 @@ end;
 function TDataManager.GetMemoryObjectManager: TObjectManager;
 begin
   Result := TObjectManager.Create(
-    MemConnection.CreateConnection,
+    FMemoryConnection,
     TMappingExplorer.Get('Temporary')
     );
 end;
@@ -152,7 +169,6 @@ begin
   LDatabaseManager := DatabaseManager;
   try
     LDatabaseManager.UpdateDatabase;
-
   finally
     LDatabaseManager.Free;
   end;

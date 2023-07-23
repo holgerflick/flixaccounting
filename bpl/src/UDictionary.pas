@@ -88,7 +88,6 @@ type
     function Category: TLinqProjection;
     function PaidOn: TLinqProjection;
     function Kind: TLinqProjection;
-    function Percentage: TLinqProjection;
     function IsMonthly: TLinqProjection;
     function Document: IDocumentDictionary;
   end;
@@ -159,7 +158,6 @@ type
     function Category: TLinqProjection;
     function PaidOn: TLinqProjection;
     function Kind: TLinqProjection;
-    function Percentage: TLinqProjection;
     function IsMonthly: TLinqProjection;
     function Document: IDocumentDictionary;
   end;
@@ -410,11 +408,6 @@ end;
 function TTransactionDictionary.Kind: TLinqProjection;
 begin
   Result := Prop('Kind');
-end;
-
-function TTransactionDictionary.Percentage: TLinqProjection;
-begin
-  Result := Prop('Percentage');
 end;
 
 function TTransactionDictionary.IsMonthly: TLinqProjection;
