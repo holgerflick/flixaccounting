@@ -29,7 +29,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object Label1: TLabel
       Left = 0
       Top = 0
-      Width = 599
+      Width = 66
       Height = 25
       Align = alTop
       Alignment = taCenter
@@ -40,7 +40,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 66
     end
     object Splitter2: TSplitter
       Left = 0
@@ -159,7 +158,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object Label2: TLabel
       Left = 0
       Top = 0
-      Width = 553
+      Width = 73
       Height = 25
       Align = alTop
       Alignment = taCenter
@@ -170,7 +169,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 73
     end
     object Splitter3: TSplitter
       Left = 0

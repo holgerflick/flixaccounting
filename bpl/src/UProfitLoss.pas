@@ -18,6 +18,12 @@ uses
   ;
 
 type
+  TProfitLoss = class;
+
+  [Automapping]
+  [Model('Temporary')]
+  TPLSection = ( Income = 0, Expense = 1);
+
   [Entity]
   [Automapping]
   [Model('Temporary')]
@@ -46,40 +52,53 @@ type
 
     FId: Integer;
     FCategory: String;
+    FSection: TPLSection;
+
+    [Association([], CascadeTypeAllButRemove)]
+    FProfitLoss: TProfitLoss;
+
     function GetTotal: Double;
   public
     constructor Create;
     destructor Destroy; override;
 
     property Id: Integer read FId write FId;
+
+    property ProfitLoss: TProfitLoss read FProfitLoss write FProfitLoss;
+
     property Category: String read FCategory write FCategory;
+    property Section: TPLSection read FSection write FSection;
+
     property Total: Double read GetTotal;
     property Transactions: TPLTransactions read FTransactions write FTransactions;
   end;
 
   TPLCategories = TList<TPLCategory>;
 
-  [Automapping]
-  [Model('Temporary')]
-  TPLSection = ( Income, Expense );
-
-  TPLSections = Array[TPLSection] of TPLCategories;
-
   [Entity]
   [Automapping]
   [Model('Temporary')]
   TProfitLoss = class
   private
-    FCategories: TPLSections;
+    FId: Integer;
+
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FProfitLoss')]
+    FItems: Proxy<TPLCategories>;
+    FDummy: String;
+
     function GetTotalExpense: Double;
     function GetTotalIncome: Double;
-
-    function GetTotalFor( ASection: TPLSection ): Double;
+    function GetTotalFor(ASection: TPLSection): Double;
+    function GetCategories: TPLCategories;
+    procedure SetCategories(const Value: TPLCategories);
   public
     constructor Create;
     destructor Destroy; override;
 
-    property Categories: TPLSections read FCategories write FCategories;
+    property Id: Integer read FId write FId;
+
+    property Dummy: String read FDummy write FDummy;
+    property Categories: TPLCategories read GetCategories write SetCategories;
 
     property TotalIncome: Double read GetTotalIncome;
     property TotalExpense: Double read GetTotalExpense;
@@ -93,20 +112,19 @@ constructor TProfitLoss.Create;
 begin
   inherited;
 
-  for var LSection := Low(TPLSection) to High(TPLSection) do
-  begin
-    FCategories[LSection] := TPLCategories.Create;
-  end;
+  FItems.SetInitialValue(TPLCategories.Create);
 end;
 
 destructor TProfitLoss.Destroy;
 begin
-  for var LSection := Low(TPLSection) to High(TPLSection) do
-  begin
-    FCategories[LSection].Free;
-  end;
+  FItems.DestroyValue;
 
   inherited;
+end;
+
+function TProfitLoss.GetCategories: TPLCategories;
+begin
+  Result := FItems.Value;
 end;
 
 function TProfitLoss.GetTotalExpense: Double;
@@ -118,15 +136,23 @@ function TProfitLoss.GetTotalFor(ASection: TPLSection): Double;
 begin
   Result := 0;
 
-  for var LCategory in Categories[ASection] do
+  for var LCategory in Categories do
   begin
-    Result := LCategory.Total + Result;
+    if LCategory.Section = ASection then
+    begin
+      Result := LCategory.Total + Result;
+    end;
   end;
 end;
 
 function TProfitLoss.GetTotalIncome: Double;
 begin
   Result := GetTotalFor(TPLSection.Income);
+end;
+
+procedure TProfitLoss.SetCategories(const Value: TPLCategories);
+begin
+  FItems.Value := Value;
 end;
 
 { TPLCategory }

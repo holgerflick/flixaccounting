@@ -8,7 +8,8 @@ uses
   Vcl.Grids, Vcl.DBGrids  , UReportManager, Vcl.ExtCtrls, Vcl.StdCtrls,
   uFlxPanel, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls,
+  Aurelius.Engine.ObjectManager
   ;
 
 type
@@ -62,7 +63,7 @@ type
     FRangeStart: TDate;
     FRangeEnd: TDate;
     FReportManager: TReportManager;
-
+    FMemoryObjManager: TObjectManager;
 
   public
     property RangeStart: TDate read FRangeStart write FRangeStart;
@@ -86,6 +87,11 @@ var
 
 implementation
 
+uses
+    UDataManager
+  , UProfitLoss
+  ;
+
 {$R *.dfm}
 
 
@@ -93,6 +99,7 @@ implementation
 procedure TFrmReportProfitLoss.FormDestroy(Sender: TObject);
 begin
   FReportManager.Free;
+  FMemoryObjManager.Free;
 
   inherited;
 end;
@@ -108,10 +115,14 @@ begin
 end;
 
 procedure TFrmReportProfitLoss.Display;
+var
+  LProfitLoss: TProfitLoss;
+
 begin
   FReportManager.RangeStart := self.RangeStart;
   FReportManager.RangeEnd := self.RangeEnd;
-  FReportManager.BuildProfitLoss(Income, Expense);
+//  FReportManager.BuildProfitLoss(Income, Expense);
+  LProfitLoss := FReportManager.GetProfitLoss( FMemoryObjManager );
   self.Visible := True;
 end;
 
@@ -120,6 +131,7 @@ begin
   inherited;
 
   FReportManager := TReportManager.Create(ObjectManager);
+  FMemoryObjManager := TDataManager.Shared.MemoryObjectManager;
 end;
 
 function TFrmReportProfitLoss.GetName: String;

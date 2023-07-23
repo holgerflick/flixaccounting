@@ -5,6 +5,7 @@ interface
 uses
     Aurelius.Dictionary.Generator
   , Aurelius.Engine.ObjectManager
+  , Aurelius.Mapping.Explorer
 
   , System.Actions
   , System.Classes
@@ -73,7 +74,9 @@ var
 implementation
 
 uses
-    UFrmReportHost
+    System.IOUtils
+
+  , UFrmReportHost
   , UAppSettings
   , UFrmTransactions
   , UFrmCustomer
@@ -82,8 +85,9 @@ uses
   ;
 
 resourcestring
-  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
-
+//  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
+  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
+  SDictionaryFileMemory  = 'D:\flixllcpl\bpl\src\UDictionaryTemporary.pas';
 {$R *.dfm}
 
 procedure TFrmMain.actCustomersExecute(Sender: TObject);
@@ -175,18 +179,32 @@ begin
 end;
 
 procedure TFrmMain.CreateDictionary;
+var
+  LGenerator: TDictionaryGenerator;
+
 begin
   {$IFDEF DEBUG}
   TDictionaryGenerator.GenerateFile(SDictionaryFile);
-  {$ENDIF};
+
+  LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
+  try
+    LGenerator.GlobalVarName := 'DicTemp';
+    var LSourceCode := LGenerator.GenerateSource;
+    TFile.WriteAllText( SDictionaryFileMemory, LSourceCode );
+  finally
+    LGenerator.Free;
+  end;
+  {$ENDIF}
 end;
 
 procedure TFrmMain.CreateDatabase;
 begin
+  {$IFDEF DEBUG}
   if MessageDlg('Recreate database?', mtConfirmation, [mbYes,mbNo], 0) = mrYes then
   begin
     self.DataManager.CreateDatabase;
   end;
+  {$ENDIF}
 end;
 
 end.
