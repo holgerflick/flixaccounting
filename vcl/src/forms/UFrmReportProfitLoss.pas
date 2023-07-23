@@ -3,14 +3,43 @@ unit UFrmReportProfitLoss;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase, UReportInterfaces, Data.DB,
-  Vcl.Grids, Vcl.DBGrids  , UReportManager, Vcl.ExtCtrls, Vcl.StdCtrls,
-  uFlxPanel, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.DBCtrls,
-  Aurelius.Engine.ObjectManager, Aurelius.Bind.BaseDataset,
-  Aurelius.Bind.Dataset
+    Aurelius.Bind.BaseDataset
+  , Aurelius.Bind.Dataset
+  , Aurelius.Engine.ObjectManager
+
+  , Data.DB
+
+  , FireDAC.Comp.Client
+  , FireDAC.Comp.DataSet
+  , FireDAC.DApt.Intf
+  , FireDAC.DatS
+  , FireDAC.Phys.Intf
+  , FireDAC.Stan.Error
+  , FireDAC.Stan.Intf
+  , FireDAC.Stan.Option
+  , FireDAC.Stan.Param
+
+  , System.Classes
+  , System.SysUtils
+  , System.Variants
+
+  , Vcl.Controls
+  , Vcl.DBCtrls
+  , Vcl.DBGrids
+  , Vcl.Dialogs
+  , Vcl.ExtCtrls
+  , Vcl.Forms
+  , Vcl.Graphics
+  , Vcl.Grids
+  , Vcl.StdCtrls
+
+  , Winapi.Messages
+  , Winapi.Windows
+
+  , uFlxPanel
+  , UFrmBase
+  , UReportInterfaces
+  , UReportManager
   ;
 
 type
