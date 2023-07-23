@@ -14,6 +14,7 @@ uses
   , Bcl.Types.Nullable
 
   , System.SysUtils
+  , System.DateUtils
   , System.Generics.Collections
   ;
 
@@ -84,7 +85,7 @@ type
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FProfitLoss')]
     FItems: Proxy<TPLCategories>;
-    FDummy: String;
+    FCreated: TDateTime;
 
     function GetTotalExpense: Double;
     function GetTotalIncome: Double;
@@ -97,7 +98,7 @@ type
 
     property Id: Integer read FId write FId;
 
-    property Dummy: String read FDummy write FDummy;
+    property Created: TDateTime read FCreated write FCreated;
     property Categories: TPLCategories read GetCategories write SetCategories;
 
     property TotalIncome: Double read GetTotalIncome;
@@ -112,6 +113,7 @@ constructor TProfitLoss.Create;
 begin
   inherited;
 
+  FCreated := TDateTime.NowUtc;
   FItems.SetInitialValue(TPLCategories.Create);
 end;
 

@@ -30,7 +30,7 @@ object DataManager: TDataManager
   object MemConnection: TAureliusConnection
     DriverName = 'SQLite'
     Params.Strings = (
-      'Database=d:\test.db'
+      'Database=:memory:'
       'EnableForeignKeys=True')
     Left = 200
     Top = 24
