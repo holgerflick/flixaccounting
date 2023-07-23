@@ -29,7 +29,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object Label1: TLabel
       Left = 0
       Top = 0
-      Width = 66
+      Width = 599
       Height = 25
       Align = alTop
       Alignment = taCenter
@@ -40,6 +40,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitWidth = 66
     end
     object Splitter2: TSplitter
       Left = 0
@@ -69,6 +70,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         item
           Expanded = False
           FieldName = 'PaidOn'
+          Width = 64
           Visible = True
         end
         item
@@ -124,24 +126,25 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
-      object DBText1: TDBText
-        Left = 0
-        Top = 0
-        Width = 566
-        Height = 34
+      object txtTotalIncome: TLabel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 560
+        Height = 28
         Align = alClient
         Alignment = taRightJustify
-        DataField = 'SumTotal'
-        DataSource = sourceIncome
+        Caption = 'txtTotalIncome'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -19
-        Font.Name = 'Segoe UI'
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 8
-        ExplicitWidth = 599
-        ExplicitHeight = 33
+        ExplicitLeft = 418
+        ExplicitTop = 0
+        ExplicitWidth = 148
+        ExplicitHeight = 24
       end
     end
   end
@@ -158,7 +161,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object Label2: TLabel
       Left = 0
       Top = 0
-      Width = 73
+      Width = 553
       Height = 25
       Align = alTop
       Alignment = taCenter
@@ -169,6 +172,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitWidth = 73
     end
     object Splitter3: TSplitter
       Left = 0
@@ -198,6 +202,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         item
           Expanded = False
           FieldName = 'PaidOn'
+          Width = 64
           Visible = True
         end
         item
@@ -253,36 +258,37 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
-      object DBText2: TDBText
-        Left = 0
-        Top = 0
-        Width = 520
-        Height = 34
+      object txtTotalExpense: TLabel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 514
+        Height = 28
         Align = alClient
         Alignment = taRightJustify
-        DataField = 'SumTotal'
-        DataSource = sourceExpense
+        Caption = 'txtTotalIncome'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
-        Font.Height = -19
-        Font.Name = 'Segoe UI'
+        Font.Height = -21
+        Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 8
-        ExplicitWidth = 599
-        ExplicitHeight = 33
+        ExplicitLeft = 372
+        ExplicitTop = 0
+        ExplicitWidth = 148
+        ExplicitHeight = 24
       end
     end
   end
   object sourceIncome: TDataSource
     DataSet = Income
-    Left = 456
-    Top = 176
+    Left = 304
+    Top = 232
   end
   object sourceIncomeTx: TDataSource
-    DataSet = TxIncome
-    Left = 440
-    Top = 472
+    DataSet = IncomeTx
+    Left = 368
+    Top = 504
   end
   object sourceExpense: TDataSource
     DataSet = Expense
@@ -290,154 +296,234 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     Top = 184
   end
   object sourceExpenseTx: TDataSource
-    DataSet = TxExpense
+    DataSet = ExpenseTx
     Left = 696
     Top = 480
   end
-  object Income: TFDMemTable
-    IndexesActive = False
-    AggregatesActive = True
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 224
-    Top = 440
+  object Income: TAureliusDataset
+    FieldDefs = <
+      item
+        Name = 'Self'
+        Attributes = [faReadonly]
+        DataType = ftVariant
+      end
+      item
+        Name = 'Id'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'Category'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'Section'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'Total'
+        Attributes = [faReadonly, faRequired]
+        DataType = ftFloat
+      end>
+    Left = 152
+    Top = 248
+    DesignClass = 'UProfitLoss.TPLCategory'
+    object IncomeSelf: TAureliusEntityField
+      FieldName = 'Self'
+      ReadOnly = True
+    end
+    object IncomeId: TIntegerField
+      FieldName = 'Id'
+      Required = True
+    end
     object IncomeCategory: TStringField
       FieldName = 'Category'
-      Size = 500
+      Required = True
+      Size = 255
+    end
+    object IncomeSection: TIntegerField
+      FieldName = 'Section'
+      Required = True
     end
     object IncomeTotal: TFloatField
       FieldName = 'Total'
+      ReadOnly = True
+      Required = True
       DisplayFormat = '0,.00'
     end
     object IncomeTransactions: TDataSetField
       FieldName = 'Transactions'
     end
-    object IncomeTxCount: TIntegerField
-      FieldName = 'TxCount'
-    end
-    object IncomeIsLoss: TBooleanField
-      FieldName = 'IsLoss'
-    end
-    object IncomeSumTotal: TAggregateField
-      FieldName = 'SumTotal'
-      Active = True
-      DisplayName = ''
-      DisplayFormat = '0,.00'
-      Expression = 'SUM(Total)'
-    end
   end
-  object TxIncome: TFDMemTable
-    DataSetField = IncomeTransactions
-    FieldDefs = <>
-    IndexDefs = <
+  object IncomeTx: TAureliusDataset
+    DatasetField = IncomeTransactions
+    FieldDefs = <
       item
-        Name = 'byCategory'
-        Fields = 'Category;IsLoss'
+        Name = 'Self'
+        Attributes = [faReadonly]
+        DataType = ftVariant
+      end
+      item
+        Name = 'Id'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'PaidOn'
+        Attributes = [faRequired]
+        DataType = ftDateTime
+      end
+      item
+        Name = 'Title'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'Amount'
+        Attributes = [faRequired]
+        DataType = ftFloat
       end>
-    IndexesActive = False
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvStoreItems, rvSilentMode, rvStorePrettyPrint]
-    ResourceOptions.StoreItems = [siMeta, siData]
-    ResourceOptions.StorePrettyPrint = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 224
+    Left = 168
     Top = 504
-    object TxIncomePaidOn: TDateField
+    DesignClass = 'UProfitLoss.TPLTransaction'
+    object IncomeTxSelf: TAureliusEntityField
+      FieldName = 'Self'
+      ReadOnly = True
+    end
+    object IncomeTxId: TIntegerField
+      FieldName = 'Id'
+      Required = True
+    end
+    object IncomeTxPaidOn: TDateTimeField
       FieldName = 'PaidOn'
+      Required = True
     end
-    object TxIncomeTitle: TStringField
+    object IncomeTxTitle: TStringField
       FieldName = 'Title'
-      Size = 500
+      Required = True
+      Size = 255
     end
-    object TxIncomeAmount: TFloatField
+    object IncomeTxAmount: TFloatField
       FieldName = 'Amount'
+      Required = True
       DisplayFormat = '0,.00'
     end
-    object TxIncomeTxId: TIntegerField
-      FieldName = 'TxId'
-    end
   end
-  object Expense: TFDMemTable
-    IndexesActive = False
-    AggregatesActive = True
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 896
-    Top = 456
-    object ExpenseCategory: TStringField
-      FieldName = 'Category'
-      Size = 500
+  object Expense: TAureliusDataset
+    FieldDefs = <
+      item
+        Name = 'Self'
+        Attributes = [faReadonly]
+        DataType = ftVariant
+      end
+      item
+        Name = 'Id'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'Category'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'Section'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'Total'
+        Attributes = [faReadonly, faRequired]
+        DataType = ftFloat
+      end>
+    Left = 688
+    Top = 256
+    DesignClass = 'UProfitLoss.TPLCategory'
+    object AureliusEntityField1: TAureliusEntityField
+      FieldName = 'Self'
+      ReadOnly = True
     end
-    object ExpenseTotal: TFloatField
+    object IntegerField1: TIntegerField
+      FieldName = 'Id'
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'Category'
+      Required = True
+      Size = 255
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'Section'
+      Required = True
+    end
+    object FloatField1: TFloatField
       FieldName = 'Total'
+      ReadOnly = True
+      Required = True
       DisplayFormat = '0,.00'
     end
     object ExpenseTransactions: TDataSetField
       FieldName = 'Transactions'
     end
-    object ExpenseTxCount: TIntegerField
-      FieldName = 'TxCount'
-    end
-    object ExpenseIsLoss: TBooleanField
-      FieldName = 'IsLoss'
-    end
-    object ExpenseSumTotal: TAggregateField
-      FieldName = 'SumTotal'
-      Active = True
-      DisplayName = ''
-      DisplayFormat = '0,.00'
-      Expression = 'SUM(Total)'
-    end
   end
-  object TxExpense: TFDMemTable
-    DataSetField = ExpenseTransactions
-    FieldDefs = <>
-    IndexDefs = <
+  object ExpenseTx: TAureliusDataset
+    DatasetField = ExpenseTransactions
+    FieldDefs = <
       item
-        Name = 'byCategory'
-        Fields = 'Category;IsLoss'
+        Name = 'Self'
+        Attributes = [faReadonly]
+        DataType = ftVariant
+      end
+      item
+        Name = 'Id'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'PaidOn'
+        Attributes = [faRequired]
+        DataType = ftDateTime
+      end
+      item
+        Name = 'Title'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'Amount'
+        Attributes = [faRequired]
+        DataType = ftFloat
       end>
-    IndexesActive = False
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvStoreItems, rvSilentMode, rvStorePrettyPrint]
-    ResourceOptions.StoreItems = [siMeta, siData]
-    ResourceOptions.StorePrettyPrint = True
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    StoreDefs = True
-    Left = 896
-    Top = 520
-    object TxExpensePaidOn: TDateField
+    Left = 704
+    Top = 544
+    DesignClass = 'UProfitLoss.TPLTransaction'
+    object AureliusEntityField2: TAureliusEntityField
+      FieldName = 'Self'
+      ReadOnly = True
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'Id'
+      Required = True
+    end
+    object DateTimeField1: TDateTimeField
       FieldName = 'PaidOn'
+      Required = True
     end
-    object TxExpenseTitle: TStringField
+    object StringField2: TStringField
       FieldName = 'Title'
-      Size = 500
+      Required = True
+      Size = 255
     end
-    object TxExpenseAmount: TFloatField
+    object FloatField2: TFloatField
       FieldName = 'Amount'
+      Required = True
       DisplayFormat = '0,.00'
-    end
-    object TxExpenseTxId: TIntegerField
-      FieldName = 'TxId'
     end
   end
 end

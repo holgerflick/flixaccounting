@@ -2,15 +2,15 @@ inherited FrmTransactions: TFrmTransactions
   BorderIcons = [biSystemMenu]
   Caption = 'popTxKind'
   ClientHeight = 605
-  ClientWidth = 1015
+  ClientWidth = 1069
   DoubleBuffered = True
-  ExplicitWidth = 1031
+  ExplicitWidth = 1085
   ExplicitHeight = 644
   TextHeight = 21
   object Expenses: TDBAdvGrid
     Left = 8
     Top = 55
-    Width = 999
+    Width = 1053
     Height = 542
     Anchors = [akLeft, akTop, akRight, akBottom]
     ColCount = 8
@@ -189,7 +189,7 @@ inherited FrmTransactions: TFrmTransactions
         PrintFont.Height = -16
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 90
+        Width = 117
       end
       item
         Borders = []
@@ -216,7 +216,7 @@ inherited FrmTransactions: TFrmTransactions
         PrintFont.Height = -16
         PrintFont.Name = 'Segoe UI'
         PrintFont.Style = []
-        Width = 171
+        Width = 204
       end
       item
         Borders = []
@@ -504,10 +504,11 @@ inherited FrmTransactions: TFrmTransactions
       80000001C0000003C0000003E0000007F000000FF800001FFC00003FFF0000FF
       FFC003FF}
     ShowUnicode = False
+    ExplicitWidth = 999
     ColWidths = (
       20
-      90
-      171
+      117
+      204
       244
       70
       138
@@ -518,7 +519,7 @@ inherited FrmTransactions: TFrmTransactions
       28)
   end
   object btnImport: TButton
-    Left = 861
+    Left = 915
     Top = 8
     Width = 146
     Height = 41
@@ -530,11 +531,12 @@ inherited FrmTransactions: TFrmTransactions
     Style = bsSplitButton
     TabOrder = 1
     OnClick = btnImportClick
+    ExplicitLeft = 861
   end
   object rbFilterKind: TRadioGroup
     Left = 8
     Top = 8
-    Width = 257
+    Width = 241
     Height = 41
     Caption = 'Show Transactions'
     Columns = 3
@@ -547,21 +549,21 @@ inherited FrmTransactions: TFrmTransactions
     ItemIndex = 1
     Items.Strings = (
       '&Income'
-      '&Expense'
-      '&All')
+      '&Expense')
     ShowFrame = False
     TabOrder = 2
     OnClick = rbFilterKindClick
   end
   object DBNavigator1: TDBNavigator
-    Left = 232
+    Left = 184
     Top = 23
-    Width = 594
+    Width = 696
     Height = 25
     DataSource = sourceTransactions
     VisibleButtons = [nbFirst, nbLast, nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 3
+    ExplicitWidth = 642
   end
   object dbTransactions: TAureliusDataset
     FieldDefs = <
@@ -631,6 +633,7 @@ inherited FrmTransactions: TFrmTransactions
         Attributes = [faReadonly, faRequired]
         DataType = ftFloat
       end>
+    OnNewRecord = dbTransactionsNewRecord
     Left = 56
     Top = 424
     DesignClass = 'UExpense.TExpense'
@@ -691,6 +694,9 @@ inherited FrmTransactions: TFrmTransactions
       ReadOnly = True
       Required = True
       DisplayFormat = '0,.00'
+    end
+    object dbTransactionsKindEnumName: TStringField
+      FieldName = 'Kind.EnumName'
     end
   end
   object sourceTransactions: TDataSource
