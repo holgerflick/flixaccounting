@@ -61,7 +61,9 @@ type
     menTxKindIncome: TMenuItem;
     menTxKindExpenses: TMenuItem;
     DBNavigator1: TDBNavigator;
+    dbTransactionsKindEnumName: TStringField;
     procedure btnImportClick(Sender: TObject);
+    procedure dbTransactionsNewRecord(DataSet: TDataSet);
     procedure dbTransactionsPercentageGetText(Sender: TField; var Text: string;
         DisplayText: Boolean);
     procedure dbTransactionsPercentageSetText(Sender: TField; const Text: string);
@@ -105,6 +107,17 @@ var
 begin
   LP := btnImport.ClientToScreen( Point( 0, btnImport.ClientHeight ) );
   popTxKind.Popup( LP.X, LP.Y );
+end;
+
+procedure TFrmTransactions.dbTransactionsNewRecord(DataSet: TDataSet);
+begin
+  DataSet.FieldByName('IsMonthly').AsBoolean := False;
+
+  if FilterKind = TTransactionKind.Income then
+    DataSet.FieldByName('Kind.EnumName').AsString := 'Income'
+  else
+    DataSet.FieldByName('Kind.EnumName').AsString := 'Expense';
+
 end;
 
 procedure TFrmTransactions.dbTransactionsPercentageGetText(Sender: TField; var Text:
@@ -172,6 +185,7 @@ begin
   end;
 
   dbTransactions.Close;
+  dbTransactions.DefaultsFromObject := True;
   dbTransactions.Manager := self.ObjectManager;
   dbTransactions.SetSourceCriteria( LCriteria );
   dbTransactions.Active := True;
