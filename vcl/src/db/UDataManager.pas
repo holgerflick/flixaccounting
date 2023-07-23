@@ -69,6 +69,8 @@ type
 
     procedure UpdateDatabase;
     procedure CreateDatabase;
+
+    procedure CreateTemporaryDatabase;
   end;
 
 var
@@ -90,11 +92,23 @@ begin
   try
     LDatabaseManager.DestroyDatabase;
     LDatabaseManager.BuildDatabase;
-
   finally
     LDatabaseManager.Free;
   end;
+end;
 
+procedure TDataManager.CreateTemporaryDatabase;
+begin
+  var LDatabase := TDatabaseManager.Create(
+    MemConnection.CreateConnection,
+    TMappingExplorer.Get('Temporary')
+    );
+  try
+    LDatabase.DestroyDatabase;
+    LDatabase.BuildDatabase;
+  finally
+    LDatabase.Free;
+  end;
 end;
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
@@ -153,6 +167,7 @@ begin
   try
     LDatabaseManager.UpdateDatabase;
 
+    CreateTemporaryDatabase;
   finally
     LDatabaseManager.Free;
   end;

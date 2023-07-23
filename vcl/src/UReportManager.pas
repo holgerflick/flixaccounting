@@ -27,6 +27,8 @@ uses
   , FireDAC.Stan.Intf
   , FireDAC.Stan.Option
   , FireDAC.Stan.Param
+  , FireDAC.Stan.StorageJSON
+  , FireDAC.Stan.StorageBin
 
   , System.Classes
   , System.Generics.Collections
@@ -35,7 +37,9 @@ uses
   , UCustomer
   , UInvoice
   , UTransaction
-  , UDictionary, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin
+  , UDictionary
+  , UDictionaryTemporary
+  , UProfitLoss
   ;
 
 type
@@ -89,7 +93,7 @@ type
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
     procedure BuildProfitsCustomer;
-    procedure BuildProfitLoss(ATblIncome, ATblExpense: TFDMemTable);
+    function GetProfitLoss( AObjManager: TObjectManager ): TProfitLoss;
 
   end;
 
@@ -114,14 +118,23 @@ begin
   FObjectManager := AObjManager;
 end;
 
-procedure TReportManager.BuildProfitLoss( ATblIncome, ATblExpense: TFDMemTable );
+function TReportManager.GetProfitLoss( AObjManager: TObjectManager ) : TProfitLoss;
+  function TransactionKindToPLSection( ATxKind: TTransactionKind ): TPLSection;
+  begin
+    Result := TPLSection.Income;
+    if ATxKind = TTransactionKind.Expense then
+    begin
+      Result := TPLSection.Expense;
+    end;
+  end;
+
 begin
+  Result := TProfitLoss.Create;
+  AObjManager.Save(Result);
 
-  ProfitLoss.Close;
-
-  ProfitLoss.Filtered := False;
-  ProfitLoss.Open;
-
+  // get all transactions that need to be considered
+  // -- don't care if it is income or expense
+  // -- also look this up in the persistent object manager
   var LTransactions := ObjectManager.Find<TTransaction>
     .Where(
       (Dic.Transaction.PaidOn >= self.RangeStart) AND
@@ -131,54 +144,43 @@ begin
     .List;
 
   try
+    // iterate all transactions
     for var LTx in LTransactions do
     begin
       var LCategory := LTx.Category;
-      var LIsLoss := LTx.Kind = TTransactionKind.Expense;
+      var LSection := TransactionKindToPLSection( LTx.Kind );
 
       // look up and create if does not exist
-      if not ProfitLoss.Locate('Category;IsLoss', VarArrayOf( [LCategory, LIsLoss] ), [] ) then
+      var LPLCategory := AObjManager.Find<TPLCategory>
+        .Where(
+          (DicTemp.PLCategory.Category = LCategory) AND
+          (DicTemp.PLCategory.Section = LSection ) AND
+          (DicTemp.PLCategory.ProfitLoss.Id = Result.Id)
+          )
+        .UniqueResult
+        ;
+
+      // if does not exist, create
+      if not Assigned( LPLCategory ) then
       begin
-        ProfitLoss.Append;
-        ProfitLossCategory.AsString := LCategory;
-        ProfitLossIsLoss.AsBoolean := LIsLoss;
-        ProfitLossTotal.AsFloat := 0;
-        ProfitLossTxCount.AsInteger := 0;
-      end
-      else
-      begin
-        ProfitLoss.Edit;
+        LPLCategory := TPLCategory.Create;
+        LPLCategory.Category := LCategory;
+        LPLCategory.Section := LSection;
+        Result.Categories.Add( LPLCategory );
       end;
 
-      PLTransactions.Append;
+      // create transaction in profit loss
+      var LPLTransaction := TPLTransaction.Create;
+      LPLTransaction.PaidOn := LTx.PaidOn;
+      LPLTransaction.Title := LTx.Title;
+      LPLTransaction.Amount := LTx.AmountTotal;
+      LPLCategory.Transactions.Add( LPLTransaction );
 
-      ProfitLossTotal.AsFloat := ProfitLossTotal.AsFloat + LTx.AmountTotal;
-
-      PLTransactionsPaidOn.AsDateTime := LTx.PaidOn;
-      PLTransactionsTitle.AsString := LTx.Title;
-      PLTransactionsAmount.AsFloat := LTx.AmountTotal;
-      PLTransactionsTxId.AsInteger := LTx.Id;
-      PLTransactions.Post;
+      AObjManager.Flush;
     end;
   finally
     LTransactions.Free;
   end;
-
-
-  // copy into actual datasets
-  ProfitLoss.Filter := 'IsLoss=False';
-  ProfitLoss.Filtered := True;
-  ATblIncome.Close;
-//  ATblIncome.CopyDataSet(ProfitLoss, [coStructure, coRestart, coAppend]);
-  ATblIncome.Data := ProfitLoss.FilteredData;
-
-  ProfitLoss.Filtered := False;
-  ProfitLoss.Filter := 'IsLoss=True';
-  ProfitLoss.Filtered := True;
-
-  ATblExpense.Close;
-//  ATblExpense.CopyDataSet(ProfitLoss, [coStructure, coRestart, coAppend]);
-  ATblExpense.Data := ProfitLoss.FilteredData;
 end;
 
 procedure TReportManager.BuildProfitsCustomer;
