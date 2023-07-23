@@ -504,7 +504,6 @@ inherited FrmTransactions: TFrmTransactions
       80000001C0000003C0000003E0000007F000000FF800001FFC00003FFF0000FF
       FFC003FF}
     ShowUnicode = False
-    ExplicitWidth = 999
     ColWidths = (
       20
       117
@@ -531,7 +530,6 @@ inherited FrmTransactions: TFrmTransactions
     Style = bsSplitButton
     TabOrder = 1
     OnClick = btnImportClick
-    ExplicitLeft = 861
   end
   object rbFilterKind: TRadioGroup
     Left = 8
@@ -563,7 +561,6 @@ inherited FrmTransactions: TFrmTransactions
     VisibleButtons = [nbFirst, nbLast, nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 3
-    ExplicitWidth = 642
   end
   object dbTransactions: TAureliusDataset
     FieldDefs = <

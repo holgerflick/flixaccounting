@@ -70,7 +70,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         item
           Expanded = False
           FieldName = 'PaidOn'
-          Width = 64
           Visible = True
         end
         item
@@ -141,8 +140,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 418
-        ExplicitTop = 0
+        ExplicitLeft = 415
         ExplicitWidth = 148
         ExplicitHeight = 24
       end
@@ -202,7 +200,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         item
           Expanded = False
           FieldName = 'PaidOn'
-          Width = 64
           Visible = True
         end
         item
@@ -273,8 +270,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 372
-        ExplicitTop = 0
+        ExplicitLeft = 369
         ExplicitWidth = 148
         ExplicitHeight = 24
       end
