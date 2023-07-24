@@ -28,7 +28,8 @@ uses
   UFrmReportHost in 'forms\UFrmReportHost.pas' {FrmReportHost},
   UReportInterfaces in 'globals\UReportInterfaces.pas',
   UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
-  UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss};
+  UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
+  UControlStorage in 'controlstorage\UControlStorage.pas';
 
 {$R *.res}
 

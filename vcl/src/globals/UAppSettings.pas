@@ -13,11 +13,18 @@ uses
 
 
 type
+  TControlList = TList<TWinControl>;
+
   TAppSettings = class
   strict private
     class var FInstance: TAppSettings;
 
     FIniFile: TIniFile;
+
+  private
+    procedure AddControlsToList(
+      AControl: TWinControl;
+      AList: TControlList );
 
   public
 
@@ -44,6 +51,29 @@ uses
   ;
 
 { TAppSettings }
+
+procedure TAppSettings.AddControlsToList(AControl: TWinControl;
+  AList: TControlList);
+begin
+  if not Assigned( AControl ) then
+  begin
+    exit;
+  end;
+
+  AList.Add(AControl);
+
+  if AControl.ControlCount > 0 then
+  begin
+    for var i := 0 to AControl.ControlCount -1 do
+    begin
+      var LControl := AControl.Controls[i];
+      if LControl is TWinControl then
+      begin
+        AddControlsToList( AControl.Controls[i] as TWinControl, AList );
+      end;
+    end;
+  end;
+end;
 
 constructor TAppSettings.Create;
 begin
