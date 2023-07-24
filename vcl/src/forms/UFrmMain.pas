@@ -189,6 +189,7 @@ begin
 
   LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
   try
+    LGenerator.OutputUnitName := 'UDictionaryTemporary';
     LGenerator.GlobalVarName := 'DicTemp';
     var LSourceCode := LGenerator.GenerateSource;
     TFile.WriteAllText( SDictionaryFileMemory, LSourceCode );

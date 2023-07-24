@@ -56,6 +56,7 @@ implementation
 uses
     UAppGlobals
   , UAppSettings
+  , UControlStorage
   ;
 
 {$R *.dfm}
@@ -82,6 +83,7 @@ end;
 procedure TFrmBase.FormDestroy(Sender: TObject);
 begin
   TAppSettings.Shared.StoreControl(self);
+  TFormStorageManager.Shared.StoreForm(self);
 
   if FOwnsObjectManager then
   begin
