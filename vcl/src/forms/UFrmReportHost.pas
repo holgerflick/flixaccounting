@@ -97,6 +97,8 @@ var
   LFrm: IReportConfiguration;
 
 begin
+  FHosting := nil;
+
   LFrm := TFrmReportCustomers.Create(nil);
 
   HostForm( LFrm );
@@ -146,6 +148,8 @@ var
   LFrm: IReportConfiguration;
 
 begin
+  FHosting := nil;
+
   LFrm := TFrmReportProfitLoss.Create(nil);
 
   HostForm( LFrm );
