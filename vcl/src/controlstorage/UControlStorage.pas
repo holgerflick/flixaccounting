@@ -17,6 +17,7 @@ uses
 
   , Bcl.Types.Nullable
 
+  , System.Classes
   , System.SysUtils
   , System.Generics.Collections
   , System.DateUtils
@@ -48,7 +49,7 @@ type
     [Column('H')]
     FHeight: Integer;
 
-    [Column('Name', [TColumnProp.Unique],500)]
+    [Column('Name', [],500)]
     FName: String;
 
     [Association([], CascadeTypeAllButRemove)]
@@ -119,6 +120,11 @@ type
     property Id: Integer read FId write FId;
 
     property Columns: TCSDBGridColumns read GetColumns write SetColumns;
+  end;
+
+  TFormStorageUtils = class
+  public
+    class function ControlToName( AControl: TControl ): String;
   end;
 
   TFormStorageManager = class
@@ -208,14 +214,14 @@ begin
   // form is a control like any other - just has children
 
   var LForm := ObjectManager.Find<TCSControl>
-    .Where(Dic.CSControl.Name = PF_FORM + AForm.Name )
+    .Where(Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm) )
     .UniqueResult
     ;
 
   if not Assigned(LForm) then
   begin
     LForm := TCSControl.Create;
-    LForm.Name := PF_FORM + AForm.Name;
+    LForm.Name := TFormStorageUtils.ControlToName(AForm);
     ObjectManager.Save(LForm);
   end;
 
@@ -228,33 +234,23 @@ begin
 
     for var LControl in LList do
     begin
-      if LControl = AForm then
+      // check if control is already in list of form
+      var LChild := ObjectManager.Find<TCSControl>
+        .Where(
+          (Dic.CSControl.Owner.Id = LForm.Id) AND
+          (Dic.CSControl.Name = ControlToName(LControl))
+          )
+        .UniqueResult
+        ;
+
+      if not Assigned(LChild) then
       begin
-        continue;   // skip the form
+        LChild := TCSControl.Create;
+        LChild.Name := TFormStorageUtils.ControlToName(LControl);
+        LForm.Children.Add(LChild);
       end;
 
-
-      // we have to do this for each control
-      if (LControl is TSplitter)  then
-      begin
-        // check if control is already in list of form
-        var LChild := ObjectManager.Find<TCSControl>
-          .Where(
-            (Dic.CSControl.Owner.Id = LForm.Id) AND
-            (Dic.CSControl.Name = LControl.Name)
-            )
-          .UniqueResult
-          ;
-
-        if not Assigned(LChild) then
-        begin
-          LChild := TCSControl.Create;
-          LChild.Name := LControl.Name;
-          LForm.Children.Add(LChild);
-        end;
-
-        LChild.UpdateFromControl( LControl );
-      end;
+      LChild.UpdateFromControl( LControl );
     end;
   finally
     LList.Free;
@@ -281,7 +277,7 @@ var
 begin
   // look up form an if it exists, update all controls associated with it
   LForm := ObjectManager.Find<TCSControl>
-    .Where(Dic.CSControl.Name = PF_FORM + AForm.Name)
+    .Where(Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm) )
     .UniqueResult
     ;
 
@@ -305,7 +301,7 @@ begin
       var i := 0;
       while (LControl = nil) AND (i<LList.Count) do
       begin
-        if LList[i].Name = LChild.Name then
+        if TFormStorageUtils.ControlToName(LList[i]) = LChild.Name then
         begin
           LControl := LList[i];
         end;
@@ -333,28 +329,25 @@ begin
     exit;
   end;
 
-  AList.Add(AControl);
-
-  if AControl is TWinControl then
+  if AControl is TForm then
   begin
-    var LWinControl := TWinControl( AControl );
-
-    if LWinControl.ControlCount > 0 then
+    if AControl.ComponentCount > 0 then
     begin
-      for var i := 0 to LWinControl.ControlCount -1 do
+      for var i := 0 to AControl.ComponentCount -1 do
       begin
-        var LControl := LWinControl.Controls[i];
+        var LComponent := AControl.Components[i];
 
-        // forms hosted on panels will trigger their own
-        // storage and should not be stored as a child of the form hosting them
-        if not (LControl is TForm) then
+        if LComponent is TControl then
         begin
-          AddControlsToList( LWinControl.Controls[i], AList );
+          AList.Add( LComponent as TControl );
         end;
       end;
     end;
   end;
 end;
+
+
+
 
 constructor TFormStorageManager.Create;
 begin
@@ -403,6 +396,42 @@ begin
   self.Top := AControl.Top;
   self.Width := AControl.Width;
   self.Height := AControl.Height;
+end;
+
+{ TFormStorageUtils }
+
+class function TFormStorageUtils.ControlToName(AControl: TControl): String;
+var
+  LBuffer: String;
+
+
+begin
+  LBuffer := AControl.ClassName + '.' + AControl.Name;
+
+  if LBuffer.IsEmpty then
+  begin
+    raise EArgumentException.Create('Control name cannot be empty.');
+  end;
+
+  if AControl is TForm then
+  begin
+    var LSplits := LBuffer.Split(['_']);
+
+    if Length(LSplits)>1 then
+    begin
+      // it might be that the form is a sub form
+      // names then go like Name_1, Name_2, Name_3
+      //
+      // if the right-most split is a number, cut it off
+      var LNumber := 0;
+      if TryStrToInt( LSplits[ Length(LSplits)-1 ], LNumber ) then
+      begin
+        LBuffer := LBuffer.Replace( '_' + LNumber.ToString, '' );
+      end;
+    end;
+  end;
+
+  Result := LBuffer;
 end;
 
 initialization

@@ -36,7 +36,6 @@ uses
   , FireDAC.VCLUI.Wait
   , FireDAC.Comp.Client
 
-
   , UInvoice
   ;
 
@@ -105,7 +104,6 @@ begin
     TMappingExplorer.Get('Temporary')
     );
   try
-    LDatabase.DestroyDatabase;
     LDatabase.BuildDatabase;
   finally
     LDatabase.Free;
