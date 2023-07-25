@@ -62,7 +62,7 @@ type
     procedure SetChildren(const Value: TCSControls);
 
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
 
     procedure UpdateFromControl(AControl: TControl); virtual;
@@ -117,7 +117,7 @@ type
 
     function GetColumns: TCSDBGridColumns;
   public
-    constructor Create;
+    constructor Create;  override;
     destructor Destroy; override;
 
     procedure UpdateFromControl(AControl: TControl); override;

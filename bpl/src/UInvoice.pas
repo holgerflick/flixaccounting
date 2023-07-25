@@ -150,11 +150,8 @@ type
     function GetAmountPaid: Double;
     function GetItems: TInvoiceItems;
     function GetPayments: TInvoicePayments;
-    procedure SetItems(const Value: TInvoiceItems);
-    procedure SetPayments(const Value: TInvoicePayments);
     function GetCanBeProcessed: Boolean;
     function GetTransactions: TTransactions;
-    procedure SetTransactions(const Value: TTransactions);
     function GetCanModify: Boolean;
     function GetCustomer: TCustomer;
     procedure SetCustomer(const Value: TCustomer);
@@ -176,12 +173,12 @@ type
 
     property Customer: TCustomer read GetCustomer write SetCustomer;
 
-    property Items: TInvoiceItems read GetItems write SetItems;
+    property Items: TInvoiceItems read GetItems;
     property Payments: TInvoicePayments
-      read GetPayments write SetPayments;
+      read GetPayments;
 
     property Transactions: TTransactions
-      read GetTransactions write SetTransactions;
+      read GetTransactions;
 
     property TotalAmount: Double read GetTotalAmount;
     property AmountDue: Double read GetAmountDue;
@@ -363,21 +360,6 @@ end;
 procedure TInvoice.SetCustomer(const Value: TCustomer);
 begin
   FCustomer.Value := Value;
-end;
-
-procedure TInvoice.SetItems(const Value: TInvoiceItems);
-begin
-  FItems.Value := Value;
-end;
-
-procedure TInvoice.SetPayments(const Value: TInvoicePayments);
-begin
-  FPayments.Value := Value;
-end;
-
-procedure TInvoice.SetTransactions(const Value: TTransactions);
-begin
-  FTransactions.Value := Value;
 end;
 
 { TInvoicePayments }
