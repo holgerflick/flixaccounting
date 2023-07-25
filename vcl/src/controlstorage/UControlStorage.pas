@@ -105,19 +105,16 @@ type
   TCSDBGridColumns = TList<TCSDBGridColumn>;
 
   [Automapping, Entity]
-  TCSDBGrid = class
+  TCSDBGrid = class(TCSControl)
   private
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FGrid')]
     FColumns: Proxy<TCSDBGridColumns>;
-    FId: Integer;
 
     function GetColumns: TCSDBGridColumns;
     procedure SetColumns(const Value: TCSDBGridColumns);
   public
     constructor Create;
     destructor Destroy; override;
-
-    property Id: Integer read FId write FId;
 
     property Columns: TCSDBGridColumns read GetColumns write SetColumns;
   end;
@@ -162,9 +159,6 @@ uses
   ;
 
 { TCSDBGrid }
-
-const
-  PF_FORM = 'Form.';
 
 constructor TCSDBGrid.Create;
 begin
@@ -238,7 +232,7 @@ begin
       var LChild := ObjectManager.Find<TCSControl>
         .Where(
           (Dic.CSControl.Owner.Id = LForm.Id) AND
-          (Dic.CSControl.Name = ControlToName(LControl))
+          (Dic.CSControl.Name = TFormStorageUtils.ControlToName(LControl))
           )
         .UniqueResult
         ;
