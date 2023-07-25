@@ -44,7 +44,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     end
     object Splitter2: TSplitter
       Left = 0
-      Top = 377
+      Top = 380
       Width = 599
       Height = 3
       Cursor = crVSplit
@@ -54,9 +54,9 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     end
     object GridIncomeTx: TDBGrid
       Left = 0
-      Top = 380
+      Top = 383
       Width = 599
-      Height = 279
+      Height = 276
       Align = alClient
       DataSource = sourceIncomeTx
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -88,7 +88,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Left = 0
       Top = 25
       Width = 599
-      Height = 352
+      Height = 355
       Align = alTop
       DataSource = sourceIncome
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]

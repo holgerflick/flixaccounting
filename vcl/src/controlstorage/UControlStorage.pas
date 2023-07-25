@@ -64,6 +64,7 @@ type
     destructor Destroy; override;
 
     procedure UpdateFromControl(AControl: TControl);
+    procedure UpdateControl(AControl: TControl);
 
     property Id: Integer read FId write FId;
 
@@ -73,7 +74,7 @@ type
     property Children: TCSControls read GetChildren write SetChildren;
 
     property Top: Integer read FTop write FTop;
-    property Left: Integer read FLeft write FTop;
+    property Left: Integer read FLeft write FLeft;
     property Width: Integer read FWidth write FWidth;
     property Height: Integer read FHeight write FHeight;
   end;
@@ -156,6 +157,9 @@ uses
 
 { TCSDBGrid }
 
+const
+  PF_FORM = 'Form.';
+
 constructor TCSDBGrid.Create;
 begin
   inherited;
@@ -204,14 +208,14 @@ begin
   // form is a control like any other - just has children
 
   var LForm := ObjectManager.Find<TCSControl>
-    .Where(Dic.CSControl.Name = 'Form.' + AForm.Name )
+    .Where(Dic.CSControl.Name = PF_FORM + AForm.Name )
     .UniqueResult
     ;
 
   if not Assigned(LForm) then
   begin
     LForm := TCSControl.Create;
-    LForm.Name := 'Form.' + AForm.Name;
+    LForm.Name := PF_FORM + AForm.Name;
     ObjectManager.Save(LForm);
   end;
 
@@ -270,8 +274,55 @@ begin
 end;
 
 procedure TFormStorageManager.RestoreForm(AForm: TForm);
+var
+  LForm: TCSControl;
+  LControl: TControl;
+
 begin
-  // restore specific form controls
+  // look up form an if it exists, update all controls associated with it
+  LForm := ObjectManager.Find<TCSControl>
+    .Where(Dic.CSControl.Name = PF_FORM + AForm.Name)
+    .UniqueResult
+    ;
+
+  if not Assigned(LForm) then
+  begin
+    Exit;
+  end;
+
+  LForm.UpdateControl(AForm);
+
+  // build list of all controls
+  var LList := TControlList.Create;
+  try
+    AddControlsToList(AForm, LList);
+
+    // update size of all children
+    for var LChild in LForm.Children do
+    begin
+      // find associated control
+      LControl := nil;
+      var i := 0;
+      while (LControl = nil) AND (i<LList.Count) do
+      begin
+        if LList[i].Name = LChild.Name then
+        begin
+          LControl := LList[i];
+        end;
+
+        Inc(i);
+      end;
+
+      // it might happen that a control has been stored that no longer
+      // exists on the form...
+      if Assigned(LControl) then
+      begin
+        LChild.UpdateControl(LControl);
+      end;
+    end;
+  finally
+    LList.Free;
+  end;
 end;
 
 procedure TFormStorageManager.AddControlsToList(AControl: TControl;
@@ -336,6 +387,14 @@ end;
 procedure TCSControl.SetChildren(const Value: TCSControls);
 begin
   FChildren.Value := Value;
+end;
+
+procedure TCSControl.UpdateControl(AControl: TControl);
+begin
+  AControl.Left := self.Left;
+  AControl.Top := self.Top;
+  AControl.Height := self.Height;
+  AControl.Width := self.Width;
 end;
 
 procedure TCSControl.UpdateFromControl(AControl: TControl);

@@ -127,8 +127,6 @@ uses
 
 {$R *.dfm}
 
-
-
 procedure TFrmReportProfitLoss.FormDestroy(Sender: TObject);
 begin
   IncomeTx.Close;
