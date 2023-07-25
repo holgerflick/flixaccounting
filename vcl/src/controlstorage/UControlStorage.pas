@@ -64,8 +64,8 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure UpdateFromControl(AControl: TControl);
-    procedure UpdateControl(AControl: TControl);
+    procedure UpdateFromControl(AControl: TControl); virtual;
+    procedure UpdateControl(AControl: TControl); virtual;
 
     property Id: Integer read FId write FId;
 
@@ -80,32 +80,35 @@ type
     property Height: Integer read FHeight write FHeight;
   end;
 
-  TCSDBGrid = class;
+  TCSDBGridControl = class;
 
   [Automapping, Entity]
   TCSDBGridColumn = class
   private
     FId: Integer;
     FWidth: Integer;
+
     FIdx: Integer;
+
     FVisible: Boolean;
 
     [Association([],CascadeTypeAllButRemove)]
-    FGrid: TCSDBGrid;
+    FGrid: TCSDBGridControl;
 
   public
-    property Grid: TCSDBGrid read FGrid write FGrid;
+    property Grid: TCSDBGridControl read FGrid write FGrid;
 
     property Id: Integer read FId write FId;
-    property Width: Integer read FWidth write FWidth;
     property Idx: Integer read FIdx write FIdx;
+
+    property Width: Integer read FWidth write FWidth;
     property Visible: Boolean read FVisible write FVisible;
   end;
 
   TCSDBGridColumns = TList<TCSDBGridColumn>;
 
   [Automapping, Entity]
-  TCSDBGrid = class(TCSControl)
+  TCSDBGridControl = class(TCSControl)
   private
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FGrid')]
     FColumns: Proxy<TCSDBGridColumns>;
@@ -115,6 +118,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    procedure UpdateFromControl(AControl: TControl); override;
+    procedure UpdateControl(AControl: TControl); override;
 
     property Columns: TCSDBGridColumns read GetColumns write SetColumns;
   end;
@@ -160,28 +166,89 @@ uses
 
 { TCSDBGrid }
 
-constructor TCSDBGrid.Create;
+constructor TCSDBGridControl.Create;
 begin
   inherited;
 
   FColumns.SetInitialValue( TCSDBGridColumns.Create );
 end;
 
-destructor TCSDBGrid.Destroy;
+destructor TCSDBGridControl.Destroy;
 begin
   FColumns.DestroyValue;
 
   inherited;
 end;
 
-function TCSDBGrid.GetColumns: TCSDBGridColumns;
+function TCSDBGridControl.GetColumns: TCSDBGridColumns;
 begin
   Result := FColumns.Value;
 end;
 
-procedure TCSDBGrid.SetColumns(const Value: TCSDBGridColumns);
+procedure TCSDBGridControl.SetColumns(const Value: TCSDBGridColumns);
 begin
   FColumns.Value := Value;
+end;
+
+procedure TCSDBGridControl.UpdateControl(AControl: TControl);
+begin
+  raise ENotImplemented.Create('Grid columns not implemented');
+
+
+  inherited;
+
+  // retrieve columns
+  var LGrid := AControl as TDBGrid;
+
+  // this should never ever fail...
+  if Assigned(LGrid) then
+  begin
+
+  end;
+end;
+
+procedure TCSDBGridControl.UpdateFromControl(AControl: TControl);
+var
+  LPotentialColumn,
+  LFound: TCSDBGridColumn;
+
+begin
+  inherited;
+
+  // add columns to storage
+  var LGrid := AControl as TDBGrid;
+
+  // this should never fail...
+  if Assigned(LGrid) then
+  begin
+    for var c := 0 to LGrid.Columns.Count-1 do
+    begin
+      var LColumn := LGrid.Columns[c];
+
+      // find if column exists
+      LFound := nil;
+      var i := 0;
+      while (LFound = nil) AND ( i<self.Columns.Count ) do
+      begin
+        LPotentialColumn := self.Columns[i];
+        if LPotentialColumn.Idx = LColumn.Index then
+        begin
+          LFound := LPotentialColumn;
+        end;
+        Inc(i);
+      end;
+
+      if not Assigned(LFound) then
+      begin
+        LFound := TCSDBGridColumn.Create;
+        LFound.Idx := LColumn.Index;
+        self.Columns.Add(LFound);
+      end;
+
+      LFound.Width := LColumn.Width;
+      LFound.Visible := LColumn.Visible;
+    end;
+  end;
 end;
 
 { TFormStorageManager }
@@ -201,7 +268,10 @@ end;
 procedure TFormStorageManager.StoreForm(AForm: TForm);
 var
   LList: TControlList;
-  LName: String;
+  LLog: String;
+  LControl: TControl;
+  LChild,
+  LPotentialChild: TCSControl;
 
 begin
   // check if form has been stored before -- name is unique
@@ -226,21 +296,45 @@ begin
   try
     AddControlsToList(AForm, LList );
 
-    for var LControl in LList do
+    for LControl in LList do
     begin
-      // check if control is already in list of form
-      var LChild := ObjectManager.Find<TCSControl>
-        .Where(
-          (Dic.CSControl.Owner.Id = LForm.Id) AND
-          (Dic.CSControl.Name = TFormStorageUtils.ControlToName(LControl))
-          )
-        .UniqueResult
-        ;
+      var LName := TFormStorageUtils.ControlToName(LControl);
+
+      LChild := nil;
+
+      var i:= 0;
+      while (not Assigned(LChild)) AND (i<LForm.Children.Count) do
+      begin
+        LPotentialChild := LForm.Children[i];
+
+        if LPotentialChild.Name = LName then
+        begin
+          LChild := LPotentialChild;
+        end;
+
+        Inc(i);
+      end;
 
       if not Assigned(LChild) then
       begin
+
+        // removed functionalty as there is no way to retrieve these
+        // instances. Aurelius always returns TCSControl and does
+        // not consider TCSDBGridControl. Instances are neither in the list
+        // `Children` not can they be found using `Find`.
+        //
+
+//        if LControl is TDBGrid then
+//        begin
+//          LChild := TCSDBGridControl.Create;
+//        end
+//        else
+//        begin
+//          LChild := TCSControl.Create;
+//        end;
+
         LChild := TCSControl.Create;
-        LChild.Name := TFormStorageUtils.ControlToName(LControl);
+        LChild.Name := LName;
         LForm.Children.Add(LChild);
       end;
 
@@ -340,9 +434,6 @@ begin
   end;
 end;
 
-
-
-
 constructor TFormStorageManager.Create;
 begin
   inherited;
@@ -430,7 +521,7 @@ end;
 
 initialization
   RegisterEntity(TCSControl);
-  RegisterEntity(TCSDBGrid);
+  RegisterEntity(TCSDBGridControl);
   RegisterEntity(TCSDBGridColumn);
 
 end.
