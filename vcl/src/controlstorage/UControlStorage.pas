@@ -59,7 +59,6 @@ type
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FOwner')]
     FChildren: Proxy<TCSControls>;
     function GetChildren: TCSControls;
-    procedure SetChildren(const Value: TCSControls);
 
   public
     constructor Create; virtual;
@@ -68,12 +67,14 @@ type
     procedure UpdateFromControl(AControl: TControl); virtual;
     procedure UpdateControl(AControl: TControl); virtual;
 
+    function ChildByName(AName: String): TCSControl;
+
     property Id: Integer read FId write FId;
 
     property Name: String read FName write FName;
 
     property Owner: TCSControl read FOwner write FOwner;
-    property Children: TCSControls read GetChildren write SetChildren;
+    property Children: TCSControls read GetChildren;
 
     property Top: Integer read FTop write FTop;
     property Left: Integer read FLeft write FLeft;
@@ -88,9 +89,7 @@ type
   private
     FId: Integer;
     FWidth: Integer;
-
     FIdx: Integer;
-
     FVisible: Boolean;
 
     [Association([],CascadeTypeAllButRemove)]
@@ -101,7 +100,6 @@ type
 
     property Id: Integer read FId write FId;
     property Idx: Integer read FIdx write FIdx;
-
     property Width: Integer read FWidth write FWidth;
     property Visible: Boolean read FVisible write FVisible;
   end;
@@ -112,7 +110,7 @@ type
   [PrimaryJoinColumn('CSControlId')]
   TCSDBGridControl = class(TCSControl)
   private
-    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FGrid')]
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllButRemove, 'FGrid')]
     FColumns: Proxy<TCSDBGridColumns>;
 
     function GetColumns: TCSDBGridColumns;
@@ -120,8 +118,11 @@ type
     constructor Create;  override;
     destructor Destroy; override;
 
+
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
+
+    function ColumnByIndex(AIndex: Integer): TCSDBGridColumn;
 
     property Columns: TCSDBGridColumns read GetColumns;
   end;
@@ -167,6 +168,20 @@ uses
 
 { TCSDBGrid }
 
+function TCSDBGridControl.ColumnByIndex(AIndex: Integer): TCSDBGridColumn;
+begin
+  Result := nil;
+
+  for var i := 0 to self.Columns.Count-1 do
+  begin
+    if self.Columns[i].Idx = AIndex then
+    begin
+      Result := self.Columns[i];
+      break;
+    end;
+  end;
+end;
+
 constructor TCSDBGridControl.Create;
 begin
   inherited;
@@ -188,9 +203,6 @@ end;
 
 procedure TCSDBGridControl.UpdateControl(AControl: TControl);
 begin
-  //raise ENotImplemented.Create('Grid columns not implemented');
-
-
   inherited;
 
   // retrieve columns
@@ -205,7 +217,6 @@ end;
 
 procedure TCSDBGridControl.UpdateFromControl(AControl: TControl);
 var
-  LPotentialColumn,
   LFound: TCSDBGridColumn;
 
 begin
@@ -220,19 +231,10 @@ begin
     for var c := 0 to LGrid.Columns.Count-1 do
     begin
       var LColumn := LGrid.Columns[c];
+      var LIndex := LColumn.Index;
 
       // find if column exists
-      LFound := nil;
-      var i := 0;
-      while (LFound = nil) AND ( i<self.Columns.Count ) do
-      begin
-        LPotentialColumn := self.Columns[i];
-        if LPotentialColumn.Idx = LColumn.Index then
-        begin
-          LFound := LPotentialColumn;
-        end;
-        Inc(i);
-      end;
+      LFound := self.ColumnByIndex(LIndex);
 
       if not Assigned(LFound) then
       begin
@@ -265,10 +267,8 @@ end;
 procedure TFormStorageManager.StoreForm(AForm: TForm);
 var
   LList: TControlList;
-  LLog: String;
   LControl: TControl;
-  LChild,
-  LPotentialChild: TCSControl;
+  LChild: TCSControl;
 
 begin
   // check if form has been stored before -- name is unique
@@ -287,6 +287,7 @@ begin
   end;
 
   LForm.UpdateFromControl( AForm );
+  ObjectManager.Flush(LForm);
 
   // get a flattened list of all controls on the form
   LList := TControlList.Create;
@@ -297,20 +298,7 @@ begin
     begin
       var LName := TFormStorageUtils.ControlToName(LControl);
 
-      LChild := nil;
-
-      var i:= 0;
-      while (not Assigned(LChild)) AND (i<LForm.Children.Count) do
-      begin
-        LPotentialChild := LForm.Children[i];
-
-        if LPotentialChild.Name = LName then
-        begin
-          LChild := LPotentialChild;
-        end;
-
-        Inc(i);
-      end;
+      LChild := LForm.ChildByName(LName);
 
       if not Assigned(LChild) then
       begin
@@ -330,10 +318,12 @@ begin
         end;
 
         LChild.Name := LName;
+        LChild.Owner := LForm;
         LForm.Children.Add(LChild);
       end;
 
       LChild.UpdateFromControl( LControl );
+      ObjectManager.Flush(LForm);
     end;
   finally
     LList.Free;
@@ -438,6 +428,20 @@ end;
 
 { TCSControl }
 
+function TCSControl.ChildByName(AName: String): TCSControl;
+begin
+  Result := nil;
+
+  for var i := 0 to self.Children.Count-1 do
+  begin
+    if self.Children[i].Name = AName then
+    begin
+      Result := self.Children[i];
+      break;
+    end;
+  end;
+end;
+
 constructor TCSControl.Create;
 begin
   inherited;
@@ -455,11 +459,6 @@ end;
 function TCSControl.GetChildren: TCSControls;
 begin
   Result := FChildren.Value;
-end;
-
-procedure TCSControl.SetChildren(const Value: TCSControls);
-begin
-  FChildren.Value := Value;
 end;
 
 procedure TCSControl.UpdateControl(AControl: TControl);
@@ -483,7 +482,6 @@ end;
 class function TFormStorageUtils.ControlToName(AControl: TControl): String;
 var
   LBuffer: String;
-
 
 begin
   LBuffer := AControl.ClassName + '.' + AControl.Name;
