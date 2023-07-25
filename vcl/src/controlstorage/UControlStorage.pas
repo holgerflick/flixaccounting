@@ -33,6 +33,7 @@ type
   TCSControls = TList<TCSControl>;
 
   [Automapping, Entity]
+  [Inheritance(TInheritanceStrategy.JoinedTables)]
   TCSControl = class
   private
     FId: Integer;
@@ -108,13 +109,13 @@ type
   TCSDBGridColumns = TList<TCSDBGridColumn>;
 
   [Automapping, Entity]
+  [PrimaryJoinColumn('CSControlId')]
   TCSDBGridControl = class(TCSControl)
   private
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FGrid')]
     FColumns: Proxy<TCSDBGridColumns>;
 
     function GetColumns: TCSDBGridColumns;
-    procedure SetColumns(const Value: TCSDBGridColumns);
   public
     constructor Create;
     destructor Destroy; override;
@@ -122,7 +123,7 @@ type
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
 
-    property Columns: TCSDBGridColumns read GetColumns write SetColumns;
+    property Columns: TCSDBGridColumns read GetColumns;
   end;
 
   TFormStorageUtils = class
@@ -185,14 +186,9 @@ begin
   Result := FColumns.Value;
 end;
 
-procedure TCSDBGridControl.SetColumns(const Value: TCSDBGridColumns);
-begin
-  FColumns.Value := Value;
-end;
-
 procedure TCSDBGridControl.UpdateControl(AControl: TControl);
 begin
-  raise ENotImplemented.Create('Grid columns not implemented');
+  //raise ENotImplemented.Create('Grid columns not implemented');
 
 
   inherited;
@@ -242,6 +238,7 @@ begin
       begin
         LFound := TCSDBGridColumn.Create;
         LFound.Idx := LColumn.Index;
+        LFound.Grid := self;
         self.Columns.Add(LFound);
       end;
 
@@ -323,17 +320,15 @@ begin
         // not consider TCSDBGridControl. Instances are neither in the list
         // `Children` not can they be found using `Find`.
         //
+        if LControl is TDBGrid then
+        begin
+          LChild := TCSDBGridControl.Create;
+        end
+        else
+        begin
+          LChild := TCSControl.Create;
+        end;
 
-//        if LControl is TDBGrid then
-//        begin
-//          LChild := TCSDBGridControl.Create;
-//        end
-//        else
-//        begin
-//          LChild := TCSControl.Create;
-//        end;
-
-        LChild := TCSControl.Create;
         LChild.Name := LName;
         LForm.Children.Add(LChild);
       end;
