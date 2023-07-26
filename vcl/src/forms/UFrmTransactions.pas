@@ -3,39 +3,43 @@
 interface
 
 uses
-    UFrmBase
-  , Winapi.Windows
-  , Winapi.Messages
-  , System.SysUtils
-  , System.Variants
-  , System.Classes
-  , Vcl.Graphics
-  , Vcl.Controls
-  , Vcl.Forms
-  , Vcl.Dialogs
-  , Vcl.StdCtrls
-  , Vcl.Menus
-  , Vcl.ExtCtrls
-
-  , Data.DB
-
-  , Vcl.Grids
-  , Vcl.DBGrids
+    AdvGrid
+  , AdvObj
+  , AdvUtil
+  , AsgLinks
 
   , Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
 
-  , AdvUtil
-  , AdvObj
-  , AsgLinks
-  , AdvGrid
   , BaseGrid
+
+  , Data.DB
+
   , DBAdvGrid
 
-  , UTransaction, Vcl.DBCtrls
+  , System.Classes
+  , System.SysUtils
+  , System.Variants
 
+  , Vcl.Controls
+  , Vcl.DBCtrls
+  , Vcl.DBGrids
+  , Vcl.Dialogs
+  , Vcl.ExtCtrls
+  , Vcl.Forms
+  , Vcl.Graphics
+  , Vcl.Grids
+  , Vcl.Menus
+  , Vcl.StdCtrls
+
+  , Winapi.Messages
+  , Winapi.Windows
+
+  , UFrmBase
+  , UTransaction
   ;
+
 
 type
   TFrmTransactions = class(TFrmBase)

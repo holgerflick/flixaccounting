@@ -7,6 +7,9 @@ uses
   Aurelius.Linq;
 
 type
+  TCSControlDictionary = class;
+  TCSDBGridDictionary = class;
+  TCSDBGridColumnDictionary = class;
   TCustomerDictionary = class;
   TDocumentDictionary = class;
   TInvoiceDictionary = class;
@@ -14,6 +17,12 @@ type
   TInvoicePaymentDictionary = class;
   TQuickItemDictionary = class;
   TTransactionDictionary = class;
+  
+  ICSControlDictionary = interface;
+  
+  ICSDBGridDictionary = interface;
+  
+  ICSDBGridColumnDictionary = interface;
   
   ICustomerDictionary = interface;
   
@@ -28,6 +37,30 @@ type
   IQuickItemDictionary = interface;
   
   ITransactionDictionary = interface;
+  
+  ICSControlDictionary = interface(IAureliusEntityDictionary)
+    function Id: TLinqProjection;
+    function Top: TLinqProjection;
+    function Left: TLinqProjection;
+    function Width: TLinqProjection;
+    function Height: TLinqProjection;
+    function Name: TLinqProjection;
+    function Owner: ICSControlDictionary;
+    function Children: ICSControlDictionary;
+  end;
+  
+  ICSDBGridDictionary = interface(IAureliusEntityDictionary)
+    function Id: TLinqProjection;
+    function Columns: ICSDBGridColumnDictionary;
+  end;
+  
+  ICSDBGridColumnDictionary = interface(IAureliusEntityDictionary)
+    function Id: TLinqProjection;
+    function Width: TLinqProjection;
+    function Idx: TLinqProjection;
+    function Visible: TLinqProjection;
+    function Grid: ICSDBGridDictionary;
+  end;
   
   ICustomerDictionary = interface(IAureliusEntityDictionary)
     function Address: TLinqProjection;
@@ -90,6 +123,33 @@ type
     function Kind: TLinqProjection;
     function IsMonthly: TLinqProjection;
     function Document: IDocumentDictionary;
+  end;
+  
+  TCSControlDictionary = class(TAureliusEntityDictionary, ICSControlDictionary)
+  public
+    function Id: TLinqProjection;
+    function Top: TLinqProjection;
+    function Left: TLinqProjection;
+    function Width: TLinqProjection;
+    function Height: TLinqProjection;
+    function Name: TLinqProjection;
+    function Owner: ICSControlDictionary;
+    function Children: ICSControlDictionary;
+  end;
+  
+  TCSDBGridDictionary = class(TAureliusEntityDictionary, ICSDBGridDictionary)
+  public
+    function Id: TLinqProjection;
+    function Columns: ICSDBGridColumnDictionary;
+  end;
+  
+  TCSDBGridColumnDictionary = class(TAureliusEntityDictionary, ICSDBGridColumnDictionary)
+  public
+    function Id: TLinqProjection;
+    function Width: TLinqProjection;
+    function Idx: TLinqProjection;
+    function Visible: TLinqProjection;
+    function Grid: ICSDBGridDictionary;
   end;
   
   TCustomerDictionary = class(TAureliusEntityDictionary, ICustomerDictionary)
@@ -163,6 +223,9 @@ type
   end;
   
   IDefaultDictionary = interface(IAureliusDictionary)
+    function CSControl: ICSControlDictionary;
+    function CSDBGrid: ICSDBGridDictionary;
+    function CSDBGridColumn: ICSDBGridColumnDictionary;
     function Customer: ICustomerDictionary;
     function Document: IDocumentDictionary;
     function Invoice: IInvoiceDictionary;
@@ -174,6 +237,9 @@ type
   
   TDefaultDictionary = class(TAureliusDictionary, IDefaultDictionary)
   public
+    function CSControl: ICSControlDictionary;
+    function CSDBGrid: ICSDBGridDictionary;
+    function CSDBGridColumn: ICSDBGridColumnDictionary;
     function Customer: ICustomerDictionary;
     function Document: IDocumentDictionary;
     function Invoice: IInvoiceDictionary;
@@ -194,6 +260,87 @@ function Dic: IDefaultDictionary;
 begin
   if __Dic = nil then __Dic := TDefaultDictionary.Create;
   result := __Dic;
+end;
+
+{ TCSControlDictionary }
+
+function TCSControlDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TCSControlDictionary.Top: TLinqProjection;
+begin
+  Result := Prop('Top');
+end;
+
+function TCSControlDictionary.Left: TLinqProjection;
+begin
+  Result := Prop('Left');
+end;
+
+function TCSControlDictionary.Width: TLinqProjection;
+begin
+  Result := Prop('Width');
+end;
+
+function TCSControlDictionary.Height: TLinqProjection;
+begin
+  Result := Prop('Height');
+end;
+
+function TCSControlDictionary.Name: TLinqProjection;
+begin
+  Result := Prop('Name');
+end;
+
+function TCSControlDictionary.Owner: ICSControlDictionary;
+begin
+  Result := TCSControlDictionary.Create(PropName('Owner'));
+end;
+
+function TCSControlDictionary.Children: ICSControlDictionary;
+begin
+  Result := TCSControlDictionary.Create(PropName('Children'));
+end;
+
+{ TCSDBGridDictionary }
+
+function TCSDBGridDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TCSDBGridDictionary.Columns: ICSDBGridColumnDictionary;
+begin
+  Result := TCSDBGridColumnDictionary.Create(PropName('Columns'));
+end;
+
+{ TCSDBGridColumnDictionary }
+
+function TCSDBGridColumnDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TCSDBGridColumnDictionary.Width: TLinqProjection;
+begin
+  Result := Prop('Width');
+end;
+
+function TCSDBGridColumnDictionary.Idx: TLinqProjection;
+begin
+  Result := Prop('Idx');
+end;
+
+function TCSDBGridColumnDictionary.Visible: TLinqProjection;
+begin
+  Result := Prop('Visible');
+end;
+
+function TCSDBGridColumnDictionary.Grid: ICSDBGridDictionary;
+begin
+  Result := TCSDBGridDictionary.Create(PropName('Grid'));
 end;
 
 { TCustomerDictionary }
@@ -421,6 +568,21 @@ begin
 end;
 
 { TDefaultDictionary }
+
+function TDefaultDictionary.CSControl: ICSControlDictionary;
+begin
+  Result := TCSControlDictionary.Create;
+end;
+
+function TDefaultDictionary.CSDBGrid: ICSDBGridDictionary;
+begin
+  Result := TCSDBGridDictionary.Create;
+end;
+
+function TDefaultDictionary.CSDBGridColumn: ICSDBGridColumnDictionary;
+begin
+  Result := TCSDBGridColumnDictionary.Create;
+end;
 
 function TDefaultDictionary.Customer: ICustomerDictionary;
 begin
