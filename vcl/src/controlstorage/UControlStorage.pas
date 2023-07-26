@@ -320,16 +320,17 @@ begin
         LChild.Name := LName;
         LChild.Owner := LForm;
         LForm.Children.Add(LChild);
+        ObjectManager.Save(LChild);
       end;
 
       LChild.UpdateFromControl( LControl );
-      ObjectManager.Flush(LForm);
+      ObjectManager.Flush(LChild);
     end;
   finally
     LList.Free;
   end;
 
-  ObjectManager.Flush;
+//  ObjectManager.Flush(LForm);
 end;
 
 class function TFormStorageManager.Shared: TFormStorageManager;
