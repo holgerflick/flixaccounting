@@ -3,7 +3,10 @@
 interface
 
 uses
-    Aurelius.Mapping.Automapping
+    AdvGrid
+  , dbadvgrid
+
+  , Aurelius.Mapping.Automapping
   , Aurelius.Mapping.Attributes
   , Aurelius.Mapping.Metadata
   , Aurelius.Engine.ObjectManager
@@ -94,11 +97,13 @@ type
 
     [Association([],CascadeTypeAllButRemove)]
     FGrid: TCSDBGridControl;
+    FFieldName: String;
 
   public
     property Grid: TCSDBGridControl read FGrid write FGrid;
 
     property Id: Integer read FId write FId;
+    property FieldName: String read FFieldName write FFieldName;
     property Idx: Integer read FIdx write FIdx;
     property Width: Integer read FWidth write FWidth;
     property Visible: Boolean read FVisible write FVisible;
@@ -122,9 +127,24 @@ type
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
 
-    function ColumnByIndex(AIndex: Integer): TCSDBGridColumn;
+    function ColumnByFieldName(AName: String): TCSDBGridColumn;
 
     property Columns: TCSDBGridColumns read GetColumns;
+  end;
+
+  [Automapping, Entity]
+  [PrimaryJoinColumn('CSControlId')]
+  TCSAdvStringGrid = class(TCSControl)
+  private
+
+    [Column('ColDef', [], 1000 )]
+    FColumnDefinition: String;
+  public
+
+    procedure UpdateFromControl(AControl: TControl); override;
+    procedure UpdateControl(AControl: TControl); override;
+
+    property ColumnDefinition: String read FColumnDefinition write FColumnDefinition;
   end;
 
   TFormStorageUtils = class
@@ -168,13 +188,13 @@ uses
 
 { TCSDBGrid }
 
-function TCSDBGridControl.ColumnByIndex(AIndex: Integer): TCSDBGridColumn;
+function TCSDBGridControl.ColumnByFieldName(AName: String): TCSDBGridColumn;
 begin
   Result := nil;
 
   for var i := 0 to self.Columns.Count-1 do
   begin
-    if self.Columns[i].Idx = AIndex then
+    if self.Columns[i].FieldName = AName then
     begin
       Result := self.Columns[i];
       break;
@@ -211,7 +231,28 @@ begin
   // this should never ever fail...
   if Assigned(LGrid) then
   begin
+    // restore column visibility and width
+    for var LCSCol in self.Columns do
+    begin
+      // find column in grid
+      var LColumn: TColumn := nil;
+      for var i := 0 to LGrid.Columns.Count-1 do
+      begin
+        if LGrid.Columns[i].FieldName = LCSCol.FieldName then
+        begin
+          LColumn := LGrid.Columns[i];
+          break;
+        end;
+      end;
 
+      // column might no longer exist...
+      if Assigned(LColumn) then
+      begin
+        LColumn.Index := LCSCol.Idx;
+        LColumn.Width := LCSCol.Width;
+        LColumn.Visible := LCSCol.Visible;
+      end;
+    end;
   end;
 end;
 
@@ -231,19 +272,19 @@ begin
     for var c := 0 to LGrid.Columns.Count-1 do
     begin
       var LColumn := LGrid.Columns[c];
-      var LIndex := LColumn.Index;
+      var LFieldName := LColumn.FieldName;
 
       // find if column exists
-      LFound := self.ColumnByIndex(LIndex);
+      LFound := self.ColumnByFieldName(LFieldName);
 
       if not Assigned(LFound) then
       begin
         LFound := TCSDBGridColumn.Create;
-        LFound.Idx := LColumn.Index;
-        LFound.Grid := self;
+        LFound.FieldName := LColumn.FieldName;
         self.Columns.Add(LFound);
       end;
 
+      LFound.Idx := LColumn.Index;
       LFound.Width := LColumn.Width;
       LFound.Visible := LColumn.Visible;
     end;
@@ -312,6 +353,10 @@ begin
         begin
           LChild := TCSDBGridControl.Create;
         end
+        else if (LControl is TAdvStringGrid) or (LControl is TDBAdvGrid) then
+        begin
+          LChild := TCSAdvStringGrid.Create;
+        end
         else
         begin
           LChild := TCSControl.Create;
@@ -329,8 +374,6 @@ begin
   finally
     LList.Free;
   end;
-
-//  ObjectManager.Flush(LForm);
 end;
 
 class function TFormStorageManager.Shared: TFormStorageManager;
@@ -513,9 +556,34 @@ begin
   Result := LBuffer;
 end;
 
+{ TCSDBAdvGrid }
+
+procedure TCSAdvStringGrid.UpdateControl(AControl: TControl);
+begin
+  inherited;
+
+  if AControl is TAdvStringGrid then
+  begin
+    var LGrid := TAdvStringGrid( AControl );
+    LGrid.StringToColumnStates( self.ColumnDefinition );
+  end;
+end;
+
+procedure TCSAdvStringGrid.UpdateFromControl(AControl: TControl);
+begin
+  inherited;
+
+  if AControl is TAdvStringGrid then
+  begin
+    var LGrid := TAdvStringGrid( AControl );
+    self.ColumnDefinition := LGrid.ColumnStatesToString;
+  end;
+end;
+
 initialization
   RegisterEntity(TCSControl);
   RegisterEntity(TCSDBGridControl);
   RegisterEntity(TCSDBGridColumn);
+  RegisterEntity(TCSAdvStringGrid);
 
 end.

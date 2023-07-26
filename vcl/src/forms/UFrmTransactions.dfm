@@ -19,7 +19,7 @@ inherited FrmTransactions: TFrmTransactions
     FixedColor = clWhite
     RowCount = 2
     FixedRows = 1
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goTabs, goFixedRowDefAlign]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving, goEditing, goTabs, goFixedRowDefAlign]
     TabOrder = 0
     GridLineColor = 13948116
     GridFixedLineColor = 11250603
