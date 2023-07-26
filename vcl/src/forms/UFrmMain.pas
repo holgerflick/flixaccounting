@@ -22,13 +22,14 @@ uses
   , Vcl.Graphics
   , Vcl.ImageCollection
   , Vcl.ImgList
+  , Vcl.Menus
   , Vcl.StdCtrls
   , Vcl.VirtualImageList
 
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, Vcl.Menus
+  , UFrmBase
   ;
 
 type
@@ -81,13 +82,13 @@ uses
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices
-
   ;
 
 resourcestring
 //  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
   SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
   SDictionaryFileMemory  = 'D:\flixllcpl\bpl\src\UDictionaryTemporary.pas';
+
 {$R *.dfm}
 
 procedure TFrmMain.actCustomersExecute(Sender: TObject);
@@ -188,6 +189,7 @@ begin
 
   LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
   try
+    LGenerator.OutputUnitName := 'UDictionaryTemporary';
     LGenerator.GlobalVarName := 'DicTemp';
     var LSourceCode := LGenerator.GenerateSource;
     TFile.WriteAllText( SDictionaryFileMemory, LSourceCode );

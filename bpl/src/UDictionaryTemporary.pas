@@ -34,7 +34,8 @@ type
   
   IProfitLossDictionary = interface(IAureliusEntityDictionary)
     function Id: TLinqProjection;
-    function Categories: IPLCategoryDictionary;
+    function Created: TLinqProjection;
+    function Items: IPLCategoryDictionary;
   end;
   
   TPLCategoryDictionary = class(TAureliusEntityDictionary, IPLCategoryDictionary)
@@ -57,7 +58,8 @@ type
   TProfitLossDictionary = class(TAureliusEntityDictionary, IProfitLossDictionary)
   public
     function Id: TLinqProjection;
-    function Categories: IPLCategoryDictionary;
+    function Created: TLinqProjection;
+    function Items: IPLCategoryDictionary;
   end;
   
   ITemporaryDictionary = interface(IAureliusDictionary)
@@ -142,9 +144,14 @@ begin
   Result := Prop('Id');
 end;
 
-function TProfitLossDictionary.Categories: IPLCategoryDictionary;
+function TProfitLossDictionary.Created: TLinqProjection;
 begin
-  Result := TPLCategoryDictionary.Create(PropName('Categories'));
+  Result := Prop('Created');
+end;
+
+function TProfitLossDictionary.Items: IPLCategoryDictionary;
+begin
+  Result := TPLCategoryDictionary.Create(PropName('Items'));
 end;
 
 { TTemporaryDictionary }
