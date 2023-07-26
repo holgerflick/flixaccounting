@@ -91,7 +91,7 @@ type
     function GetTotalIncome: Double;
     function GetTotalFor(ASection: TPLSection): Double;
     function GetCategories: TPLCategories;
-    procedure SetCategories(const Value: TPLCategories);
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -99,7 +99,7 @@ type
     property Id: Integer read FId write FId;
 
     property Created: TDateTime read FCreated write FCreated;
-    property Categories: TPLCategories read GetCategories write SetCategories;
+    property Categories: TPLCategories read GetCategories;
 
     property TotalIncome: Double read GetTotalIncome;
     property TotalExpense: Double read GetTotalExpense;
@@ -150,11 +150,6 @@ end;
 function TProfitLoss.GetTotalIncome: Double;
 begin
   Result := GetTotalFor(TPLSection.Income);
-end;
-
-procedure TProfitLoss.SetCategories(const Value: TPLCategories);
-begin
-  FItems.Value := Value;
 end;
 
 { TPLCategory }
