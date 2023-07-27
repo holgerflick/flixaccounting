@@ -36,7 +36,6 @@ uses
   , FireDAC.VCLUI.Wait
   , FireDAC.Comp.Client
 
-  , UInvoice
   ;
 
 type
