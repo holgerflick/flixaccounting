@@ -29,7 +29,8 @@ uses
   UReportInterfaces in 'globals\UReportInterfaces.pas',
   UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
   UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
-  UControlStorage in 'controlstorage\UControlStorage.pas';
+  UControlStorage in 'controlstorage\UControlStorage.pas',
+  UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers};
 
 {$R *.res}
 

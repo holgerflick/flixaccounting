@@ -111,6 +111,24 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 5
   end
+  object btnApi: TButton
+    Left = 432
+    Top = 8
+    Width = 100
+    Height = 75
+    Action = actApi
+    DisabledImages = ImagesDisabled
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ImageAlignment = iaTop
+    ImageMargins.Top = 10
+    Images = Images
+    ParentFont = False
+    TabOrder = 6
+  end
   object Collection: TImageCollection
     Images = <
       item
@@ -1790,7 +1808,7 @@ inherited FrmMain: TFrmMain
   end
   object Actions: TActionList
     Images = Images
-    Left = 480
+    Left = 632
     Top = 80
     object actTransactions: TAction
       Category = 'Main'
@@ -1825,6 +1843,11 @@ inherited FrmMain: TFrmMain
       Caption = 'Expand Form'
       ShortCut = 16507
       OnExecute = actExpandFormExecute
+    end
+    object actApi: TAction
+      Category = 'Main'
+      Caption = 'API Access'
+      OnExecute = actApiExecute
     end
   end
   object ImagesDisabled: TVirtualImageList
@@ -1865,7 +1888,7 @@ inherited FrmMain: TFrmMain
     ImageCollection = Collection
     Width = 32
     Height = 32
-    Left = 480
+    Left = 632
     Top = 24
   end
 end
