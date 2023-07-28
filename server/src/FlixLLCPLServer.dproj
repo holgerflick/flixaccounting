@@ -95,6 +95,25 @@
             <Form>MainForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\..\vcl\src\globals\UAppSettings.pas"/>
+        <DCCReference Include="UReportService.pas"/>
+        <DCCReference Include="UReportServiceImpl.pas"/>
+        <DCCReference Include="..\..\bpl\src\UCustomer.pas"/>
+        <DCCReference Include="..\..\bpl\src\UCustomerIncomeReport.pas"/>
+        <DCCReference Include="..\..\bpl\src\UDictionary.pas"/>
+        <DCCReference Include="..\..\bpl\src\UDictionaryTemporary.pas"/>
+        <DCCReference Include="..\..\bpl\src\UDocument.pas"/>
+        <DCCReference Include="..\..\bpl\src\UExceptions.pas"/>
+        <DCCReference Include="..\..\bpl\src\UInvoice.pas"/>
+        <DCCReference Include="..\..\bpl\src\UProfitLoss.pas"/>
+        <DCCReference Include="..\..\bpl\src\UTransaction.pas"/>
+        <DCCReference Include="UReportServiceManager.pas"/>
+        <DCCReference Include="..\..\vcl\src\UReportManager.pas">
+            <Form>ReportManager</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UServerTypes.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
