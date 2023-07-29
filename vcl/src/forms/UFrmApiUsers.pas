@@ -26,7 +26,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, System.Actions, Vcl.ActnList
+  , UFrmBase, System.Actions, Vcl.ActnList, Vcl.StdCtrls
   ;
 
 
@@ -40,6 +40,8 @@ type
     ApiUsersEmail: TStringField;
     ApiUsersToken: TStringField;
     ApiUsersExpiresOn: TDateTimeField;
+    btnCopyToken: TButton;
+    procedure btnCopyTokenClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure GridEditButtonClick(Sender: TObject);
@@ -55,10 +57,16 @@ var
 
 implementation
 uses
-  UApi
+    Vcl.Clipbrd
+  , UApi
   ;
 
 {$R *.dfm}
+
+procedure TFrmApiUsers.btnCopyTokenClick(Sender: TObject);
+begin
+  Clipboard.AsText := ApiUsersToken.AsString;
+end;
 
 procedure TFrmApiUsers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -70,6 +78,8 @@ end;
 procedure TFrmApiUsers.FormCreate(Sender: TObject);
 begin
   inherited;
+
+  StoreControls := False;
 
   var LUsers := ObjectManager.Find<TApiUser>
     .OrderBy(Linq['ExpiresOn'], False )

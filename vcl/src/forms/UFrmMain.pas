@@ -90,9 +90,9 @@ uses
   ;
 
 resourcestring
-//  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
-  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
-  SDictionaryFileMemory  = 'D:\flixllcpl\bpl\src\UDictionaryTemporary.pas';
+  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
+//  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
+  SDictionaryFileMemory  = 'C:\dev\FlixLLCPL\bpl\src\UDictionaryTemporary.pas';
 
 {$R *.dfm}
 

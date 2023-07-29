@@ -7,18 +7,10 @@ uses
   UAppSettings in '..\..\vcl\src\globals\UAppSettings.pas',
   UReportService in 'UReportService.pas',
   UReportServiceImpl in 'UReportServiceImpl.pas',
-  UCustomer in '..\..\bpl\src\UCustomer.pas',
-  UCustomerIncomeReport in '..\..\bpl\src\UCustomerIncomeReport.pas',
-  UDictionary in '..\..\bpl\src\UDictionary.pas',
-  UDictionaryTemporary in '..\..\bpl\src\UDictionaryTemporary.pas',
-  UDocument in '..\..\bpl\src\UDocument.pas',
-  UExceptions in '..\..\bpl\src\UExceptions.pas',
-  UInvoice in '..\..\bpl\src\UInvoice.pas',
-  UProfitLoss in '..\..\bpl\src\UProfitLoss.pas',
-  UTransaction in '..\..\bpl\src\UTransaction.pas',
   UReportServiceManager in 'UReportServiceManager.pas',
   UReportManager in '..\..\vcl\src\UReportManager.pas' {ReportManager: TDataModule},
-  UServerTypes in 'UServerTypes.pas';
+  UServerTypes in 'UServerTypes.pas',
+  UTokenAuthentication in 'UTokenAuthentication.pas';
 
 {$R *.res}
 

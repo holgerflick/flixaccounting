@@ -9,7 +9,7 @@ inherited FrmMain: TFrmMain
   ExplicitWidth = 825
   ExplicitHeight = 211
   TextHeight = 15
-  object btnTransactions: TButton
+  object btnTransactions: TButton [0]
     Left = 114
     Top = 8
     Width = 100
@@ -27,7 +27,7 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 0
   end
-  object btnCreateDatabase: TButton
+  object btnCreateDatabase: TButton [1]
     Left = 204
     Top = 104
     Width = 222
@@ -42,7 +42,7 @@ inherited FrmMain: TFrmMain
     TabOrder = 1
     OnClick = btnCreateDatabaseClick
   end
-  object btnReports: TButton
+  object btnReports: TButton [2]
     Left = 326
     Top = 8
     Width = 100
@@ -60,7 +60,7 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 2
   end
-  object btnCustomers: TButton
+  object btnCustomers: TButton [3]
     Left = 8
     Top = 8
     Width = 100
@@ -78,7 +78,7 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 3
   end
-  object btnDictionary: TButton
+  object btnDictionary: TButton [4]
     Left = 8
     Top = 105
     Width = 190
@@ -93,7 +93,7 @@ inherited FrmMain: TFrmMain
     TabOrder = 4
     OnClick = btnDictionaryClick
   end
-  object btnInvoices: TButton
+  object btnInvoices: TButton [5]
     Left = 220
     Top = 8
     Width = 100
@@ -111,7 +111,7 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 5
   end
-  object btnApi: TButton
+  object btnApi: TButton [6]
     Left = 432
     Top = 8
     Width = 100
@@ -129,7 +129,7 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 6
   end
-  object Collection: TImageCollection
+  object Collection: TImageCollection [7]
     Images = <
       item
         Name = '041-group'
@@ -1772,7 +1772,7 @@ inherited FrmMain: TFrmMain
     Left = 552
     Top = 80
   end
-  object Images: TVirtualImageList
+  object Images: TVirtualImageList [8]
     AutoFill = True
     Images = <
       item
@@ -1806,7 +1806,7 @@ inherited FrmMain: TFrmMain
     Left = 552
     Top = 24
   end
-  object Actions: TActionList
+  object Actions: TActionList [9]
     Images = Images
     Left = 632
     Top = 80
@@ -1850,7 +1850,7 @@ inherited FrmMain: TFrmMain
       OnExecute = actApiExecute
     end
   end
-  object ImagesDisabled: TVirtualImageList
+  object ImagesDisabled: TVirtualImageList [10]
     AutoFill = True
     AutoFillMode = afmDisabled
     DisabledOpacity = 80
