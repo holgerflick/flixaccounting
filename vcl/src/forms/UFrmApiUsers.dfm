@@ -1,18 +1,24 @@
 inherited FrmApiUsers: TFrmApiUsers
   Caption = 'API Access'
   ClientHeight = 507
-  ClientWidth = 946
+  ClientWidth = 1079
   OnClose = FormClose
-  ExplicitWidth = 962
+  ExplicitWidth = 1095
   ExplicitHeight = 546
   TextHeight = 21
   object Grid: TDBGrid [0]
     Left = 8
-    Top = 40
-    Width = 930
-    Height = 459
+    Top = 56
+    Width = 1063
+    Height = 443
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = SourceApiUser
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -40,7 +46,7 @@ inherited FrmApiUsers: TFrmApiUsers
         Font.Height = -15
         Font.Name = 'JetBrains Mono'
         Font.Style = []
-        Width = 196
+        Width = 216
         Visible = True
       end
       item
@@ -63,21 +69,33 @@ inherited FrmApiUsers: TFrmApiUsers
         Font.Name = 'JetBrains Mono'
         Font.Style = []
         ReadOnly = True
-        Width = 325
+        Width = 438
         Visible = True
       end>
   end
   object DBNavigator1: TDBNavigator [1]
     Left = 8
     Top = 8
-    Width = 920
-    Height = 25
+    Width = 930
+    Height = 42
     DataSource = SourceApiUser
+    VisibleButtons = [nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 790
+    ExplicitWidth = 798
   end
-  object ApiUsers: TAureliusDataset [2]
+  object btnCopyToken: TButton [2]
+    Left = 949
+    Top = 8
+    Width = 122
+    Height = 42
+    Anchors = [akTop, akRight]
+    Caption = 'Copy Token'
+    TabOrder = 2
+    OnClick = btnCopyTokenClick
+    ExplicitLeft = 816
+  end
+  object ApiUsers: TAureliusDataset [3]
     FieldDefs = <
       item
         Name = 'Self'
@@ -135,7 +153,7 @@ inherited FrmApiUsers: TFrmApiUsers
       Required = True
     end
   end
-  object SourceApiUser: TDataSource [3]
+  object SourceApiUser: TDataSource [4]
     DataSet = ApiUsers
     Left = 248
     Top = 136

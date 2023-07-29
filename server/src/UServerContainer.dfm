@@ -14,6 +14,9 @@ object ServerContainer: TServerContainer
     EntitySetPermissions = <>
     Left = 264
     Top = 80
+    object TokenAuthentication: TSparkleGenericMiddleware
+      OnRequest = TokenAuthenticationRequest
+    end
   end
   object DefaultConnectionPool: TXDataConnectionPool
     Connection = DefaultModelConnection

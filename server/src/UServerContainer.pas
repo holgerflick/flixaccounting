@@ -38,7 +38,7 @@ uses
 
   , XData.Comp.ConnectionPool
   , XData.Comp.Server
-  , XData.Server.Module
+  , XData.Server.Module, Sparkle.Comp.GenericMiddleware
 
   ;
 
@@ -52,7 +52,10 @@ type
     MySQLConnection: TFDConnection;
     TemporaryModelConnection: TAureliusConnection;
     FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    TokenAuthentication: TSparkleGenericMiddleware;
     procedure DataModuleCreate(Sender: TObject);
+    procedure TokenAuthenticationRequest(Sender: TObject; Context:
+        THttpServerContext; Next: THttpServerProc);
 
   private
     FTemporaryConnection: IDBConnection;
@@ -68,7 +71,10 @@ var
 
 implementation
 uses
-  UAppSettings
+    UAppSettings
+  , UTokenAuthentication
+
+  , XData.Sys.Exceptions
   ;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
@@ -93,6 +99,33 @@ begin
     LDatabase.BuildDatabase;
   finally
     LDatabase.Free;
+  end;
+end;
+
+procedure TServerContainer.TokenAuthenticationRequest(Sender: TObject; Context:
+    THttpServerContext; Next: THttpServerProc);
+begin
+  var LAuthenticate := False;
+
+  if Context.Current.Request.Headers.Exists('Token') then
+  begin
+    var LAuth := TTokenAuthentication.Create;
+    try
+      var LToken := Context.Current.Request.Headers.Get('Token');
+      LAuthenticate := LAuth.IsValidToken(LToken);
+    finally
+      LAuth.Free;
+    end;
+  end;
+
+  if not LAuthenticate then
+  begin
+    Context.Response.StatusCode := 401;
+    Context.Response.StatusReason := 'Token required.';
+  end
+  else
+  begin
+    Next(Context);
   end;
 end;
 

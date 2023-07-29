@@ -56,7 +56,7 @@ type
     [Column('Name', [],500)]
     FName: String;
 
-    [Association([], CascadeTypeAllButRemove)]
+    [Association([], [])]
     FOwner: TCSControl;
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllRemoveOrphan, 'FOwner')]
