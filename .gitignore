@@ -65,3 +65,5 @@ vcl/bin/flixllcpl.db
 vcl/bin/settings.ini
 
 vcl/bin/settings-prod.ini
+
+bin/
