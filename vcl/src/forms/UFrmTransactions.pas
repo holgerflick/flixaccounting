@@ -37,7 +37,7 @@ uses
   , Winapi.Windows
 
   , UFrmBase
-  , UTransaction
+  , UTransaction, System.Actions, Vcl.ActnList
   ;
 
 
@@ -57,7 +57,7 @@ type
     dbTransactionsMonthsPaid: TIntegerField;
     dbTransactionsAmountTotal: TFloatField;
     sourceTransactions: TDataSource;
-    Expenses: TDBAdvGrid;
+    Grid: TDBAdvGrid;
     btnImport: TButton;
     DlgOpen: TFileOpenDialog;
     rbFilterKind: TRadioGroup;
@@ -82,6 +82,8 @@ type
 
     procedure ImportFromFolder(AKind: TTransactionKind);
     procedure OpenDataset;
+    procedure InitGrid;
+
   public
     { Public declarations }
 
@@ -94,7 +96,9 @@ implementation
 
 uses
     System.Types
+  , UAppGlobals
   , UFrmReportImport
+  , UGridUtils
 
   , UDataImportManager
   , UDictionary
@@ -102,7 +106,6 @@ uses
 
 resourcestring
   SCaption = 'List of all transactions';
-
 
 procedure TFrmTransactions.btnImportClick(Sender: TObject);
 var
@@ -143,6 +146,8 @@ begin
   Caption := SCaption;
 
   OpenDataset;
+
+  InitGrid;
 end;
 
 procedure TFrmTransactions.ImportFromFolder( AKind: TTransactionKind );
@@ -174,6 +179,12 @@ begin
       LImport.Free;
     end;
   end;
+end;
+
+procedure TFrmTransactions.InitGrid;
+begin
+  TGridUtils.UseMonospaceFont(Grid.Columns);
+  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
 end;
 
 procedure TFrmTransactions.OpenDataset;

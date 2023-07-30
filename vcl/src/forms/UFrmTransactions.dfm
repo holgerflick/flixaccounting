@@ -7,7 +7,7 @@ inherited FrmTransactions: TFrmTransactions
   ExplicitWidth = 1085
   ExplicitHeight = 644
   TextHeight = 21
-  object Expenses: TDBAdvGrid
+  object Grid: TDBAdvGrid [0]
     Left = 8
     Top = 55
     Width = 1053
@@ -517,7 +517,7 @@ inherited FrmTransactions: TFrmTransactions
       28
       28)
   end
-  object btnImport: TButton
+  object btnImport: TButton [1]
     Left = 915
     Top = 8
     Width = 146
@@ -531,7 +531,7 @@ inherited FrmTransactions: TFrmTransactions
     TabOrder = 1
     OnClick = btnImportClick
   end
-  object rbFilterKind: TRadioGroup
+  object rbFilterKind: TRadioGroup [2]
     Left = 8
     Top = 8
     Width = 241
@@ -552,7 +552,7 @@ inherited FrmTransactions: TFrmTransactions
     TabOrder = 2
     OnClick = rbFilterKindClick
   end
-  object DBNavigator1: TDBNavigator
+  object DBNavigator1: TDBNavigator [3]
     Left = 184
     Top = 23
     Width = 696

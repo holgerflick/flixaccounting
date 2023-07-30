@@ -30,7 +30,8 @@ uses
   UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
   UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
   UControlStorage in 'controlstorage\UControlStorage.pas',
-  UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers};
+  UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers},
+  UGridUtils in 'globals\UGridUtils.pas';
 
 {$R *.res}
 
