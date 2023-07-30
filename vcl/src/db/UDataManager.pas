@@ -34,7 +34,8 @@ uses
   , FireDAC.Stan.Pool
   , FireDAC.Stan.Async
   , FireDAC.VCLUI.Wait
-  , FireDAC.Comp.Client
+  , FireDAC.Comp.Client, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.SQLiteDef, FireDAC.Phys.SQLite
 
   ;
 
@@ -44,6 +45,7 @@ type
     MySQLDriverLink: TFDPhysMySQLDriverLink;
     FDConnection: TFDConnection;
     MemConnection: TAureliusConnection;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -112,6 +114,8 @@ end;
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
   TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
+
+  Connection.AdaptedConnection := FDConnection;
 
   FMemoryConnection := MemConnection.CreateConnection;
   CreateTemporaryDatabase;

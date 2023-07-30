@@ -25,7 +25,6 @@ uses
 
 type
   TReportServiceManager = class
-
   public
     function ProfitLoss: TProfitLossDTO;
   end;
@@ -36,7 +35,6 @@ uses
     UServerContainer
   , UReportManager
   ;
-
 
 { TReportServiceManager }
 
