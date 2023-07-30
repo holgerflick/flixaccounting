@@ -4,8 +4,6 @@ object DataManager: TDataManager
   Width = 328
   object Connection: TAureliusConnection
     AdapterName = 'FireDac'
-    AdaptedConnection = FDConnection
-    SQLDialect = 'MySQL'
     Params.Strings = (
       'Database=C:\dev\FlixLLCPL\vcl\bin\flixllcpl.db'
       'EnableForeignKeys=True')
@@ -34,5 +32,9 @@ object DataManager: TDataManager
       'EnableForeignKeys=True')
     Left = 200
     Top = 24
+  end
+  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+    Left = 208
+    Top = 152
   end
 end

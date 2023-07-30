@@ -139,7 +139,6 @@ type
     FColumnDefinition: String;
 
   public
-
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
 
