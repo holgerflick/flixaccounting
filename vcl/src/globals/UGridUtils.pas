@@ -14,7 +14,10 @@ type
   public
     class procedure UseDefaultHeaderFont( ACollection: TCollection );
     class procedure UseDefaultFont( ACollection: TCollection );
-    class procedure UseMonospaceFont( ACollection: TCollection );
+    class procedure UseMonospaceFont( ACollection: TCollection ); overload;
+    class procedure UseMonospaceFont( AColumn: TColumn ); overload;
+    class procedure UseMonospaceFont( AColumn: TDBGridColumnItem ); overload;
+
   end;
 
 implementation
@@ -67,6 +70,18 @@ begin
   end;
 end;
 
+class procedure TGridUtils.UseMonospaceFont(AColumn: TDBGridColumnItem);
+begin
+   AColumn.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
+   AColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+end;
+
+class procedure TGridUtils.UseMonospaceFont(AColumn: TColumn);
+begin
+  AColumn.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
+  AColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+end;
+
 class procedure TGridUtils.UseMonospaceFont(ACollection: TCollection);
 begin
   for var LColumn in ACollection do
@@ -74,15 +89,13 @@ begin
     if LColumn is TDBGridColumnItem then
     begin
       var LGridColumn := LColumn as TDBGridColumnItem;
-      LGridColumn.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
-      LGridColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+      UseMonospaceFont(LGridColumn);
     end;
 
     if LColumn is TColumn then
     begin
       var LGridColumn := LColumn as TColumn;
-      LGridColumn.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
-      LGridColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+      UseMonospaceFont(LGridColumn);
     end;
   end;
 end;
