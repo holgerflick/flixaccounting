@@ -36,7 +36,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
+  , UFrmBase, System.Actions, Vcl.ActnList
   ;
 
 
