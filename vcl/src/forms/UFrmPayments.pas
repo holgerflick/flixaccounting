@@ -85,6 +85,7 @@ implementation
 uses
   System.DateUtils
   , UInvoice
+  , UGridUtils
   ;
 
 {$R *.dfm}
@@ -99,11 +100,13 @@ begin
   FDataset := ADataSource.DataSet as TAureliusDataset;
   FDataSource := ADataSource;
 
+  TGridUtils.UseDefaultHeaderFont(GridPayments.Columns);
+  TGridUtils.UseMonospaceFont(GridPayments.Columns);
+
   Payments.Close;
   Payments.DatasetField := FDataSet.FieldByName('Payments') as TDatasetField;
   Payments.DefaultsFromObject := True;
   Payments.Open;
-
 
   Caption := Format(
     'Invoice %d - Payments', [ FDataSet.FieldByName('Number').AsInteger ]

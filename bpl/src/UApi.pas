@@ -18,6 +18,16 @@ uses
 
 type
   [Entity, Automapping]
+  TApiToken = class
+  private
+    FToken: String;
+    FId: Integer;
+  public
+    property Id: Integer read FId write FId;
+    property Token: String read FToken write FToken;
+  end;
+
+  [Entity, Automapping]
   TApiUser = class
   private
     FName: String;
@@ -25,7 +35,6 @@ type
     FEmail: String;
     FToken: String;
     FExpiresOn: TDateTime;
-
 
   public
     constructor Create;
