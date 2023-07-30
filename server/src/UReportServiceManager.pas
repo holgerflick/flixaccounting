@@ -52,7 +52,9 @@ begin
 
   LConnection := ServerContainer.TemporaryConnection;
 
-  LObjManager := TXDataOperationContext.Current.CreateManager(ServerContainer.DefaultConnectionPool.Connection.CreateConnection);
+  LObjManager := TXDataOperationContext.Current.CreateManager(
+    ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
+    );
   LObjManagerTemp := TXDataOperationContext.Current.CreateManager(
     LConnection,
     TMappingExplorer.Get('Temporary')
