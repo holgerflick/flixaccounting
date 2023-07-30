@@ -73,6 +73,9 @@ end;
 procedure TInvoicePrinter.Print(AInvoice: TInvoice; AReport: TStream);
 var
   LTemplate: TMemoryStream;
+  LTemplateMod: TMemoryStream;
+  LTemplateXls: TXlsFile;
+
   LReport: TFlexCelReport;
   LOutput: TMemoryStream;
   LPdfExport: TFlexCelPdfExport;
@@ -88,12 +91,31 @@ begin
 
 
   LTemplate := TMemoryStream.Create;
+  LTemplateMod := nil;
+  LTemplateXls := nil;
   LReport := nil;
   LOutput := nil;
   LPdfExport := nil;
   LXlsFile := nil;
   try
     LoadTemplateIntoStream( LTemplate );
+
+    LTemplateXls := TXlsFile.Create(LTemplate, True);
+
+    (* Example to add another currency symbol for formatting
+      --> right now we are just loading and copying without change ...
+    *)
+
+    (*
+    var LCellAddr := TCellAddress.Create('AF15');
+    var LFormat := LTemplateXls.GetCellVisibleFormatDef( LCellAddr.Row, LCellAddr.Col );
+    LFormat.Format := '#,##0.00 [$€-x-euro1]_);(#,##0.00 [$€-x-euro1])';
+    LTemplateXls.SetCellFormat(LCellAddr.Row, LCellAddr.Col, LTemplateXls.AddFormat(LFormat) );
+    *)
+
+    LTemplateMod := TMemoryStream.Create;
+    LTemplateXls.Save(LTemplateMod);
+    LTemplateMod.Position := 0;
 
     LReport := TFlexCelReport.Create(True);
 
@@ -106,7 +128,7 @@ begin
     LReport.AddTable<TInvoiceItem>('I', AInvoice.Items );
 
     LOutput := TMemoryStream.Create;
-    LReport.Run(LTemplate, LOutput );
+    LReport.Run(LTemplateMod, LOutput );
     LOutput.Position := 0;
 
     LXlsFile := TXlsFile.Create(LOutput, True);
@@ -118,6 +140,8 @@ begin
     LOutput.Free;
     LReport.Free;
     LTemplate.Free;
+    LTemplateMod.Free;
+    LTemplateXls.Free;
   end;
 
 end;

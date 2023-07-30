@@ -6,7 +6,7 @@ inherited FrmCustomer: TFrmCustomer
   ExplicitWidth = 1136
   ExplicitHeight = 550
   TextHeight = 21
-  object Grid: TDBGrid
+  object Grid: TDBGrid [0]
     Left = 8
     Top = 40
     Width = 813
@@ -45,7 +45,7 @@ inherited FrmCustomer: TFrmCustomer
         Visible = True
       end>
   end
-  object txtAddress: TDBMemo
+  object txtAddress: TDBMemo [1]
     Left = 827
     Top = 40
     Width = 285
@@ -62,7 +62,7 @@ inherited FrmCustomer: TFrmCustomer
     ParentFont = False
     TabOrder = 2
   end
-  object DBNavigator1: TDBNavigator
+  object DBNavigator1: TDBNavigator [2]
     Left = 8
     Top = 9
     Width = 1100

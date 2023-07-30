@@ -6,7 +6,7 @@ inherited FrmInvoices: TFrmInvoices
   ExplicitWidth = 980
   ExplicitHeight = 611
   TextHeight = 21
-  object GridInvoices: TDBAdvGrid
+  object GridInvoices: TDBAdvGrid [0]
     Left = 8
     Top = 87
     Width = 948
@@ -475,7 +475,7 @@ inherited FrmInvoices: TFrmInvoices
       28
       28)
   end
-  object btnNew: TButton
+  object btnNew: TButton [1]
     Left = 8
     Top = 8
     Width = 73
@@ -486,7 +486,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 1
   end
-  object btnModify: TButton
+  object btnModify: TButton [2]
     Left = 87
     Top = 8
     Width = 73
@@ -497,7 +497,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 2
   end
-  object btnDelete: TButton
+  object btnDelete: TButton [3]
     Left = 166
     Top = 8
     Width = 73
@@ -508,7 +508,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 3
   end
-  object Print: TButton
+  object Print: TButton [4]
     Left = 245
     Top = 8
     Width = 73
@@ -519,7 +519,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 4
   end
-  object btnPayment: TButton
+  object btnPayment: TButton [5]
     Left = 324
     Top = 8
     Width = 73
@@ -530,7 +530,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 5
   end
-  object btnProcess: TButton
+  object btnProcess: TButton [6]
     Left = 403
     Top = 8
     Width = 73

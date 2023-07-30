@@ -43,7 +43,7 @@ uses
   , UCustomer
   , uFlxDBLookupComboBox
   , UFrmBase
-  , UInvoice
+  , UInvoice, System.Actions, Vcl.ActnList
   ;
 
 type
