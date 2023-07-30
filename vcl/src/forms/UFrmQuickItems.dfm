@@ -6,7 +6,7 @@ inherited FrmQuickItems: TFrmQuickItems
   ExplicitWidth = 714
   ExplicitHeight = 424
   TextHeight = 21
-  object Splitter1: TSplitter
+  object Splitter1: TSplitter [0]
     Left = 0
     Top = 225
     Width = 698
@@ -16,7 +16,7 @@ inherited FrmQuickItems: TFrmQuickItems
     ExplicitTop = 243
     ExplicitWidth = 723
   end
-  object DBGrid1: TDBGrid
+  object Grid: TDBGrid [1]
     Left = 0
     Top = 41
     Width = 698
@@ -35,7 +35,7 @@ inherited FrmQuickItems: TFrmQuickItems
     TitleFont.Height = -16
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
-    OnDblClick = DBGrid1DblClick
+    OnDblClick = GridDblClick
     Columns = <
       item
         Expanded = False
@@ -60,7 +60,7 @@ inherited FrmQuickItems: TFrmQuickItems
         Visible = True
       end>
   end
-  object DBMemo1: TDBMemo
+  object txtDescription: TDBMemo [2]
     Left = 0
     Top = 230
     Width = 698
@@ -70,7 +70,7 @@ inherited FrmQuickItems: TFrmQuickItems
     DataSource = sourceItems
     TabOrder = 1
   end
-  object Panel1: TPanel
+  object Panel1: TPanel [3]
     Left = 0
     Top = 0
     Width = 698

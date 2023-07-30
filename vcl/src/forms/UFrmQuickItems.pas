@@ -11,10 +11,12 @@ uses
 
   , Data.DB
 
+  , System.Actions
   , System.Classes
   , System.SysUtils
   , System.Variants
 
+  , Vcl.ActnList
   , Vcl.Controls
   , Vcl.DBCtrls
   , Vcl.DBGrids
@@ -28,16 +30,15 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
   , UDictionary
+  , UFrmBase
   , UInvoice
   ;
-
 
 type
   TFrmQuickItems = class(TFrmBase)
     Items: TAureliusDataset;
-    DBGrid1: TDBGrid;
+    Grid: TDBGrid;
     ItemsId: TIntegerField;
     ItemsName: TStringField;
     ItemsCategory: TStringField;
@@ -45,13 +46,13 @@ type
     ItemsValue: TFloatField;
     sourceItems: TDataSource;
     ItemsDescription: TStringField;
-    DBMemo1: TDBMemo;
+    txtDescription: TDBMemo;
     Splitter1: TSplitter;
     Panel1: TPanel;
     DBNavigator1: TDBNavigator;
     btnUse: TButton;
     procedure btnUseClick(Sender: TObject);
-    procedure DBGrid1DblClick(Sender: TObject);
+    procedure GridDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -63,7 +64,10 @@ type
   end;
 
 implementation
-
+uses
+    UGridUtils
+  , UAppGlobals
+  ;
 
 {$R *.dfm}
 
@@ -72,6 +76,12 @@ implementation
 procedure TFrmQuickItems.FormCreate(Sender: TObject);
 begin
   inherited;
+
+  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
+  TGridUtils.UseDefaultFont(Grid.Columns);
+
+  txtDescription.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
+  txtDescription.Font.Size := TAppGlobals.DefaultGridFontSize;
 
   Items.Close;
   Items.Manager := ObjectManager;
@@ -97,7 +107,7 @@ begin
   ModalResult := mrOK;
 end;
 
-procedure TFrmQuickItems.DBGrid1DblClick(Sender: TObject);
+procedure TFrmQuickItems.GridDblClick(Sender: TObject);
 begin
   Items.Cancel;
   ModalResult := mrOK;
