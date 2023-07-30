@@ -5,7 +5,7 @@ inherited FrmInvoice: TFrmInvoice
   ExplicitWidth = 754
   ExplicitHeight = 543
   TextHeight = 21
-  object cbCustomer: TFlxDBLookupCombobox
+  object cbCustomer: TFlxDBLookupCombobox [0]
     Left = 8
     Top = 32
     Width = 325
@@ -17,7 +17,7 @@ inherited FrmInvoice: TFrmInvoice
     ListSource = sourceCustomers
     TabOrder = 0
   end
-  object dateDueOn: TAdvDBDateTimePicker
+  object dateDueOn: TAdvDBDateTimePicker [1]
     Left = 601
     Top = 32
     Width = 129
@@ -50,7 +50,7 @@ inherited FrmInvoice: TFrmInvoice
     DataField = 'DueOn'
     DataSource = sourceInvoices
   end
-  object txtNumber: TDBAdvEdit
+  object txtNumber: TDBAdvEdit [2]
     Left = 339
     Top = 32
     Width = 121
@@ -78,11 +78,11 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 2
     Text = '0'
     Visible = True
-    Version = '4.0.4.1'
+    Version = '4.0.4.2'
     DataField = 'Number'
     DataSource = sourceInvoices
   end
-  object dateIssued: TAdvDBDateTimePicker
+  object dateIssued: TAdvDBDateTimePicker [3]
     Left = 466
     Top = 32
     Width = 129
@@ -115,7 +115,7 @@ inherited FrmInvoice: TFrmInvoice
     DataField = 'IssuedOn'
     DataSource = sourceInvoices
   end
-  object btnOK: TButton
+  object btnOK: TButton [4]
     Left = 615
     Top = 464
     Width = 115
@@ -126,7 +126,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 4
     OnClick = btnOKClick
   end
-  object btnCancel: TButton
+  object btnCancel: TButton [5]
     Left = 494
     Top = 464
     Width = 115
@@ -138,7 +138,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 5
     OnClick = btnCancelClick
   end
-  object DBNavigator1: TDBNavigator
+  object DBNavigator1: TDBNavigator [6]
     Left = 8
     Top = 67
     Width = 720
@@ -148,7 +148,7 @@ inherited FrmInvoice: TFrmInvoice
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
   end
-  object GridItems: TDBGrid
+  object GridItems: TDBGrid [7]
     Left = 8
     Top = 99
     Width = 722
@@ -226,7 +226,7 @@ inherited FrmInvoice: TFrmInvoice
         Visible = True
       end>
   end
-  object btnQuickItem: TButton
+  object btnQuickItem: TButton [8]
     Left = 8
     Top = 464
     Width = 129
@@ -237,7 +237,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 8
     OnClick = btnQuickItemClick
   end
-  object btnBoA: TButton
+  object btnBoA: TButton [9]
     Left = 143
     Top = 464
     Width = 145

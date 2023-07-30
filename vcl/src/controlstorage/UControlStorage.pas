@@ -112,7 +112,7 @@ type
   TCSDBGridColumns = TList<TCSDBGridColumn>;
 
   [Automapping, Entity]
-  [PrimaryJoinColumn('CSControlId')]
+  [PrimaryJoinColumn('CSCONTROLID')]
   TCSDBGridControl = class(TCSControl)
   private
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllRemoveOrphan, 'FGrid')]
@@ -132,10 +132,10 @@ type
   end;
 
   [Automapping, Entity]
-  [PrimaryJoinColumn('CSControlId')]
+  [PrimaryJoinColumn('CSCONTROLID')]
   TCSAdvStringGrid = class(TCSControl)
   private
-    [Column('ColDef', [], 1000 )]
+    [Column('COLDEF', [], 1000 )]
     FColumnDefinition: String;
 
   public
@@ -181,6 +181,7 @@ implementation
 uses
     UDictionary
   , UDataManager
+
   , Vcl.StdCtrls
   , Vcl.ExtCtrls
   , Vcl.DBGrids

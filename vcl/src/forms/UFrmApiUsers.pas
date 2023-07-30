@@ -79,8 +79,6 @@ procedure TFrmApiUsers.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  StoreControls := False;
-
   var LUsers := ObjectManager.Find<TApiUser>
     .OrderBy(Linq['ExpiresOn'], False )
     .List
