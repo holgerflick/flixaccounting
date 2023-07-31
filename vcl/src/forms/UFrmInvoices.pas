@@ -409,6 +409,7 @@ begin
     if not Assigned(LToken) then
     begin
       LToken := TApiToken.Create;
+      LToken.Kind := TApiTokenKind.Invoice;
       ObjectManager.Save(LToken);
       LCurrent.ApiToken := LToken;
     end;
@@ -417,6 +418,7 @@ begin
     try
       LFrm.EditToken('Download link for invoice',
         LToken );
+      ObjectManager.Flush(LCurrent);
     finally
       LFrm.Free;
     end;
