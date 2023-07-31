@@ -28,6 +28,7 @@ type
     FToken: String;
     FId: Integer;
     FKind: TApiTokenKind;
+    FExpiresOn: TDateTime;
   public
     class function NewToken: String;
 
@@ -36,6 +37,7 @@ type
     property Id: Integer read FId write FId;
     property Kind: TApiTokenKind read FKind write FKind;
     property Token: String read FToken write FToken;
+    property ExpiresOn: TDateTime read FExpiresOn write FExpiresOn;
   end;
 
   [Entity, Automapping]
@@ -48,17 +50,11 @@ type
     [Association([], CascadeTypeAllRemoveOrphan)]
     FApiToken: TApiToken;
 
-    FExpiresOn: TDateTime;
-
   public
-    constructor Create;
-    destructor Destroy; override;
-
     property Id: Integer read FId write FId;
     property Name: String read FName write FName;
     property Email: String read FEmail write FEmail;
     property ApiToken: TApiToken read FApiToken write FApiToken;
-    property ExpiresOn: TDateTime read FExpiresOn write FExpiresOn;
   end;
 
 
@@ -69,17 +65,11 @@ uses
 
 { TApiUser }
 
-constructor TApiUser.Create;
-begin
-  inherited;
-
-  ExpiresOn := TDateTime.NowUTC.IncMonth(1);
-end;
-
 constructor TApiToken.Create;
 begin
   inherited;
 
+  FExpiresOn := TDateTime.NowUTC.IncMonth(1);
   FKind := TApiTokenKind.User;
   FToken := NewToken;
 end;
@@ -92,11 +82,6 @@ begin
   LGuid := TGuid.NewGuid.ToString;
 
   Result := TNetEncoding.Base64String.Encode(LGuid);
-end;
-
-destructor TApiUser.Destroy;
-begin
-  inherited;
 end;
 
 initialization

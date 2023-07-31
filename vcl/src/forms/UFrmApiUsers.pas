@@ -38,10 +38,10 @@ type
     SourceApiUser: TDataSource;
     ApiUsersName: TStringField;
     ApiUsersEmail: TStringField;
-    ApiUsersExpiresOn: TDateTimeField;
     btnCopyToken: TButton;
     ApiUsersApiTokenToken: TAureliusEntityField;
     ApiUsersApiToken: TAureliusEntityField;
+    ApiUsersApiTokenExpiresOn: TDateTimeField;
     procedure ApiUsersAfterInsert(DataSet: TDataSet);
     procedure btnCopyTokenClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -115,7 +115,7 @@ begin
   inherited;
 
   var LUsers := ObjectManager.Find<TApiUser>
-    .OrderBy(Linq['ExpiresOn'], False )
+    .OrderBy(Linq['ApiToken.ExpiresOn'], False )
     ;
 
   ApiUsers.DefaultsFromObject := True;
