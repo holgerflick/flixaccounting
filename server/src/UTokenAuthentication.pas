@@ -47,8 +47,8 @@ begin
   try
     LUser := LObjManager.Find<TApiUser>
       .Where(
-        (Dic.ApiUser.Token = AToken) AND
-        (Dic.ApiUser.ExpiresOn > TDateTime.NowUTC)
+        (Dic.ApiUser.ApiToken.Token = AToken) AND
+        (Dic.ApiUser.ApiToken.ExpiresOn > TDateTime.NowUTC)
       )
       .UniqueResult
       ;
