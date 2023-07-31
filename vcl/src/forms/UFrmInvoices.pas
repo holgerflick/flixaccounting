@@ -78,6 +78,9 @@ type
     actInvoiceProcess: TAction;
     ImgCollection: TImageCollection;
     Images: TVirtualImageList;
+    btnApiToken: TButton;
+    actInvoiceApiToken: TAction;
+    procedure actInvoiceApiTokenExecute(Sender: TObject);
     procedure actInvoiceDeleteExecute(Sender: TObject);
     procedure actInvoiceDeleteUpdate(Sender: TObject);
     procedure actInvoiceModifyExecute(Sender: TObject);
@@ -103,6 +106,7 @@ type
     procedure Delete;
     procedure Process;
     procedure Modify;
+    procedure ShowApiToken;
   public
 
   end;
@@ -117,14 +121,21 @@ uses
   , UFrmInvoice
   , UDictionary
   , UInvoice
+  , UApi
   , UInvoicePrinter
   , UFrmPayments
   , UFrmReportPreview
   , UInvoiceProcessor
   , UGridUtils
+  , UFrmApiToken
   ;
 
 {$R *.dfm}
+
+procedure TFrmInvoices.actInvoiceApiTokenExecute(Sender: TObject);
+begin
+  ShowApiToken;
+end;
 
 procedure TFrmInvoices.actInvoiceDeleteExecute(Sender: TObject);
 begin
@@ -379,6 +390,35 @@ begin
     begin
       TInvoiceProcessor.Process(LCurrent, ObjectManager);
       Invoices.RefreshRecord;
+    end;
+  end;
+end;
+
+procedure TFrmInvoices.ShowApiToken;
+var
+  LFrm: TFrmApiToken;
+  LCurrent: TInvoice;
+  LToken: TApiToken;
+
+begin
+  LCurrent := Invoices.Current<TInvoice>;
+  if Assigned( LCurrent ) then
+  begin
+    LToken := LCurrent.ApiToken;
+
+    if not Assigned(LToken) then
+    begin
+      LToken := TApiToken.Create;
+      ObjectManager.Save(LToken);
+      LCurrent.ApiToken := LToken;
+    end;
+
+    LFrm := TFrmApiToken.Create(nil);
+    try
+      LFrm.EditToken('Download link for invoice',
+        LToken );
+    finally
+      LFrm.Free;
     end;
   end;
 end;
