@@ -7,7 +7,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
   ExplicitWidth = 801
   ExplicitHeight = 593
   TextHeight = 21
-  object Splitter1: TSplitter
+  object Splitter1: TSplitter [0]
     Left = 0
     Top = 225
     Width = 801
@@ -16,7 +16,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
     Align = alTop
     ExplicitWidth = 368
   end
-  object Splitter2: TSplitter
+  object Splitter2: TSplitter [1]
     Left = 0
     Top = 470
     Width = 801
@@ -26,7 +26,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
     ExplicitTop = 228
     ExplicitWidth = 245
   end
-  object Customers: TDBGrid
+  object Customers: TDBGrid [2]
     Left = 0
     Top = 0
     Width = 801
@@ -53,7 +53,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
         Visible = True
       end>
   end
-  object Categories: TDBGrid
+  object Categories: TDBGrid [3]
     Left = 0
     Top = 473
     Width = 801
@@ -80,7 +80,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
         Visible = True
       end>
   end
-  object Invoices: TDBGrid
+  object Invoices: TDBGrid [4]
     Left = 0
     Top = 228
     Width = 801

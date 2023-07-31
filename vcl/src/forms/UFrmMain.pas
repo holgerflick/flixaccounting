@@ -49,6 +49,9 @@ type
     ImagesDisabled: TVirtualImageList;
     actInvoices: TAction;
     actExpandForm: TAction;
+    btnApi: TButton;
+    actApi: TAction;
+    procedure actApiExecute(Sender: TObject);
     procedure actCustomersExecute(Sender: TObject);
     procedure actExpandFormExecute(Sender: TObject);
     procedure actInvoicesExecute(Sender: TObject);
@@ -64,6 +67,7 @@ type
     procedure CreateDictionary;
     procedure CreateDatabase;
     procedure Reports;
+    procedure ApiUsers;
 
   public
 
@@ -82,14 +86,20 @@ uses
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices
+  , UFrmApiUsers
   ;
 
 resourcestring
-//  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
-  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
-  SDictionaryFileMemory  = 'D:\flixllcpl\bpl\src\UDictionaryTemporary.pas';
+  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
+//  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
+  SDictionaryFileMemory  = 'C:\dev\FlixLLCPL\bpl\src\UDictionaryTemporary.pas';
 
 {$R *.dfm}
+
+procedure TFrmMain.actApiExecute(Sender: TObject);
+begin
+  ApiUsers;
+end;
 
 procedure TFrmMain.actCustomersExecute(Sender: TObject);
 begin
@@ -123,6 +133,16 @@ begin
   Transactions;
 end;
 
+procedure TFrmMain.ApiUsers;
+begin
+  var LFrm := TFrmApiUsers.Create(self);
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
+end;
+
 procedure TFrmMain.btnCreateDatabaseClick(Sender: TObject);
 begin
   CreateDatabase;
@@ -135,7 +155,7 @@ end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
 begin
-  self.ClientWidth := btnReports.Left + btnReports.Width + 10;
+  self.ClientWidth := btnApi.Left + btnApi.Width + 10;
   self.ClientHeight := btnDictionary.Top - 7;
 end;
 

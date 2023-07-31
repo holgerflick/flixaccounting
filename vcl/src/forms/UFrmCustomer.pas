@@ -30,7 +30,7 @@ uses
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
   , Aurelius.Criteria.Expression
-  , Aurelius.Criteria.Projections
+  , Aurelius.Criteria.Projections, System.Actions, Vcl.ActnList
 
   ;
 
@@ -50,6 +50,7 @@ type
     procedure CustomersBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
   private
+    procedure InitGrid;
     procedure OpenDataset;
 
   public
@@ -64,6 +65,7 @@ uses
     UCustomer
   , UDictionary
   , UReportManager
+  , UGridUtils
   ;
 
 procedure TFrmCustomer.CustomersBeforePost(DataSet: TDataSet);
@@ -95,7 +97,14 @@ begin
 
   self.Caption := 'Customers';
 
+  InitGrid;
   OpenDataset;
+end;
+
+procedure TFrmCustomer.InitGrid;
+begin
+  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
+  TGridUtils.UseDefaultFont(Grid.Columns);
 end;
 
 procedure TFrmCustomer.OpenDataset;

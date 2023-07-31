@@ -7,7 +7,7 @@ inherited FrmPayments: TFrmPayments
   ExplicitWidth = 441
   ExplicitHeight = 449
   TextHeight = 21
-  object txtDue: TLabel
+  object txtDue: TLabel [0]
     Left = 177
     Top = 8
     Width = 240
@@ -24,7 +24,7 @@ inherited FrmPayments: TFrmPayments
     ParentFont = False
     ExplicitLeft = 456
   end
-  object GridPayments: TDBGrid
+  object GridPayments: TDBGrid [1]
     Left = 8
     Top = 112
     Width = 409
@@ -51,7 +51,7 @@ inherited FrmPayments: TFrmPayments
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator
+  object DBNavigator1: TDBNavigator [2]
     Left = 8
     Top = 87
     Width = 408
@@ -61,7 +61,7 @@ inherited FrmPayments: TFrmPayments
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
   end
-  object btnPayOff: TButton
+  object btnPayOff: TButton [3]
     Left = 8
     Top = 8
     Width = 73

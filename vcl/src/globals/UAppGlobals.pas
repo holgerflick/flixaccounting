@@ -4,11 +4,17 @@ interface
 
 type
   TAppGlobals = class
-
   public
     class function AppTitle: String;
     class function AppVersion: String;
     class function AppFullName: String;
+
+    class function DefaultGridHeaderFontSize: Integer;
+    class function DefaultGridFontSize: Integer;
+
+    class function DefaultGridHeaderFontName: String;
+    class function DefaultGridMonospaceFontName: String;
+    class function DefaultGridFontName: String;
   end;
 
 implementation
@@ -16,7 +22,6 @@ implementation
 uses
    ExeInfo
    ;
-
 
 { TAppGlobals }
 
@@ -53,6 +58,31 @@ begin
   finally
     LExeInfo.Free;
   end;
+end;
+
+class function TAppGlobals.DefaultGridFontName: String;
+begin
+  Result := 'Droid Sans'
+end;
+
+class function TAppGlobals.DefaultGridFontSize: Integer;
+begin
+  Result := 11;
+end;
+
+class function TAppGlobals.DefaultGridHeaderFontName: String;
+begin
+  Result := 'Arial';
+end;
+
+class function TAppGlobals.DefaultGridHeaderFontSize: Integer;
+begin
+  Result := 12;
+end;
+
+class function TAppGlobals.DefaultGridMonospaceFontName: String;
+begin
+ Result := 'Cascadia Code';
 end;
 
 end.

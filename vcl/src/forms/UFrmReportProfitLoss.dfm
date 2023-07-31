@@ -7,7 +7,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
   ExplicitWidth = 1155
   ExplicitHeight = 706
   TextHeight = 21
-  object Splitter1: TSplitter
+  object Splitter1: TSplitter [0]
     Left = 599
     Top = 0
     Height = 706
@@ -16,7 +16,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     ExplicitTop = 8
     ExplicitHeight = 510
   end
-  object FlxPanel1: TFlxPanel
+  object FlxPanel1: TFlxPanel [1]
     Left = 0
     Top = 0
     Width = 599
@@ -146,7 +146,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       end
     end
   end
-  object panExpense: TFlxPanel
+  object panExpense: TFlxPanel [2]
     Left = 602
     Top = 0
     Width = 553

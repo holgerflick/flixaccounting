@@ -22,7 +22,7 @@ uses
 
   , UFrmBase
   , UReportInterfaces
-  , UReportManager
+  , UReportManager, System.Actions, Vcl.ActnList
   ;
 
 type
@@ -64,6 +64,10 @@ var
 
 implementation
 
+uses
+  UGridUtils
+  ;
+
 {$R *.dfm}
 
 procedure TFrmReportCustomers.FormDestroy(Sender: TObject);
@@ -86,6 +90,8 @@ end;
 procedure TFrmReportCustomers.FormCreate(Sender: TObject);
 begin
   inherited;
+
+  TGridUtils.UseDefaultFonts( self );
 
   FReportManager := TReportManager.Create(ObjectManager);
   sourceCustomers.DataSet := FReportManager.CustomerReport;

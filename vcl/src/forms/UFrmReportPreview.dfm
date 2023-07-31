@@ -20,8 +20,6 @@ inherited FrmReportPreview: TFrmReportPreview
     Align = alBottom
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 800
-    ExplicitHeight = 468
   end
   object Button1: TButton
     Left = 8
