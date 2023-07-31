@@ -87,6 +87,7 @@
         <DCCReference Include="UDictionary.pas"/>
         <DCCReference Include="UProfitLoss.pas"/>
         <DCCReference Include="UDictionaryTemporary.pas"/>
+        <DCCReference Include="UApi.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

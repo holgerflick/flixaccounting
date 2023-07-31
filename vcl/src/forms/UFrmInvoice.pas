@@ -43,7 +43,7 @@ uses
   , UCustomer
   , uFlxDBLookupComboBox
   , UFrmBase
-  , UInvoice
+  , UInvoice, System.Actions, Vcl.ActnList
   ;
 
 type
@@ -106,6 +106,7 @@ uses
   , UFrmEditMemoField
   , UDictionary
   , UBoAImporter
+  , UGridUtils
   ;
 
 {$R *.dfm}
@@ -136,6 +137,14 @@ begin
   txtNumber.DataSource := ADataSource;
   dateIssued.DataSource := ADataSource;
   dateDueOn.DataSource := ADataSource;
+
+  TGridUtils.UseDefaultHeaderFont(GridItems.Columns);
+  TGridUtils.UseDefaultFont(GridItems.Columns);
+
+  for var c := 3 to 5 do
+  begin
+    TGridUtils.UseMonospaceFont( GridItems.Columns[c] );
+  end;
 
   OpenDatasets;
 end;

@@ -50,7 +50,6 @@ type
     actMail: TAction;
     procedure actExportExecute(Sender: TObject);
     procedure actMailExecute(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -74,10 +73,6 @@ var
   FrmReportPreview: TFrmReportPreview;
 
 implementation
-
-uses
-  UAppSettings
-  ;
 
 {$R *.dfm}
 
@@ -108,15 +103,6 @@ begin
   //
 end;
 
-procedure TFrmReportPreview.FormDestroy(Sender: TObject);
-begin
-  TAppSettings.Shared.StoreFileSaveDialog(DlgFileSave);
-  TAppSettings.Shared.StoreControl(self);
-
-  inherited;
-end;
-
-
 class procedure TFrmReportPreview.Execute(AXlsStream: TStream);
 var
   LFrm: TFrmReportPreview;
@@ -139,8 +125,6 @@ begin
   inherited;
 
   Caption := 'Preview';
-  TAppSettings.Shared.RestoreFileSaveDialog(DlgFileSave);
-  TAppSettings.Shared.RestoreControl(self);
 end;
 
 procedure TFrmReportPreview.LoadReport;

@@ -93,6 +93,7 @@ type
     procedure FormCreate(Sender: TObject);
   private
     procedure OpenDataset;
+    procedure InitGrids;
 
     function GetNextNumber: Integer;
 
@@ -120,6 +121,7 @@ uses
   , UFrmPayments
   , UFrmReportPreview
   , UInvoiceProcessor
+  , UGridUtils
   ;
 
 {$R *.dfm}
@@ -254,6 +256,7 @@ begin
 
   Caption := 'Invoices';
 
+  InitGrids;
   OpenDataset;
 end;
 
@@ -277,6 +280,12 @@ begin
   finally
     LNumber.Free;
   end;
+end;
+
+procedure TFrmInvoices.InitGrids;
+begin
+  TGridUtils.UseDefaultHeaderFont(GridInvoices.Columns);
+  TGridUtils.UseMonospaceFont(GridInvoices.Columns);
 end;
 
 procedure TFrmInvoices.New;

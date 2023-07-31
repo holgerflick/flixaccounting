@@ -59,19 +59,6 @@ type
     CRCategoryTotals: TFDMemTable;
     CRCategoryTotalsCategory: TStringField;
     CRCategoryTotalsTotal: TFloatField;
-    PLTransactions: TFDMemTable;
-    PLTransactionsPaidOn: TDateField;
-    PLTransactionsTitle: TStringField;
-    PLTransactionsAmount: TFloatField;
-    FDStanStorageBinLink1: TFDStanStorageBinLink;
-    PLTransactionsTxId: TIntegerField;
-    ProfitLoss: TFDMemTable;
-    ProfitLossCategory: TStringField;
-    ProfitLossTotal: TFloatField;
-    ProfitLossTransactions: TDataSetField;
-    ProfitLossTxCount: TIntegerField;
-    ProfitLossIsLoss: TBooleanField;
-    ProfitLossSumTotal: TAggregateField;
     procedure DataModuleCreate(Sender: TObject);
   strict private
     FObjManager: TObjectManager;

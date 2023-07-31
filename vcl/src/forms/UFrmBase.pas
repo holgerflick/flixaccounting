@@ -19,17 +19,21 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UDataManager
+  , UDataManager, System.Actions, Vcl.ActnList
   ;
 
 
 type
   TFrmBase = class(TForm)
+    actFrmBase: TActionList;
+    actFrmBaseRemoveStorage: TAction;
+    procedure actFrmBaseRemoveStorageExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
 
   private
     FOwnsObjectManager: Boolean;
+    FStoreControls: Boolean;
 
   protected
     FObjectManager: TObjectManager;
@@ -46,6 +50,8 @@ type
       read FDataManager write FDataManager;
 
     property OwnsObjectManager: Boolean read FOwnsObjectManager;
+
+    property StoreControls: Boolean read FStoreControls write FStoreControls;
   end;
 
 var
@@ -63,11 +69,20 @@ uses
 
 
 
+procedure TFrmBase.actFrmBaseRemoveStorageExecute(Sender: TObject);
+begin
+  if MessageDlg('Remove form dimensions and its controls from storage and close?',
+    mtConfirmation, [mbYes,mbNo], 0 ) = mrYes then
+  begin
+    TFormStorageManager.Shared.RemoveAndCloseForm(self);
+  end;
+end;
+
 procedure TFrmBase.FormCreate(Sender: TObject);
 begin
-  inherited;
+  FStoreControls := True;
 
-//TAppSettings.Shared.RestoreControl(self);
+  inherited;
 
   TFormStorageManager.Shared.RestoreForm(self);
 
@@ -84,8 +99,10 @@ end;
 
 procedure TFrmBase.FormDestroy(Sender: TObject);
 begin
-//TAppSettings.Shared.StoreControl(self);
-  TFormStorageManager.Shared.StoreForm(self);
+  if FStoreControls then
+  begin
+    TFormStorageManager.Shared.StoreForm(self);
+  end;
 
   if FOwnsObjectManager then
   begin
@@ -94,8 +111,6 @@ begin
 
   inherited;
 end;
-
-
 
 function TFrmBase.GetObjectManager: TObjectManager;
 begin
