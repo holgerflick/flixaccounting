@@ -18,7 +18,9 @@ uses
   , System.Generics.Collections
   ;
 
+
 type
+
   [Automapping]
   TApiTokenKind = ( User, Invoice );
 
@@ -57,11 +59,20 @@ type
     property ApiToken: TApiToken read FApiToken write FApiToken;
   end;
 
+  TApiUrls = class
+  public
+    class function BaseUrl: String;
+    class function UrlForToken(AApiToken: TApiToken): String;
+  end;
 
 implementation
 uses
   System.NetEncoding
   ;
+
+resourcestring
+  URL_BASE = 'https://beta1.flixengineering.com/ppl/';
+  URL_TOKEN = 'token/%s';
 
 { TApiUser }
 
@@ -82,6 +93,19 @@ begin
   LGuid := TGuid.NewGuid.ToString;
 
   Result := TNetEncoding.Base64String.Encode(LGuid);
+end;
+
+{ TApiUrls }
+
+class function TApiUrls.BaseUrl: String;
+begin
+  Result := URL_BASE;
+end;
+
+class function TApiUrls.UrlForToken(AApiToken: TApiToken): String;
+begin
+  Result := BaseUrl +
+    Format( URL_TOKEN, [ AApiToken.Token ] );
 end;
 
 initialization

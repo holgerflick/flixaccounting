@@ -166,6 +166,10 @@
             <Form>FrmApiUsers</Form>
         </DCCReference>
         <DCCReference Include="globals\UGridUtils.pas"/>
+        <DCCReference Include="forms\UFrmApiToken.pas">
+            <Form>FrmApiToken</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
