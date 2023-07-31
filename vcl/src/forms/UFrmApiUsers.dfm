@@ -1,15 +1,15 @@
 inherited FrmApiUsers: TFrmApiUsers
   Caption = 'API Access'
   ClientHeight = 507
-  ClientWidth = 1079
+  ClientWidth = 1208
   OnClose = FormClose
-  ExplicitWidth = 1095
+  ExplicitWidth = 1224
   ExplicitHeight = 546
   TextHeight = 21
   object Grid: TDBGrid [0]
     Left = 8
     Top = 56
-    Width = 1063
+    Width = 1192
     Height = 443
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = SourceApiUser
@@ -51,12 +51,14 @@ inherited FrmApiUsers: TFrmApiUsers
       end
       item
         Expanded = False
-        FieldName = 'ExpiresOn'
+        FieldName = 'ApiToken.ExpiresOn'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -15
         Font.Name = 'JetBrains Mono'
         Font.Style = []
+        Title.Caption = 'Expires on'
+        Width = 191
         Visible = True
       end
       item
@@ -69,6 +71,7 @@ inherited FrmApiUsers: TFrmApiUsers
         Font.Name = 'JetBrains Mono'
         Font.Style = []
         ReadOnly = True
+        Title.Caption = 'Token'
         Width = 438
         Visible = True
       end>
@@ -76,15 +79,16 @@ inherited FrmApiUsers: TFrmApiUsers
   object DBNavigator1: TDBNavigator [1]
     Left = 8
     Top = 8
-    Width = 930
+    Width = 1056
     Height = 42
     DataSource = SourceApiUser
     VisibleButtons = [nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
+    ExplicitWidth = 930
   end
   object btnCopyToken: TButton [2]
-    Left = 949
+    Left = 1078
     Top = 8
     Width = 122
     Height = 42
@@ -92,6 +96,7 @@ inherited FrmApiUsers: TFrmApiUsers
     Caption = 'Copy Token'
     TabOrder = 2
     OnClick = btnCopyTokenClick
+    ExplicitLeft = 949
   end
   object ApiUsers: TAureliusDataset [3]
     FieldDefs = <
@@ -140,12 +145,11 @@ inherited FrmApiUsers: TFrmApiUsers
       Required = True
       Size = 255
     end
-    object ApiUsersExpiresOn: TDateTimeField
-      FieldName = 'ExpiresOn'
-      Required = True
-    end
     object ApiUsersApiTokenToken: TAureliusEntityField
       FieldName = 'ApiToken.Token'
+    end
+    object ApiUsersApiTokenExpiresOn: TDateTimeField
+      FieldName = 'ApiToken.ExpiresOn'
     end
     object ApiUsersApiToken: TAureliusEntityField
       FieldName = 'ApiToken'
