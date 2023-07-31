@@ -38,15 +38,18 @@ type
     SourceApiUser: TDataSource;
     ApiUsersName: TStringField;
     ApiUsersEmail: TStringField;
-    ApiUsersToken: TStringField;
     ApiUsersExpiresOn: TDateTimeField;
     btnCopyToken: TButton;
+    ApiUsersApiTokenToken: TAureliusEntityField;
+    ApiUsersApiToken: TAureliusEntityField;
+    procedure ApiUsersAfterInsert(DataSet: TDataSet);
     procedure btnCopyTokenClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure GridEditButtonClick(Sender: TObject);
   private
     { Private declarations }
+    procedure AssignNewToken;
     procedure NewToken;
   public
     { Public declarations }
@@ -63,16 +66,48 @@ uses
 
 {$R *.dfm}
 
+procedure TFrmApiUsers.ApiUsersAfterInsert(DataSet: TDataSet);
+begin
+  AssignNewToken;
+end;
+
+procedure TFrmApiUsers.AssignNewToken;
+begin
+  ApiUsers.DisableControls;
+  try
+    if not (ApiUsers.State in dsEditModes) then
+    begin
+      ApiUsers.Edit;
+    end;
+
+    var LOldToken := ApiUsersApiToken.AsEntity<TApiToken>;
+
+    var LApiToken := TApiToken.Create;
+    LApiToken.Kind := TApiTokenKind.User;
+    ApiUsersApiToken.AsObject := LApiToken;
+    ApiUsers.Post;
+
+    // remove old token
+    if Assigned(LOldToken) then
+    begin
+      ObjectManager.Remove(LOldToken);
+    end;
+
+  finally
+    ApiUsers.EnableControls;
+  end;
+end;
+
 procedure TFrmApiUsers.btnCopyTokenClick(Sender: TObject);
 begin
-  Clipboard.AsText := ApiUsersToken.AsString;
+  Clipboard.AsText := ApiUsersApiTokenToken.AsString;
 end;
 
 procedure TFrmApiUsers.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  inherited;
-
   ApiUsers.Close;
+
+  inherited;
 end;
 
 procedure TFrmApiUsers.FormCreate(Sender: TObject);
@@ -81,18 +116,17 @@ begin
 
   var LUsers := ObjectManager.Find<TApiUser>
     .OrderBy(Linq['ExpiresOn'], False )
-    .List
     ;
 
   ApiUsers.DefaultsFromObject := True;
   ApiUsers.Manager := ObjectManager;
-  ApiUsers.SetSourceList(LUsers, True);
+  ApiUsers.SetSourceCriteria(LUsers);
   ApiUsers.Open;
 end;
 
 procedure TFrmApiUsers.GridEditButtonClick(Sender: TObject);
 begin
-  if Grid.SelectedField = ApiUsersToken then
+  if Grid.SelectedField = ApiUsersApiTokenToken then
   begin
     NewToken;
   end;
@@ -110,12 +144,7 @@ begin
     if MessageDlg('Are you sure you want to generate a new token?',
       mtConfirmation, [mbYes,mbNo], 0) = mrYes then
     begin
-      if not (ApiUsers.State in dsEditModes) then
-      begin
-        ApiUsers.Edit;
-      end;
-
-      ApiUsersToken.AsString := TApiUser.NewToken;
+      AssignNewToken;
     end;
   end;
 end;

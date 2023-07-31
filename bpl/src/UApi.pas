@@ -1,5 +1,7 @@
 unit UApi;
 
+{$SCOPEDENUMS ON}
+
 interface
 uses
     Aurelius.Mapping.Automapping
@@ -17,13 +19,22 @@ uses
   ;
 
 type
+  [Automapping]
+  TApiTokenKind = ( User, Invoice );
+
   [Entity, Automapping]
   TApiToken = class
   private
     FToken: String;
     FId: Integer;
+    FKind: TApiTokenKind;
   public
+    class function NewToken: String;
+
+    constructor Create;
+
     property Id: Integer read FId write FId;
+    property Kind: TApiTokenKind read FKind write FKind;
     property Token: String read FToken write FToken;
   end;
 
@@ -33,18 +44,20 @@ type
     FName: String;
     FId: Integer;
     FEmail: String;
-    FToken: String;
+
+    [Association([], CascadeTypeAllRemoveOrphan)]
+    FApiToken: TApiToken;
+
     FExpiresOn: TDateTime;
 
   public
     constructor Create;
-
-    class function NewToken: String;
+    destructor Destroy; override;
 
     property Id: Integer read FId write FId;
     property Name: String read FName write FName;
     property Email: String read FEmail write FEmail;
-    property Token: String read FToken write FToken;
+    property ApiToken: TApiToken read FApiToken write FApiToken;
     property ExpiresOn: TDateTime read FExpiresOn write FExpiresOn;
   end;
 
@@ -60,11 +73,18 @@ constructor TApiUser.Create;
 begin
   inherited;
 
-  Token := NewToken;
   ExpiresOn := TDateTime.NowUTC.IncMonth(1);
 end;
 
-class function TApiUser.NewToken: String;
+constructor TApiToken.Create;
+begin
+  inherited;
+
+  FKind := TApiTokenKind.User;
+  FToken := NewToken;
+end;
+
+class function TApiToken.NewToken: String;
 var
   LGuid: String;
 
@@ -72,6 +92,11 @@ begin
   LGuid := TGuid.NewGuid.ToString;
 
   Result := TNetEncoding.Base64String.Encode(LGuid);
+end;
+
+destructor TApiUser.Destroy;
+begin
+  inherited;
 end;
 
 initialization

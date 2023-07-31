@@ -7,6 +7,7 @@ uses
   , DBAdvGrid
   , Vcl.DBGrids
   , Vcl.Graphics
+  , Vcl.Forms
   ;
 
 type
@@ -18,6 +19,8 @@ type
     class procedure UseMonospaceFont( AColumn: TColumn ); overload;
     class procedure UseMonospaceFont( AColumn: TDBGridColumnItem ); overload;
 
+    class procedure UseDefaultFonts( const AForm: TForm );
+    class procedure UseMonospaceFonts( const AForm: TForm );
   end;
 
 implementation
@@ -43,6 +46,19 @@ begin
       var LGridColumn := LColumn as TColumn;
       LGridColumn.Font.Name := TAppGlobals.DefaultGridFontName;
       LGridColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+    end;
+  end;
+end;
+
+class procedure TGridUtils.UseDefaultFonts(const AForm: TForm);
+begin
+  for var i := 0 to AForm.ComponentCount-1 do
+  begin
+    if AForm.Components[i] is TDBGrid then
+    begin
+      var LGrid := TDBGrid(AForm.Components[i]);
+      TGridUtils.UseDefaultHeaderFont(LGrid.Columns);
+      TGridUtils.UseDefaultFont(LGrid.Columns);
     end;
   end;
 end;
@@ -74,6 +90,19 @@ class procedure TGridUtils.UseMonospaceFont(AColumn: TDBGridColumnItem);
 begin
    AColumn.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
    AColumn.Font.Size := TAppGlobals.DefaultGridFontSize;
+end;
+
+class procedure TGridUtils.UseMonospaceFonts(const AForm: TForm);
+begin
+ for var i := 0 to AForm.ComponentCount-1 do
+  begin
+    if AForm.Components[i] is TDBGrid then
+    begin
+      var LGrid := TDBGrid(AForm.Components[i]);
+      TGridUtils.UseDefaultHeaderFont(LGrid.Columns);
+      TGridUtils.UseMonospaceFont(LGrid.Columns);
+    end;
+  end;
 end;
 
 class procedure TGridUtils.UseMonospaceFont(AColumn: TColumn);

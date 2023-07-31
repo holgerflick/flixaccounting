@@ -19,6 +19,7 @@ uses
 
   , UTransaction
   , UCustomer
+  , UApi
 
   ;
 
@@ -145,6 +146,9 @@ type
     [Column('ProcessedCopy', [TColumnProp.Lazy])]
     FProcessedCopy: TBlob;
 
+    [Association([], CascadeTypeAllRemoveOrphan)]
+    FApiToken: TApiToken;
+
     function GetTotalAmount: Double;
     function GetAmountDue: Double;
     function GetAmountPaid: Double;
@@ -172,6 +176,8 @@ type
     property DueOn: TDate read FDueOn write FDueOn;
 
     property Customer: TCustomer read GetCustomer write SetCustomer;
+
+    property ApiToken: TApiToken read FApiToken write FApiToken;
 
     property Items: TInvoiceItems read GetItems;
     property Payments: TInvoicePayments
