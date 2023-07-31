@@ -42,6 +42,7 @@ contains
   UCustomer in 'UCustomer.pas',
   UDictionary in 'UDictionary.pas',
   UProfitLoss in 'UProfitLoss.pas',
-  UDictionaryTemporary in 'UDictionaryTemporary.pas';
+  UDictionaryTemporary in 'UDictionaryTemporary.pas',
+  UApi in 'UApi.pas';
 
 end.

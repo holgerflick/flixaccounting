@@ -4,6 +4,7 @@ program FlixLLCPL;
 
 uses
   Vcl.Forms,
+  Vcl.Dialogs,
   VCL.FlexCel.Core,
   UFrmMain in 'forms\UFrmMain.pas' {FrmMain},
   UAppGlobals in 'globals\UAppGlobals.pas',
@@ -29,7 +30,9 @@ uses
   UReportInterfaces in 'globals\UReportInterfaces.pas',
   UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
   UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
-  UControlStorage in 'controlstorage\UControlStorage.pas';
+  UControlStorage in 'controlstorage\UControlStorage.pas',
+  UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers},
+  UGridUtils in 'globals\UGridUtils.pas';
 
 {$R *.res}
 
@@ -38,8 +41,16 @@ begin
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
 
-  Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TFrmMain, FrmMain);
-  Application.Run;
+  if TAppSettings.Shared.IsLaunchPossible then
+  begin
+    Application.Initialize;
+    Application.MainFormOnTaskbar := True;
+    Application.CreateForm(TFrmMain, FrmMain);
+    Application.Run;
+  end
+  else
+  begin
+    MessageDlg('Cannot launch application. Please check that database configuration ' +
+     'exists in settings.ini.', mtError, [mbOK], 0);
+  end;
 end.

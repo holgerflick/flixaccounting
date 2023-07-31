@@ -12,4 +12,13 @@ object FrmBase: TFrmBase
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   TextHeight = 21
+  object actFrmBase: TActionList
+    Left = 88
+    Top = 184
+    object actFrmBaseRemoveStorage: TAction
+      Caption = 'actFrmBaseRemoveStorage'
+      ShortCut = 24699
+      OnExecute = actFrmBaseRemoveStorageExecute
+    end
+  end
 end

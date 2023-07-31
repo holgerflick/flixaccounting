@@ -56,10 +56,10 @@ type
     [Column('Name', [],500)]
     FName: String;
 
-    [Association([], CascadeTypeAllButRemove)]
+    [Association([], [])]
     FOwner: TCSControl;
 
-    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAll, 'FOwner')]
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllRemoveOrphan, 'FOwner')]
     FChildren: Proxy<TCSControls>;
     function GetChildren: TCSControls;
 
@@ -95,7 +95,7 @@ type
     FIdx: Integer;
     FVisible: Boolean;
 
-    [Association([],CascadeTypeAllButRemove)]
+    [Association([], [])]
     FGrid: TCSDBGridControl;
     FFieldName: String;
 
@@ -112,17 +112,16 @@ type
   TCSDBGridColumns = TList<TCSDBGridColumn>;
 
   [Automapping, Entity]
-  [PrimaryJoinColumn('CSControlId')]
+  [PrimaryJoinColumn('CSCONTROLID')]
   TCSDBGridControl = class(TCSControl)
   private
-    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllButRemove, 'FGrid')]
+    [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllRemoveOrphan, 'FGrid')]
     FColumns: Proxy<TCSDBGridColumns>;
 
     function GetColumns: TCSDBGridColumns;
   public
     constructor Create;  override;
     destructor Destroy; override;
-
 
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
@@ -133,14 +132,13 @@ type
   end;
 
   [Automapping, Entity]
-  [PrimaryJoinColumn('CSControlId')]
+  [PrimaryJoinColumn('CSCONTROLID')]
   TCSAdvStringGrid = class(TCSControl)
   private
-
-    [Column('ColDef', [], 1000 )]
+    [Column('COLDEF', [], 1000 )]
     FColumnDefinition: String;
-  public
 
+  public
     procedure UpdateFromControl(AControl: TControl); override;
     procedure UpdateControl(AControl: TControl); override;
 
@@ -172,6 +170,7 @@ type
 
     procedure StoreForm( AForm: TForm );
     procedure RestoreForm( AForm: TForm );
+    procedure RemoveAndCloseForm( AForm: TForm );
 
     property ObjectManager: TObjectManager read FObjectManager;
   end;
@@ -181,6 +180,7 @@ implementation
 uses
     UDictionary
   , UDataManager
+
   , Vcl.StdCtrls
   , Vcl.ExtCtrls
   , Vcl.DBGrids
@@ -384,6 +384,20 @@ begin
   end;
 
   Result := FInstance;
+end;
+
+procedure TFormStorageManager.RemoveAndCloseForm(AForm: TForm);
+begin
+  var LForm := ObjectManager.Find<TCSControl>
+    .Where(Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm))
+    .UniqueResult
+    ;
+
+  if Assigned(LForm) then
+  begin
+    ObjectManager.Remove(LForm);
+    AForm.Close;
+  end;
 end;
 
 procedure TFormStorageManager.RestoreForm(AForm: TForm);
