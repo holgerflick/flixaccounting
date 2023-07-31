@@ -7,6 +7,7 @@ uses
   Aurelius.Linq;
 
 type
+  TApiTokenDictionary = class;
   TApiUserDictionary = class;
   TCSAdvStringGridDictionary = class;
   TCSControlDictionary = class;
@@ -19,6 +20,8 @@ type
   TInvoicePaymentDictionary = class;
   TQuickItemDictionary = class;
   TTransactionDictionary = class;
+  
+  IApiTokenDictionary = interface;
   
   IApiUserDictionary = interface;
   
@@ -44,12 +47,18 @@ type
   
   ITransactionDictionary = interface;
   
+  IApiTokenDictionary = interface(IAureliusEntityDictionary)
+    function Token: TLinqProjection;
+    function Id: TLinqProjection;
+    function Kind: TLinqProjection;
+    function ExpiresOn: TLinqProjection;
+  end;
+  
   IApiUserDictionary = interface(IAureliusEntityDictionary)
     function Name: TLinqProjection;
     function Id: TLinqProjection;
     function Email: TLinqProjection;
-    function Token: TLinqProjection;
-    function ExpiresOn: TLinqProjection;
+    function ApiToken: IApiTokenDictionary;
   end;
   
   ICSAdvStringGridDictionary = interface(IAureliusEntityDictionary)
@@ -120,6 +129,7 @@ type
     function Payments: IInvoicePaymentDictionary;
     function Transactions: ITransactionDictionary;
     function Customer: ICustomerDictionary;
+    function ApiToken: IApiTokenDictionary;
   end;
   
   IInvoiceItemDictionary = interface(IAureliusEntityDictionary)
@@ -159,13 +169,20 @@ type
     function Document: IDocumentDictionary;
   end;
   
+  TApiTokenDictionary = class(TAureliusEntityDictionary, IApiTokenDictionary)
+  public
+    function Token: TLinqProjection;
+    function Id: TLinqProjection;
+    function Kind: TLinqProjection;
+    function ExpiresOn: TLinqProjection;
+  end;
+  
   TApiUserDictionary = class(TAureliusEntityDictionary, IApiUserDictionary)
   public
     function Name: TLinqProjection;
     function Id: TLinqProjection;
     function Email: TLinqProjection;
-    function Token: TLinqProjection;
-    function ExpiresOn: TLinqProjection;
+    function ApiToken: IApiTokenDictionary;
   end;
   
   TCSAdvStringGridDictionary = class(TAureliusEntityDictionary, ICSAdvStringGridDictionary)
@@ -243,6 +260,7 @@ type
     function Payments: IInvoicePaymentDictionary;
     function Transactions: ITransactionDictionary;
     function Customer: ICustomerDictionary;
+    function ApiToken: IApiTokenDictionary;
   end;
   
   TInvoiceItemDictionary = class(TAureliusEntityDictionary, IInvoiceItemDictionary)
@@ -287,6 +305,7 @@ type
   end;
   
   IDefaultDictionary = interface(IAureliusDictionary)
+    function ApiToken: IApiTokenDictionary;
     function ApiUser: IApiUserDictionary;
     function CSAdvStringGrid: ICSAdvStringGridDictionary;
     function CSControl: ICSControlDictionary;
@@ -303,6 +322,7 @@ type
   
   TDefaultDictionary = class(TAureliusDictionary, IDefaultDictionary)
   public
+    function ApiToken: IApiTokenDictionary;
     function ApiUser: IApiUserDictionary;
     function CSAdvStringGrid: ICSAdvStringGridDictionary;
     function CSControl: ICSControlDictionary;
@@ -330,6 +350,28 @@ begin
   result := __Dic;
 end;
 
+{ TApiTokenDictionary }
+
+function TApiTokenDictionary.Token: TLinqProjection;
+begin
+  Result := Prop('Token');
+end;
+
+function TApiTokenDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TApiTokenDictionary.Kind: TLinqProjection;
+begin
+  Result := Prop('Kind');
+end;
+
+function TApiTokenDictionary.ExpiresOn: TLinqProjection;
+begin
+  Result := Prop('ExpiresOn');
+end;
+
 { TApiUserDictionary }
 
 function TApiUserDictionary.Name: TLinqProjection;
@@ -347,14 +389,9 @@ begin
   Result := Prop('Email');
 end;
 
-function TApiUserDictionary.Token: TLinqProjection;
+function TApiUserDictionary.ApiToken: IApiTokenDictionary;
 begin
-  Result := Prop('Token');
-end;
-
-function TApiUserDictionary.ExpiresOn: TLinqProjection;
-begin
-  Result := Prop('ExpiresOn');
+  Result := TApiTokenDictionary.Create(PropName('ApiToken'));
 end;
 
 { TCSAdvStringGridDictionary }
@@ -616,6 +653,11 @@ begin
   Result := TCustomerDictionary.Create(PropName('Customer'));
 end;
 
+function TInvoiceDictionary.ApiToken: IApiTokenDictionary;
+begin
+  Result := TApiTokenDictionary.Create(PropName('ApiToken'));
+end;
+
 { TInvoiceItemDictionary }
 
 function TInvoiceItemDictionary.Id: TLinqProjection;
@@ -750,6 +792,11 @@ begin
 end;
 
 { TDefaultDictionary }
+
+function TDefaultDictionary.ApiToken: IApiTokenDictionary;
+begin
+  Result := TApiTokenDictionary.Create;
+end;
 
 function TDefaultDictionary.ApiUser: IApiUserDictionary;
 begin
