@@ -82,7 +82,6 @@ uses
   UAppSettings
   ;
 
-
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -100,6 +99,7 @@ end;
 
 procedure TDataManager.CreateTemporaryDatabase;
 begin
+  // initialize database manager for temporary model
   var LDatabase := TDatabaseManager.Create(
     FMemoryConnection,
     TMappingExplorer.Get('Temporary')
@@ -113,12 +113,19 @@ end;
 
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
+  // load FireDAC connection parameters
   TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
 
+  // set adapted connection AFTER FireDAC has been set
+  // make sure that SQLDialect is empty when assigned, otherwise it will
+  // not be set automatically by Aurelius.
   Connection.AdaptedConnection := FDConnection;
 
+  // init the memory database used for reports
   FMemoryConnection := MemConnection.CreateConnection;
   CreateTemporaryDatabase;
+
+  // update the physical database
   UpdateDatabase;
 end;
 

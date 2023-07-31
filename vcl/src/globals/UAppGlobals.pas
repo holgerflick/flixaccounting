@@ -23,7 +23,6 @@ uses
    ExeInfo
    ;
 
-
 { TAppGlobals }
 
 class function TAppGlobals.AppFullName: String;
@@ -70,7 +69,6 @@ class function TAppGlobals.DefaultGridFontSize: Integer;
 begin
   Result := 11;
 end;
-
 
 class function TAppGlobals.DefaultGridHeaderFontName: String;
 begin
