@@ -32,7 +32,8 @@ uses
   UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
   UControlStorage in 'controlstorage\UControlStorage.pas',
   UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers},
-  UGridUtils in 'globals\UGridUtils.pas';
+  UGridUtils in 'globals\UGridUtils.pas',
+  UFrmApiToken in 'forms\UFrmApiToken.pas' {FrmApiToken};
 
 {$R *.res}
 
@@ -46,7 +47,7 @@ begin
     Application.Initialize;
     Application.MainFormOnTaskbar := True;
     Application.CreateForm(TFrmMain, FrmMain);
-    Application.Run;
+  Application.Run;
   end
   else
   begin
