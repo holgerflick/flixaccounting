@@ -15,6 +15,7 @@ type
   strict private
     class var FInstance: TAppSettings;
 
+    FIniFileName: String;
     FIniFile: TIniFile;
 
 
@@ -22,6 +23,8 @@ type
 
     constructor Create;
     destructor Destroy; override;
+
+    function IsLaunchPossible: Boolean;
 
     procedure GetDatabaseParams( AParams: TStrings );
 
@@ -36,15 +39,19 @@ uses
     System.IOUtils
   ;
 
+
+const
+  SECTION_DATABASE = 'Database';
+
 { TAppSettings }
 
 constructor TAppSettings.Create;
 begin
   inherited;
 
-  var LFilename := TPath.Combine( TPath.GetLibraryPath, 'settings.ini' );
+  FIniFilename := TPath.Combine( TPath.GetLibraryPath, 'settings.ini' );
 
-  FIniFile := TIniFile.Create(LFilename);
+  FIniFile := TIniFile.Create(FIniFilename);
 end;
 
 class destructor TAppSettings.Destroy;
@@ -60,13 +67,30 @@ var
 begin
   LParams := TStringlist.Create;
   try
-    FIniFile.ReadSectionValues('Database', LParams);
+    FIniFile.ReadSectionValues(SECTION_DATABASE, LParams);
 
     LParams.Text := LParams.Text.Replace('{APP}', TPath.GetLibraryPath );
     LParams.Text := LParams.Text.Replace('{HOME}', TPath.GetHomePath );
     LParams.Text := LParams.Text.Replace('{DOCUMENTS}', TPath.GetDocumentsPath );
 
     AParams.Text := LParams.Text;
+  finally
+    LParams.Free;
+  end;
+end;
+
+function TAppSettings.IsLaunchPossible: Boolean;
+var
+  LParams: TStringlist;
+
+begin
+  Result := False;
+
+  // quick sanity test that database configuration exsists
+  LParams := TStringList.Create;
+  try
+    FIniFile.ReadSectionValues(SECTION_DATABASE, LParams);
+    Result := LParams.Count > 0;
   finally
     LParams.Free;
   end;
