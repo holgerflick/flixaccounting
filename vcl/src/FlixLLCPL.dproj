@@ -138,40 +138,32 @@
         <DCCReference Include="UInvoicePrinter.pas"/>
         <DCCReference Include="forms\UFrmEditMemoField.pas">
             <Form>FrmEditMemoField</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmReportPreview.pas">
             <Form>FrmReportPreview</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmPayments.pas">
             <Form>FrmPayments</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="globals\UAppSettings.pas"/>
         <DCCReference Include="UInvoiceProcessor.pas"/>
         <DCCReference Include="forms\UFrmQuickItems.pas">
             <Form>FrmQuickItems</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UBoAImporter.pas"/>
         <DCCReference Include="forms\UFrmReportHost.pas">
             <Form>FrmReportHost</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="globals\UReportInterfaces.pas"/>
         <DCCReference Include="forms\UFrmReportCustomers.pas">
             <Form>FrmReportCustomers</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\UFrmReportProfitLoss.pas">
             <Form>FrmReportProfitLoss</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="controlstorage\UControlStorage.pas"/>
         <DCCReference Include="forms\UFrmApiUsers.pas">
             <Form>FrmApiUsers</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="globals\UGridUtils.pas"/>
         <BuildConfiguration Include="Base">
