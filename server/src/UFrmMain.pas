@@ -19,7 +19,6 @@ uses
   , UServerContainer
   ;
 
-
 type
   TMainForm = class(TForm)
     mmInfo: TMemo;
