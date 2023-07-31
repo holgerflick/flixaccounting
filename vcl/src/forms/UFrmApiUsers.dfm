@@ -85,7 +85,6 @@ inherited FrmApiUsers: TFrmApiUsers
     VisibleButtons = [nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    ExplicitWidth = 930
   end
   object btnCopyToken: TButton [2]
     Left = 1078
@@ -96,7 +95,6 @@ inherited FrmApiUsers: TFrmApiUsers
     Caption = 'Copy Token'
     TabOrder = 2
     OnClick = btnCopyTokenClick
-    ExplicitLeft = 949
   end
   object ApiUsers: TAureliusDataset [3]
     FieldDefs = <

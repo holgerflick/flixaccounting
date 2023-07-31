@@ -61,6 +61,7 @@ var
 implementation
 uses
     Vcl.Clipbrd
+  , UDictionary
   , UApi
   ;
 
@@ -115,7 +116,7 @@ begin
   inherited;
 
   var LUsers := ObjectManager.Find<TApiUser>
-    .OrderBy(Linq['ApiToken.ExpiresOn'], False )
+    .OrderBy(Dic.ApiUser.ApiToken.ExpiresOn, False )
     ;
 
   ApiUsers.DefaultsFromObject := True;
