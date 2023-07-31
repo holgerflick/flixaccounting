@@ -105,23 +105,42 @@ end;
 procedure TServerContainer.TokenAuthenticationRequest(Sender: TObject; Context:
     THttpServerContext; Next: THttpServerProc);
 begin
-  var LAuthenticate := False;
 
-  if Context.Current.Request.Headers.Exists('Token') then
+  // authentication is only necessary for report service
+  var LNeedAuthenticate := False;
+
+  for var LSegment in Context.Request.Uri.Segments do
   begin
-    var LAuth := TTokenAuthentication.Create;
-    try
-      var LToken := Context.Current.Request.Headers.Get('Token');
-      LAuthenticate := LAuth.IsValidToken(LToken);
-    finally
-      LAuth.Free;
+    if LSegment.ToLower.Contains('reportservice') then
+    begin
+      LNeedAuthenticate := True;
     end;
   end;
 
-  if not LAuthenticate then
+  if LNeedAuthenticate then
   begin
-    Context.Response.StatusCode := 401;
-    Context.Response.StatusReason := 'Token required.';
+    var LAuthenticate := False;
+
+    if Context.Current.Request.Headers.Exists('Token') then
+    begin
+      var LAuth := TTokenAuthentication.Create;
+      try
+        var LToken := Context.Current.Request.Headers.Get('Token');
+        LAuthenticate := LAuth.IsValidToken(LToken);
+      finally
+        LAuth.Free;
+      end;
+    end;
+
+    if not LAuthenticate then
+    begin
+      Context.Response.StatusCode := 401;
+      Context.Response.StatusReason := 'Token required.';
+    end
+    else
+    begin
+      Next(Context);
+    end;
   end
   else
   begin

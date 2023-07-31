@@ -62,7 +62,7 @@ inherited FrmApiUsers: TFrmApiUsers
       item
         ButtonStyle = cbsEllipsis
         Expanded = False
-        FieldName = 'Token'
+        FieldName = 'ApiToken.Token'
         Font.Charset = ANSI_CHARSET
         Font.Color = cl3DLight
         Font.Height = -12
@@ -118,18 +118,17 @@ inherited FrmApiUsers: TFrmApiUsers
         Size = 255
       end
       item
-        Name = 'Token'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 255
+        Name = 'ApiToken'
+        DataType = ftVariant
       end
       item
         Name = 'ExpiresOn'
         Attributes = [faRequired]
         DataType = ftDateTime
       end>
-    Left = 248
-    Top = 208
+    AfterInsert = ApiUsersAfterInsert
+    Left = 176
+    Top = 304
     DesignClass = 'UApi.TApiUser'
     object ApiUsersName: TStringField
       FieldName = 'Name'
@@ -141,14 +140,15 @@ inherited FrmApiUsers: TFrmApiUsers
       Required = True
       Size = 255
     end
-    object ApiUsersToken: TStringField
-      FieldName = 'Token'
-      Required = True
-      Size = 255
-    end
     object ApiUsersExpiresOn: TDateTimeField
       FieldName = 'ExpiresOn'
       Required = True
+    end
+    object ApiUsersApiTokenToken: TAureliusEntityField
+      FieldName = 'ApiToken.Token'
+    end
+    object ApiUsersApiToken: TAureliusEntityField
+      FieldName = 'ApiToken'
     end
   end
   object SourceApiUser: TDataSource [4]
