@@ -75,7 +75,7 @@ uses
 
 resourcestring
   URL_BASE = 'https://beta1.flixengineering.com/ppl/';
-  URL_TOKEN = 'token/%s';
+  URL_TOKEN = 'download/%s';
 
 { TApiUser }
 
