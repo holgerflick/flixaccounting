@@ -21,6 +21,7 @@ uses
   , System.ImageList
   , System.SysUtils
   , System.Variants
+  , System.UITypes
 
   , Vcl.ActnList
   , Vcl.BaseImageCollection
