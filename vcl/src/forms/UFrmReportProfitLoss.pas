@@ -19,10 +19,12 @@ uses
   , FireDAC.Stan.Option
   , FireDAC.Stan.Param
 
+  , System.Actions
   , System.Classes
   , System.SysUtils
   , System.Variants
 
+  , Vcl.ActnList
   , Vcl.Controls
   , Vcl.DBCtrls
   , Vcl.DBGrids
@@ -39,8 +41,9 @@ uses
   , uFlxPanel
   , UFrmBase
   , UReportInterfaces
-  , UReportManager, System.Actions, Vcl.ActnList
+  , UReportManager
   ;
+
 
 type
   TFrmReportProfitLoss = class(TFrmBase, IReportConfiguration)
@@ -106,7 +109,7 @@ type
 
     function GetName: String;
     procedure SaveToFile(AFilename: String);
-    procedure SetParent(AComponent: TWinControl);
+    procedure SetHostControl(AControl: TWinControl);
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
 
@@ -160,13 +163,16 @@ var
   LProfitLoss: TProfitLoss;
 
 begin
+  IncomeTx.Close;
+  Income.Close;
+
+  ExpenseTx.Close;
+  Expense.Close;
+
   FReportManager.RangeStart := self.RangeStart;
   FReportManager.RangeEnd := self.RangeEnd;
 
   LProfitLoss := FReportManager.GetProfitLoss( FMemoryObjManager );
-
-  Income.Close;
-  IncomeTx.Close;
 
   var LIncomeList := FMemoryObjManager.Find<TPLCategory>
     .Where(
@@ -229,9 +235,9 @@ begin
   raise ENotImplemented.Create('Still to come.');
 end;
 
-procedure TFrmReportProfitLoss.SetParent(AComponent: TWinControl);
+procedure TFrmReportProfitLoss.SetHostControl(AControl: TWinControl);
 begin
-  self.Parent := AComponent;
+  self.Parent := AControl;
 end;
 
 procedure TFrmReportProfitLoss.SetRangeEnd(ADate: TDate);
