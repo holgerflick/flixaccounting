@@ -161,7 +161,6 @@
         <DCCReference Include="forms\UFrmReportProfitLoss.pas">
             <Form>FrmReportProfitLoss</Form>
         </DCCReference>
-        <DCCReference Include="controlstorage\UControlStorage.pas"/>
         <DCCReference Include="forms\UFrmApiUsers.pas">
             <Form>FrmApiUsers</Form>
         </DCCReference>
@@ -169,6 +168,7 @@
         <DCCReference Include="forms\UFrmApiToken.pas">
             <Form>FrmApiToken</Form>
         </DCCReference>
+        <DCCReference Include="tools\UControlStorage.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
