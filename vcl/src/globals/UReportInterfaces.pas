@@ -12,7 +12,7 @@ type
 
     procedure SetRangeStart( ADate: TDate );
     procedure SetRangeEnd( ADate: TDate );
-    procedure SetParent( AComponent: TWinControl );
+    procedure SetHostControl( AControl: TWinControl );
 
     function GetName: String;
     function CanExport: Boolean;

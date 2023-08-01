@@ -162,7 +162,7 @@ end;
 
 procedure TFrmReportHost.HostForm(AForm: IReportConfiguration);
 begin
-  AForm.SetParent( self.panHost );
+  AForm.SetHostControl( self.panHost );
   FHosting := AForm;
 
   UpdateReport;
