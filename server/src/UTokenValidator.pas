@@ -1,4 +1,4 @@
-unit UTokenAuthentication;
+unit UTokenValidator;
 
 interface
 uses
@@ -12,12 +12,10 @@ uses
   ;
 
 type
-  TTokenAuthentication = class
+  TTokenValidator = class
 
   public
-    constructor Create;
-
-    function IsValidToken(AToken: String): Boolean;
+    class function IsValidUserToken(AToken: String): Boolean;
   end;
 
 implementation
@@ -32,18 +30,13 @@ uses
 
 { TTokenAuthentication }
 
-constructor TTokenAuthentication.Create;
-begin
-  inherited Create;
-end;
-
-function TTokenAuthentication.IsValidToken(AToken: String): Boolean;
+class function TTokenValidator.IsValidUserToken(AToken: String): Boolean;
 var
   LUser: TApiUser;
 
 begin
   var LObjManager := TObjectManager.Create(
-    ServerContainer.DefaultConnectionPool.Connection.CreateConnection );
+    ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection );
   try
     LUser := LObjManager.Find<TApiUser>
       .Where(
