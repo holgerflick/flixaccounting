@@ -14,8 +14,13 @@ object ServerContainer: TServerContainer
     EntitySetPermissions = <>
     Left = 264
     Top = 80
-    object TokenAuthentication: TSparkleGenericMiddleware
-      OnRequest = TokenAuthenticationRequest
+    object XDataServerCORS: TSparkleCorsMiddleware
+    end
+    object XDataServerCompress: TSparkleCompressMiddleware
+    end
+    object XDataServerForward: TSparkleForwardMiddleware
+      OnAcceptProxy = XDataServerForwardAcceptProxy
+      OnAcceptHost = XDataServerForwardAcceptHost
     end
   end
   object DefaultConnectionPool: TXDataConnectionPool
