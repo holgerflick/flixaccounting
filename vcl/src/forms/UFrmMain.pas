@@ -91,7 +91,7 @@ uses
   , UFrmCustomer
   , UFrmInvoices
   , UFrmApiUsers
-  , UMermaidClassModel
+  , UFrmMermaidModel
   ;
 
 resourcestring
@@ -159,19 +159,13 @@ begin
 end;
 
 procedure TFrmMain.btnModelClick(Sender: TObject);
-var
-  LModel: TMermaidClassModel;
 
 begin
-  LModel := TMermaidClassModel.Create;
+  var LFrm := TFrmMermaidModel.Create(nil);
   try
-    LModel.ClassNames.Add( 'UInvoice.TInvoice' );
-    LModel.Process;
-
-    Clipboard.AsText := LModel.Markdown.Text;
-    MessageDlg( LModel.Markdown.Text, mtInformation, [mbOK], 0 );
+    LFrm.ShowModal;
   finally
-    LModel.Free;
+    LFrm.Free;
   end;
 end;
 
