@@ -161,13 +161,18 @@
         <DCCReference Include="forms\UFrmReportProfitLoss.pas">
             <Form>FrmReportProfitLoss</Form>
         </DCCReference>
-        <DCCReference Include="controlstorage\UControlStorage.pas"/>
         <DCCReference Include="forms\UFrmApiUsers.pas">
             <Form>FrmApiUsers</Form>
         </DCCReference>
         <DCCReference Include="globals\UGridUtils.pas"/>
         <DCCReference Include="forms\UFrmApiToken.pas">
             <Form>FrmApiToken</Form>
+        </DCCReference>
+        <DCCReference Include="tools\UControlStorage.pas"/>
+        <DCCReference Include="tools\UMermaidClassModel.pas"/>
+        <DCCReference Include="forms\UFrmMermaidModel.pas">
+            <Form>FrmMermaidModel</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

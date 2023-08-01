@@ -62,7 +62,7 @@ end;
 
 class function TAppGlobals.DefaultGridFontName: String;
 begin
-  Result := 'Droid Sans'
+  Result := 'Noto Sans'
 end;
 
 class function TAppGlobals.DefaultGridFontSize: Integer;
