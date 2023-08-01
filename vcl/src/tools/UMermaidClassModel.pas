@@ -1,7 +1,3 @@
-(*
-https://gist.github.com/letientai299/2c974b4f5e7b05be52d369ff8693c29a
-*)
-
 unit UMermaidClassModel;
 
 interface
@@ -21,6 +17,7 @@ type
     FClassNames: TStringlist;
     FMarkdown: TStringlist;
 
+    procedure AddReference( AType: TRttiType; AList: TStringlist; ARefs: TStringlist);
     function GenericSafe(AText: String): String;
     procedure AddIfNew( AName: String; AList: TStringlist );
   public
@@ -49,6 +46,21 @@ begin
   begin
     AList.Add(AName);
     FClassNames.Add(AName);
+  end;
+end;
+
+procedure TMermaidClassModelGenerator.AddReference(AType: TRttiType; AList,
+  ARefs: TStringlist);
+begin
+  if AType.Name.Contains('List<') then
+  begin
+    var LMethod := AType.GetMethod('First');
+    AddReference( LMethod.ReturnType, AList, ARefs );
+  end
+  else
+  begin
+    AddIfNew(AType.QualifiedName, AList);
+    ARefs.Add(AType.Name);
   end;
 end;
 
@@ -126,86 +138,43 @@ begin
       var LClassName := LCopy[0];
       LCopy.Delete(0);
 
-      if LClassName.Contains('<') then
-      begin
-        continue;
-      end;
-
       var LType := LRtti.FindType(LClassName);
       if Assigned(LType) then
       begin
         // init refs, methods, properties for this class
         LRefs.Clear;
 
-        // check that base class is TObject or part of the model, otherwise skip
-        var LBaseClass := LType.BaseType;
+        (* find referenced objects  ... *)
 
-        if Assigned( LBaseClass ) then
+        var LFields := LType.GetFields;
+
+        for var LField in LFields do
         begin
-          // find out of the class is a list, i.e. it just refers to the type it contains
-          if LBaseClass.Name.Contains('List<') then
+          var LFieldType := LField.FieldType;
+
+          // reference to another class
+          if LFieldType.IsInstance then
           begin
-            var LMethod := LBaseClass.GetMethod('First');
-            if Assigned(LMethod) then
-            begin
-              AddIfNew( LMethod.ReturnType.QualifiedName, LCopy );
+            AddReference( LFieldType, LCopy, LRefs );
+          end;
 
-              LRefs.Add( LMethod.ReturnType.Name );
-            end;
-          end
-          else
+          // Proxy!
+          if LFieldType.IsRecord then
           begin
-            (* find referenced objects  ... *)
-
-            var LFields := LType.GetFields;
-
-            for var LField in LFields do
+            if LFieldType.QualifiedName.Contains('.Proxy<') then
             begin
-              var LFieldType := LField.FieldType;
+              // proxy has a value with the type of the reference
+              var LMethod := LFieldType.GetMethod('SetInitialValue');
 
-              // reference to another class
-              if LFieldType.IsInstance then
-              begin
-                AddIfNew(LFieldType.QualifiedName, LCopy);
-                LRefs.Add(LFieldType.Name);
-              end;
+              // first parameter contains what we need
+              var LValue := LMethod.GetParameters[0].ParamType;
 
-              // Proxy!
-              if LFieldType.IsRecord then
+              if Assigned(LValue) then
               begin
-                if LFieldType.QualifiedName.Contains('.Proxy<') then
+                if LValue.IsInstance then
                 begin
-                  // proxy has a value with the type of the reference
-                  var LMethod := LFieldType.GetMethod('SetInitialValue');
-
-                  // first parameter contains what we need
-                  var LValue := LMethod.GetParameters[0].ParamType;
-
-                  if Assigned(LValue) then
-                  begin
-                    if LValue.IsInstance then
-                    begin
-                      // it can still be a list or the actual class...
-                      if LValue.QualifiedName.Contains('List<') then
-                      begin
-                        // we have a list and need the wrapped class of that
-                        var LFirstMethod := LValue.GetMethod('First');
-
-                        // here we have the referenced class
-                        if LFirstMethod.ReturnType.IsInstance then
-                        begin
-                          AddIfNew(LFirstMethod.ReturnType.QualifiedName, LCopy);
-                          LRefs.Add(LFirstMethod.ReturnType.Name);
-                        end;
-                      end
-                      else
-                      begin
-                        // proxy references the class and not a list
-                        AddIfNew(LValue.QualifiedName, LCopy);
-                        LRefs.Add(LValue.Name);
-                      end;
-                    end;
-                  end;
+                  // proxy references the class and not a list
+                  AddReference( LValue, LCopy, LRefs );
                 end;
               end;
             end;
