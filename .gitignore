@@ -57,13 +57,5 @@ TMSWebIntermediate
 *.tar.gz
 .git
 .svn
-
 *.user
-
-vcl/bin/flixllcpl.db
-
-vcl/bin/settings.ini
-
-vcl/bin/settings-prod.ini
-
 bin/
