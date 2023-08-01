@@ -34,7 +34,9 @@ uses
   UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers},
   UGridUtils in 'globals\UGridUtils.pas',
   UFrmApiToken in 'forms\UFrmApiToken.pas' {FrmApiToken},
-  UControlStorage in 'tools\UControlStorage.pas';
+  UControlStorage in 'tools\UControlStorage.pas',
+  UMermaidClassModel in 'tools\UMermaidClassModel.pas',
+  UFrmMermaidModel in 'forms\UFrmMermaidModel.pas' {FrmMermaidModel};
 
 {$R *.res}
 

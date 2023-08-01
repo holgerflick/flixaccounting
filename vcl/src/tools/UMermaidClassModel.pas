@@ -1,3 +1,7 @@
+(*
+https://gist.github.com/letientai299/2c974b4f5e7b05be52d369ff8693c29a
+*)
+
 unit UMermaidClassModel;
 
 interface
@@ -11,10 +15,10 @@ uses
   ;
 
 type
-  TMermaidClassModel = class
+  TMermaidClassModelGenerator = class
   strict private
   private
-    FClassNames: TStringList;
+    FClassNames: TStringlist;
     FMarkdown: TStringlist;
 
     function GenericSafe(AText: String): String;
@@ -23,8 +27,9 @@ type
     constructor Create;
     destructor Destroy; override;
 
-
     procedure Process;
+
+    procedure GetEntityClasses(AList: TStrings);
 
     property ClassNames: TStringList read FClassNames;
     property Markdown: TStringList read FMarkdown;
@@ -38,7 +43,7 @@ uses
 
 { TMermaidClassModel }
 
-procedure TMermaidClassModel.AddIfNew(AName: String; AList: TStringlist);
+procedure TMermaidClassModelGenerator.AddIfNew(AName: String; AList: TStringlist);
 begin
   if FClassNames.IndexOf(AName) = -1 then
   begin
@@ -47,7 +52,7 @@ begin
   end;
 end;
 
-constructor TMermaidClassModel.Create;
+constructor TMermaidClassModelGenerator.Create;
 begin
   inherited;
 
@@ -57,7 +62,7 @@ begin
   FMarkdown := TStringlist.Create;
 end;
 
-destructor TMermaidClassModel.Destroy;
+destructor TMermaidClassModelGenerator.Destroy;
 begin
   FMarkdown.Free;
   FClassNames.Free;
@@ -65,15 +70,34 @@ begin
   inherited;
 end;
 
-function TMermaidClassModel.GenericSafe(AText: String): String;
+function TMermaidClassModelGenerator.GenericSafe(AText: String): String;
 begin
   Result := AText.Replace('<', '~');
   Result := Result.Replace('>', '~');
-  Result := Result.Replace('.', '');
   Result := Result;
 end;
 
-procedure TMermaidClassModel.Process;
+procedure TMermaidClassModelGenerator.GetEntityClasses(AList: TStrings);
+begin
+  var LRtti := TRttiContext.Create;
+  try
+    var LAllTypes := LRtti.GetTypes;
+
+    AList.Clear;
+
+    for var LType in LAllTypes do
+    begin
+      if LType.HasAttribute(Entity) then
+      begin
+        AList.Add(LType.QualifiedName);
+      end;
+    end;
+  finally
+    LRtti.Free;
+  end;
+end;
+
+procedure TMermaidClassModelGenerator.Process;
 var
   LCopy: TStringList;
   LRtti: TRttiContext;
@@ -209,7 +233,7 @@ begin
             var LReturn := '';
             if LMethod.MethodKind = TMethodKind.mkFunction then
             begin
-              LReturn := ' : ' + LMethod.ReturnType.Name;
+              LReturn := ' : ' + GenericSafe(LMethod.ReturnType.Name);
             end;
 
             var LParamBuf := '';
@@ -226,7 +250,7 @@ begin
                 LParam.Name + ': ' + LParam.ParamType.Name;
             end;
 
-            FMarkdown.Add(LIndent + LMethod.Name + '(' + LParamBuf + ')' + LReturn );
+            FMarkdown.Add(LIndent + LMethod.Name + '(' + GenericSafe(LParamBuf) + ')' + LReturn );
           end;
         end;
 
@@ -236,7 +260,9 @@ begin
         begin
           if LProp.Parent = LType then
           begin
-            FMarkdown.Add( LIndent + LProp.Name + ': ' + LProp.PropertyType.Name );
+            FMarkdown.Add(
+              LIndent + LProp.Name + ': ' +
+              GenericSafe(LProp.PropertyType.Name) );
           end;
         end;
 
@@ -244,13 +270,10 @@ begin
 
       end;
     end;
-
-
   finally
     LRtti.Free;
     LCopy.Free;
     LRefs.Free;
-
   end;
 end;
 
