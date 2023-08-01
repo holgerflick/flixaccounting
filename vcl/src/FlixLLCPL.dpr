@@ -6,9 +6,7 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   VCL.FlexCel.Core,
-
   System.UITypes,
-
   UFrmMain in 'forms\UFrmMain.pas' {FrmMain},
   UAppGlobals in 'globals\UAppGlobals.pas',
   UDataManager in 'db\UDataManager.pas' {DataManager: TDataModule},
@@ -33,10 +31,10 @@ uses
   UReportInterfaces in 'globals\UReportInterfaces.pas',
   UFrmReportCustomers in 'forms\UFrmReportCustomers.pas' {FrmReportCustomers},
   UFrmReportProfitLoss in 'forms\UFrmReportProfitLoss.pas' {FrmReportProfitLoss},
-  UControlStorage in 'controlstorage\UControlStorage.pas',
   UFrmApiUsers in 'forms\UFrmApiUsers.pas' {FrmApiUsers},
   UGridUtils in 'globals\UGridUtils.pas',
-  UFrmApiToken in 'forms\UFrmApiToken.pas' {FrmApiToken};
+  UFrmApiToken in 'forms\UFrmApiToken.pas' {FrmApiToken},
+  UControlStorage in 'tools\UControlStorage.pas';
 
 {$R *.res}
 
