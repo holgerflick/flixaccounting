@@ -51,6 +51,7 @@ type
     actExpandForm: TAction;
     btnApi: TButton;
     actApi: TAction;
+    btnModel: TButton;
     procedure actApiExecute(Sender: TObject);
     procedure actCustomersExecute(Sender: TObject);
     procedure actExpandFormExecute(Sender: TObject);
@@ -59,6 +60,7 @@ type
     procedure actTransactionsExecute(Sender: TObject);
     procedure btnCreateDatabaseClick(Sender: TObject);
     procedure btnDictionaryClick(Sender: TObject);
+    procedure btnModelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     procedure Invoices;
@@ -81,12 +83,15 @@ implementation
 uses
     System.IOUtils
 
+  , Vcl.Clipbrd
+
   , UFrmReportHost
   , UAppSettings
   , UFrmTransactions
   , UFrmCustomer
   , UFrmInvoices
   , UFrmApiUsers
+  , UFrmMermaidModel
   ;
 
 resourcestring
@@ -151,6 +156,17 @@ end;
 procedure TFrmMain.btnDictionaryClick(Sender: TObject);
 begin
   CreateDictionary;
+end;
+
+procedure TFrmMain.btnModelClick(Sender: TObject);
+
+begin
+  var LFrm := TFrmMermaidModel.Create(nil);
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
+  end;
 end;
 
 procedure TFrmMain.FormShow(Sender: TObject);

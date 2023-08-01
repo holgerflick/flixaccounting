@@ -28,9 +28,9 @@ inherited FrmMain: TFrmMain
     TabOrder = 0
   end
   object btnCreateDatabase: TButton [1]
-    Left = 204
+    Left = 375
     Top = 104
-    Width = 222
+    Width = 157
     Height = 42
     Caption = 'Create database'
     Font.Charset = DEFAULT_CHARSET
@@ -81,7 +81,7 @@ inherited FrmMain: TFrmMain
   object btnDictionary: TButton [4]
     Left = 8
     Top = 105
-    Width = 190
+    Width = 145
     Height = 41
     Caption = 'Create dictionary'
     Font.Charset = DEFAULT_CHARSET
@@ -129,7 +129,22 @@ inherited FrmMain: TFrmMain
     ParentFont = False
     TabOrder = 6
   end
-  object Collection: TImageCollection [7]
+  object btnModel: TButton [7]
+    Left = 159
+    Top = 105
+    Width = 145
+    Height = 41
+    Caption = 'Create model'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    OnClick = btnModelClick
+  end
+  object Collection: TImageCollection [8]
     Images = <
       item
         Name = '041-group'
@@ -2009,7 +2024,7 @@ inherited FrmMain: TFrmMain
     Left = 552
     Top = 80
   end
-  object Images: TVirtualImageList [8]
+  object Images: TVirtualImageList [9]
     AutoFill = True
     Images = <
       item
@@ -2048,7 +2063,7 @@ inherited FrmMain: TFrmMain
     Left = 552
     Top = 24
   end
-  object Actions: TActionList [9]
+  object Actions: TActionList [10]
     Images = Images
     Left = 632
     Top = 80
@@ -2094,7 +2109,7 @@ inherited FrmMain: TFrmMain
       OnExecute = actApiExecute
     end
   end
-  object ImagesDisabled: TVirtualImageList [10]
+  object ImagesDisabled: TVirtualImageList [11]
     AutoFill = True
     AutoFillMode = afmDisabled
     DisabledOpacity = 80
