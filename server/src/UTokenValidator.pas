@@ -15,9 +15,7 @@ type
   TTokenValidator = class
 
   public
-    constructor Create;
-
-    function IsValidUserToken(AToken: String): Boolean;
+    class function IsValidUserToken(AToken: String): Boolean;
   end;
 
 implementation
@@ -32,12 +30,7 @@ uses
 
 { TTokenAuthentication }
 
-constructor TTokenValidator.Create;
-begin
-  inherited Create;
-end;
-
-function TTokenValidator.IsValidUserToken(AToken: String): Boolean;
+class function TTokenValidator.IsValidUserToken(AToken: String): Boolean;
 var
   LUser: TApiUser;
 

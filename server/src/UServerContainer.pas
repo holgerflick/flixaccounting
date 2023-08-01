@@ -78,7 +78,6 @@ var
 implementation
 uses
     UAppSettings
-  , UTokenAuthentication
 
   , XData.Sys.Exceptions
   ;

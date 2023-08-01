@@ -1,6 +1,7 @@
 program FlixLLCPLServer;
 
 uses
+  VCL.FlexCel.Core,
   Vcl.Forms,
   UServerContainer in 'UServerContainer.pas' {ServerContainer: TDataModule},
   UFrmMain in 'UFrmMain.pas' {MainForm},
@@ -10,7 +11,11 @@ uses
   UReportServiceManager in 'UReportServiceManager.pas',
   UReportManager in '..\..\vcl\src\UReportManager.pas' {ReportManager: TDataModule},
   UServerTypes in 'UServerTypes.pas',
-  UTokenAuthentication in 'UTokenAuthentication.pas';
+  UTokenValidator in 'UTokenValidator.pas',
+  UDownloadService in 'UDownloadService.pas',
+  UDownloadServiceImpl in 'UDownloadServiceImpl.pas',
+  UDownloadManager in 'UDownloadManager.pas',
+  UInvoicePrinter in '..\..\vcl\src\UInvoicePrinter.pas';
 
 {$R *.res}
 
