@@ -1,20 +1,21 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'TMS XData Server'
+  BorderStyle = bsSizeToolWin
+  Caption = 'FlixLLC Example == API Server =='
   ClientHeight = 242
   ClientWidth = 472
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -13
+  Font.Name = 'Noto Sans'
   Font.Style = []
   OnCreate = FormCreate
   DesignSize = (
     472
     242)
-  TextHeight = 13
+  TextHeight = 18
   object mmInfo: TMemo
     Left = 8
     Top = 40

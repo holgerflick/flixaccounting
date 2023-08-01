@@ -123,6 +123,7 @@ var
   LXlsBlob: TMemoryStream;
   LPdfExport: TFlexCelPdfExport;
   LXlsInput: TXlsFile;
+  LFilename: String;
 
 begin
   // find invoice that matches token -- also check if token is not expired
@@ -161,11 +162,19 @@ begin
 
     Result := TMemoryStream.Create;
     LPdfExport.Export(Result);
+
+    LFilename := 'Invoice_' + LInvoice.Number.ToString;
   finally
     LXlsInput.Free;
     LPdfExport.Free;
     LXlsBlob.Free;
   end;
+
+  // set up the response
+  TXDataOperationContext.Current.Response.ContentType := 'application/pdf';
+  TXDataOperationContext.Current.Response.Headers.AddValue(
+    'Content-Disposition', 'filename=' + LFilename + '.pdf'
+    );
 
 end;
 
