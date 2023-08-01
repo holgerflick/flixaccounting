@@ -82,6 +82,14 @@ var
   LXlsFile: TXlsFile;
 
 begin
+  (*
+    This method will always return an invoice in `AReport`.
+
+    Make sure to use ProcessedCopy if the invoice
+    has already been processed.
+
+    *)
+
   Assert( Assigned( AReport ) );
 
   if not Assigned(AInvoice) then
@@ -89,6 +97,11 @@ begin
     raise EArgumentNilException.Create('Invoice cannot be nil.');
   end;
 
+  if not AInvoice.ProcessedCopy.IsNull then
+  begin
+    raise EArgumentException.Create('Invoice has already been processed.' +
+     ' Printing aborted.');
+  end;
 
   LTemplate := TMemoryStream.Create;
   LTemplateMod := nil;
