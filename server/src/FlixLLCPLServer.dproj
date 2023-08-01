@@ -107,7 +107,11 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="UServerTypes.pas"/>
-        <DCCReference Include="UTokenAuthentication.pas"/>
+        <DCCReference Include="UTokenValidator.pas"/>
+        <DCCReference Include="UDownloadService.pas"/>
+        <DCCReference Include="UDownloadServiceImpl.pas"/>
+        <DCCReference Include="UDownloadManager.pas"/>
+        <DCCReference Include="..\..\vcl\src\UInvoicePrinter.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -15,7 +15,7 @@ type
   TReportService = class(TInterfacedObject, IReportService)
 
   public
-    function ProfitLoss: TProfitLossDTO;
+    function ProfitLoss(AToken: String): TProfitLossDTO;
   end;
 
 implementation
@@ -26,14 +26,14 @@ uses
 
 { TReportService }
 
-function TReportService.ProfitLoss: TProfitLossDTO;
+function TReportService.ProfitLoss(AToken: String): TProfitLossDTO;
 var
   LManager: TReportServiceManager;
 
 begin
   LManager := TReportServiceManager.Create;
   try
-    Result := LManager.ProfitLoss;
+    Result := LManager.ProfitLoss(AToken);
   finally
     LManager.Free;
   end;
