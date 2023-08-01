@@ -28,17 +28,22 @@ type
     txtToken: TEdit;
     dtExpiresOn: TDateTimePicker;
     btnCopy: TButton;
+    txtLink: TEdit;
     procedure btnCopyClick(Sender: TObject);
+    procedure dtExpiresOnChange(Sender: TObject);
   private
     FApiToken: TApiToken;
     function GetApiToken: TApiToken;
     procedure SetApiToken(const Value: TApiToken);
+    function GetLink: String;
+    procedure UpdateUI;
     { Private declarations }
   public
     { Public declarations }
     procedure EditToken(ACaption: String; AToken: TApiToken);
 
     property ApiToken: TApiToken read GetApiToken write SetApiToken;
+    property Link: String read GetLink;
   end;
 
 var
@@ -56,6 +61,13 @@ procedure TFrmApiToken.btnCopyClick(Sender: TObject);
 begin
   Clipboard.AsText := TApiUrls.UrlForToken(ApiToken);
   MessageDlg('Link has been copied to clipboard.', mtInformation, [mbOK], 0 );
+end;
+
+procedure TFrmApiToken.dtExpiresOnChange(Sender: TObject);
+begin
+  FApiToken.ExpiresOn := dtExpiresOn.DateTime;
+
+  UpdateUI;
 end;
 
 procedure TFrmApiToken.EditToken(ACaption: String; AToken: TApiToken);
@@ -76,17 +88,26 @@ end;
 
 function TFrmApiToken.GetApiToken: TApiToken;
 begin
-  FApiToken.ExpiresOn := dtExpiresOn.DateTime;
-
   Result := FApiToken;
+end;
+
+function TFrmApiToken.GetLink: String;
+begin
+  Result := TApiUrls.UrlForToken(ApiToken);
 end;
 
 procedure TFrmApiToken.SetApiToken(const Value: TApiToken);
 begin
   FApiToken := Value;
 
+  UpdateUI;
+end;
+
+procedure TFrmApiToken.UpdateUI;
+begin
   txtToken.Text := FApiToken.Token;
   dtExpiresOn.DateTime := FApiToken.ExpiresOn;
+  txtLink.Text := Link;
 end;
 
 end.

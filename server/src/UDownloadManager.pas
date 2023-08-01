@@ -31,6 +31,8 @@ type
   strict private
     FObjectManager: TObjectManager;
 
+    function DownloadInvoice(AToken: String): TStream;
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -72,11 +74,6 @@ begin
 end;
 
 function TDownloadManager.Download(AToken: String): TStream;
-var
-  LXlsBlob: TMemoryStream;
-  LPdfExport: TFlexCelPdfExport;
-  LXlsInput: TXlsFile;
-
 begin
 
   if AToken.IsEmpty then
@@ -84,21 +81,56 @@ begin
     raise EXDataHttpUnauthorized.Create('Token required.');
   end;
 
+  // first find what kind of token it is in order to branch to the method that
+  // handles the download
+
+  var LToken := ObjectManager.Find<TApiToken>
+    .Where( Dic.ApiToken.Token = AToken )
+    .UniqueResult
+    ;
+
+  // is the token found?
+  if not Assigned(LToken) then
+  begin
+    raise EXDataHttpUnauthorized.Create('Token not found.');
+  end;
+
+  // is it still not expired?
+  if LToken.IsExpired then
+  begin
+    raise EXDataHttpUnauthorized.Create('Token expired.');
+  end;
+
+  // is it a token for a user and not a download?
+  if LToken.Kind = TApiTokenKind.User then
+  begin
+    raise EXDataHttpUnauthorized.Create('Token not valid for download.');
+  end;
+
+  // init with nada
+  Result := nil;
+
+  // is it a token for an invoice?
+  if LToken.Kind = TApiTokenKind.Invoice then
+  begin
+    Result := DownloadInvoice(AToken);
+  end;
+
+end;
+
+function TDownloadManager.DownloadInvoice(AToken: String): TStream;
+var
+  LXlsBlob: TMemoryStream;
+  LPdfExport: TFlexCelPdfExport;
+  LXlsInput: TXlsFile;
+
+begin
   // find invoice that matches token -- also check if token is not expired
   var LInvoice := ObjectManager.Find<TInvoice>
     .Where( Dic.Invoice.ApiToken.Token = AToken )
     .UniqueResult
     ;
 
-  if not Assigned(LInvoice) then
-  begin
-    raise EXDataHttpUnauthorized.Create('Token not found.');
-  end;
-
-  if LInvoice.ApiToken.IsExpired then
-  begin
-    raise EXDataHttpUnauthorized.Create('Token expired.');
-  end;
 
   // either retrieve invoice as Excel document from object instance
   // or create it.
@@ -134,6 +166,7 @@ begin
     LPdfExport.Free;
     LXlsBlob.Free;
   end;
+
 end;
 
 end.
