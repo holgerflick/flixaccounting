@@ -180,6 +180,7 @@ implementation
 uses
     UDictionary
   , UDataManager
+  , UFrmBase
 
   , Vcl.StdCtrls
   , Vcl.ExtCtrls
@@ -396,6 +397,10 @@ begin
   if Assigned(LForm) then
   begin
     ObjectManager.Remove(LForm);
+    if AForm is TFrmBase then
+    begin
+      TFrmBase( AForm ).StoreControls := False;
+    end;
     AForm.Close;
   end;
 end;

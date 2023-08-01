@@ -1,7 +1,7 @@
 object ServerContainer: TServerContainer
   OnCreate = DataModuleCreate
-  Height = 293
-  Width = 472
+  Height = 305
+  Width = 392
   object SparkleHttpSysDispatcher: TSparkleHttpSysDispatcher
     Active = True
     Left = 72
@@ -12,10 +12,20 @@ object ServerContainer: TServerContainer
     Dispatcher = SparkleHttpSysDispatcher
     Pool = DefaultConnectionPool
     EntitySetPermissions = <>
+    SwaggerOptions.Enabled = True
+    SwaggerUIOptions.Enabled = True
+    SwaggerUIOptions.DocExpansion = None
+    SwaggerUIOptions.DisplayOperationId = True
+    SwaggerUIOptions.TryItOutEnabled = True
     Left = 264
     Top = 80
-    object TokenAuthentication: TSparkleGenericMiddleware
-      OnRequest = TokenAuthenticationRequest
+    object XDataServerCORS: TSparkleCorsMiddleware
+    end
+    object XDataServerCompress: TSparkleCompressMiddleware
+    end
+    object XDataServerForward: TSparkleForwardMiddleware
+      OnAcceptProxy = XDataServerForwardAcceptProxy
+      OnAcceptHost = XDataServerForwardAcceptHost
     end
   end
   object DefaultConnectionPool: TXDataConnectionPool

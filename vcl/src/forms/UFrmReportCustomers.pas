@@ -50,7 +50,7 @@ type
     procedure SaveToFile(AFilename: String);
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
-    procedure SetParent(AParent: TWinControl);
+    procedure SetHostControl(AControl: TWinControl);
 
     function CanPreview: Boolean;
     function CanExport: Boolean;
@@ -123,9 +123,9 @@ begin
   raise ENotImplemented.Create('Still to come.');
 end;
 
-procedure TFrmReportCustomers.SetParent(AParent: TWinControl);
+procedure TFrmReportCustomers.SetHostControl(AControl: TWinControl);
 begin
-  self.Parent := AParent;
+  self.Parent := AControl;
 end;
 
 procedure TFrmReportCustomers.SetRangeEnd(ADate: TDate);
