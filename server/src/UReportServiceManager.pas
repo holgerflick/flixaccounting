@@ -19,6 +19,8 @@ uses
 
   , Bcl.Types.Nullable
 
+  , System.SysUtils
+
   , UProfitLoss
   , UServerTypes
   ;
@@ -26,7 +28,7 @@ uses
 type
   TReportServiceManager = class
   public
-    function ProfitLoss: TProfitLossDTO;
+    function ProfitLoss(AToken: String): TProfitLossDTO;
   end;
 
 implementation
@@ -34,11 +36,12 @@ implementation
 uses
     UServerContainer
   , UReportManager
+  , UTokenValidator
   ;
 
 { TReportServiceManager }
 
-function TReportServiceManager.ProfitLoss: TProfitLossDTO;
+function TReportServiceManager.ProfitLoss(AToken: String): TProfitLossDTO;
 var
   LObjManager,
   LObjManagerTemp : TObjectManager;
@@ -46,29 +49,40 @@ var
   LConnection: IDBConnection;
 
 begin
-  Result := nil;
-
-  LConnection := ServerContainer.TemporaryConnection;
-
-  LObjManager := TXDataOperationContext.Current.CreateManager(
-    ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
-    );
-  LObjManagerTemp := TXDataOperationContext.Current.CreateManager(
-    LConnection,
-    TMappingExplorer.Get('Temporary')
-    );
-
-  LManager := TReportManager.Create(LObjManager);
-  try
-    var LProfitLoss := LManager.GetProfitLoss(LObjManagerTemp);
-    Result := TProfitLossDTO.Create(LProfitLoss);
-  finally
-    LManager.Free;
+  if AToken.IsEmpty then
+  begin
+    raise EXDataHttpUnauthorized.Create('Token required.');
   end;
 
-  if not Assigned(Result) then
+  // check token first
+  if TTokenValidator.IsValidUserToken(AToken) then
   begin
-    raise EXDataHttpException.Create( 404, 'Not found.' );
+    LConnection := ServerContainer.TemporaryConnection;
+
+    LObjManager := TXDataOperationContext.Current.CreateManager(
+      ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
+      );
+    LObjManagerTemp := TXDataOperationContext.Current.CreateManager(
+      LConnection,
+      TMappingExplorer.Get('Temporary')
+      );
+
+    LManager := TReportManager.Create(LObjManager);
+    try
+      var LProfitLoss := LManager.GetProfitLoss(LObjManagerTemp);
+      Result := TProfitLossDTO.Create(LProfitLoss);
+    finally
+      LManager.Free;
+    end;
+
+    if not Assigned(Result) then
+    begin
+      raise EXDataHttpException.Create( 404, 'Not found.' );
+    end;
+  end
+  else
+  begin
+    raise EXDataHttpUnauthorized.Create('Token invalid or expired.');
   end;
 end;
 

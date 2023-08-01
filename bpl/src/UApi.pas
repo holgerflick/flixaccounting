@@ -31,6 +31,7 @@ type
     FId: Integer;
     FKind: TApiTokenKind;
     FExpiresOn: TDateTime;
+    function GetIsExpired: Boolean;
   public
     class function NewToken: String;
 
@@ -40,6 +41,8 @@ type
     property Kind: TApiTokenKind read FKind write FKind;
     property Token: String read FToken write FToken;
     property ExpiresOn: TDateTime read FExpiresOn write FExpiresOn;
+
+    property IsExpired: Boolean read GetIsExpired;
   end;
 
   [Entity, Automapping]
@@ -83,6 +86,11 @@ begin
   FExpiresOn := TDateTime.NowUTC.IncMonth(1);
   FKind := TApiTokenKind.User;
   FToken := NewToken;
+end;
+
+function TApiToken.GetIsExpired: Boolean;
+begin
+  Result := FExpiresOn < TDateTime.NowUtc;
 end;
 
 class function TApiToken.NewToken: String;
