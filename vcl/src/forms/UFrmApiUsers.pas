@@ -13,6 +13,7 @@ uses
   , System.Classes
   , System.SysUtils
   , System.Variants
+  , System.UITypes
 
   , Vcl.Controls
   , Vcl.DBCtrls
