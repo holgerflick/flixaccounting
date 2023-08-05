@@ -108,8 +108,8 @@ inherited FrmCustomer: TFrmCustomer
         Size = 255
       end>
     BeforePost = CustomersBeforePost
-    Left = 184
-    Top = 216
+    Left = 200
+    Top = 296
     DesignClass = 'UCustomer.TCustomer'
     object CustomersSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -143,6 +143,6 @@ inherited FrmCustomer: TFrmCustomer
   object sourceCustomers: TDataSource
     DataSet = Customers
     Left = 80
-    Top = 216
+    Top = 288
   end
 end
