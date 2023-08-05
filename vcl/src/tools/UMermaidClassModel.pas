@@ -11,13 +11,20 @@ uses
   ;
 
 type
+  TReferenceDictionary = class( TDictionary< string, TStringlist > )
+  public
+    procedure AddReference( AKey, AReference: TRttiType );
+  end;
+
+
   TMermaidClassModelGenerator = class
   strict private
   private
     FClassNames: TStringlist;
     FMarkdown: TStringlist;
 
-    procedure AddReference( AType: TRttiType; AList: TStringlist; ARefs: TStringlist);
+    procedure AddReference(ARoot: TRttiType; AType: TRttiType; AList: TStringlist;
+        ARefs: TReferenceDictionary);
     function GenericSafe(AText: String): String;
     procedure AddIfNew( AName: String; AList: TStringlist );
   public
@@ -31,6 +38,8 @@ type
     property ClassNames: TStringList read FClassNames;
     property Markdown: TStringList read FMarkdown;
   end;
+
+
 
 implementation
 
@@ -49,18 +58,51 @@ begin
   end;
 end;
 
-procedure TMermaidClassModelGenerator.AddReference(AType: TRttiType; AList,
-  ARefs: TStringlist);
+procedure TMermaidClassModelGenerator.AddReference(
+  ARoot: TRttiType;
+  AType: TRttiType;
+  AList: TStringlist;
+  ARefs: TReferenceDictionary);
+
+
 begin
-  if AType.Name.Contains('List<') then
+  // I have tried several approaches to determine if a class is a list
+  // The only thing I have found that works reliably is to check for First
+  // and Last as characterist of a descendant of TList or TList<> or
+  // its Object-variations.
+  //
+  // Especially for constructs like TPayments = TList<TPayment> this works.
+  //
+  var LMethodFirst := AType.GetMethod('First');
+  var LMethodLast := AType.GetMethod('Last');
+
+  if Assigned(LMethodFirst) AND Assigned(LMethodLast) then
   begin
-    var LMethod := AType.GetMethod('First');
-    AddReference( LMethod.ReturnType, AList, ARefs );
+    // we need another check if the list class is one bundled with
+    // Delphi or if it is one that the user has made part of the model
+    // with certain additions.
+    if not AType.Name.Contains('List<') then
+    begin
+      // the non-built-in class should appear in the diagram as well
+      AddIfNew(AType.QualifiedName, AList);
+      AddIfNew(LMethodFirst.ReturnType.Name, AList);
+
+      // add references
+      ARefs.AddReference( ARoot, AType );
+      ARefs.AddReference( AType, LMethodFirst.ReturnType );
+    end
+    else
+    begin
+      ARefs.AddReference( ARoot, LMethodFirst.ReturnType);
+    end;
+
+    AddIfNew( LMethodFirst.ReturnType.QualifiedName, AList );
   end
   else
   begin
+    // no list, we can add it
     AddIfNew(AType.QualifiedName, AList);
-    ARefs.Add(AType.Name);
+    ARefs.AddReference(ARoot, AType);
   end;
 end;
 
@@ -113,8 +155,7 @@ procedure TMermaidClassModelGenerator.Process;
 var
   LCopy: TStringList;
   LRtti: TRttiContext;
-  LRefs: TStringList;
-
+  LRefs: TReferenceDictionary;
 
 begin
   var LIndent := '    ';
@@ -122,13 +163,12 @@ begin
   LCopy := nil;
   LRefs := nil;
 
-
   FMarkdown.Clear;
   FMarkdown.Add('classDiagram');
 
   LRtti := TRttiContext.Create;
   try
-    LRefs := TStringlist.Create;
+    LRefs := TReferenceDictionary.Create;
 
     LCopy := TStringlist.Create;
     LCopy.Assign(FClassNames);
@@ -141,9 +181,6 @@ begin
       var LType := LRtti.FindType(LClassName);
       if Assigned(LType) then
       begin
-        // init refs, methods, properties for this class
-        LRefs.Clear;
-
         (* find referenced objects  ... *)
 
         var LFields := LType.GetFields;
@@ -155,7 +192,10 @@ begin
           // reference to another class
           if LFieldType.IsInstance then
           begin
-            AddReference( LFieldType, LCopy, LRefs );
+            if LFieldType.Name <> 'TObject' then
+            begin
+              AddReference( LType, LFieldType, LCopy, LRefs );
+            end;
           end;
 
           // Proxy!
@@ -174,20 +214,10 @@ begin
                 if LValue.IsInstance then
                 begin
                   // proxy references the class and not a list
-                  AddReference( LValue, LCopy, LRefs );
+                  AddReference( LType, LValue, LCopy, LRefs );
                 end;
               end;
             end;
-          end;
-        end;
-
-
-        // generate markdown
-        for var i := 0 to LRefs.Count-1 do
-        begin
-          if ( not LRefs[i].Contains('<')) and (not LRefs[i].Contains('.')) then
-          begin
-              FMarkdown.Add( LIndent + LType.Name + ' --> ' + LRefs[i]);
           end;
         end;
 
@@ -215,8 +245,14 @@ begin
                 LParamBuf := LParamBuf + ', ';
               end;
 
+              var LParamType := '';
+              if Assigned( LParam.ParamType ) then
+              begin
+                LParamType := ': ' + LParam.ParamType.Name;
+              end;
+
               LParamBuf := LParamBuf +
-                LParam.Name + ': ' + LParam.ParamType.Name;
+                LParam.Name + LParamType;
             end;
 
             FMarkdown.Add(LIndent + LMethod.Name + '(' + GenericSafe(LParamBuf) + ')' + LReturn );
@@ -235,16 +271,44 @@ begin
           end;
         end;
 
-        FMarkDown.Add('}');
-
+        FMarkdown.Add('}');
       end;
     end;
+
+    // add all references
+    for var LKey in LRefs.Keys do
+    begin
+      var LList := LRefs[LKey];
+
+      for var i := 0 to LList.Count -1 do
+      begin
+        FMarkdown.Add( GenericSafe(LKey) + ' --> ' + GenericSafe(LList[i]) );
+      end;
+    end;
+
   finally
     LRtti.Free;
     LCopy.Free;
+    for var LKey in LRefs.Keys do
+    begin
+      LRefs[LKey].Free;
+    end;
+
     LRefs.Free;
   end;
 end;
 
+
+{ TReferenceDictionary }
+
+procedure TReferenceDictionary.AddReference(AKey, AReference: TRttiType);
+begin
+  if not self.ContainsKey(AKey.Name) then
+  begin
+    self.Add(AKey.Name, TStringList.Create );
+  end;
+
+  self[AKey.Name].Add(AReference.Name);
+end;
 
 end.
