@@ -1,5 +1,7 @@
 program FlixLLCPLServer;
 
+{$R 'resources.res' 'resources.rc'}
+
 uses
   VCL.FlexCel.Core,
   Vcl.Forms,
