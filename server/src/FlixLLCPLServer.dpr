@@ -5,6 +5,7 @@ program FlixLLCPLServer;
 uses
   VCL.FlexCel.Core,
   Vcl.Forms,
+  Vcl.Dialogs,
   UServerContainer in 'UServerContainer.pas' {ServerContainer: TDataModule},
   UFrmMain in 'UFrmMain.pas' {MainForm},
   UAppSettings in '..\..\vcl\src\globals\UAppSettings.pas',
@@ -25,6 +26,16 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TServerContainer, ServerContainer);
-  Application.CreateForm(TMainForm, MainForm);
+
+  if ServerContainer.CanStart then
+  begin
+    Application.CreateForm(TMainForm, MainForm);
+  end
+  else
+  begin
+    MessageDlg( 'BaseURL for service not configured. Please add to settings.',
+      mtError, [mbOK], 0);
+  end;
+
   Application.Run;
 end.

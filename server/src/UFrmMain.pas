@@ -70,7 +70,7 @@ begin
   btStop.Enabled := not btStart.Enabled;
   if ServerContainer.SparkleHttpSysDispatcher.Active then
     mmInfo.Lines.Add(SServerStartedAt + StringReplace(
-      ServerContainer.XDataServer.BaseUrl,
+      ServerContainer.Server.BaseUrl,
       cHttp, cHttpLocalhost, [rfIgnoreCase]))
   else
     mmInfo.Lines.Add(SServerStopped);
