@@ -28,6 +28,8 @@ type
 
     procedure GetDatabaseParams( AParams: TStrings );
 
+    function WebserviceBaseUrl: String;
+
     class function Shared: TAppSettings;
     class destructor Destroy;
 
@@ -111,6 +113,11 @@ begin
   end;
 
   Result := FInstance;
+end;
+
+function TAppSettings.WebserviceBaseUrl: String;
+begin
+  Result := FIniFile.ReadString('Webservice', 'BaseURL', '' );
 end;
 
 end.
