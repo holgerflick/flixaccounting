@@ -88,6 +88,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <RcCompile Include="resources.rc">
+            <Form>resources.res</Form>
+        </RcCompile>
         <DCCReference Include="UServerContainer.pas">
             <Form>ServerContainer</Form>
             <FormType>dfm</FormType>
@@ -112,9 +115,6 @@
         <DCCReference Include="UDownloadServiceImpl.pas"/>
         <DCCReference Include="UDownloadManager.pas"/>
         <DCCReference Include="..\..\vcl\src\UInvoicePrinter.pas"/>
-        <RcCompile Include="..\..\vcl\src\resources.rc">
-            <Form>resources.res</Form>
-        </RcCompile>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
