@@ -93,12 +93,10 @@
         </RcCompile>
         <DCCReference Include="UServerContainer.pas">
             <Form>ServerContainer</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="UFrmMain.pas">
             <Form>MainForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\vcl\src\globals\UAppSettings.pas"/>
         <DCCReference Include="UReportService.pas"/>
@@ -106,7 +104,6 @@
         <DCCReference Include="UReportServiceManager.pas"/>
         <DCCReference Include="..\..\vcl\src\UReportManager.pas">
             <Form>ReportManager</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="UServerTypes.pas"/>
