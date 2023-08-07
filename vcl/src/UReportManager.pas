@@ -203,7 +203,6 @@ begin
       // determine list of invoices for that customer
       var LInvoices := ObjectManager.Find<TInvoice>
         .Where(
-          (Dic.Invoice.Transactions.Id>0) AND
           (Dic.Invoice.Customer.Id = LCustomer.Values['CustomerId'] ) AND
           (Dic.Invoice.IssuedOn >= self.RangeStart) AND
           (Dic.Invoice.IssuedOn <= self.RangeEnd )
@@ -213,39 +212,43 @@ begin
       try
         for var LInvoice in LInvoices do
         begin
-          CRInvoiceTotals.Append;
+          // only if invoice has been processed
+          if LInvoice.Transactions.Count > 0 then
+          begin
+            CRInvoiceTotals.Append;
 
-          // drill down into categories for that invoice
-          var LCategories := ObjectManager.Find<TInvoice>
-            .Select(TProjections.ProjectionList
-              .Add(Dic.Invoice.Transactions.Amount.Sum.As_('Total'))
-              .Add(Dic.Invoice.Transactions.Category.Group.As_('Category'))
-            )
-            .Where(
-              (Dic.Invoice.IssuedOn >= self.RangeStart) AND
-              (Dic.Invoice.IssuedOn <= self.RangeEnd ) AND
-              (Dic.Invoice.Id = LInvoice.Id)
-            )
-            .ListValues
-            ;
-          try
-            for var LCategory in LCategories do
-            begin
-              CRCategoryTotals.Append;
-              CRCategoryTotalsCategory.AsString := LCategory.Values['Category'];
-              CRCategoryTotalsTotal.AsFloat := LCategory.Values['Total'];
-              CRCategoryTotals.Post;
+            // drill down into categories for that invoice
+            var LCategories := ObjectManager.Find<TInvoice>
+              .Select(TProjections.ProjectionList
+                .Add(Dic.Invoice.Transactions.Amount.Sum.As_('Total'))
+                .Add(Dic.Invoice.Transactions.Category.Group.As_('Category'))
+              )
+              .Where(
+                (Dic.Invoice.IssuedOn >= self.RangeStart) AND
+                (Dic.Invoice.IssuedOn <= self.RangeEnd ) AND
+                (Dic.Invoice.Id = LInvoice.Id)
+              )
+              .ListValues
+              ;
+            try
+              for var LCategory in LCategories do
+              begin
+                CRCategoryTotals.Append;
+                CRCategoryTotalsCategory.AsString := LCategory.Values['Category'];
+                CRCategoryTotalsTotal.AsFloat := LCategory.Values['Total'];
+                CRCategoryTotals.Post;
+              end;
+            finally
+              LCategories.Free;
             end;
-          finally
-            LCategories.Free;
-          end;
 
-          CRInvoiceTotalsInvoiceId.AsInteger := LInvoice.Id;
-          CRInvoiceTotalsNumber.AsInteger := LInvoice.Number;
-          CRInvoiceTotalsIssued.AsDateTime := LInvoice.IssuedOn;
-          CRInvoiceTotalsPaid.AsDateTime := LInvoice.Payments.LastPaymentDate;
-          CRInvoiceTotalsTotal.AsFloat := LInvoice.TotalAmount;
-          CRInvoiceTotals.Post;
+            CRInvoiceTotalsInvoiceId.AsInteger := LInvoice.Id;
+            CRInvoiceTotalsNumber.AsInteger := LInvoice.Number;
+            CRInvoiceTotalsIssued.AsDateTime := LInvoice.IssuedOn;
+            CRInvoiceTotalsPaid.AsDateTime := LInvoice.Payments.LastPaymentDate;
+            CRInvoiceTotalsTotal.AsFloat := LInvoice.TotalAmount;
+            CRInvoiceTotals.Post;
+          end;
         end;
       finally
         LInvoices.Free;
