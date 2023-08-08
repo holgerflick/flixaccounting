@@ -3,14 +3,13 @@ object ServerContainer: TServerContainer
   Height = 305
   Width = 392
   object SparkleHttpSysDispatcher: TSparkleHttpSysDispatcher
-    Active = True
     Left = 72
     Top = 16
   end
-  object XDataServer: TXDataServer
-    BaseUrl = 'http://+:80/ppl'
+  object Server: TXDataServer
     Dispatcher = SparkleHttpSysDispatcher
     Pool = DefaultConnectionPool
+    RoutingPrecedence = Service
     EntitySetPermissions = <>
     SwaggerOptions.Enabled = True
     SwaggerUIOptions.Enabled = True
@@ -19,13 +18,13 @@ object ServerContainer: TServerContainer
     SwaggerUIOptions.TryItOutEnabled = True
     Left = 264
     Top = 80
-    object XDataServerCORS: TSparkleCorsMiddleware
+    object ServerCORS: TSparkleCorsMiddleware
     end
-    object XDataServerCompress: TSparkleCompressMiddleware
+    object ServerCompress: TSparkleCompressMiddleware
     end
-    object XDataServerForward: TSparkleForwardMiddleware
-      OnAcceptProxy = XDataServerForwardAcceptProxy
-      OnAcceptHost = XDataServerForwardAcceptHost
+    object ServerForward: TSparkleForwardMiddleware
+      OnAcceptProxy = ServerForwardAcceptProxy
+      OnAcceptHost = ServerForwardAcceptHost
     end
   end
   object DefaultConnectionPool: TXDataConnectionPool

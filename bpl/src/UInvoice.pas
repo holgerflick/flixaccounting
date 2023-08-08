@@ -34,8 +34,6 @@ type
     Processed,
     Overpaid );
 
-
-
   [Entity]
   [Automapping]
   TInvoicePayment = class
@@ -82,7 +80,6 @@ type
     property Quantity: Double read FQuantity write FQuantity;
     property Value: Double read FValue write FValue;
   end;
-
 
   [Entity]
   [Automapping]

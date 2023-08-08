@@ -33,7 +33,7 @@ uses
   ;
 
 resourcestring
-  SCannotProcessInvoice = 'Cannot process invoice  %d as not fully paid or no total amount.';
+  SCannotProcessInvoice = 'Cannot process invoice %d as not fully paid or no total amount.';
 
 
 { TInvoiceProcessor }
@@ -90,7 +90,9 @@ begin
 
       LTx.PaidOn := AInvoice.Payments.LastPaymentDate;
       LTx.Category := LItem.Category;
-      LTx.Title := 'Invoice ' + AInvoice.Number.ToString;
+      LTx.Title := 'Invoice ' + AInvoice.Number.ToString + '; ' +
+        AInvoice.Customer.Name;
+
       LTx.Amount := LTx.Amount + LItem.TotalValue;
     end;
 
@@ -105,10 +107,10 @@ begin
     LPrinter := nil;
     LOutput := TBytesStream.Create;
     try
+      AInvoice.ProcessedCopy.Clear;
       LPrinter := TInvoicePrinter.Create(AObjectManager);
       LPrinter.Print(AInvoice, LOutput);
       LOutput.Position := 0;
-      AInvoice.ProcessedCopy.Clear;
       AInvoice.ProcessedCopy.LoadFromStream(LOutput);
     finally
       LOutput.Free;
