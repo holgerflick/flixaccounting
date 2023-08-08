@@ -118,8 +118,8 @@ inherited FrmReportHost: TFrmReportHost
   end
   object ActionList1: TActionList
     Images = Images
-    Left = 80
-    Top = 152
+    Left = 88
+    Top = 248
     object actCustomerProfits: TAction
       Caption = 'Customer'
       ImageIndex = 0

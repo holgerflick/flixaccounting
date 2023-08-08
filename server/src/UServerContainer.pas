@@ -48,27 +48,31 @@ uses
 type
   TServerContainer = class(TDataModule)
     SparkleHttpSysDispatcher: TSparkleHttpSysDispatcher;
-    XDataServer: TXDataServer;
+    Server: TXDataServer;
     DefaultConnectionPool: TXDataConnectionPool;
     DefaultModelConnection: TAureliusConnection;
     MySQLConnection: TFDConnection;
     TemporaryModelConnection: TAureliusConnection;
     FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
-    XDataServerCORS: TSparkleCorsMiddleware;
-    XDataServerCompress: TSparkleCompressMiddleware;
-    XDataServerForward: TSparkleForwardMiddleware;
+    ServerCORS: TSparkleCorsMiddleware;
+    ServerCompress: TSparkleCompressMiddleware;
+    ServerForward: TSparkleForwardMiddleware;
     procedure DataModuleCreate(Sender: TObject);
-    procedure XDataServerForwardAcceptHost(Sender: TObject; const Value: string;
+    procedure ServerForwardAcceptHost(Sender: TObject; const Value: string;
         var Accept: Boolean);
-    procedure XDataServerForwardAcceptProxy(Sender: TObject; const Value: string;
+    procedure ServerForwardAcceptProxy(Sender: TObject; const Value: string;
         var Accept: Boolean);
 
   private
     FTemporaryConnection: IDBConnection;
 
     procedure InitializeConnections;
+    procedure InitializeServer;
+    function GetCanStart: Boolean;
 
   public
+
+    property CanStart: Boolean read GetCanStart;
     property TemporaryConnection: IDBConnection read FTemporaryConnection;
   end;
 
@@ -89,6 +93,12 @@ uses
 procedure TServerContainer.DataModuleCreate(Sender: TObject);
 begin
   InitializeConnections;
+  InitializeServer;
+end;
+
+function TServerContainer.GetCanStart: Boolean;
+begin
+  Result := Server.BaseUrl.IsEmpty = False;
 end;
 
 procedure TServerContainer.InitializeConnections;
@@ -107,13 +117,18 @@ begin
   end;
 end;
 
-procedure TServerContainer.XDataServerForwardAcceptHost(Sender: TObject; const
+procedure TServerContainer.InitializeServer;
+begin
+  Server.BaseUrl := TAppSettings.Shared.WebserviceBaseUrl;
+end;
+
+procedure TServerContainer.ServerForwardAcceptHost(Sender: TObject; const
     Value: string; var Accept: Boolean);
 begin
   Accept := True;
 end;
 
-procedure TServerContainer.XDataServerForwardAcceptProxy(Sender: TObject; const
+procedure TServerContainer.ServerForwardAcceptProxy(Sender: TObject; const
     Value: string; var Accept: Boolean);
 begin
   Accept := True;
