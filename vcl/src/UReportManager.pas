@@ -160,6 +160,7 @@ begin
       var LPLTransaction := TPLTransaction.Create;
       LPLTransaction.PaidOn := LTx.PaidOn;
       LPLTransaction.Title := LTx.Title;
+
       LPLTransaction.Amount := LTx.AmountTotal;
       LPLCategory.Transactions.Add( LPLTransaction );
 
