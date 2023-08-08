@@ -41,14 +41,12 @@ uses
   , Winapi.Windows
 
   , UCustomer
-  , uFlxDBLookupComboBox
   , UFrmBase
   , UInvoice, System.Actions, Vcl.ActnList
   ;
 
 type
   TFrmInvoice = class(TFrmBase)
-    cbCustomer: TFlxDBLookupCombobox;
     Items: TAureliusDataset;
     ItemsSelf: TAureliusEntityField;
     ItemsId: TIntegerField;
@@ -78,6 +76,7 @@ type
     btnQuickItem: TButton;
     btnBoA: TButton;
     DlgOpen: TFileOpenDialog;
+    cbCustomer: TDBLookupComboBox;
     procedure btnBoAClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);

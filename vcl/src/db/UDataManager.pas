@@ -34,8 +34,11 @@ uses
   , FireDAC.Stan.Pool
   , FireDAC.Stan.Async
   , FireDAC.VCLUI.Wait
-  , FireDAC.Comp.Client, FireDAC.Stan.ExprFuncs,
-  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.Phys.SQLiteDef, FireDAC.Phys.SQLite
+  , FireDAC.Comp.Client
+  , FireDAC.Stan.ExprFuncs
+  , FireDAC.Phys.SQLiteWrapper.Stat
+  , FireDAC.Phys.SQLiteDef
+  , FireDAC.Phys.SQLite
 
   ;
 
