@@ -88,7 +88,7 @@ var
 begin
   Result := False;
 
-  // quick sanity test that database configuration exsists
+  // quick sanity test that database configuration exists
   LParams := TStringList.Create;
   try
     FIniFile.ReadSectionValues(SECTION_DATABASE, LParams);
