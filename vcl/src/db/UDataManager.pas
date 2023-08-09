@@ -45,10 +45,10 @@ uses
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
-    MySQLDriverLink: TFDPhysMySQLDriverLink;
+    MySQLUnits: TFDPhysMySQLDriverLink;
     FDConnection: TFDConnection;
     MemConnection: TAureliusConnection;
-    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+    SQLiteUnits: TFDPhysSQLiteDriverLink;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -66,15 +66,15 @@ type
     class destructor Destroy;
     class function Shared: TDataManager;
 
+    procedure CreateDatabase;
+    procedure UpdateDatabase;
+
+    procedure CreateTemporaryDatabase;
+
     property DatabaseManager: TDatabaseManager read GetDatabaseManager;
     property ObjectManager: TObjectManager read GetObjectManager;
 
     property MemoryObjectManager: TObjectManager read GetMemoryObjectManager;
-
-    procedure UpdateDatabase;
-    procedure CreateDatabase;
-
-    procedure CreateTemporaryDatabase;
   end;
 
 var
