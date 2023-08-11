@@ -1,6 +1,6 @@
 object DataManager: TDataManager
   OnCreate = DataModuleCreate
-  Height = 304
+  Height = 252
   Width = 328
   object Connection: TAureliusConnection
     AdapterName = 'FireDac'
