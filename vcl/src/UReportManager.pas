@@ -157,12 +157,33 @@ begin
       end;
 
       // create transaction in profit loss
-      var LPLTransaction := TPLTransaction.Create;
-      LPLTransaction.PaidOn := LTx.PaidOn;
-      LPLTransaction.Title := LTx.Title;
+      if not LTx.IsMonthly then
+      begin
+        var LPLTransaction := TPLTransaction.Create;
 
-      LPLTransaction.Amount := LTx.AmountTotal;
-      LPLCategory.Transactions.Add( LPLTransaction );
+        LPLTransaction.PaidOn := LTx.PaidOn;
+        LPLTransaction.Title := LTx.Title;
+        LPLTransaction.Amount := LTx.AmountTotal;
+        LPLCategory.Transactions.Add( LPLTransaction );
+      end
+      else
+      begin
+        // monthly transactioins create multiple items in report
+        var LPaidOn: TDateTime := LTx.PaidOn;
+        var LMonth := LPaidOn.Month;
+        var LSetting := TFormatSettings.Create;
+        LSetting.ShortDateFormat := 'mmm';
+        for var m := LMonth to 12 do
+        begin
+          var LPLTx := TPLTransaction.Create;
+          var LCurrentDate := EncodeDate(LPaidOn.Year, m, LPaidOn.Day);
+          LPLTx.PaidOn := LCurrentDate;
+          LPLTx.Title := LTx.Title +
+            ' (' + DateToStr(LCurrentDate, LSetting) + ')';
+          LPLTx.Amount := LTx.Amount;
+          LPLCategory.Transactions.Add(LPLTx);
+        end;
+      end;
 
       AObjManager.Flush;
     end;
