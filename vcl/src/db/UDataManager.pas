@@ -45,10 +45,13 @@ uses
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
-    MySQLUnits: TFDPhysMySQLDriverLink;
     FDConnection: TFDConnection;
-    MemConnection: TAureliusConnection;
+
+    MySQLUnits: TFDPhysMySQLDriverLink;
     SQLiteUnits: TFDPhysSQLiteDriverLink;
+
+    MemConnection: TAureliusConnection;
+
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -91,6 +94,7 @@ uses
 
 procedure TDataManager.CreateDatabase;
 begin
+  {$IFDEF DEBUG}
   var LDatabaseManager := DatabaseManager;
   try
     LDatabaseManager.DestroyDatabase;
@@ -98,6 +102,7 @@ begin
   finally
     LDatabaseManager.Free;
   end;
+  {$ENDIF}
 end;
 
 procedure TDataManager.CreateTemporaryDatabase;
