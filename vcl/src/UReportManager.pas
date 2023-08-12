@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UReportManager;
 
 interface
@@ -121,7 +135,7 @@ begin
 
   // get all transactions that need to be considered
   // -- don't care if it is income or expense
-  //�-- also look this up in the persistent object manager
+  // -- also look this up in the persistent object manager
   var LTransactions := ObjectManager.Find<TTransaction>
     .Where(
       (Dic.Transaction.PaidOn >= self.RangeStart) AND
