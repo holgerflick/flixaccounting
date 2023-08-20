@@ -66,7 +66,7 @@ type
     ItemsId: TIntegerField;
     ItemsIdx: TIntegerField;
     ItemsCategory: TStringField;
-    ItemsTitle: TStringField;
+    ItemsDescription: TStringField;
     ItemsQuantity: TFloatField;
     ItemsValue: TFloatField;
     ItemsTotalValue: TFloatField;
@@ -192,7 +192,7 @@ end;
 
 procedure TFrmInvoice.GridItemsEditButtonClick(Sender: TObject);
 begin
-  if GridItems.SelectedField = ItemsTitle then
+  if GridItems.SelectedField = ItemsDescription then
   begin
     var LCurRow := THackDBGrid(GridItems).Row;
 
@@ -204,7 +204,7 @@ begin
 
     TFrmEditMemoField.Execute(
         self,
-        ItemsTitle,
+        ItemsDescription,
         Point( LRect.Left, LRect.Top ),
         LRect.Right - LRect.Left
         );
@@ -253,7 +253,7 @@ begin
 
       Items.Append;
       Items.FieldByName('Idx').AsInteger := LNext;
-      ItemsTitle.AsString := LQuickItem.Description;
+      ItemsDescription.AsString := LQuickItem.Description;
       ItemsCategory.AsString := LQuickItem.Category;
       ItemsQuantity.AsFloat := LQuickItem.Quantity;
       ItemsValue.AsFloat := LQuickItem.Value;

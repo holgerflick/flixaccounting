@@ -2156,4 +2156,12 @@ inherited FrmMain: TFrmMain
     Left = 632
     Top = 24
   end
+  object SelectFolder: TFileSaveDialog
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = [fdoPickFolders, fdoPathMustExist]
+    Title = 'Save model in folder'
+    Left = 728
+    Top = 80
+  end
 end

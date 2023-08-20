@@ -106,8 +106,8 @@ type
 
     FIdx: Integer;
 
-    [Column('Title',[], 5000)]
-    FTitle: String;
+    [Column('DESCRIPTION',[], 5000)]
+    FDescription: String;
     FQuantity: Double;
     FValue: Double;
     FCategory: String;
@@ -118,7 +118,7 @@ type
     property Id: Integer read FId write FId;
     property Idx: Integer read FIdx write FIdx;
     property Category: String read FCategory write FCategory;
-    property Title: String read FTitle write FTitle;
+    property Description: String read FDescription write FDescription;
     property Quantity: Double read FQuantity write FQuantity;
     property Value: Double read FValue write FValue;
 
@@ -383,20 +383,20 @@ end;
 
 function TInvoicePayments.LastPaymentDate: NullableDate;
 begin
-  Result := SNull;
-
-  for var LPayment in self do
+  if self.Count=0 then
   begin
-    if Result.IsNull then
+    Result := SNull;
+    Exit;
+  end;
+
+  Result := self.Items[0].PaidOn;
+
+  for var i := 1 to self.Count-1 do
+  begin
+    var LPayment := self.Items[i];
+    if Result < LPayment.PaidOn then
     begin
       Result := LPayment.PaidOn;
-    end
-    else
-    begin
-      if Result < LPayment.PaidOn then
-      begin
-        Result := LPayment.PaidOn;
-      end;
     end;
   end;
 end;
