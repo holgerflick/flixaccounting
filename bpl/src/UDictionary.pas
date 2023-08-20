@@ -1,17 +1,3 @@
-﻿{*******************************************************************************}
-{                                                                               }
-{  FlixAccounting Example                                                       }
-{  ----------------------                                                       }
-{                                                                               }
-{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
-{                                                                               }
-{  DISCLAIMER:                                                                  }
-{  This source code is provided as an example for educational and illustrative  }
-{  purposes only. It is not intended for production use or any specific purpose.}
-{  The author and the company disclaim all liabilities for any damages or       }
-{  losses arising from the use or misuse of this code. Use at your own risk.    }
-{                                                                               }
-{*******************************************************************************}
 unit UDictionary;
 
 interface
@@ -149,7 +135,7 @@ type
   IInvoiceItemDictionary = interface(IAureliusEntityDictionary)
     function Id: TLinqProjection;
     function Idx: TLinqProjection;
-    function Title: TLinqProjection;
+    function Description: TLinqProjection;
     function Quantity: TLinqProjection;
     function Value: TLinqProjection;
     function Category: TLinqProjection;
@@ -281,7 +267,7 @@ type
   public
     function Id: TLinqProjection;
     function Idx: TLinqProjection;
-    function Title: TLinqProjection;
+    function Description: TLinqProjection;
     function Quantity: TLinqProjection;
     function Value: TLinqProjection;
     function Category: TLinqProjection;
@@ -684,9 +670,9 @@ begin
   Result := Prop('Idx');
 end;
 
-function TInvoiceItemDictionary.Title: TLinqProjection;
+function TInvoiceItemDictionary.Description: TLinqProjection;
 begin
-  Result := Prop('Title');
+  Result := Prop('Description');
 end;
 
 function TInvoiceItemDictionary.Quantity: TLinqProjection;
