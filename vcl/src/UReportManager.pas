@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UReportManager;
 
 interface
@@ -121,7 +135,7 @@ begin
 
   // get all transactions that need to be considered
   // -- don't care if it is income or expense
-  //�-- also look this up in the persistent object manager
+  // -- also look this up in the persistent object manager
   var LTransactions := ObjectManager.Find<TTransaction>
     .Where(
       (Dic.Transaction.PaidOn >= self.RangeStart) AND
@@ -157,11 +171,33 @@ begin
       end;
 
       // create transaction in profit loss
-      var LPLTransaction := TPLTransaction.Create;
-      LPLTransaction.PaidOn := LTx.PaidOn;
-      LPLTransaction.Title := LTx.Title;
-      LPLTransaction.Amount := LTx.AmountTotal;
-      LPLCategory.Transactions.Add( LPLTransaction );
+      if not LTx.IsMonthly then
+      begin
+        var LPLTransaction := TPLTransaction.Create;
+
+        LPLTransaction.PaidOn := LTx.PaidOn;
+        LPLTransaction.Title := LTx.Title;
+        LPLTransaction.Amount := LTx.AmountTotal;
+        LPLCategory.Transactions.Add( LPLTransaction );
+      end
+      else
+      begin
+        // monthly transactioins create multiple items in report
+        var LPaidOn: TDateTime := LTx.PaidOn;
+        var LMonth := LPaidOn.Month;
+        var LSetting := TFormatSettings.Create;
+        LSetting.ShortDateFormat := 'mmm';
+        for var m := LMonth to 12 do
+        begin
+          var LPLTx := TPLTransaction.Create;
+          var LCurrentDate := EncodeDate(LPaidOn.Year, m, LPaidOn.Day);
+          LPLTx.PaidOn := LCurrentDate;
+          LPLTx.Title := LTx.Title +
+            ' (' + DateToStr(LCurrentDate, LSetting) + ')';
+          LPLTx.Amount := LTx.Amount;
+          LPLCategory.Transactions.Add(LPLTx);
+        end;
+      end;
 
       AObjManager.Flush;
     end;

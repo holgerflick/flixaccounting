@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UDataManager;
 
 interface
@@ -45,10 +59,13 @@ uses
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
-    MySQLDriverLink: TFDPhysMySQLDriverLink;
     FDConnection: TFDConnection;
+
+    MySQLUnits: TFDPhysMySQLDriverLink;
+    SQLiteUnits: TFDPhysSQLiteDriverLink;
+
     MemConnection: TAureliusConnection;
-    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -66,15 +83,15 @@ type
     class destructor Destroy;
     class function Shared: TDataManager;
 
+    procedure CreateDatabase;
+    procedure UpdateDatabase;
+
+    procedure CreateTemporaryDatabase;
+
     property DatabaseManager: TDatabaseManager read GetDatabaseManager;
     property ObjectManager: TObjectManager read GetObjectManager;
 
     property MemoryObjectManager: TObjectManager read GetMemoryObjectManager;
-
-    procedure UpdateDatabase;
-    procedure CreateDatabase;
-
-    procedure CreateTemporaryDatabase;
   end;
 
 var
@@ -91,6 +108,7 @@ uses
 
 procedure TDataManager.CreateDatabase;
 begin
+  {$IFDEF DEBUG}
   var LDatabaseManager := DatabaseManager;
   try
     LDatabaseManager.DestroyDatabase;
@@ -98,6 +116,7 @@ begin
   finally
     LDatabaseManager.Free;
   end;
+  {$ENDIF}
 end;
 
 procedure TDataManager.CreateTemporaryDatabase;

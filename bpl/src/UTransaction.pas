@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UTransaction;
 
 {$SCOPEDENUMS ON}
@@ -17,11 +31,9 @@ uses
   , System.DateUtils
 
   , UDocument
-  , UCustomer
   ;
 
 type
-
   [Automapping]
   TTransactionKind = ( Income, Expense, All ); // all is used for filtering
 
@@ -43,13 +55,10 @@ type
     FIsMonthly: Boolean;
 
     function GetMonth: Integer;
-    function GetYear: Integer;
     function GetDocument: TDocument;
     procedure SetDocument(const Value: TDocument);
     function GetMonthsPaid: Integer;
-
-  protected
-    function GetAmountTotal: Double; virtual;
+    function GetAmountTotal: Double;
 
   public
     constructor Create; overload;
@@ -67,7 +76,6 @@ type
 
     property MonthsPaid: Integer read GetMonthsPaid;
 
-    property Year: Integer read GetYear;
     property Month: Integer read GetMonth;
     property AmountTotal: Double read GetAmountTotal;
   end;
@@ -118,11 +126,6 @@ begin
   begin
     Result := 1;
   end;
-end;
-
-function TTransaction.GetYear: Integer;
-begin
-  Result := PaidOn.Year;
 end;
 
 procedure TTransaction.SetDocument(const Value: TDocument);

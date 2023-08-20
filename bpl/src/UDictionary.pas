@@ -135,7 +135,7 @@ type
   IInvoiceItemDictionary = interface(IAureliusEntityDictionary)
     function Id: TLinqProjection;
     function Idx: TLinqProjection;
-    function Title: TLinqProjection;
+    function Description: TLinqProjection;
     function Quantity: TLinqProjection;
     function Value: TLinqProjection;
     function Category: TLinqProjection;
@@ -267,7 +267,7 @@ type
   public
     function Id: TLinqProjection;
     function Idx: TLinqProjection;
-    function Title: TLinqProjection;
+    function Description: TLinqProjection;
     function Quantity: TLinqProjection;
     function Value: TLinqProjection;
     function Category: TLinqProjection;
@@ -670,9 +670,9 @@ begin
   Result := Prop('Idx');
 end;
 
-function TInvoiceItemDictionary.Title: TLinqProjection;
+function TInvoiceItemDictionary.Description: TLinqProjection;
 begin
-  Result := Prop('Title');
+  Result := Prop('Description');
 end;
 
 function TInvoiceItemDictionary.Quantity: TLinqProjection;

@@ -25,6 +25,7 @@ package FlixLLCPL.Model;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Flix Accounting Entity Model Package'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 

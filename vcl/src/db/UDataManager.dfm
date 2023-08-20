@@ -1,6 +1,6 @@
 object DataManager: TDataManager
   OnCreate = DataModuleCreate
-  Height = 304
+  Height = 252
   Width = 328
   object Connection: TAureliusConnection
     AdapterName = 'FireDac'
@@ -10,7 +10,7 @@ object DataManager: TDataManager
     Left = 48
     Top = 24
   end
-  object MySQLDriverLink: TFDPhysMySQLDriverLink
+  object MySQLUnits: TFDPhysMySQLDriverLink
     Left = 48
     Top = 152
   end
@@ -33,7 +33,7 @@ object DataManager: TDataManager
     Left = 200
     Top = 24
   end
-  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+  object SQLiteUnits: TFDPhysSQLiteDriverLink
     Left = 208
     Top = 152
   end

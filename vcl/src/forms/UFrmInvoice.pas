@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UFrmInvoice;
 
 interface
@@ -52,7 +66,7 @@ type
     ItemsId: TIntegerField;
     ItemsIdx: TIntegerField;
     ItemsCategory: TStringField;
-    ItemsTitle: TStringField;
+    ItemsDescription: TStringField;
     ItemsQuantity: TFloatField;
     ItemsValue: TFloatField;
     ItemsTotalValue: TFloatField;
@@ -178,7 +192,7 @@ end;
 
 procedure TFrmInvoice.GridItemsEditButtonClick(Sender: TObject);
 begin
-  if GridItems.SelectedField = ItemsTitle then
+  if GridItems.SelectedField = ItemsDescription then
   begin
     var LCurRow := THackDBGrid(GridItems).Row;
 
@@ -190,7 +204,7 @@ begin
 
     TFrmEditMemoField.Execute(
         self,
-        ItemsTitle,
+        ItemsDescription,
         Point( LRect.Left, LRect.Top ),
         LRect.Right - LRect.Left
         );
@@ -239,7 +253,7 @@ begin
 
       Items.Append;
       Items.FieldByName('Idx').AsInteger := LNext;
-      ItemsTitle.AsString := LQuickItem.Description;
+      ItemsDescription.AsString := LQuickItem.Description;
       ItemsCategory.AsString := LQuickItem.Category;
       ItemsQuantity.AsFloat := LQuickItem.Quantity;
       ItemsValue.AsFloat := LQuickItem.Value;
