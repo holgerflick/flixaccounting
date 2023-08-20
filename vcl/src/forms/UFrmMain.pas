@@ -1,3 +1,17 @@
+﻿{*******************************************************************************}
+{                                                                               }
+{  FlixAccounting Example                                                       }
+{  ----------------------                                                       }
+{                                                                               }
+{  Copyright (c) 2023 by Dr. Holger Flick, FlixEngineering, LLC.                }
+{                                                                               }
+{  DISCLAIMER:                                                                  }
+{  This source code is provided as an example for educational and illustrative  }
+{  purposes only. It is not intended for production use or any specific purpose.}
+{  The author and the company disclaim all liabilities for any damages or       }
+{  losses arising from the use or misuse of this code. Use at your own risk.    }
+{                                                                               }
+{*******************************************************************************}
 unit UFrmMain;
 
 interface
@@ -52,6 +66,7 @@ type
     btnApi: TButton;
     actApi: TAction;
     btnModel: TButton;
+    SelectFolder: TFileSaveDialog;
     procedure actApiExecute(Sender: TObject);
     procedure actCustomersExecute(Sender: TObject);
     procedure actExpandFormExecute(Sender: TObject);
@@ -95,9 +110,8 @@ uses
   ;
 
 resourcestring
-  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
-//  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
-  SDictionaryFileMemory  = 'C:\dev\FlixLLCPL\bpl\src\UDictionaryTemporary.pas';
+  SDictionaryFile = 'UDictionary.pas';
+  SDictionaryFileMemory  = 'UDictionaryTemporary.pas';
 
 {$R *.dfm}
 
@@ -221,16 +235,24 @@ var
 
 begin
   {$IFDEF DEBUG}
-  TDictionaryGenerator.GenerateFile(SDictionaryFile);
+  if SelectFolder.Execute then
+  begin
+    TDictionaryGenerator.GenerateFile(
+      TPath.Combine(SelectFolder.FileName, SDictionaryFile)
+      );
 
-  LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
-  try
-    LGenerator.OutputUnitName := 'UDictionaryTemporary';
-    LGenerator.GlobalVarName := 'DicTemp';
-    var LSourceCode := LGenerator.GenerateSource;
-    TFile.WriteAllText( SDictionaryFileMemory, LSourceCode );
-  finally
-    LGenerator.Free;
+    LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
+    try
+      LGenerator.OutputUnitName := 'UDictionaryTemporary';
+      LGenerator.GlobalVarName := 'DicTemp';
+      var LSourceCode := LGenerator.GenerateSource;
+      TFile.WriteAllText(
+        TPath.Combine(SelectFolder.FileName, SDictionaryFileMemory),
+        LSourceCode
+      );
+    finally
+      LGenerator.Free;
+    end;
   end;
   {$ENDIF}
 end;
