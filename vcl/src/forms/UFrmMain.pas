@@ -66,6 +66,7 @@ type
     btnApi: TButton;
     actApi: TAction;
     btnModel: TButton;
+    SelectFolder: TFileSaveDialog;
     procedure actApiExecute(Sender: TObject);
     procedure actCustomersExecute(Sender: TObject);
     procedure actExpandFormExecute(Sender: TObject);
@@ -109,9 +110,8 @@ uses
   ;
 
 resourcestring
-  SDictionaryFile = 'C:\dev\FlixLLCPL\bpl\src\UDictionary.pas';
-//  SDictionaryFile = 'D:\flixllcpl\bpl\src\UDictionary.pas';
-  SDictionaryFileMemory  = 'C:\dev\FlixLLCPL\bpl\src\UDictionaryTemporary.pas';
+  SDictionaryFile = 'UDictionary.pas';
+  SDictionaryFileMemory  = 'UDictionaryTemporary.pas';
 
 {$R *.dfm}
 
@@ -235,16 +235,24 @@ var
 
 begin
   {$IFDEF DEBUG}
-  TDictionaryGenerator.GenerateFile(SDictionaryFile);
+  if SelectFolder.Execute then
+  begin
+    TDictionaryGenerator.GenerateFile(
+      TPath.Combine(SelectFolder.FileName, SDictionaryFile)
+      );
 
-  LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
-  try
-    LGenerator.OutputUnitName := 'UDictionaryTemporary';
-    LGenerator.GlobalVarName := 'DicTemp';
-    var LSourceCode := LGenerator.GenerateSource;
-    TFile.WriteAllText( SDictionaryFileMemory, LSourceCode );
-  finally
-    LGenerator.Free;
+    LGenerator := TDictionaryGenerator.Create( TMappingExplorer.Get('Temporary') );
+    try
+      LGenerator.OutputUnitName := 'UDictionaryTemporary';
+      LGenerator.GlobalVarName := 'DicTemp';
+      var LSourceCode := LGenerator.GenerateSource;
+      TFile.WriteAllText(
+        TPath.Combine(SelectFolder.FileName, SDictionaryFileMemory),
+        LSourceCode
+      );
+    finally
+      LGenerator.Free;
+    end;
   end;
   {$ENDIF}
 end;
