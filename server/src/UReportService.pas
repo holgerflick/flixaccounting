@@ -23,13 +23,17 @@ uses
 
 type
   [ServiceContract]
-  [Route('')]
+  [Route('v1')]
   IReportService = interface(IInvokable)
     ['{170D2E6C-D884-4D79-8D72-1539DE0852DF}']
 
     [HttpGet]
     [Route('profitloss/{AToken}')]
-    function ProfitLoss(AToken: String): TProfitLossDTO;
+    function ProfitLossCurrentYear(AToken: String): TProfitLossDTO;
+
+    [HttpGet]
+    [Route('profitloss/{AToken}/{ARangeStart}/{ARangeEnd}')]
+    function ProfitLoss(AToken: String; ARangeStart, ARangeEnd: String): TProfitLossDTO;
   end;
 
 implementation
