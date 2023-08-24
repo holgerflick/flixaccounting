@@ -29,7 +29,11 @@ type
 
     [HttpGet]
     [Route('profitloss/{AToken}')]
-    function ProfitLoss(AToken: String): TProfitLossDTO;
+    function ProfitLossCurrentYear(AToken: String): TProfitLossDTO;
+
+    [HttpGet]
+    [Route('profitloss/{AToken}/{ARangeStart}/{ARangeEnd}')]
+    function ProfitLoss(AToken: String; ARangeStart, ARangeEnd: String): TProfitLossDTO;
   end;
 
 implementation
