@@ -83,9 +83,10 @@ type
     procedure InitializeConnections;
     procedure InitializeServer;
     function GetCanStart: Boolean;
+    function GetReadableBaseUrl: String;
 
   public
-
+    property ReadableBaseUrl: String read GetReadableBaseUrl;
     property CanStart: Boolean read GetCanStart;
     property TemporaryConnection: IDBConnection read FTemporaryConnection;
   end;
@@ -113,6 +114,11 @@ end;
 function TServerContainer.GetCanStart: Boolean;
 begin
   Result := Server.BaseUrl.IsEmpty = False;
+end;
+
+function TServerContainer.GetReadableBaseUrl: String;
+begin
+  Result := Server.BaseUrl.Replace('+', 'localhost');
 end;
 
 procedure TServerContainer.InitializeConnections;

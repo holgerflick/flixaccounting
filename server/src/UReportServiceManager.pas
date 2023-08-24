@@ -42,7 +42,7 @@ uses
 type
   TReportServiceManager = class
   public
-    function ProfitLoss(AToken: String): TProfitLossDTO;
+    function ProfitLoss(AToken: String; ARangeStart, ARangeEnd: TDate): TProfitLossDTO;
   end;
 
 implementation
@@ -55,7 +55,7 @@ uses
 
 { TReportServiceManager }
 
-function TReportServiceManager.ProfitLoss(AToken: String): TProfitLossDTO;
+function TReportServiceManager.ProfitLoss(AToken: String; ARangeStart, ARangeEnd: TDate): TProfitLossDTO;
 var
   LObjManager,
   LObjManagerTemp : TObjectManager;
@@ -83,6 +83,9 @@ begin
 
     LManager := TReportManager.Create(LObjManager);
     try
+      LManager.RangeStart := ARangeStart;
+      LManager.RangeEnd := ARangeEnd;
+
       var LProfitLoss := LManager.GetProfitLoss(LObjManagerTemp);
       Result := TProfitLossDTO.Create(LProfitLoss);
     finally
