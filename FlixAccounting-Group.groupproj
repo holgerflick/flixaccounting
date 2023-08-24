@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="FlxComponents\FlxComponents.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="bpl\src\FlixLLCPL.Model.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="vcl\src\FlixLLCPL.dproj">
+            <Dependencies>bpl\src\FlixLLCPL.Model.dproj</Dependencies>
+        </Projects>
+        <Projects Include="server\src\FlixLLCPLServer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FlxComponents">
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj"/>
+    </Target>
+    <Target Name="FlxComponents:Clean">
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlxComponents:Make">
+        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model:Clean">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPL_Model:Make">
+        <MSBuild Projects="bpl\src\FlixLLCPL.Model.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FlixLLCPL" DependsOnTargets="FlixLLCPL.Model">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPL:Clean" DependsOnTargets="FlixLLCPL.Model:Clean">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPL:Make" DependsOnTargets="FlixLLCPL.Model:Make">
+        <MSBuild Projects="vcl\src\FlixLLCPL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FlixLLCPLServer">
+        <MSBuild Projects="server\src\FlixLLCPLServer.dproj"/>
+    </Target>
+    <Target Name="FlixLLCPLServer:Clean">
+        <MSBuild Projects="server\src\FlixLLCPLServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FlixLLCPLServer:Make">
+        <MSBuild Projects="server\src\FlixLLCPLServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FlxComponents;FlixLLCPL_Model;FlixLLCPL;FlixLLCPLServer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FlxComponents:Clean;FlixLLCPL_Model:Clean;FlixLLCPL:Clean;FlixLLCPLServer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FlxComponents:Make;FlixLLCPL_Model:Make;FlixLLCPL:Make;FlixLLCPLServer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
