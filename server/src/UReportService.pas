@@ -23,7 +23,7 @@ uses
 
 type
   [ServiceContract]
-  [Route('')]
+  [Route('v1')]
   IReportService = interface(IInvokable)
     ['{170D2E6C-D884-4D79-8D72-1539DE0852DF}']
 
