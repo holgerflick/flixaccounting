@@ -43,4 +43,14 @@ object MainForm: TMainForm
     TabOrder = 2
     OnClick = btStopClick
   end
+  object btnSwaggerUi: TButton
+    Left = 370
+    Top = 9
+    Width = 94
+    Height = 25
+    Anchors = [akTop, akRight]
+    Caption = 'SwaggerUI'
+    TabOrder = 3
+    OnClick = btnSwaggerUiClick
+  end
 end

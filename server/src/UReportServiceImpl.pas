@@ -29,25 +29,51 @@ type
   TReportService = class(TInterfacedObject, IReportService)
 
   public
-    function ProfitLoss(AToken: String): TProfitLossDTO;
+    function ProfitLossCurrentYear(AToken: String): TProfitLossDTO;
+    function ProfitLoss(AToken: String; ARangeStart, ARangeEnd: String): TProfitLossDTO;
   end;
 
 implementation
 
 uses
-  UReportServiceManager
+    Bcl.Utils
+  , System.DateUtils
+  , UReportServiceManager
   ;
 
 { TReportService }
 
-function TReportService.ProfitLoss(AToken: String): TProfitLossDTO;
+function TReportService.ProfitLoss(AToken, ARangeStart,
+  ARangeEnd: String): TProfitLossDTO;
 var
+  LManager: TReportServiceManager;
+  LStart,
+  LEnd: TDate;
+
+begin
+  LManager := TReportServiceManager.Create;
+  try
+    LStart := TBclUtils.ISOToDate(ARangeStart);
+    LEnd := TBclUtils.ISOToDate(ARangeEnd);
+
+    Result := LManager.ProfitLoss(AToken, LStart, LEnd);
+  finally
+    LManager.Free;
+  end;
+end;
+
+function TReportService.ProfitLossCurrentYear(AToken: String): TProfitLossDTO;
+var
+  LStartOfYear,
+  LEndOfYear: TDate;
   LManager: TReportServiceManager;
 
 begin
   LManager := TReportServiceManager.Create;
   try
-    Result := LManager.ProfitLoss(AToken);
+    LStartOfYear := TDateTime.NowUtc.StartOfTheYear;
+    LEndOfYear := TDateTime.NowUtc.EndOfTheYear;
+    Result := LManager.ProfitLoss(AToken, LStartOfYear, LEndOfYear);
   finally
     LManager.Free;
   end;

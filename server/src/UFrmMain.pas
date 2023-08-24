@@ -38,6 +38,8 @@ type
     mmInfo: TMemo;
     btStart: TButton;
     btStop: TButton;
+    btnSwaggerUi: TButton;
+    procedure btnSwaggerUiClick(Sender: TObject);
     procedure btStartClick(ASender: TObject);
     procedure btStopClick(ASender: TObject);
     procedure FormCreate(ASender: TObject);
@@ -50,11 +52,22 @@ var
 
 implementation
 
+uses
+    Winapi.ShellAPI
+  ;
+
 {$R *.dfm}
 
 resourcestring
   SServerStopped = 'Server stopped';
   SServerStartedAt = 'Server started at ';
+
+procedure TMainForm.btnSwaggerUiClick(Sender: TObject);
+begin
+  ShellExecute(0, 'open'
+    , pChar(ServerContainer.ReadableBaseUrl + 'swaggerui')
+    , '', '', SW_SHOWNORMAL);
+end;
 
 { TMainForm }
 
@@ -76,16 +89,11 @@ begin
 end;
 
 procedure TMainForm.UpdateGUI;
-const
-  cHttp = 'http://+';
-  cHttpLocalhost = 'http://localhost';
 begin
   btStart.Enabled := not ServerContainer.SparkleHttpSysDispatcher.Active;
   btStop.Enabled := not btStart.Enabled;
   if ServerContainer.SparkleHttpSysDispatcher.Active then
-    mmInfo.Lines.Add(SServerStartedAt + StringReplace(
-      ServerContainer.Server.BaseUrl,
-      cHttp, cHttpLocalhost, [rfIgnoreCase]))
+    mmInfo.Lines.Add(SServerStartedAt + ServerContainer.ReadableBaseUrl)
   else
     mmInfo.Lines.Add(SServerStopped);
 end;
