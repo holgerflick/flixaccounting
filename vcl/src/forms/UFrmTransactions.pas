@@ -17,24 +17,16 @@ unit UFrmTransactions;
 interface
 
 uses
-    AdvGrid
-  , AdvObj
-  , AdvUtil
-  , AsgLinks
-
-  , Aurelius.Bind.BaseDataset
+    Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
 
-  , BaseGrid
-
   , Data.DB
-
-  , DBAdvGrid
 
   , System.Classes
   , System.SysUtils
   , System.Variants
+  , System.Actions
 
   , Vcl.Controls
   , Vcl.DBCtrls
@@ -46,12 +38,13 @@ uses
   , Vcl.Grids
   , Vcl.Menus
   , Vcl.StdCtrls
+  , Vcl.ActnList
 
   , Winapi.Messages
   , Winapi.Windows
 
   , UFrmBase
-  , UTransaction, System.Actions, Vcl.ActnList
+  , UTransaction
   ;
 
 
@@ -71,7 +64,6 @@ type
     dbTransactionsMonthsPaid: TIntegerField;
     dbTransactionsAmountTotal: TFloatField;
     sourceTransactions: TDataSource;
-    Grid: TDBAdvGrid;
     btnImport: TButton;
     DlgOpen: TFileOpenDialog;
     rbFilterKind: TRadioGroup;
@@ -80,6 +72,7 @@ type
     menTxKindExpenses: TMenuItem;
     DBNavigator1: TDBNavigator;
     dbTransactionsKindEnumName: TStringField;
+    Transactions: TDBGrid;
     procedure btnImportClick(Sender: TObject);
     procedure dbTransactionsNewRecord(DataSet: TDataSet);
     procedure dbTransactionsPercentageGetText(Sender: TField; var Text: string;
@@ -197,8 +190,8 @@ end;
 
 procedure TFrmTransactions.InitGrid;
 begin
-  TGridUtils.UseMonospaceFont(Grid.Columns);
-  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
+  TGridUtils.UseMonospaceFont(Transactions.Columns);
+  TGridUtils.UseDefaultHeaderFont(Transactions.Columns);
 end;
 
 procedure TFrmTransactions.OpenDataset;
