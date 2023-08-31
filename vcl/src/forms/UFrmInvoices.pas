@@ -17,18 +17,10 @@ unit UFrmInvoices;
 interface
 
 uses
-    AdvGrid
-  , AdvObj
-  , AdvUtil
-
-  , Aurelius.Bind.BaseDataset
+    Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
 
-  , BaseGrid
-
   , Data.DB
-
-  , DBAdvGrid
 
   , System.Actions
   , System.Classes
@@ -48,6 +40,7 @@ uses
   , Vcl.ImgList
   , Vcl.StdCtrls
   , Vcl.VirtualImageList
+  , Vcl.DBGrids
 
   , Winapi.Messages
   , Winapi.Windows
@@ -57,7 +50,6 @@ uses
 
 type
   TFrmInvoices = class(TFrmBase)
-    GridInvoices: TDBAdvGrid;
     Invoices: TAureliusDataset;
     sourceInvoices: TDataSource;
     InvoicesSelf: TAureliusEntityField;
@@ -95,6 +87,7 @@ type
     Images: TVirtualImageList;
     btnApiToken: TButton;
     actInvoiceApiToken: TAction;
+    GridInvoices: TDBGrid;
     procedure actInvoiceApiTokenExecute(Sender: TObject);
     procedure actInvoiceDeleteExecute(Sender: TObject);
     procedure actInvoiceDeleteUpdate(Sender: TObject);
