@@ -131,9 +131,6 @@
         <DCCReference Include="forms\UFrmInvoice.pas">
             <Form>FrmInvoice</Form>
         </DCCReference>
-        <DCCReference Include="recycle\UFrmInvoiceGrid.pas">
-            <Form>FrmBase1</Form>
-        </DCCReference>
         <DCCReference Include="UInvoicePrinter.pas"/>
         <DCCReference Include="forms\UFrmEditMemoField.pas">
             <Form>FrmEditMemoField</Form>
