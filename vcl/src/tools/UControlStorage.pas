@@ -75,6 +75,7 @@ type
 
     [ManyValuedAssociation([TAssociationProp.Lazy], CascadeTypeAllRemoveOrphan, 'FOwner')]
     FChildren: Proxy<TCSControls>;
+    FUserName: String;
     function GetChildren: TCSControls;
 
   public
@@ -89,6 +90,8 @@ type
     property Id: Integer read FId write FId;
 
     property Name: String read FName write FName;
+
+    property UserName: String read FUserName write FUserName;
 
     property Owner: TCSControl read FOwner write FOwner;
     property Children: TCSControls read GetChildren;
@@ -193,6 +196,7 @@ implementation
 
 uses
     UDictionary
+  , UAppGlobals
   , UDataManager
   , UFrmBase
 
@@ -331,7 +335,10 @@ begin
   // form is a control like any other - just has children
 
   var LForm := ObjectManager.Find<TCSControl>
-    .Where(Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm) )
+    .Where(
+      (Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm)) AND
+      (Dic.CSControl.UserName = TAppGlobals.UserName)
+    )
     .UniqueResult
     ;
 
@@ -339,6 +346,7 @@ begin
   begin
     LForm := TCSControl.Create;
     LForm.Name := TFormStorageUtils.ControlToName(AForm);
+    LForm.UserName := TAppGlobals.UserName;
     ObjectManager.Save(LForm);
   end;
 
@@ -427,7 +435,10 @@ var
 begin
   // look up form an if it exists, update all controls associated with it
   LForm := ObjectManager.Find<TCSControl>
-    .Where(Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm) )
+    .Where(
+      (Dic.CSControl.Name = TFormStorageUtils.ControlToName(AForm)) AND
+      (Dic.CSControl.UserName = TAppGlobals.UserName)
+    )
     .UniqueResult
     ;
 

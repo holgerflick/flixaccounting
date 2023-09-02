@@ -68,6 +68,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function ColumnDefinition: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
@@ -80,6 +81,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
   end;
@@ -100,6 +102,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
     function Columns: ICSDBGridColumnDictionary;
@@ -193,6 +196,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function ColumnDefinition: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
@@ -206,6 +210,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
   end;
@@ -228,6 +233,7 @@ type
     function Width: TLinqProjection;
     function Height: TLinqProjection;
     function Name: TLinqProjection;
+    function UserName: TLinqProjection;
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
     function Columns: ICSDBGridColumnDictionary;
@@ -426,6 +432,11 @@ begin
   Result := Prop('Name');
 end;
 
+function TCSAdvStringGridDictionary.UserName: TLinqProjection;
+begin
+  Result := Prop('UserName');
+end;
+
 function TCSAdvStringGridDictionary.ColumnDefinition: TLinqProjection;
 begin
   Result := Prop('ColumnDefinition');
@@ -471,6 +482,11 @@ end;
 function TCSControlDictionary.Name: TLinqProjection;
 begin
   Result := Prop('Name');
+end;
+
+function TCSControlDictionary.UserName: TLinqProjection;
+begin
+  Result := Prop('UserName');
 end;
 
 function TCSControlDictionary.Owner: ICSControlDictionary;
@@ -545,6 +561,11 @@ end;
 function TCSDBGridControlDictionary.Name: TLinqProjection;
 begin
   Result := Prop('Name');
+end;
+
+function TCSDBGridControlDictionary.UserName: TLinqProjection;
+begin
+  Result := Prop('UserName');
 end;
 
 function TCSDBGridControlDictionary.Owner: ICSControlDictionary;
