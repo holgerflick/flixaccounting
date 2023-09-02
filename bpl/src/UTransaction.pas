@@ -64,6 +64,13 @@ type
     constructor Create; overload;
     constructor Create( AKind: TTransactionKind ); overload;
 
+    // == for completeness more complex methods for multiple years and
+    //    ranges
+    //  - by definition monthly transactions end with the calendar year
+    //    they are defined in
+    //  - this method will not be required for any of the following examples
+    function GetEffectiveAmount(ARangeStart, ARangeStop: TDateTime): Double;
+
     property Id: Integer read FId write FId;
     property Kind: TTransactionKind read FKind write FKind;
     property PaidOn: TDateTime read FPaidOn write FPaidOn;
@@ -77,6 +84,8 @@ type
     property MonthsPaid: Integer read GetMonthsPaid;
 
     property Month: Integer read GetMonth;
+
+    // until the end of the year of the transaction
     property AmountTotal: Double read GetAmountTotal;
   end;
 
@@ -109,6 +118,56 @@ end;
 function TTransaction.GetDocument: TDocument;
 begin
   Result := FDocument.Value;
+end;
+
+function TTransaction.GetEffectiveAmount(ARangeStart,
+  ARangeStop: TDateTime): Double;
+var
+  LMonthEff,
+  LMonthStart,
+  LMonthEnd: Word;
+
+begin
+  Result := 0;
+
+  // only valid ranges
+  if ARangeStop < ARangeStart then
+  begin
+    Exit;
+  end;
+
+  // only consider the year the transaction was defined in
+  if ARangeStart.Year <> PaidOn.Year then
+  begin
+    Exit;
+  end;
+
+  LMonthStart := ARangeStart.Month;
+
+  // if the day in the first month has occurred out of range, increase number
+  if ARangeStart.Day > PaidOn.Day  then
+  begin
+    Inc(LMonthStart);
+  end;
+
+  if ARangeStop.Year <> PaidOn.Year then
+  begin
+    LMonthEnd := 12;
+  end
+  else
+  begin
+    LMonthEnd := ARangeStop.Month;
+
+    // if the day in the last month has not occured, reduce number
+    if ARangeStop.Day < PaidOn.Day then
+    begin
+      Dec(LMonthEnd);
+    end;
+  end;
+
+  LMonthEff := LMonthEnd - LMonthStart + 1;
+
+  Result := LMonthEff * Amount;
 end;
 
 function TTransaction.GetMonth: Integer;
