@@ -2021,7 +2021,7 @@ inherited FrmMain: TFrmMain
           end>
       end>
     InterpolationMode = icIMFant
-    Left = 552
+    Left = 560
     Top = 80
   end
   object Images: TVirtualImageList [9]
@@ -2060,8 +2060,8 @@ inherited FrmMain: TFrmMain
     ImageCollection = Collection
     Width = 32
     Height = 32
-    Left = 552
-    Top = 24
+    Left = 560
+    Top = 16
   end
   object Actions: TActionList [10]
     Images = Images
@@ -2154,13 +2154,13 @@ inherited FrmMain: TFrmMain
     Width = 32
     Height = 32
     Left = 632
-    Top = 24
+    Top = 16
   end
   object SelectFolder: TFileOpenDialog
     FavoriteLinks = <>
     FileTypes = <>
     Options = [fdoPickFolders, fdoPathMustExist]
-    Left = 728
-    Top = 88
+    Left = 704
+    Top = 80
   end
 end

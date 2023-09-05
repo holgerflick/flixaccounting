@@ -38,7 +38,138 @@ inherited FrmInvoice: TFrmInvoice
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 4
   end
-  object GridItems: TDBGrid [3]
+  object dateIssued: TAdvDBDateTimePicker [3]
+    Left = 466
+    Top = 32
+    Width = 129
+    Height = 29
+    Anchors = [akTop, akRight]
+    Date = 45114.000000000000000000
+    Format = ''
+    Time = 0.555729166670062100
+    DoubleBuffered = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Kind = dkDate
+    ParentDoubleBuffered = False
+    ParentFont = False
+    TabOrder = 2
+    BorderStyle = bsSingle
+    Ctl3D = True
+    DateTime = 45114.555729166670000000
+    Version = '1.3.6.6'
+    LabelCaption = 'Date'
+    LabelPosition = lpTopLeft
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -16
+    LabelFont.Name = 'Segoe UI'
+    LabelFont.Style = [fsBold]
+    DataField = 'IssuedOn'
+    DataSource = sourceInvoices
+  end
+  object cbCustomer: TDBLookupComboBox [4]
+    Left = 8
+    Top = 32
+    Width = 325
+    Height = 29
+    Anchors = [akLeft, akTop, akRight]
+    DataField = 'Customer'
+    KeyField = 'Self'
+    ListField = 'Name'
+    ListSource = sourceCustomers
+    TabOrder = 0
+  end
+  object dateDueOn: TAdvDBDateTimePicker [5]
+    Left = 601
+    Top = 32
+    Width = 129
+    Height = 29
+    Anchors = [akTop, akRight]
+    Date = 45114.000000000000000000
+    Format = ''
+    Time = 0.555729166670062100
+    DoubleBuffered = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Kind = dkDate
+    ParentDoubleBuffered = False
+    ParentFont = False
+    TabOrder = 3
+    BorderStyle = bsSingle
+    Ctl3D = True
+    DateTime = 45114.555729166670000000
+    Version = '1.3.6.6'
+    LabelCaption = 'Due on'
+    LabelPosition = lpTopLeft
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -16
+    LabelFont.Name = 'Segoe UI'
+    LabelFont.Style = [fsBold]
+    DataField = 'DueOn'
+    DataSource = sourceInvoices
+  end
+  object btnQuickItem: TButton [6]
+    Left = 8
+    Top = 464
+    Width = 129
+    Height = 33
+    Anchors = [akLeft, akBottom]
+    Cancel = True
+    Caption = '&Quick Item...'
+    TabOrder = 6
+    OnClick = btnQuickItemClick
+  end
+  object btnBoA: TButton [7]
+    Left = 143
+    Top = 464
+    Width = 145
+    Height = 32
+    Anchors = [akLeft, akBottom]
+    Caption = 'Import BoA...'
+    TabOrder = 7
+    OnClick = btnBoAClick
+  end
+  object txtNumber: TDBAdvEdit [8]
+    Left = 339
+    Top = 32
+    Width = 121
+    Height = 29
+    EditType = etNumeric
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'Number'
+    LabelPosition = lpTopLeft
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -16
+    LabelFont.Name = 'Segoe UI'
+    LabelFont.Style = [fsBold]
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Segoe UI'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    Anchors = [akTop, akRight]
+    Color = clWindow
+    TabOrder = 1
+    Text = '0'
+    Visible = True
+    Version = '4.0.4.3'
+    DataField = 'Number'
+    DataSource = sourceInvoices
+  end
+  object GridItems: TDBGrid [9]
     Left = 8
     Top = 99
     Width = 722
@@ -115,137 +246,6 @@ inherited FrmInvoice: TFrmInvoice
         Title.Caption = 'Total'
         Visible = True
       end>
-  end
-  object txtNumber: TDBAdvEdit [4]
-    Left = 339
-    Top = 32
-    Width = 121
-    Height = 29
-    EditType = etNumeric
-    EmptyTextStyle = []
-    FlatLineColor = 11250603
-    FocusColor = clWindow
-    FocusFontColor = 3881787
-    LabelCaption = 'Number'
-    LabelPosition = lpTopLeft
-    LabelFont.Charset = DEFAULT_CHARSET
-    LabelFont.Color = clWindowText
-    LabelFont.Height = -16
-    LabelFont.Name = 'Segoe UI'
-    LabelFont.Style = [fsBold]
-    Lookup.Font.Charset = DEFAULT_CHARSET
-    Lookup.Font.Color = clWindowText
-    Lookup.Font.Height = -11
-    Lookup.Font.Name = 'Segoe UI'
-    Lookup.Font.Style = []
-    Lookup.Separator = ';'
-    Anchors = [akTop, akRight]
-    Color = clWindow
-    TabOrder = 1
-    Text = '0'
-    Visible = True
-    Version = '4.0.4.2'
-    DataField = 'Number'
-    DataSource = sourceInvoices
-  end
-  object dateIssued: TAdvDBDateTimePicker [5]
-    Left = 466
-    Top = 32
-    Width = 129
-    Height = 29
-    Anchors = [akTop, akRight]
-    Date = 45114.000000000000000000
-    Format = ''
-    Time = 0.555729166670062100
-    DoubleBuffered = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Kind = dkDate
-    ParentDoubleBuffered = False
-    ParentFont = False
-    TabOrder = 2
-    BorderStyle = bsSingle
-    Ctl3D = True
-    DateTime = 45114.555729166670000000
-    Version = '1.3.6.6'
-    LabelCaption = 'Date'
-    LabelPosition = lpTopLeft
-    LabelFont.Charset = DEFAULT_CHARSET
-    LabelFont.Color = clWindowText
-    LabelFont.Height = -16
-    LabelFont.Name = 'Segoe UI'
-    LabelFont.Style = [fsBold]
-    DataField = 'IssuedOn'
-    DataSource = sourceInvoices
-  end
-  object cbCustomer: TDBLookupComboBox [6]
-    Left = 8
-    Top = 32
-    Width = 325
-    Height = 29
-    Anchors = [akLeft, akTop, akRight]
-    DataField = 'Customer'
-    KeyField = 'Self'
-    ListField = 'Name'
-    ListSource = sourceCustomers
-    TabOrder = 0
-  end
-  object btnBoA: TButton [7]
-    Left = 143
-    Top = 464
-    Width = 145
-    Height = 32
-    Anchors = [akLeft, akBottom]
-    Caption = 'Import BoA...'
-    TabOrder = 7
-    OnClick = btnBoAClick
-  end
-  object dateDueOn: TAdvDBDateTimePicker [8]
-    Left = 601
-    Top = 32
-    Width = 129
-    Height = 29
-    Anchors = [akTop, akRight]
-    Date = 45114.000000000000000000
-    Format = ''
-    Time = 0.555729166670062100
-    DoubleBuffered = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Kind = dkDate
-    ParentDoubleBuffered = False
-    ParentFont = False
-    TabOrder = 3
-    BorderStyle = bsSingle
-    Ctl3D = True
-    DateTime = 45114.555729166670000000
-    Version = '1.3.6.6'
-    LabelCaption = 'Due on'
-    LabelPosition = lpTopLeft
-    LabelFont.Charset = DEFAULT_CHARSET
-    LabelFont.Color = clWindowText
-    LabelFont.Height = -16
-    LabelFont.Name = 'Segoe UI'
-    LabelFont.Style = [fsBold]
-    DataField = 'DueOn'
-    DataSource = sourceInvoices
-  end
-  object btnQuickItem: TButton [9]
-    Left = 8
-    Top = 464
-    Width = 129
-    Height = 33
-    Anchors = [akLeft, akBottom]
-    Cancel = True
-    Caption = '&Quick Item...'
-    TabOrder = 6
-    OnClick = btnQuickItemClick
   end
   object Items: TAureliusDataset
     FieldDefs = <

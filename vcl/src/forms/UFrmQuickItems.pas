@@ -91,9 +91,6 @@ procedure TFrmQuickItems.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
-  TGridUtils.UseDefaultFont(Grid.Columns);
-
   txtDescription.Font.Name := TAppGlobals.DefaultGridMonospaceFontName;
   txtDescription.Font.Size := TAppGlobals.DefaultGridFontSize;
 

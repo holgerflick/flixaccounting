@@ -23,7 +23,9 @@ uses
   , System.SysUtils
   , System.Variants
   , System.Classes
+  , System.Actions
 
+  , Vcl.ActnList
   , Vcl.Graphics
   , Vcl.Controls
   , Vcl.Forms
@@ -44,7 +46,7 @@ uses
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
   , Aurelius.Criteria.Expression
-  , Aurelius.Criteria.Projections, System.Actions, Vcl.ActnList
+  , Aurelius.Criteria.Projections
 
   ;
 
@@ -64,7 +66,6 @@ type
     procedure CustomersBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
   private
-    procedure InitGrid;
     procedure OpenDataset;
 
   public
@@ -111,14 +112,7 @@ begin
 
   self.Caption := 'Customers';
 
-  InitGrid;
   OpenDataset;
-end;
-
-procedure TFrmCustomer.InitGrid;
-begin
-  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
-  TGridUtils.UseDefaultFont(Grid.Columns);
 end;
 
 procedure TFrmCustomer.OpenDataset;

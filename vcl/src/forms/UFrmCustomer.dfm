@@ -56,8 +56,8 @@ inherited FrmCustomer: TFrmCustomer
     DataSource = sourceCustomers
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Segoe Print'
+    Font.Height = -15
+    Font.Name = 'Noto Sans'
     Font.Style = []
     ParentFont = False
     TabOrder = 2

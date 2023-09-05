@@ -77,6 +77,7 @@ uses
     UAppGlobals
   , UAppSettings
   , UControlStorage
+  , UGridUtils
   ;
 
 {$R *.dfm}
@@ -97,6 +98,8 @@ begin
   FStoreControls := True;
 
   inherited;
+
+  TGridUtils.UseDefaultFonts(self);
 
   TFormStorageManager.Shared.RestoreForm(self);
 
