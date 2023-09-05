@@ -105,8 +105,6 @@ procedure TFrmReportCustomers.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  TGridUtils.UseDefaultFonts( self );
-
   FReportManager := TReportManager.Create(ObjectManager);
   sourceCustomers.DataSet := FReportManager.CustomerReport;
   sourceInvoices.DataSet := FReportManager.CRInvoiceTotals;

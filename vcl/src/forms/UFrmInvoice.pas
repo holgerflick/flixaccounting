@@ -103,6 +103,7 @@ type
 
     procedure Post;
     procedure Cancel;
+    procedure InitGrid;
 
     procedure QuickItems;
 
@@ -138,8 +139,11 @@ begin
   end;
 end;
 
-constructor TFrmInvoice.Create(AOwner: TComponent; AObjManager: TObjectManager;
-    ADataSource: TDataSource);
+constructor TFrmInvoice.Create(
+  AOwner: TComponent;
+  AObjManager: TObjectManager;
+  ADataSource: TDataSource
+  );
 begin
   inherited Create( AOwner );
 
@@ -151,13 +155,7 @@ begin
   dateIssued.DataSource := ADataSource;
   dateDueOn.DataSource := ADataSource;
 
-  TGridUtils.UseDefaultHeaderFont(GridItems.Columns);
-  TGridUtils.UseDefaultFont(GridItems.Columns);
-
-  for var c := 3 to 5 do
-  begin
-    TGridUtils.UseMonospaceFont( GridItems.Columns[c] );
-  end;
+  InitGrid;
 
   OpenDatasets;
 end;
@@ -208,6 +206,14 @@ begin
         Point( LRect.Left, LRect.Top ),
         LRect.Right - LRect.Left
         );
+  end;
+end;
+
+procedure TFrmInvoice.InitGrid;
+begin
+  for var c := 3 to 5 do
+  begin
+    TGridUtils.UseMonospaceFont( GridItems.Columns[c] );
   end;
 end;
 

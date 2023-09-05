@@ -28,6 +28,7 @@ uses
   , System.SysUtils
   , System.Variants
   , System.Classes
+  , System.Actions
 
   , Vcl.Graphics
   , Vcl.Controls
@@ -37,11 +38,11 @@ uses
   , Vcl.DBGrids
   , Vcl.StdCtrls
   , Vcl.ExtCtrls
+  , Vcl.ActnList
 
   , Data.DB
 
   , UDataImportManager
-
   ;
 
 

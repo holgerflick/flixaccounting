@@ -191,7 +191,6 @@ end;
 procedure TFrmTransactions.InitGrid;
 begin
   TGridUtils.UseMonospaceFont(Transactions.Columns);
-  TGridUtils.UseDefaultHeaderFont(Transactions.Columns);
 end;
 
 procedure TFrmTransactions.OpenDataset;

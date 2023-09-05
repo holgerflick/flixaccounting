@@ -6,7 +6,7 @@ inherited FrmReportImport: TFrmReportImport
   ExplicitWidth = 905
   ExplicitHeight = 687
   TextHeight = 21
-  object Splitter1: TSplitter
+  object Splitter1: TSplitter [0]
     Left = 0
     Top = 322
     Width = 889
@@ -15,7 +15,7 @@ inherited FrmReportImport: TFrmReportImport
     Align = alBottom
     ExplicitTop = 204
   end
-  object panDuplicates: TPanel
+  object panDuplicates: TPanel [1]
     Left = 0
     Top = 328
     Width = 889
@@ -49,7 +49,7 @@ inherited FrmReportImport: TFrmReportImport
       TabOrder = 0
     end
   end
-  object Panel2: TPanel
+  object Panel2: TPanel [2]
     Left = 0
     Top = 592
     Width = 889
@@ -72,7 +72,7 @@ inherited FrmReportImport: TFrmReportImport
       TabOrder = 0
     end
   end
-  object panErrors: TPanel
+  object panErrors: TPanel [3]
     Left = 0
     Top = 0
     Width = 889

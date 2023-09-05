@@ -32,7 +32,9 @@ uses
   , System.ImageList
   , System.SysUtils
   , System.Variants
+  , System.Actions
 
+  , Vcl.ActnList
   , Vcl.BaseImageCollection
   , Vcl.Controls
   , Vcl.DBCtrls
@@ -50,10 +52,8 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, System.Actions, Vcl.ActnList
+  , UFrmBase
   ;
-
-
 
 type
   TFrmPayments = class(TFrmBase)
@@ -114,7 +114,6 @@ begin
   FDataset := ADataSource.DataSet as TAureliusDataset;
   FDataSource := ADataSource;
 
-  TGridUtils.UseDefaultHeaderFont(GridPayments.Columns);
   TGridUtils.UseMonospaceFont(GridPayments.Columns);
 
   Payments.Close;

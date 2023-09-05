@@ -129,10 +129,12 @@ procedure TFrmMain.actExpandFormExecute(Sender: TObject);
 begin
   if self.ClientHeight < btnDictionary.Top then
   begin
+    // show bottom row
     self.ClientHeight := btnDictionary.Top + btnDictionary.Height + 10;
   end
   else
   begin
+    // hide bottom row
     self.ClientHeight := btnDictionary.Top - 7;
   end;
 end;
@@ -185,6 +187,7 @@ end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
 begin
+  self.BorderStyle := bsDialog;
   self.ClientWidth := btnApi.Left + btnApi.Width + 10;
   self.ClientHeight := btnDictionary.Top - 7;
 end;
