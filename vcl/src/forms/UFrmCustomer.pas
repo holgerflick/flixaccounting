@@ -54,15 +54,13 @@ type
   TFrmCustomer = class(TFrmBase)
     Grid: TDBGrid;
     Customers: TAureliusDataset;
-    CustomersSelf: TAureliusEntityField;
-    CustomersId: TIntegerField;
     CustomersName: TStringField;
-    CustomersAddress: TStringField;
     CustomersEmail: TStringField;
     sourceCustomers: TDataSource;
     txtAddress: TDBMemo;
     CustomersContact: TStringField;
     DBNavigator1: TDBNavigator;
+    CustomersAddress: TStringField;
     procedure CustomersBeforePost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
   private
