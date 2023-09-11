@@ -18,7 +18,6 @@ uses
   UFrmCustomer in 'forms\UFrmCustomer.pas' {FrmCustomer},
   UFrmInvoices in 'forms\UFrmInvoices.pas' {FrmInvoices},
   UFrmInvoice in 'forms\UFrmInvoice.pas' {FrmInvoice},
-  UFrmInvoiceGrid in 'recycle\UFrmInvoiceGrid.pas' {FrmBase1},
   UInvoicePrinter in 'UInvoicePrinter.pas',
   UFrmEditMemoField in 'forms\UFrmEditMemoField.pas' {FrmEditMemoField},
   UFrmReportPreview in 'forms\UFrmReportPreview.pas' {FrmReportPreview},
@@ -50,7 +49,7 @@ begin
     Application.Initialize;
     Application.MainFormOnTaskbar := True;
     Application.CreateForm(TFrmMain, FrmMain);
-    Application.Run;
+  Application.Run;
   end
   else
   begin
