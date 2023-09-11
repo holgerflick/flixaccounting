@@ -61,8 +61,6 @@ inherited FrmCustomer: TFrmCustomer
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = 827
-    ExplicitHeight = 463
   end
   object DBNavigator1: TDBNavigator [2]
     Left = 8
@@ -73,7 +71,6 @@ inherited FrmCustomer: TFrmCustomer
     VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ExplicitWidth = 1100
   end
   inherited actFrmBase: TActionList
     Left = 48
