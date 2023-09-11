@@ -119,9 +119,32 @@ begin
   Customers.DefaultsFromObject := True;
   Customers.Manager := self.ObjectManager;
 
+  // -- list
+  {
   Customers.SetSourceList(
-    self.ObjectManager.Find<TCustomer>
-      .OrderBy(Dic.Customer.Name, True ).List, True );
+    self.ObjectManager
+     .Find<TCustomer>
+     .OrderBy(Dic.Customer.Name, True )
+     .List
+    , True
+  );
+  }
+  // -- cursor
+  Customers.SetSourceCursor(
+    self.ObjectManager
+     .Find<TCustomer>
+     .OrderBy(Dic.Customer.Name, True )
+     .Open
+  );
+
+  // -- paging
+  {
+  Customers.SetSourceCriteria(
+    self.ObjectManager
+      .Find<TCustomer>
+      .OrderBy(Dic.Customer.Name, True )
+    , 50 );
+  }
 
   Customers.Active := True;
 end;
