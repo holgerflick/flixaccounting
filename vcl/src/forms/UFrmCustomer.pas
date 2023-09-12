@@ -62,6 +62,7 @@ type
     DBNavigator1: TDBNavigator;
     CustomersAddress: TStringField;
     procedure CustomersBeforePost(DataSet: TDataSet);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
     procedure OpenDataset;
@@ -102,6 +103,13 @@ begin
       LBuffer.Free;
     end;
   end;
+end;
+
+procedure TFrmCustomer.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Customers.Close;
+
+  inherited;
 end;
 
 procedure TFrmCustomer.FormCreate(Sender: TObject);
