@@ -3,6 +3,7 @@ inherited FrmCustomer: TFrmCustomer
   Caption = 'FrmCustomer'
   ClientHeight = 239
   ClientWidth = 842
+  OnClose = FormClose
   ExplicitWidth = 858
   ExplicitHeight = 278
   TextHeight = 21
