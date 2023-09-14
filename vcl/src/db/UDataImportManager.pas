@@ -30,6 +30,7 @@ uses
   , UDataManager
   , UDocument
   , UTransaction
+  , UDictionary
 
   ;
 
@@ -54,8 +55,6 @@ type
     FIsMonthly: Boolean;
     FOriginalFileName: String;
     FPercentage: Double;
-
-  private
 
     function GetHasValidDate: Boolean;
   public
@@ -88,7 +87,7 @@ type
 
     procedure SetDuplicates(const Value: TStringList);
     function FileIsInDatabase( AFile: String ): Boolean;
-  private
+
     function GetHasNoErrors: Boolean;
   public
     constructor Create(AManager: TObjectManager);
@@ -140,7 +139,7 @@ end;
 function TDataImportManager.FileIsInDatabase(AFile: String): Boolean;
 begin
   var LDocument := FManager.Find<TDocument>
-    .Where( Linq['OriginalFilename'] = AFile )
+    .Where( Dic.Document.OriginalFilename = AFile )
     .UniqueResult
     ;
 
