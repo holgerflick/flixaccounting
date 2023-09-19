@@ -3,8 +3,10 @@ inherited FrmReportImport: TFrmReportImport
   Caption = 'Report of Import'
   ClientHeight = 648
   ClientWidth = 889
-  ExplicitWidth = 905
-  ExplicitHeight = 687
+  ExplicitLeft = 3
+  ExplicitTop = 3
+  ExplicitWidth = 911
+  ExplicitHeight = 704
   TextHeight = 21
   object Splitter1: TSplitter [0]
     Left = 0
