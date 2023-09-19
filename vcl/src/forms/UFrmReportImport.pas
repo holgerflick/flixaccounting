@@ -97,10 +97,12 @@ end;
 
 procedure TFrmReportImport.UpdateInterface;
 begin
+  // show errors
   dbErrors.Close;
   dbErrors.SetSourceList( Manager.ImportErrors, False );
   dbErrors.Open;
 
+  // show duplicates
   Duplicates.Items.Assign( Manager.Duplicates );
 end;
 

@@ -6,8 +6,10 @@ inherited FrmMain: TFrmMain
   Font.Height = -12
   StyleElements = [seFont, seClient]
   OnShow = FormShow
-  ExplicitWidth = 825
-  ExplicitHeight = 190
+  ExplicitLeft = 3
+  ExplicitTop = 3
+  ExplicitWidth = 831
+  ExplicitHeight = 207
   TextHeight = 15
   object btnTransactions: TButton [0]
     Left = 114
