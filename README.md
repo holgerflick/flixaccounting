@@ -11,3 +11,4 @@ By using the software example provided with this book, you agree to waive any cl
 
 Please treat the software example as a learning tool and exercise caution while applying any accounting practices in real-world scenarios.
 
+.
