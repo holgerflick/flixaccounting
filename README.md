@@ -10,5 +10,3 @@ Before implementing any accounting system for real-world applications, it is str
 By using the software example provided with this book, you agree to waive any claims against the author and publisher regarding its suitability, functionality, or any adverse effects it may have on your financial operations.
 
 Please treat the software example as a learning tool and exercise caution while applying any accounting practices in real-world scenarios.
-
-.
