@@ -10,18 +10,19 @@ inherited FrmReportImport: TFrmReportImport
   TextHeight = 21
   object Splitter1: TSplitter [0]
     Left = 0
-    Top = 322
-    Width = 889
+    Top = 162
+    Width = 797
     Height = 6
     Cursor = crVSplit
     Align = alBottom
     ExplicitTop = 204
+    ExplicitWidth = 889
   end
   object panDuplicates: TPanel [1]
     Left = 0
-    Top = 328
-    Width = 889
-    Height = 264
+    Top = 168
+    Width = 797
+    Height = 142
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
@@ -29,7 +30,7 @@ inherited FrmReportImport: TFrmReportImport
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 883
+      Width = 791
       Height = 21
       Align = alTop
       Caption = 'Ignored files (previously imported)'
@@ -44,26 +45,30 @@ inherited FrmReportImport: TFrmReportImport
     object Duplicates: TListBox
       Left = 0
       Top = 27
-      Width = 889
-      Height = 237
+      Width = 797
+      Height = 115
       Align = alClient
       ItemHeight = 21
       TabOrder = 0
+      ExplicitWidth = 889
+      ExplicitHeight = 237
     end
   end
   object Panel2: TPanel [2]
     Left = 0
-    Top = 592
-    Width = 889
+    Top = 310
+    Width = 797
     Height = 56
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitTop = 592
+    ExplicitWidth = 889
     DesignSize = (
-      889
+      797
       56)
     object btnClose: TButton
-      Left = 733
+      Left = 641
       Top = 8
       Width = 153
       Height = 41
@@ -72,21 +77,24 @@ inherited FrmReportImport: TFrmReportImport
       Caption = 'Close'
       ModalResult = 8
       TabOrder = 0
+      ExplicitLeft = 733
     end
   end
   object panErrors: TPanel [3]
     Left = 0
     Top = 0
-    Width = 889
-    Height = 322
+    Width = 797
+    Height = 162
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 889
+    ExplicitHeight = 322
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 883
+      Width = 791
       Height = 21
       Align = alTop
       Caption = 'Errors'
@@ -102,8 +110,8 @@ inherited FrmReportImport: TFrmReportImport
       AlignWithMargins = True
       Left = 3
       Top = 30
-      Width = 883
-      Height = 289
+      Width = 791
+      Height = 129
       Align = alClient
       DataSource = sourceErrors
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -128,11 +136,15 @@ inherited FrmReportImport: TFrmReportImport
         end>
     end
   end
+  inherited actFrmBase: TActionList
+    Left = 32
+    Top = 72
+  end
   object dbErrors: TAureliusDataset
     FieldDefs = <>
     CreateSelfField = False
-    Left = 376
-    Top = 240
+    Left = 144
+    Top = 72
     object dbErrorsDescription: TStringField
       FieldName = 'Description'
       Size = 500
@@ -144,7 +156,7 @@ inherited FrmReportImport: TFrmReportImport
   end
   object sourceErrors: TDataSource
     DataSet = dbErrors
-    Left = 272
-    Top = 240
+    Left = 224
+    Top = 72
   end
 end
