@@ -70,7 +70,7 @@ type
     btnNew: TButton;
     btnModify: TButton;
     btnDelete: TButton;
-    Print: TButton;
+    btnPreview: TButton;
     btnPayment: TButton;
     InvoicesBillTo: TStringField;
     InvoicesStatus: TIntegerField;
@@ -85,7 +85,7 @@ type
     actInvoiceProcess: TAction;
     ImgCollection: TImageCollection;
     Images: TVirtualImageList;
-    btnApiToken: TButton;
+    btnLink: TButton;
     actInvoiceApiToken: TAction;
     GridInvoices: TDBGrid;
     procedure FormDestroy(Sender: TObject);
@@ -389,7 +389,6 @@ begin
   finally
     LReport.Free;
   end;
-
 end;
 
 procedure TFrmInvoices.Process;
