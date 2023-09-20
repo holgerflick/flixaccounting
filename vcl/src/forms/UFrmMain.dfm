@@ -6,8 +6,10 @@ inherited FrmMain: TFrmMain
   Font.Height = -12
   StyleElements = [seFont, seClient]
   OnShow = FormShow
-  ExplicitWidth = 825
-  ExplicitHeight = 190
+  ExplicitLeft = 3
+  ExplicitTop = 3
+  ExplicitWidth = 831
+  ExplicitHeight = 207
   TextHeight = 15
   object btnTransactions: TButton [0]
     Left = 114
@@ -2021,7 +2023,7 @@ inherited FrmMain: TFrmMain
           end>
       end>
     InterpolationMode = icIMFant
-    Left = 552
+    Left = 560
     Top = 80
   end
   object Images: TVirtualImageList [9]
@@ -2060,8 +2062,8 @@ inherited FrmMain: TFrmMain
     ImageCollection = Collection
     Width = 32
     Height = 32
-    Left = 552
-    Top = 24
+    Left = 560
+    Top = 16
   end
   object Actions: TActionList [10]
     Images = Images
@@ -2154,14 +2156,13 @@ inherited FrmMain: TFrmMain
     Width = 32
     Height = 32
     Left = 632
-    Top = 24
+    Top = 16
   end
-  object SelectFolder: TFileSaveDialog
+  object SelectFolder: TFileOpenDialog
     FavoriteLinks = <>
     FileTypes = <>
     Options = [fdoPickFolders, fdoPathMustExist]
-    Title = 'Save model in folder'
-    Left = 728
+    Left = 704
     Top = 80
   end
 end

@@ -127,8 +127,6 @@ type
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
 
-    procedure InitGrids;
-
     function CanPreview: Boolean;
     function CanExport: Boolean;
   end;
@@ -156,8 +154,6 @@ begin
 
   FReportManager.Free;
   FMemoryObjManager.Free;
-
-  InitGrids;
 
   inherited;
 end;
@@ -223,8 +219,6 @@ procedure TFrmReportProfitLoss.FormCreate(Sender: TObject);
 begin
   inherited;
 
-  InitGrids;
-
   FReportManager := TReportManager.Create(ObjectManager);
   FMemoryObjManager := TDataManager.Shared.MemoryObjectManager;
 end;
@@ -232,11 +226,6 @@ end;
 function TFrmReportProfitLoss.GetName: String;
 begin
   Result := 'Profit and Loss';
-end;
-
-procedure TFrmReportProfitLoss.InitGrids;
-begin
-  TGridUtils.UseDefaultFonts( self );
 end;
 
 procedure TFrmReportProfitLoss.Preview;

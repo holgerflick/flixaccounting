@@ -1,10 +1,10 @@
 inherited FrmInvoices: TFrmInvoices
   BorderIcons = [biSystemMenu]
   Caption = 'FrmInvoices'
-  ClientHeight = 572
-  ClientWidth = 964
-  ExplicitWidth = 980
-  ExplicitHeight = 611
+  ClientHeight = 322
+  ClientWidth = 731
+  ExplicitWidth = 747
+  ExplicitHeight = 361
   TextHeight = 21
   object btnNew: TButton [0]
     Left = 8
@@ -39,7 +39,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 2
   end
-  object Print: TButton [3]
+  object btnPreview: TButton [3]
     Left = 245
     Top = 8
     Width = 73
@@ -72,7 +72,7 @@ inherited FrmInvoices: TFrmInvoices
     Images = Images
     TabOrder = 5
   end
-  object btnApiToken: TButton [6]
+  object btnLink: TButton [6]
     Left = 482
     Top = 8
     Width = 73
@@ -86,8 +86,8 @@ inherited FrmInvoices: TFrmInvoices
   object GridInvoices: TDBGrid [7]
     Left = 8
     Top = 87
-    Width = 948
-    Height = 477
+    Width = 715
+    Height = 227
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = sourceInvoices
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit]
@@ -136,6 +136,10 @@ inherited FrmInvoices: TFrmInvoices
         Title.Caption = 'Status'
         Visible = True
       end>
+  end
+  inherited actFrmBase: TActionList
+    Left = 288
+    Top = 208
   end
   object Invoices: TAureliusDataset
     FieldDefs = <
@@ -224,8 +228,8 @@ inherited FrmInvoices: TFrmInvoices
         Attributes = [faReadonly, faRequired]
         DataType = ftBoolean
       end>
-    Left = 136
-    Top = 448
+    Left = 72
+    Top = 152
     DesignClass = 'UInvoice.TInvoice'
     object InvoicesSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -312,13 +316,13 @@ inherited FrmInvoices: TFrmInvoices
   end
   object sourceInvoices: TDataSource
     DataSet = Invoices
-    Left = 224
-    Top = 448
+    Left = 72
+    Top = 208
   end
   object Actions: TActionList
     Images = Images
-    Left = 272
-    Top = 280
+    Left = 288
+    Top = 152
     object actInvoiceNew: TAction
       Caption = 'New'
       Enabled = False
@@ -3408,8 +3412,8 @@ inherited FrmInvoices: TFrmInvoices
               1007130000000049454E44AE426082}
           end>
       end>
-    Left = 400
-    Top = 448
+    Left = 192
+    Top = 152
   end
   object Images: TVirtualImageList
     AutoFill = True
@@ -3453,7 +3457,7 @@ inherited FrmInvoices: TFrmInvoices
     ImageCollection = ImgCollection
     Width = 32
     Height = 32
-    Left = 536
-    Top = 448
+    Left = 192
+    Top = 208
   end
 end

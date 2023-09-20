@@ -70,7 +70,7 @@ type
     btnNew: TButton;
     btnModify: TButton;
     btnDelete: TButton;
-    Print: TButton;
+    btnPreview: TButton;
     btnPayment: TButton;
     InvoicesBillTo: TStringField;
     InvoicesStatus: TIntegerField;
@@ -85,9 +85,10 @@ type
     actInvoiceProcess: TAction;
     ImgCollection: TImageCollection;
     Images: TVirtualImageList;
-    btnApiToken: TButton;
+    btnLink: TButton;
     actInvoiceApiToken: TAction;
     GridInvoices: TDBGrid;
+    procedure FormDestroy(Sender: TObject);
     procedure actInvoiceApiTokenExecute(Sender: TObject);
     procedure actInvoiceDeleteExecute(Sender: TObject);
     procedure actInvoiceDeleteUpdate(Sender: TObject);
@@ -139,6 +140,13 @@ uses
   ;
 
 {$R *.dfm}
+
+procedure TFrmInvoices.FormDestroy(Sender: TObject);
+begin
+  Invoices.Close;
+
+  inherited;
+end;
 
 procedure TFrmInvoices.actInvoiceApiTokenExecute(Sender: TObject);
 begin
@@ -303,7 +311,6 @@ end;
 
 procedure TFrmInvoices.InitGrids;
 begin
-  TGridUtils.UseDefaultHeaderFont(GridInvoices.Columns);
   TGridUtils.UseMonospaceFont(GridInvoices.Columns);
 end;
 
@@ -325,12 +332,12 @@ procedure TFrmInvoices.OpenDataset;
 begin
   var LInvoices := ObjectManager.Find<TInvoice>
     .OrderBy(Dic.Invoice.Number, True )
-    .List;
+    .Open;
 
   Invoices.Close;
   Invoices.DefaultsFromObject := True;
   Invoices.Manager := ObjectManager;
-  Invoices.SetSourceList( LInvoices, True );
+  Invoices.SetSourceCursor(LInvoices);
   Invoices.Open;
 end;
 
@@ -382,7 +389,6 @@ begin
   finally
     LReport.Free;
   end;
-
 end;
 
 procedure TFrmInvoices.Process;

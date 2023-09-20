@@ -23,7 +23,9 @@ uses
   , System.SysUtils
   , System.Variants
   , System.Classes
+  , System.Actions
 
+  , Vcl.ActnList
   , Vcl.Graphics
   , Vcl.Controls
   , Vcl.Forms
@@ -44,7 +46,7 @@ uses
   , Aurelius.Bind.Dataset
   , Aurelius.Criteria.Linq
   , Aurelius.Criteria.Expression
-  , Aurelius.Criteria.Projections, System.Actions, Vcl.ActnList
+  , Aurelius.Criteria.Projections
 
   ;
 
@@ -52,19 +54,17 @@ type
   TFrmCustomer = class(TFrmBase)
     Grid: TDBGrid;
     Customers: TAureliusDataset;
-    CustomersSelf: TAureliusEntityField;
-    CustomersId: TIntegerField;
     CustomersName: TStringField;
-    CustomersAddress: TStringField;
     CustomersEmail: TStringField;
     sourceCustomers: TDataSource;
     txtAddress: TDBMemo;
     CustomersContact: TStringField;
     DBNavigator1: TDBNavigator;
+    CustomersAddress: TStringField;
     procedure CustomersBeforePost(DataSet: TDataSet);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
   private
-    procedure InitGrid;
     procedure OpenDataset;
 
   public
@@ -105,20 +105,20 @@ begin
   end;
 end;
 
+procedure TFrmCustomer.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Customers.Close;
+
+  inherited;
+end;
+
 procedure TFrmCustomer.FormCreate(Sender: TObject);
 begin
   inherited;
 
   self.Caption := 'Customers';
 
-  InitGrid;
   OpenDataset;
-end;
-
-procedure TFrmCustomer.InitGrid;
-begin
-  TGridUtils.UseDefaultHeaderFont(Grid.Columns);
-  TGridUtils.UseDefaultFont(Grid.Columns);
 end;
 
 procedure TFrmCustomer.OpenDataset;
@@ -127,9 +127,32 @@ begin
   Customers.DefaultsFromObject := True;
   Customers.Manager := self.ObjectManager;
 
+  // -- list
+  {
   Customers.SetSourceList(
-    self.ObjectManager.Find<TCustomer>
-      .OrderBy(Dic.Customer.Name, True ).List, True );
+    self.ObjectManager
+     .Find<TCustomer>
+     .OrderBy(Dic.Customer.Name, True )
+     .List
+    , True
+  );
+  }
+  // -- cursor
+  Customers.SetSourceCursor(
+    self.ObjectManager
+     .Find<TCustomer>
+     .OrderBy(Dic.Customer.Name, True )
+     .Open
+  );
+
+  // -- paging
+  {
+  Customers.SetSourceCriteria(
+    self.ObjectManager
+      .Find<TCustomer>
+      .OrderBy(Dic.Customer.Name, True )
+    , 50 );
+  }
 
   Customers.Active := True;
 end;

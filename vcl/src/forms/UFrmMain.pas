@@ -66,7 +66,7 @@ type
     btnApi: TButton;
     actApi: TAction;
     btnModel: TButton;
-    SelectFolder: TFileSaveDialog;
+    SelectFolder: TFileOpenDialog;
     procedure actApiExecute(Sender: TObject);
     procedure actCustomersExecute(Sender: TObject);
     procedure actExpandFormExecute(Sender: TObject);
@@ -129,10 +129,12 @@ procedure TFrmMain.actExpandFormExecute(Sender: TObject);
 begin
   if self.ClientHeight < btnDictionary.Top then
   begin
+    // show bottom row
     self.ClientHeight := btnDictionary.Top + btnDictionary.Height + 10;
   end
   else
   begin
+    // hide bottom row
     self.ClientHeight := btnDictionary.Top - 7;
   end;
 end;
@@ -185,6 +187,7 @@ end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
 begin
+  self.BorderStyle := bsDialog;
   self.ClientWidth := btnApi.Left + btnApi.Width + 10;
   self.ClientHeight := btnDictionary.Top - 7;
 end;
@@ -250,6 +253,12 @@ begin
         TPath.Combine(SelectFolder.FileName, SDictionaryFileMemory),
         LSourceCode
       );
+
+      TaskMessageDlg(
+        'Success.',
+        'Dictionary files have been created in '
+        + SelectFolder.FileName + '.',
+        mtInformation, [mbOK], 0 );
     finally
       LGenerator.Free;
     end;

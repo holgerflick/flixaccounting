@@ -1,14 +1,14 @@
 inherited FrmTransactions: TFrmTransactions
   BorderIcons = [biSystemMenu]
   Caption = 'popTxKind'
-  ClientHeight = 605
-  ClientWidth = 1069
+  ClientHeight = 296
+  ClientWidth = 759
   DoubleBuffered = True
-  ExplicitWidth = 1085
-  ExplicitHeight = 644
+  ExplicitWidth = 775
+  ExplicitHeight = 335
   TextHeight = 21
   object btnImport: TButton [0]
-    Left = 915
+    Left = 605
     Top = 8
     Width = 146
     Height = 41
@@ -45,7 +45,7 @@ inherited FrmTransactions: TFrmTransactions
   object DBNavigator1: TDBNavigator [2]
     Left = 184
     Top = 23
-    Width = 696
+    Width = 384
     Height = 25
     DataSource = sourceTransactions
     VisibleButtons = [nbFirst, nbLast, nbInsert, nbDelete, nbPost, nbCancel]
@@ -55,8 +55,8 @@ inherited FrmTransactions: TFrmTransactions
   object Transactions: TDBGrid [3]
     Left = 8
     Top = 55
-    Width = 1053
-    Height = 542
+    Width = 743
+    Height = 233
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = sourceTransactions
     TabOrder = 3
@@ -76,14 +76,14 @@ inherited FrmTransactions: TFrmTransactions
       item
         Expanded = False
         FieldName = 'Category'
-        Width = 244
+        Width = 155
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Title'
         Title.Caption = 'Description'
-        Width = 325
+        Width = 136
         Visible = True
       end
       item
@@ -108,6 +108,10 @@ inherited FrmTransactions: TFrmTransactions
         Width = 106
         Visible = True
       end>
+  end
+  inherited actFrmBase: TActionList
+    Left = 48
+    Top = 104
   end
   object dbTransactions: TAureliusDataset
     FieldDefs = <
@@ -178,8 +182,8 @@ inherited FrmTransactions: TFrmTransactions
         DataType = ftFloat
       end>
     OnNewRecord = dbTransactionsNewRecord
-    Left = 56
-    Top = 424
+    Left = 408
+    Top = 128
     DesignClass = 'UExpense.TExpense'
     object dbTransactionsSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -247,8 +251,8 @@ inherited FrmTransactions: TFrmTransactions
   end
   object sourceTransactions: TDataSource
     DataSet = dbTransactions
-    Left = 152
-    Top = 424
+    Left = 408
+    Top = 184
   end
   object DlgOpen: TFileOpenDialog
     FavoriteLinks = <>
@@ -256,12 +260,12 @@ inherited FrmTransactions: TFrmTransactions
     OkButtonLabel = 'Import'
     Options = [fdoPickFolders, fdoPathMustExist]
     Title = 'Pick folder with expense documents'
-    Left = 248
-    Top = 424
+    Left = 216
+    Top = 128
   end
   object popTxKind: TPopupMenu
-    Left = 328
-    Top = 96
+    Left = 288
+    Top = 128
     object menTxKindIncome: TMenuItem
       Caption = 'Income'
       OnClick = menTxKindExpensesClick

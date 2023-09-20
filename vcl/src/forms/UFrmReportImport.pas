@@ -28,6 +28,7 @@ uses
   , System.SysUtils
   , System.Variants
   , System.Classes
+  , System.Actions
 
   , Vcl.Graphics
   , Vcl.Controls
@@ -37,11 +38,11 @@ uses
   , Vcl.DBGrids
   , Vcl.StdCtrls
   , Vcl.ExtCtrls
+  , Vcl.ActnList
 
   , Data.DB
 
   , UDataImportManager
-
   ;
 
 
@@ -96,10 +97,12 @@ end;
 
 procedure TFrmReportImport.UpdateInterface;
 begin
+  // show errors
   dbErrors.Close;
   dbErrors.SetSourceList( Manager.ImportErrors, False );
   dbErrors.Open;
 
+  // show duplicates
   Duplicates.Items.Assign( Manager.Duplicates );
 end;
 

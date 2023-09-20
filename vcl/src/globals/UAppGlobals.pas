@@ -29,6 +29,8 @@ type
     class function DefaultGridHeaderFontName: String;
     class function DefaultGridMonospaceFontName: String;
     class function DefaultGridFontName: String;
+
+    class function UserName: String;
   end;
 
 implementation
@@ -97,6 +99,21 @@ end;
 class function TAppGlobals.DefaultGridMonospaceFontName: String;
 begin
  Result := 'Cascadia Code';
+end;
+
+class function TAppGlobals.UserName: String;
+var
+  LExeInfo: TExeInfo;
+
+begin
+  Result := '';
+
+  LExeInfo := TExeInfo.Create(nil);
+  try
+    Result := LExeInfo.UserName;
+  finally
+    LExeInfo.Free;
+  end;
 end;
 
 end.
