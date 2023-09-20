@@ -28,17 +28,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 9
     OnClick = btnCancelClick
   end
-  object DBNavigator1: TDBNavigator [2]
-    Left = 8
-    Top = 67
-    Width = 720
-    Height = 25
-    DataSource = sourceItems
-    VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 4
-  end
-  object dateIssued: TAdvDBDateTimePicker [3]
+  object dateIssued: TAdvDBDateTimePicker [2]
     Left = 466
     Top = 32
     Width = 129
@@ -71,19 +61,7 @@ inherited FrmInvoice: TFrmInvoice
     DataField = 'IssuedOn'
     DataSource = sourceInvoices
   end
-  object cbCustomer: TDBLookupComboBox [4]
-    Left = 8
-    Top = 32
-    Width = 325
-    Height = 29
-    Anchors = [akLeft, akTop, akRight]
-    DataField = 'Customer'
-    KeyField = 'Self'
-    ListField = 'Name'
-    ListSource = sourceCustomers
-    TabOrder = 0
-  end
-  object dateDueOn: TAdvDBDateTimePicker [5]
+  object dateDueOn: TAdvDBDateTimePicker [3]
     Left = 601
     Top = 32
     Width = 129
@@ -116,7 +94,7 @@ inherited FrmInvoice: TFrmInvoice
     DataField = 'DueOn'
     DataSource = sourceInvoices
   end
-  object btnQuickItem: TButton [6]
+  object btnQuickItem: TButton [4]
     Left = 8
     Top = 464
     Width = 129
@@ -127,17 +105,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 6
     OnClick = btnQuickItemClick
   end
-  object btnBoA: TButton [7]
-    Left = 143
-    Top = 464
-    Width = 145
-    Height = 32
-    Anchors = [akLeft, akBottom]
-    Caption = 'Import BoA...'
-    TabOrder = 7
-    OnClick = btnBoAClick
-  end
-  object txtNumber: TDBAdvEdit [8]
+  object txtNumber: TDBAdvEdit [5]
     Left = 339
     Top = 32
     Width = 121
@@ -169,7 +137,7 @@ inherited FrmInvoice: TFrmInvoice
     DataField = 'Number'
     DataSource = sourceInvoices
   end
-  object GridItems: TDBGrid [9]
+  object GridItems: TDBGrid [6]
     Left = 8
     Top = 99
     Width = 722
@@ -246,6 +214,38 @@ inherited FrmInvoice: TFrmInvoice
         Title.Caption = 'Total'
         Visible = True
       end>
+  end
+  object btnBoA: TButton [7]
+    Left = 143
+    Top = 464
+    Width = 145
+    Height = 32
+    Anchors = [akLeft, akBottom]
+    Caption = 'Import BoA...'
+    TabOrder = 7
+    OnClick = btnBoAClick
+  end
+  object cbCustomer: TDBLookupComboBox [8]
+    Left = 8
+    Top = 32
+    Width = 325
+    Height = 29
+    Anchors = [akLeft, akTop, akRight]
+    DataField = 'Customer'
+    KeyField = 'Self'
+    ListField = 'Name'
+    ListSource = sourceCustomers
+    TabOrder = 0
+  end
+  object DBNavigator1: TDBNavigator [9]
+    Left = 8
+    Top = 67
+    Width = 720
+    Height = 25
+    DataSource = sourceItems
+    VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 4
   end
   object Items: TAureliusDataset
     FieldDefs = <

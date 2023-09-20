@@ -63,6 +63,8 @@ type
     dbTransactionsMonth: TIntegerField;
     dbTransactionsMonthsPaid: TIntegerField;
     dbTransactionsAmountTotal: TFloatField;
+    dbTransactionsKindEnumName: TStringField;
+
     sourceTransactions: TDataSource;
     btnImport: TButton;
     DlgOpen: TFileOpenDialog;
@@ -71,7 +73,7 @@ type
     menTxKindIncome: TMenuItem;
     menTxKindExpenses: TMenuItem;
     DBNavigator1: TDBNavigator;
-    dbTransactionsKindEnumName: TStringField;
+
     Transactions: TDBGrid;
     procedure btnImportClick(Sender: TObject);
     procedure dbTransactionsNewRecord(DataSet: TDataSet);
