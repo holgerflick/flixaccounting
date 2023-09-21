@@ -44,6 +44,7 @@ contains
   UDictionary in 'UDictionary.pas',
   UProfitLoss in 'UProfitLoss.pas',
   UDictionaryTemporary in 'UDictionaryTemporary.pas',
-  UApi in 'UApi.pas';
+  UApi in 'UApi.pas',
+  UCompany in 'UCompany.pas';
 
 end.

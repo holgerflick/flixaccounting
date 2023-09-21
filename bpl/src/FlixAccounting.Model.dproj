@@ -89,6 +89,7 @@
         <DCCReference Include="UProfitLoss.pas"/>
         <DCCReference Include="UDictionaryTemporary.pas"/>
         <DCCReference Include="UApi.pas"/>
+        <DCCReference Include="UCompany.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -113,8 +114,6 @@
             </Delphi.Personality>
             <Platforms>
                 <Platform value="Linux64">False</Platform>
-                <Platform value="OSX64">False</Platform>
-                <Platform value="OSXARM64">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
