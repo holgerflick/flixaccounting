@@ -41,6 +41,7 @@ uses
 
   , UTransaction
   , UInvoice
+  , UCompany
 
   ;
 
@@ -49,6 +50,7 @@ type
   private
     FObjManager: TObjectManager;
 
+    function GetCompany: TCompany;
     procedure LoadTemplateIntoStream(ATemplate: TStream);
   public
     constructor Create(AObjManager: TObjectManager);
@@ -69,6 +71,23 @@ begin
   inherited Create;
 
   FObjManager := AObjManager;
+end;
+
+function TInvoicePrinter.GetCompany: TCompany;
+begin
+  Assert( Assigned( FObjManager ) );
+
+  var LCompany := FObjManager.Find<TCompany>
+    .UniqueResult
+    ;
+
+  if not Assigned(LCompany) then
+  begin
+    raise Exception.Create('Company info must be added '  +
+        'before invoices can be created.');
+  end;
+
+  Result := LCompany;
 end;
 
 procedure TInvoicePrinter.LoadTemplateIntoStream(ATemplate: TStream);
@@ -152,6 +171,14 @@ begin
     LReport.SetValue('DueOn', TDateTime( AInvoice.DueOn ) );
     LReport.SetValue('TotalAmount', AInvoice.TotalAmount );
 
+    // company info
+    var LCompanyInfo := GetCompany;
+
+    LReport.SetValue('CompanyName', LCompanyInfo.Name);
+    LReport.SetValue('CompanyAddressLine', LCompanyInfo.AddressLine);
+    LReport.SetValue('CompanyCityZipLine', LCompanyInfo.CityZipLine);
+    LReport.SetValue('CompanyLogo', LCompanyInfo.Logo.AsBytes );
+
     LReport.AddTable<TInvoiceItem>('I', AInvoice.Items );
 
     LOutput := TMemoryStream.Create;
@@ -170,7 +197,6 @@ begin
     LTemplateMod.Free;
     LTemplateXls.Free;
   end;
-
 end;
 
 end.
