@@ -52,19 +52,16 @@ uses
   , FireDAC.Stan.ExprFuncs
   , FireDAC.Phys.SQLiteWrapper.Stat
   , FireDAC.Phys.SQLiteDef
-  , FireDAC.Phys.SQLite
+  , FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteWrapper.FDEStat
 
   ;
 
 type
   TDataManager = class(TDataModule)
     Connection: TAureliusConnection;
-    FDConnection: TFDConnection;
-
-    MySQLUnits: TFDPhysMySQLDriverLink;
-    SQLiteUnits: TFDPhysSQLiteDriverLink;
 
     MemConnection: TAureliusConnection;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
 
     procedure DataModuleCreate(Sender: TObject);
   private
@@ -136,12 +133,12 @@ end;
 procedure TDataManager.DataModuleCreate(Sender: TObject);
 begin
   // load FireDAC connection parameters
-  TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
+ // TAppSettings.Shared.GetDatabaseParams(FDConnection.Params);
 
   // set adapted connection AFTER FireDAC has been set
   // make sure that SQLDialect is empty when assigned, otherwise it will
   // not be set automatically by Aurelius.
-  Connection.AdaptedConnection := FDConnection;
+  //Connection.AdaptedConnection := FDConnection;
 
   // init the memory database used for reports
   FMemoryConnection := MemConnection.CreateConnection;
