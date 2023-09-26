@@ -52,7 +52,7 @@ uses
   , FireDAC.Stan.ExprFuncs
   , FireDAC.Phys.SQLiteWrapper.Stat
   , FireDAC.Phys.SQLiteDef
-  , FireDAC.Phys.SQLite
+  , FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteWrapper.FDEStat
 
   ;
 
