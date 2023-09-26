@@ -170,6 +170,10 @@
             <Form>FrmMermaidModel</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\UFrmCompany.pas">
+            <Form>FrmCompany</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\..\bin\settings.ini"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

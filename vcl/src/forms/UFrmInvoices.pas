@@ -88,6 +88,8 @@ type
     btnLink: TButton;
     actInvoiceApiToken: TAction;
     GridInvoices: TDBGrid;
+    btnCompany: TAction;
+    Button1: TButton;
     procedure FormDestroy(Sender: TObject);
     procedure actInvoiceApiTokenExecute(Sender: TObject);
     procedure actInvoiceDeleteExecute(Sender: TObject);
@@ -102,6 +104,7 @@ type
     procedure actInvoicePrintUpdate(Sender: TObject);
     procedure actInvoiceProcessExecute(Sender: TObject);
     procedure actInvoiceProcessUpdate(Sender: TObject);
+    procedure btnCompanyExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     procedure OpenDataset;
@@ -116,6 +119,7 @@ type
     procedure Process;
     procedure Modify;
     procedure ShowApiToken;
+    procedure EditCompanyInfo;
   public
 
   end;
@@ -137,6 +141,7 @@ uses
   , UInvoiceProcessor
   , UGridUtils
   , UFrmApiToken
+  , UFrmCompany
   ;
 
 {$R *.dfm}
@@ -263,6 +268,11 @@ begin
   actInvoiceProcess.Enabled := LResult;
 end;
 
+procedure TFrmInvoices.btnCompanyExecute(Sender: TObject);
+begin
+  EditCompanyInfo;
+end;
+
 procedure TFrmInvoices.Delete;
 begin
   if MessageDlg('Do you really want to delete this invoice?',
@@ -274,6 +284,16 @@ begin
     end;
 
     Invoices.Delete;
+  end;
+end;
+
+procedure TFrmInvoices.EditCompanyInfo;
+begin
+  var LFrm := TFrmCompany.Create(nil);
+  try
+    LFrm.ShowModal;
+  finally
+    LFrm.Free;
   end;
 end;
 

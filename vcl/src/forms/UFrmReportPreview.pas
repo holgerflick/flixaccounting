@@ -117,6 +117,7 @@ begin
   //
 end;
 
+
 class procedure TFrmReportPreview.Execute(AXlsStream: TStream);
 var
   LFrm: TFrmReportPreview;

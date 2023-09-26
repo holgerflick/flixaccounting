@@ -35,7 +35,8 @@ uses
   UFrmApiToken in 'forms\UFrmApiToken.pas' {FrmApiToken},
   UControlStorage in 'tools\UControlStorage.pas',
   UMermaidClassModel in 'tools\UMermaidClassModel.pas',
-  UFrmMermaidModel in 'forms\UFrmMermaidModel.pas' {FrmMermaidModel};
+  UFrmMermaidModel in 'forms\UFrmMermaidModel.pas' {FrmMermaidModel},
+  UFrmCompany in 'forms\UFrmCompany.pas' {FrmCompany};
 
 {$R *.res}
 
