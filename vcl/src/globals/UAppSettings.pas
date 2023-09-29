@@ -131,7 +131,7 @@ end;
 
 function TAppSettings.WebserviceBaseUrl: String;
 begin
-  Result := FIniFile.ReadString('Webservice', 'BaseURL', '' );
+  Result := FIniFile.ReadString('API', 'BaseURL', '' );
 end;
 
 end.
