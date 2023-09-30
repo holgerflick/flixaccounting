@@ -56,7 +56,7 @@ uses
 
   , UCustomer
   , UFrmBase
-  , UInvoice, System.Actions, Vcl.ActnList
+  , UInvoice, System.Actions, Vcl.ActnList, Vcl.Buttons
   ;
 
 type
@@ -82,7 +82,6 @@ type
     dateDueOn: TAdvDBDateTimePicker;
     txtNumber: TDBAdvEdit;
     dateIssued: TAdvDBDateTimePicker;
-    sourceInvoices: TDataSource;
     btnOK: TButton;
     btnCancel: TButton;
     DBNavigator1: TDBNavigator;
@@ -96,6 +95,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnQuickItemClick(Sender: TObject);
     procedure GridItemsEditButtonClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     FInvoices: TAureliusDataset;
 
@@ -158,6 +158,13 @@ begin
   InitGrid;
 
   OpenDatasets;
+end;
+
+procedure TFrmInvoice.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  Caption := 'Edit Invoice';
 end;
 
 procedure TFrmInvoice.btnBoAClick(Sender: TObject);

@@ -16,52 +16,7 @@ inherited FrmInvoice: TFrmInvoice
     TabOrder = 8
     OnClick = btnOKClick
   end
-  object btnCancel: TButton [1]
-    Left = 494
-    Top = 464
-    Width = 115
-    Height = 33
-    Anchors = [akRight, akBottom]
-    Cancel = True
-    Caption = 'Cancel'
-    ModalResult = 2
-    TabOrder = 9
-    OnClick = btnCancelClick
-  end
-  object dateIssued: TAdvDBDateTimePicker [2]
-    Left = 466
-    Top = 32
-    Width = 129
-    Height = 29
-    Anchors = [akTop, akRight]
-    Date = 45114.000000000000000000
-    Format = ''
-    Time = 0.555729166670062100
-    DoubleBuffered = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    Kind = dkDate
-    ParentDoubleBuffered = False
-    ParentFont = False
-    TabOrder = 2
-    BorderStyle = bsSingle
-    Ctl3D = True
-    DateTime = 45114.555729166670000000
-    Version = '1.3.6.6'
-    LabelCaption = 'Date'
-    LabelPosition = lpTopLeft
-    LabelFont.Charset = DEFAULT_CHARSET
-    LabelFont.Color = clWindowText
-    LabelFont.Height = -16
-    LabelFont.Name = 'Segoe UI'
-    LabelFont.Style = [fsBold]
-    DataField = 'IssuedOn'
-    DataSource = sourceInvoices
-  end
-  object dateDueOn: TAdvDBDateTimePicker [3]
+  object dateDueOn: TAdvDBDateTimePicker [1]
     Left = 601
     Top = 32
     Width = 129
@@ -92,20 +47,8 @@ inherited FrmInvoice: TFrmInvoice
     LabelFont.Name = 'Segoe UI'
     LabelFont.Style = [fsBold]
     DataField = 'DueOn'
-    DataSource = sourceInvoices
   end
-  object btnQuickItem: TButton [4]
-    Left = 8
-    Top = 464
-    Width = 129
-    Height = 33
-    Anchors = [akLeft, akBottom]
-    Cancel = True
-    Caption = '&Quick Item...'
-    TabOrder = 6
-    OnClick = btnQuickItemClick
-  end
-  object txtNumber: TDBAdvEdit [5]
+  object txtNumber: TDBAdvEdit [2]
     Left = 339
     Top = 32
     Width = 121
@@ -135,9 +78,8 @@ inherited FrmInvoice: TFrmInvoice
     Visible = True
     Version = '4.0.4.3'
     DataField = 'Number'
-    DataSource = sourceInvoices
   end
-  object GridItems: TDBGrid [6]
+  object GridItems: TDBGrid [3]
     Left = 8
     Top = 99
     Width = 722
@@ -215,17 +157,18 @@ inherited FrmInvoice: TFrmInvoice
         Visible = True
       end>
   end
-  object btnBoA: TButton [7]
+  object btnBoA: TButton [4]
     Left = 143
-    Top = 464
+    Top = 550
     Width = 145
     Height = 32
     Anchors = [akLeft, akBottom]
     Caption = 'Import BoA...'
     TabOrder = 7
+    Visible = False
     OnClick = btnBoAClick
   end
-  object cbCustomer: TDBLookupComboBox [8]
+  object cbCustomer: TDBLookupComboBox [5]
     Left = 8
     Top = 32
     Width = 325
@@ -237,15 +180,70 @@ inherited FrmInvoice: TFrmInvoice
     ListSource = sourceCustomers
     TabOrder = 0
   end
-  object DBNavigator1: TDBNavigator [9]
+  object DBNavigator1: TDBNavigator [6]
     Left = 8
     Top = 67
     Width = 720
-    Height = 25
+    Height = 26
     DataSource = sourceItems
     VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 4
+  end
+  object btnQuickItem: TButton [7]
+    Left = 8
+    Top = 464
+    Width = 129
+    Height = 33
+    Anchors = [akLeft, akBottom]
+    Cancel = True
+    Caption = '&Quick Item...'
+    TabOrder = 6
+    OnClick = btnQuickItemClick
+  end
+  object dateIssued: TAdvDBDateTimePicker [8]
+    Left = 466
+    Top = 32
+    Width = 129
+    Height = 29
+    Anchors = [akTop, akRight]
+    Date = 45114.000000000000000000
+    Format = ''
+    Time = 0.555729166670062100
+    DoubleBuffered = True
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Kind = dkDate
+    ParentDoubleBuffered = False
+    ParentFont = False
+    TabOrder = 2
+    BorderStyle = bsSingle
+    Ctl3D = True
+    DateTime = 45114.555729166670000000
+    Version = '1.3.6.6'
+    LabelCaption = 'Date'
+    LabelPosition = lpTopLeft
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -16
+    LabelFont.Name = 'Segoe UI'
+    LabelFont.Style = [fsBold]
+    DataField = 'IssuedOn'
+  end
+  object btnCancel: TButton [9]
+    Left = 494
+    Top = 464
+    Width = 115
+    Height = 33
+    Anchors = [akRight, akBottom]
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 9
+    OnClick = btnCancelClick
   end
   object Items: TAureliusDataset
     FieldDefs = <
@@ -292,8 +290,8 @@ inherited FrmInvoice: TFrmInvoice
         DataType = ftFloat
       end>
     RecordCountMode = FetchAll
-    Left = 160
-    Top = 416
+    Left = 88
+    Top = 264
     DesignClass = 'UInvoice.TInvoiceItem'
     object ItemsSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -371,8 +369,8 @@ inherited FrmInvoice: TFrmInvoice
         DataType = ftString
         Size = 255
       end>
-    Left = 264
-    Top = 416
+    Left = 240
+    Top = 264
     DesignClass = 'UCustomer.TCustomer'
     object CustomersSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -405,17 +403,13 @@ inherited FrmInvoice: TFrmInvoice
   end
   object sourceItems: TDataSource
     DataSet = Items
-    Left = 160
-    Top = 360
+    Left = 88
+    Top = 320
   end
   object sourceCustomers: TDataSource
     DataSet = Customers
-    Left = 264
-    Top = 360
-  end
-  object sourceInvoices: TDataSource
-    Left = 64
-    Top = 368
+    Left = 240
+    Top = 320
   end
   object DlgOpen: TFileOpenDialog
     DefaultExtension = 'csv'
@@ -428,7 +422,7 @@ inherited FrmInvoice: TFrmInvoice
     OkButtonLabel = 'Import'
     Options = [fdoPathMustExist, fdoFileMustExist]
     Title = 'Import Bank of America statement file'
-    Left = 392
-    Top = 368
+    Left = 240
+    Top = 192
   end
 end
