@@ -226,14 +226,19 @@ end;
 
 procedure TFrmInvoice.OpenDatasets;
 begin
+  // line items of the current invoice
   Items.Close;
   Items.Manager := ObjectManager;
   Items.DatasetField := FInvoices.FieldByName('Items') as TDatasetField;
   Items.Open;
 
+  // list of all customers ordered by name
   Customers.Close;
   Customers.SetSourceList(
-    ObjectManager.Find<TCustomer>.OrderBy(Dic.Customer.Name).List,
+    ObjectManager
+      .Find<TCustomer>
+      .OrderBy(Dic.Customer.Name)
+      .List,
     True );
   Customers.Open;
 end;
