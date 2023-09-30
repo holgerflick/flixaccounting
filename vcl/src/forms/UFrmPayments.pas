@@ -52,7 +52,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
+  , UFrmBase, Vcl.Buttons
   ;
 
 type
@@ -141,6 +141,11 @@ begin
   if Payments.State in dsEditModes then
   begin
     Payments.Post;
+  end;
+
+  if FDataset.State in dsEditModes then
+  begin
+    FDataset.Post;
   end;
 end;
 
