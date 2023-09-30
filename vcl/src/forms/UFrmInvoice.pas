@@ -91,9 +91,9 @@ type
     DlgOpen: TFileOpenDialog;
     cbCustomer: TDBLookupComboBox;
     procedure btnBoAClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnQuickItemClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridItemsEditButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -133,6 +133,11 @@ type
 
 procedure TFrmInvoice.Cancel;
 begin
+  if Items.State in dsEditModes then
+  begin
+    Items.Cancel;
+  end;
+
   if FInvoices.State in dsEditModes then
   begin
     FInvoices.Cancel;
@@ -180,11 +185,6 @@ begin
   end;
 end;
 
-procedure TFrmInvoice.btnCancelClick(Sender: TObject);
-begin
-  Cancel;
-end;
-
 procedure TFrmInvoice.btnOKClick(Sender: TObject);
 begin
   Post;
@@ -195,17 +195,21 @@ begin
   QuickItems;
 end;
 
+procedure TFrmInvoice.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Cancel;
+
+  inherited;
+end;
+
 procedure TFrmInvoice.GridItemsEditButtonClick(Sender: TObject);
 begin
   if GridItems.SelectedField = ItemsDescription then
   begin
     var LCurRow := THackDBGrid(GridItems).Row;
 
-
     var LRect := THackDBGrid(GridItems).CellRect(3, LCurRow);
-
     LRect := GridItems.ClientToScreen(LRect);
-
 
     TFrmEditMemoField.Execute(
         self,
@@ -245,6 +249,11 @@ end;
 
 procedure TFrmInvoice.Post;
 begin
+  if Items.State in dsEditModes then
+  begin
+    Items.Post;
+  end;
+
   if FInvoices.State in dsEditModes then
   begin
     FInvoices.Post;

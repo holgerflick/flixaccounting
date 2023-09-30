@@ -2,6 +2,7 @@ inherited FrmInvoice: TFrmInvoice
   Caption = 'FrmInvoice'
   ClientHeight = 504
   ClientWidth = 738
+  OnClose = FormClose
   ExplicitWidth = 754
   ExplicitHeight = 543
   TextHeight = 21
@@ -189,7 +190,6 @@ inherited FrmInvoice: TFrmInvoice
     Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 9
-    OnClick = btnCancelClick
   end
   object btnQuickItem: TButton [7]
     Left = 8
