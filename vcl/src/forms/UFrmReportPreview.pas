@@ -47,7 +47,7 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase
+  , UFrmBase, FlexCel.VCLSupport, FlexCel.Core
   ;
 
 

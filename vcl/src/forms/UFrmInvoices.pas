@@ -368,10 +368,6 @@ begin
     sourceInvoices );
   try
     LFrm.ShowModal;
-    if Invoices.State in dsEditModes then
-    begin
-      Invoices.Post;
-    end;
   finally
     LFrm.Free;
   end;
