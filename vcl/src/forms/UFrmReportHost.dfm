@@ -7,7 +7,7 @@ inherited FrmReportHost: TFrmReportHost
   ExplicitWidth = 600
   ExplicitHeight = 661
   TextHeight = 21
-  object panTop: TFlxPanel [0]
+  object panTop: TPanel [0]
     Left = 0
     Top = 0
     Width = 584
@@ -105,7 +105,7 @@ inherited FrmReportHost: TFrmReportHost
       TabOrder = 4
     end
   end
-  object panHost: TFlxPanel [1]
+  object panHost: TPanel [1]
     Left = 0
     Top = 105
     Width = 584

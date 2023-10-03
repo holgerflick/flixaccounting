@@ -18,15 +18,15 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase, Vcl.ExtCtrls, uFlxPanel,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase, Vcl.ExtCtrls, 
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Vcl.BaseImageCollection,
   Vcl.ImageCollection, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList,
   UReportInterfaces;
 
 type
   TFrmReportHost = class(TFrmBase)
-    panTop: TFlxPanel;
-    panHost: TFlxPanel;
+    panTop: TPanel;
+    panHost: TPanel;
     btnCustomers: TButton;
     Button1: TButton;
     ActionList1: TActionList;

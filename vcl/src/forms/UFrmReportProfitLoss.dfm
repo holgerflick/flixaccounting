@@ -16,7 +16,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     ExplicitTop = 8
     ExplicitHeight = 510
   end
-  object FlxPanel1: TFlxPanel [1]
+  object FlxPanel1: TPanel [1]
     Left = 0
     Top = 0
     Width = 599
@@ -112,7 +112,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
           Visible = True
         end>
     end
-    object FlxPanel2: TFlxPanel
+    object FlxPanel2: TPanel
       AlignWithMargins = True
       Left = 3
       Top = 662
@@ -146,7 +146,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       end
     end
   end
-  object panExpense: TFlxPanel [2]
+  object panExpense: TPanel [2]
     Left = 602
     Top = 0
     Width = 553
@@ -242,7 +242,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
           Visible = True
         end>
     end
-    object FlxPanel3: TFlxPanel
+    object FlxPanel3: TPanel
       AlignWithMargins = True
       Left = 3
       Top = 662
