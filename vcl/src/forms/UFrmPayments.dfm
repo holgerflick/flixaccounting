@@ -1,11 +1,11 @@
 inherited FrmPayments: TFrmPayments
   BorderStyle = bsSizeToolWin
   Caption = 'FrmPayments'
-  ClientHeight = 410
+  ClientHeight = 311
   ClientWidth = 425
   OnClose = FormClose
   ExplicitWidth = 441
-  ExplicitHeight = 449
+  ExplicitHeight = 350
   TextHeight = 21
   object txtDue: TLabel [0]
     Left = 177
@@ -28,7 +28,7 @@ inherited FrmPayments: TFrmPayments
     Left = 8
     Top = 112
     Width = 409
-    Height = 290
+    Height = 191
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = sourcePayments
     TabOrder = 0
@@ -61,19 +61,23 @@ inherited FrmPayments: TFrmPayments
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
   end
-  object btnPayOff: TButton [3]
+  object btnPayFull: TButton [3]
     Left = 8
     Top = 8
-    Width = 73
+    Width = 97
     Height = 73
-    Caption = 'Pay up'
+    Caption = 'Pay in Full'
     ImageAlignment = iaTop
     ImageIndex = 0
     ImageName = 'piggy-bank'
     ImageMargins.Top = 10
-    Images = VirtualImageList1
+    Images = Images
     TabOrder = 2
-    OnClick = btnPayOffClick
+    OnClick = btnPayFullClick
+  end
+  inherited actFrmBase: TActionList
+    Left = 320
+    Top = 128
   end
   object Payments: TAureliusDataset
     FieldDefs = <
@@ -102,8 +106,8 @@ inherited FrmPayments: TFrmPayments
         DataType = ftFloat
       end>
     CreateSelfField = False
-    Left = 48
-    Top = 344
+    Left = 128
+    Top = 176
     DesignClass = 'UInvoice.TInvoicePayment'
     object PaymentsId: TIntegerField
       FieldName = 'Id'
@@ -131,19 +135,19 @@ inherited FrmPayments: TFrmPayments
     DataSet = Payments
     OnStateChange = sourcePaymentsStateChange
     Left = 128
-    Top = 344
+    Top = 232
   end
   object Invoice: TAureliusDataset
     FieldDefs = <>
-    Left = 248
-    Top = 344
+    Left = 232
+    Top = 176
   end
   object sourceInvoice: TDataSource
     DataSet = Invoice
-    Left = 320
-    Top = 344
+    Left = 232
+    Top = 232
   end
-  object ImageCollection1: TImageCollection
+  object Collection: TImageCollection
     Images = <
       item
         Name = 'piggy-bank'
@@ -652,10 +656,10 @@ inherited FrmPayments: TFrmPayments
               92244992240DD4FF03F9E552A20090AF1C0000000049454E44AE426082}
           end>
       end>
-    Left = 48
-    Top = 256
+    Left = 40
+    Top = 176
   end
-  object VirtualImageList1: TVirtualImageList
+  object Images: TVirtualImageList
     AutoFill = True
     DisabledOpacity = 100
     Images = <
@@ -664,10 +668,10 @@ inherited FrmPayments: TFrmPayments
         CollectionName = 'piggy-bank'
         Name = 'piggy-bank'
       end>
-    ImageCollection = ImageCollection1
+    ImageCollection = Collection
     Width = 32
     Height = 32
-    Left = 160
-    Top = 248
+    Left = 40
+    Top = 232
   end
 end

@@ -68,11 +68,11 @@ type
     PaymentsInvoiceNumber: TIntegerField;
     Invoice: TAureliusDataset;
     sourceInvoice: TDataSource;
-    btnPayOff: TButton;
+    btnPayFull: TButton;
     txtDue: TLabel;
-    ImageCollection1: TImageCollection;
-    VirtualImageList1: TVirtualImageList;
-    procedure btnPayOffClick(Sender: TObject);
+    Collection: TImageCollection;
+    Images: TVirtualImageList;
+    procedure btnPayFullClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure sourcePaymentsDataChange(Sender: TObject; Field: TField);
     procedure sourcePaymentsStateChange(Sender: TObject);
@@ -80,8 +80,6 @@ type
     { Private declarations }
     FDataSet: TAureliusDataset;
     FDataSource: TDataSource;
-
-    FAmountDue: Double;
 
     procedure UpdateAmountDue;
   public
@@ -128,16 +126,28 @@ begin
   UpdateAmountDue;
 end;
 
-procedure TFrmPayments.btnPayOffClick(Sender: TObject);
+procedure TFrmPayments.btnPayFullClick(Sender: TObject);
 begin
+  // cancel editing
+  if Payments.State in dsEditModes then
+  begin
+    Payments.Cancel;
+  end;
+
+  // get selected invoice
+  var LCurrentInvoice := FDataSet.Current<TInvoice>;
+
+  // add new payment with amount due
+  // with current date
   Payments.Append;
   PaymentsPaidOn.AsDateTime := TDateTime.Today;
-  PaymentsAmount.AsFloat := FAmountDue;
+  PaymentsAmount.AsFloat := LCurrentInvoice.AmountDue;
   Payments.Post;
 end;
 
 procedure TFrmPayments.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  // post all changes
   if Payments.State in dsEditModes then
   begin
     Payments.Post;
@@ -160,39 +170,27 @@ begin
 end;
 
 procedure TFrmPayments.UpdateAmountDue;
-var
-  LBookmark: TBookmark;
-  LSum: Double;
 begin
-  if Payments.State = dsBrowse then
+  // get current invoice
+  var LInvoice := FDataSet.Current<TInvoice>;
+
+  // get amount due value
+  var LAmountDue := LInvoice.AmountDue;
+  txtDue.Caption := Format( '%m', [LAmountDue]);
+
+  txtDue.Visible := LAmountDue <> 0;
+
+  // red => amount due
+  // green => overpaid
+  if LAmountDue > 0 then
   begin
-    LSum := 0;
-    Payments.DisableControls;
-    LBookmark := Payments.GetBookmark;
-    try
-      Payments.First;
-      while Payments.Eof = False do
-      begin
-        LSum := LSum + PaymentsAmount.AsFloat;
-        Payments.Next;
-      end;
-
-      var LDue := FDataset.FieldByName('TotalAmount').AsFloat - LSum;
-      if LDue > 0 then
-      begin
-        txtDue.Font.Color := clRed;
-      end
-      else
-      begin
-        txtDue.Font.Color := clGreen;
-      end;
-      FAmountDue := LDue;
-      txtDue.Caption := Format( '%m', [FAmountDue]);
-
-      Payments.GotoBookmark(LBookmark);
-    finally
-      Payments.EnableControls;
-      Payments.FreeBookmark(LBookmark);
+    txtDue.Font.Color := clRed;
+  end
+  else
+  begin
+    if LAmountDue < 0 then
+    begin
+      txtDue.Font.Color := clGreen;
     end;
   end;
 end;
