@@ -56,33 +56,50 @@ implementation
 
 { TFrmEditMemoField }
 
-class procedure TFrmEditMemoField.Execute(AParentForm: TForm; AField: TField; AOrigin: TPoint; AWidth: Integer);
+class procedure TFrmEditMemoField.Execute(
+  AParentForm: TForm;
+  AField: TField;
+  AOrigin: TPoint;
+  AWidth: Integer);
 begin
   var LFrm := TFrmEditMemoField.Create(AParentForm);
   try
+    // use font from parent
     if Assigned( AParentForm ) then
     begin
       LFrm.Editor.Font := AParentForm.Font;
     end;
 
-
-
+    // assign data from field
     LFrm.Editor.Lines.Text := AField.AsString;
 
+    // position form
     LFrm.Left := AOrigin.X;
     LFrm.Top := AOrigin.Y;
     LFrm.Width := AWidth * 2;
     LFrm.Height := 400;
     LFrm.Caption := AField.DisplayName;
 
+    // show form
     LFrm.ShowModal;
 
+    // update value
+    var LNeedPost := False;
     if not (AField.DataSet.State in [dsInsert, dsEdit]) then
     begin
+      LNeedPost := True;
       AField.DataSet.Edit;
     end;
 
+    // assign value to field
     AField.AsString := LFrm.Editor.Lines.Text;
+
+    // post if edit state was enabled here to return with
+    // same state as before
+    if LNeedPost then
+    begin
+      AField.DataSet.Post;
+    end;
   finally
     LFrm.Free;
   end;

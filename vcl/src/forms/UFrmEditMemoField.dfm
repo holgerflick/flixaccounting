@@ -21,9 +21,5 @@ object FrmEditMemoField: TFrmEditMemoField
     Lines.Strings = (
       'Editor')
     TabOrder = 0
-    ExplicitLeft = 176
-    ExplicitTop = 120
-    ExplicitWidth = 185
-    ExplicitHeight = 89
   end
 end
