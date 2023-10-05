@@ -2,24 +2,27 @@ inherited FrmReportPreview: TFrmReportPreview
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
   Caption = 'FrmReportPreview'
-  ClientHeight = 522
-  ClientWidth = 739
-  ExplicitWidth = 755
-  ExplicitHeight = 561
+  ClientHeight = 495
+  ClientWidth = 647
+  ExplicitWidth = 663
+  ExplicitHeight = 534
   TextHeight = 21
   object Preview: TFlexCelPreviewer [0]
-    Left = 0
-    Top = 87
-    Width = 739
-    Height = 435
+    AlignWithMargins = True
+    Left = 3
+    Top = 90
+    Width = 641
+    Height = 402
     HorzScrollBar.Range = 20
     HorzScrollBar.Tracking = True
-    VertScrollBar.Range = 445
+    VertScrollBar.Range = 412
     VertScrollBar.Tracking = True
     Zoom = 1.000000000000000000
     Align = alBottom
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
+    ExplicitWidth = 550
+    ExplicitHeight = 363
   end
   object Button1: TButton [1]
     Left = 8
@@ -45,6 +48,10 @@ inherited FrmReportPreview: TFrmReportPreview
     Images = Images
     TabOrder = 2
   end
+  inherited actFrmBase: TActionList
+    Left = 120
+    Top = 136
+  end
   object DlgFileSave: TFileSaveDialog
     DefaultExtension = 'pdf'
     FavoriteLinks = <>
@@ -61,8 +68,8 @@ inherited FrmReportPreview: TFrmReportPreview
     OkButtonLabel = 'Save'
     Options = [fdoOverWritePrompt, fdoPathMustExist]
     Title = 'Save report to disk'
-    Left = 272
-    Top = 104
+    Left = 200
+    Top = 136
   end
   object Images: TVirtualImageList
     AutoFill = True
@@ -85,8 +92,8 @@ inherited FrmReportPreview: TFrmReportPreview
     ImageCollection = Collection
     Width = 32
     Height = 32
-    Left = 256
-    Top = 176
+    Left = 48
+    Top = 136
   end
   object Collection: TImageCollection
     Images = <
@@ -1477,13 +1484,13 @@ inherited FrmReportPreview: TFrmReportPreview
               000049454E44AE426082}
           end>
       end>
-    Left = 352
-    Top = 176
+    Left = 48
+    Top = 200
   end
   object Actions: TActionList
     Images = Images
-    Left = 464
-    Top = 48
+    Left = 120
+    Top = 200
     object actExport: TAction
       Caption = 'Save'
       ImageIndex = 1
