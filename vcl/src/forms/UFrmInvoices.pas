@@ -289,7 +289,7 @@ end;
 
 procedure TFrmInvoices.EditCompanyInfo;
 begin
-  var LFrm := TFrmCompany.Create(nil);
+  var LFrm := TFrmCompany.Create(self, ObjectManager);
   try
     LFrm.ShowModal;
   finally
