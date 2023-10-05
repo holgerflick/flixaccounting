@@ -66,8 +66,6 @@ inherited FrmCompany: TFrmCompany
     ModalResult = 1
     TabOrder = 0
     OnClick = btnOKClick
-    ExplicitLeft = 514
-    ExplicitTop = 264
   end
   object btnCancel: TButton [4]
     Left = 656
@@ -86,8 +84,6 @@ inherited FrmCompany: TFrmCompany
     ModalResult = 2
     TabOrder = 1
     OnClick = btnCancelClick
-    ExplicitLeft = 607
-    ExplicitTop = 264
   end
   object txtName: TDBEdit [5]
     Left = 8
@@ -98,7 +94,6 @@ inherited FrmCompany: TFrmCompany
     DataField = 'Name'
     DataSource = sourceCompany
     TabOrder = 2
-    ExplicitWidth = 500
   end
   object txtAddressLine: TDBEdit [6]
     Left = 8
@@ -109,7 +104,6 @@ inherited FrmCompany: TFrmCompany
     DataField = 'AddressLine'
     DataSource = sourceCompany
     TabOrder = 3
-    ExplicitWidth = 500
   end
   object txtCityZipLine: TDBEdit [7]
     Left = 8
@@ -120,7 +114,6 @@ inherited FrmCompany: TFrmCompany
     DataField = 'CityZipLine'
     DataSource = sourceCompany
     TabOrder = 4
-    ExplicitWidth = 500
   end
   object imgLogo: TDBImage [8]
     Left = 563
@@ -133,7 +126,6 @@ inherited FrmCompany: TFrmCompany
     Proportional = True
     Stretch = True
     TabOrder = 5
-    ExplicitLeft = 566
   end
   object btnLoadLogo: TButton [9]
     Left = 8
@@ -150,7 +142,6 @@ inherited FrmCompany: TFrmCompany
     Images = Images
     TabOrder = 6
     OnClick = btnLoadLogoClick
-    ExplicitTop = 264
   end
   inherited actFrmBase: TActionList
     Left = 328
