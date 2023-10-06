@@ -51,12 +51,17 @@ type
 
     constructor Create;
 
-    property Id: Integer read FId write FId;
-    property Kind: TApiTokenKind read FKind write FKind;
-    property Token: String read FToken write FToken;
-    property ExpiresOn: TDateTime read FExpiresOn write FExpiresOn;
+    property Id: Integer
+      read FId write FId;
+    property Kind: TApiTokenKind
+      read FKind write FKind;
+    property Token: String
+      read FToken write FToken;
+    property ExpiresOn: TDateTime
+      read FExpiresOn write FExpiresOn;
 
-    property IsExpired: Boolean read GetIsExpired;
+    property IsExpired: Boolean
+      read GetIsExpired;
   end;
 
   [Entity, Automapping]
@@ -70,10 +75,14 @@ type
     FApiToken: TApiToken;
 
   public
-    property Id: Integer read FId write FId;
-    property Name: String read FName write FName;
-    property Email: String read FEmail write FEmail;
-    property ApiToken: TApiToken read FApiToken write FApiToken;
+    property Id: Integer
+      read FId write FId;
+    property Name: String
+      read FName write FName;
+    property Email: String
+      read FEmail write FEmail;
+    property ApiToken: TApiToken
+      read FApiToken write FApiToken;
   end;
 
   TApiUrls = class
