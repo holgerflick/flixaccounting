@@ -112,6 +112,9 @@
         <DCCReference Include="UDownloadServiceImpl.pas"/>
         <DCCReference Include="UDownloadManager.pas"/>
         <DCCReference Include="..\..\vcl\src\UInvoicePrinter.pas"/>
+        <DCCReference Include="UInvoiceService.pas"/>
+        <DCCReference Include="UInvoiceServiceImpl.pas"/>
+        <DCCReference Include="UInvoiceServiceManager.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
