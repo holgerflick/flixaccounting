@@ -22,6 +22,7 @@ uses
   , System.Classes
   , System.SysUtils
   , System.Variants
+  , System.UITypes
 
   , Vcl.ComCtrls
   , Vcl.Controls

@@ -14,6 +14,7 @@ uses
   , System.SysUtils
   , System.Variants
   , System.ImageList
+  , System.UITypes
 
   , Vcl.ActnList
   , Vcl.Controls
@@ -71,7 +72,7 @@ type
     procedure InitializeForm;
     procedure ReplaceLogo;
   public
-    constructor Create( AOwner: TComponent; AObjManager: TObjectManager ); overload;
+    constructor Create( AOwner: TComponent; AObjManager: TObjectManager ); reintroduce;
   end;
 
 var

@@ -75,8 +75,6 @@ type
     CRCategoryTotalsTotal: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
   strict private
-    FObjManager: TObjectManager;
-
     FRangeStart: TDate;
     FRangeEnd: TDate;
     FObjectManager: TObjectManager;
