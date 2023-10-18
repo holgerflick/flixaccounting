@@ -106,6 +106,7 @@ type
 
     property Id: Integer read FId write FId;
     property Number: Integer read FNumber write FNumber;
+    property CustomerName: String read FCustomerName write FCustomerName;
     property IssuedOn: TDate read FIssuedOn write FIssuedOn;
     property DueOn: TDate read FDueOn write FDueOn;
     property StatusText: String read FStatusText write FStatusText;
@@ -219,6 +220,7 @@ begin
   StatusText := AInvoice.StatusText;
   CanBeProcessed := AInvoice.CanBeProcessed;
   CanModify := AInvoice.CanBeProcessed;
+  CustomerName := AInvoice.Customer.Name;
 end;
 
 end.
