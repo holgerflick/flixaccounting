@@ -41,6 +41,7 @@ uses
 
 type
   TReportServiceManager = class
+
   public
     function ProfitLoss(AToken: String; ARangeStart, ARangeEnd: TDate): TProfitLossDTO;
   end;
