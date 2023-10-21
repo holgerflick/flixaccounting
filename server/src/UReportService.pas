@@ -17,7 +17,7 @@ unit UReportService;
 interface
 
 uses
-    UServerTypes
+    UProfitLossDTO
   , XData.Service.Common
   ;
 

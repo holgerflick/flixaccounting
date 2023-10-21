@@ -67,7 +67,7 @@ type
     DefaultModelConnection: TAureliusConnection;
     MySQLConnection: TFDConnection;
     TemporaryModelConnection: TAureliusConnection;
-    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    MySQLLink: TFDPhysMySQLDriverLink;
     ServerCORS: TSparkleCorsMiddleware;
     ServerCompress: TSparkleCompressMiddleware;
     ServerForward: TSparkleForwardMiddleware;

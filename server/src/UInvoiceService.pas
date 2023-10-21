@@ -4,7 +4,7 @@ interface
 
 uses
     XData.Service.Common
-  , UServerTypes
+  , UInvoiceDTO
   ;
 
 type
@@ -18,8 +18,6 @@ type
     [Route('{token}')]
     function Invoices(Token:String): TInvoicesDTO;
 
-    [Route('{id}/{token}')]
-    function Invoice(Id: Integer; Token: String): TInvoiceDetailsDTO;
 
   end;
 

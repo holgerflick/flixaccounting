@@ -7,7 +7,7 @@
         <MainSource>FlixAccounting.Model.dpk</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{8A4A57F9-97E5-43B9-9E37-3D73CDA8C2B3}</ProjectGuid>
-        <ProjectVersion>20.0</ProjectVersion>
+        <ProjectVersion>20.1</ProjectVersion>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">

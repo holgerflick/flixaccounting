@@ -36,7 +36,7 @@ uses
   , System.SysUtils
 
   , UProfitLoss
-  , UServerTypes
+  , UProfitLossDTO
   ;
 
 type

@@ -21,7 +21,7 @@ uses
   , Bcl.Types.Nullable
 
   , System.SysUtils
-  , UServerTypes
+  , UInvoiceDTO
   ;
 
 type
@@ -32,7 +32,6 @@ type
     destructor Destroy; override;
 
     function Invoices(AToken: String): TInvoicesDTO;
-    function Invoice(AId: Integer; AToken: String): TInvoiceDetailsDTO;
 
   end;
 
@@ -59,20 +58,6 @@ begin
   inherited;
 end;
 
-function TInvoiceServiceManager.Invoice(AId: Integer;
-  AToken: String): TInvoiceDetailsDTO;
-begin
-  if AToken.IsEmpty then
-  begin
-    raise EXDataHttpUnauthorized.Create('Token required.');
-  end;
-
-  // check token first
-  if TTokenValidator.IsValidUserToken(AToken) then
-  begin
-
-  end;
-end;
 
 // ezEyMUYyMjFGLTNEQzgtNDRFRS1CMUEyLUVFOUU2QzdEQjRFNX0=
 
