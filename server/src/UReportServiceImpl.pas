@@ -20,7 +20,7 @@ uses
     XData.Server.Module
   , XData.Service.Common
 
-  , UServerTypes
+  , UProfitLossDTO
   , UReportService
   ;
 
