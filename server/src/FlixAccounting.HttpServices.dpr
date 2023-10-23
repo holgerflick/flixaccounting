@@ -13,7 +13,7 @@ uses
   UReportServiceImpl in 'UReportServiceImpl.pas',
   UReportServiceManager in 'UReportServiceManager.pas',
   UReportManager in '..\..\vcl\src\UReportManager.pas' {ReportManager: TDataModule},
-  UServerTypes in 'UServerTypes.pas',
+  UProfitLossDTO in 'DTO\UProfitLossDTO.pas',
   UTokenValidator in 'UTokenValidator.pas',
   UDownloadService in 'UDownloadService.pas',
   UDownloadServiceImpl in 'UDownloadServiceImpl.pas',

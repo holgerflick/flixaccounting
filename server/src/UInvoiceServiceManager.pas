@@ -21,6 +21,7 @@ uses
   , Bcl.Types.Nullable
 
   , System.SysUtils
+  , System.Classes
   , UInvoiceDTO
   ;
 
@@ -32,6 +33,11 @@ type
     destructor Destroy; override;
 
     function Invoices(AToken: String): TInvoicesDTO;
+
+    function Transactions(AId: Integer; AToken: String): TInvoiceTransactionsDTO;
+    function Payments(AId: Integer; AToken: String): TInvoicePaymentsDTO;
+    function Items(AId: Integer; AToken: String): TInvoiceItemsDTO;
+    function PDFDocument( AId: Integer; AToken: String): TStream;
 
   end;
 
@@ -63,37 +69,60 @@ end;
 
 function TInvoiceServiceManager.Invoices(AToken: String): TInvoicesDTO;
 begin
-  if AToken.IsEmpty then
-  begin
-    raise EXDataHttpUnauthorized.Create('Token required.');
-  end;
-
   // check token first
-  if TTokenValidator.IsValidUserToken(AToken) then
-  begin
-    var LObjectManager := TXDataOperationContext.Current.CreateManager(
-      ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
-      );
+  TTokenValidator.ValidateUserToken(AToken);
 
-    var LInvoices := LObjectManager
-      .Find<TInvoice>
-      .OrderBy(Dic.Invoice.Number)
-      .List
-      ;
-    try
-      Result := TInvoicesDTO.Create;
-      TXDataOperationContext.Current.Handler.ManagedObjects.Add(Result);
+  var LObjectManager := TXDataOperationContext.Current.CreateManager(
+    ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
+    );
 
-      for var LInvoice in LInvoices do
-      begin
-        var LDTO := TInvoiceDTO.Create(LInvoice);
-        Result.Add(LDTO);
-      end;
-    finally
-      LInvoices.Free;
+  var LInvoices := LObjectManager
+    .Find<TInvoice>
+    .OrderBy(Dic.Invoice.Number)
+    .List
+    ;
+  try
+    Result := TInvoicesDTO.Create;
+    TXDataOperationContext.Current.Handler.ManagedObjects.Add(Result);
+
+    for var LInvoice in LInvoices do
+    begin
+      var LDTO := TInvoiceDTO.Create(LInvoice);
+      Result.Add(LDTO);
     end;
-
+  finally
+    LInvoices.Free;
   end;
+end;
+
+function TInvoiceServiceManager.Items(AId: Integer; AToken: String): TInvoiceItemsDTO;
+begin
+  // check token first
+  TTokenValidator.ValidateUserToken(AToken);
+
+end;
+
+function TInvoiceServiceManager.Payments(AId: Integer;
+  AToken: String): TInvoicePaymentsDTO;
+begin
+  // check token first
+  TTokenValidator.ValidateUserToken(AToken);
+
+end;
+
+function TInvoiceServiceManager.PDFDocument(AId: Integer; AToken: String): TStream;
+begin
+  // check token first
+  TTokenValidator.ValidateUserToken(AToken);
+
+end;
+
+function TInvoiceServiceManager.Transactions(AId: Integer;
+  AToken: String): TInvoiceTransactionsDTO;
+begin
+  // check token first
+  TTokenValidator.ValidateUserToken(AToken);
+
 end;
 
 end.

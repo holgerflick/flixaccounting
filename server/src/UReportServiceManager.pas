@@ -63,43 +63,32 @@ var
   LConnection: IDBConnection;
 
 begin
-  if AToken.IsEmpty then
-  begin
-    raise EXDataHttpUnauthorized.Create('Token required.');
+  TTokenValidator.ValidateUserToken(AToken);
+
+  LConnection := ServerContainer.TemporaryConnection;
+
+  LObjManager := TXDataOperationContext.Current.CreateManager(
+    ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
+    );
+  LObjManagerTemp := TXDataOperationContext.Current.CreateManager(
+    LConnection,
+    TMappingExplorer.Get('Temporary')
+    );
+
+  LManager := TReportManager.Create(LObjManager);
+  try
+    LManager.RangeStart := ARangeStart;
+    LManager.RangeEnd := ARangeEnd;
+
+    var LProfitLoss := LManager.GetProfitLoss(LObjManagerTemp);
+    Result := TProfitLossDTO.Create(LProfitLoss);
+  finally
+    LManager.Free;
   end;
 
-  // check token first
-  if TTokenValidator.IsValidUserToken(AToken) then
+  if not Assigned(Result) then
   begin
-    LConnection := ServerContainer.TemporaryConnection;
-
-    LObjManager := TXDataOperationContext.Current.CreateManager(
-      ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection
-      );
-    LObjManagerTemp := TXDataOperationContext.Current.CreateManager(
-      LConnection,
-      TMappingExplorer.Get('Temporary')
-      );
-
-    LManager := TReportManager.Create(LObjManager);
-    try
-      LManager.RangeStart := ARangeStart;
-      LManager.RangeEnd := ARangeEnd;
-
-      var LProfitLoss := LManager.GetProfitLoss(LObjManagerTemp);
-      Result := TProfitLossDTO.Create(LProfitLoss);
-    finally
-      LManager.Free;
-    end;
-
-    if not Assigned(Result) then
-    begin
-      raise EXDataHttpException.Create( 404, 'Not found.' );
-    end;
-  end
-  else
-  begin
-    raise EXDataHttpUnauthorized.Create('Token invalid or expired.');
+    raise EXDataHttpException.Create( 404, 'Not found.' );
   end;
 end;
 
