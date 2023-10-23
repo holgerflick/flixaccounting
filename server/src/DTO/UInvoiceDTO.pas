@@ -59,6 +59,8 @@ type
     FTitle: String;
     FAmountTotal: Double;
   public
+    constructor Create( ATx: TTransaction );
+
     property Id: Integer read FId write FId;
     property Kind: TTransactionKind read FKind write FKind;
     property PaidOn: TDateTime read FPaidOn write FPaidOn;
@@ -74,6 +76,8 @@ type
     FPaidOn: TDateTime;
     FAmount: Double;
   public
+    constructor Create( APayment: TInvoicePayment );
+
     property Id: Integer read FId write FId;
     property PaidOn: TDateTime read FPaidOn write FPaidOn;
     property Amount: Double read FAmount write FAmount;
@@ -129,7 +133,6 @@ begin
   CustomerName := AInvoice.Customer.Name;
 end;
 
-
 { TInvoiceItemDTO }
 
 constructor TInvoiceItemDTO.Create(AItem: TInvoiceItem);
@@ -138,7 +141,35 @@ begin
 
   self.Id := AItem.Id;
   self.Idx := AItem.Idx;
-  self.
+  self.Category := AItem.Category;
+  self.Quantity := AItem.Quantity;
+  self.Value := AItem.Value;
+  self.TotalValue := AItem.TotalValue;
+end;
+
+{ TInvoicePaymentDTO }
+
+constructor TInvoicePaymentDTO.Create(APayment: TInvoicePayment);
+begin
+  inherited Create;
+
+  self.Id := APayment.Id;
+  self.PaidOn := APayment.PaidOn;
+  self.Amount := APayment.Amount;
+end;
+
+{ TInvoiceTransactionDTO }
+
+constructor TInvoiceTransactionDTO.Create(ATx: TTransaction);
+begin
+  inherited Create;
+
+  self.Id := ATx.Id;
+  self.Kind := ATx.Kind;
+  self.PaidOn := ATx.PaidOn;
+  self.Category := ATx.Category;
+  self.Title := ATx.Title;
+  self.AmountTotal := ATx.AmountTotal;
 end;
 
 end.
