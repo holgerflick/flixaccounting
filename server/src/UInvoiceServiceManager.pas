@@ -32,7 +32,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function Invoices(AToken: String): TInvoicesDTO;
+    function Invoices(AYear: Integer; AToken: String): TInvoicesDTO;
 
     function Transactions(AId: Integer; AToken: String): TInvoiceTransactionsDTO;
     function Payments(AId: Integer; AToken: String): TInvoicePaymentsDTO;
@@ -67,7 +67,7 @@ end;
 
 // ezEyMUYyMjFGLTNEQzgtNDRFRS1CMUEyLUVFOUU2QzdEQjRFNX0=
 
-function TInvoiceServiceManager.Invoices(AToken: String): TInvoicesDTO;
+function TInvoiceServiceManager.Invoices(AYear: Integer; AToken: String): TInvoicesDTO;
 begin
   // check token first
   TTokenValidator.ValidateUserToken(AToken);
@@ -78,6 +78,7 @@ begin
 
   var LInvoices := LObjectManager
     .Find<TInvoice>
+    .Where(Dic.Invoice.IssuedOn.Year = AYear)
     .OrderBy(Dic.Invoice.Number)
     .List
     ;

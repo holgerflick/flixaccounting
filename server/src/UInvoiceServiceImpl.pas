@@ -13,7 +13,7 @@ uses
 type
   [ServiceImplementation]
   TInvoiceService = class(TInterfacedObject, IInvoiceService)
-    function Invoices(Token:String): TInvoicesDTO;
+    function Invoices(Year: Integer; Token:String): TInvoicesDTO;
     function InvoiceItems(Id: Integer; Token: String): TInvoiceItemsDTO;
     function InvoicePayments(Id: Integer; Token: String): TInvoicePaymentsDTO;
     function InvoiceTransactions(Id: Integer; Token: String): TInvoiceTransactionsDTO;
@@ -45,11 +45,11 @@ begin
 
 end;
 
-function TInvoiceService.Invoices(Token:String): TInvoicesDTO;
+function TInvoiceService.Invoices(Year: Integer; Token:String): TInvoicesDTO;
 begin
   var LManager := TInvoiceServiceManager.Create;
   try
-    Result := LManager.Invoices(Token)
+    Result := LManager.Invoices(Year, Token)
   finally
     LManager.Free;
   end;

@@ -15,8 +15,8 @@ type
 
 
     [HttpGet]
-    [Route('{token}')]
-    function Invoices(Token:String): TInvoicesDTO;
+    [Route('{year}/{token}')]
+    function Invoices(Year: Integer; Token:String): TInvoicesDTO;
 
     [HttpGet]
     [Route('items/{id}/{token}')]

@@ -3,9 +3,13 @@ unit UInvoiceDTO;
 interface
 
 uses
-    System.Generics.Collections
+    Bcl.Json.Attributes
+  , Bcl.Json.NamingStrategies
+
+  , System.Generics.Collections
 
   , UInvoice
+  , UTransaction
   ;
 
 type
@@ -46,23 +50,52 @@ type
 
   TInvoicesDTO = TList<TInvoiceDTO>;
 
-(*
-
-    function Transactions(AId, AToken: String): TInvoiceTransactionsDTO;
-    function Payments(AId, AToken: String): TInvoicePaymentsDTO;
-    function Items(AId, AToken: String): TInvoiceItemsDTO;
-    *)
-
   TInvoiceTransactionDTO = class
+  private
+    FId: Integer;
+    FKind: TTransactionKind;
+    FPaidOn: TDateTime;
+    FCategory: String;
+    FTitle: String;
+    FAmountTotal: Double;
+  public
+    property Id: Integer read FId write FId;
+    property Kind: TTransactionKind read FKind write FKind;
+    property PaidOn: TDateTime read FPaidOn write FPaidOn;
+    property Category: String read FCategory write FCategory;
+    property Title: String read FTitle write FTitle;
+    property AmountTotal: Double read FAmountTotal write FAmountTotal;
 
   end;
 
   TInvoicePaymentDTO = class
-
+  private
+    FId: Integer;
+    FPaidOn: TDateTime;
+    FAmount: Double;
+  public
+    property Id: Integer read FId write FId;
+    property PaidOn: TDateTime read FPaidOn write FPaidOn;
+    property Amount: Double read FAmount write FAmount;
   end;
 
   TInvoiceItemDTO = class
+  private
+    FId: Integer;
+    FIdx: Integer;
+    FCategory: String;
+    FQuantity: Double;
+    FValue: Double;
+    FTotalValue: Double;
+  public
+    constructor Create(AItem: TInvoiceItem);
 
+    property Id: Integer read FId write FId;
+    property Idx: Integer read FIdx write FIdx;
+    property Category: String read FCategory write FCategory;
+    property Quantity: Double read FQuantity write FQuantity;
+    property Value: Double read FValue write FValue;
+    property TotalValue: Double read FTotalValue write FTotalValue;
   end;
 
   TInvoiceTransactionsDTO = TList<TInvoiceTransactionDTO>;
@@ -96,5 +129,16 @@ begin
   CustomerName := AInvoice.Customer.Name;
 end;
 
+
+{ TInvoiceItemDTO }
+
+constructor TInvoiceItemDTO.Create(AItem: TInvoiceItem);
+begin
+  inherited Create;
+
+  self.Id := AItem.Id;
+  self.Idx := AItem.Idx;
+  self.
+end;
 
 end.
