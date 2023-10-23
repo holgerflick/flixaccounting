@@ -18,6 +18,17 @@ type
     [Route('{token}')]
     function Invoices(Token:String): TInvoicesDTO;
 
+    [HttpGet]
+    [Route('items/{id}/{token}')]
+    function InvoiceItems(Id: Integer; Token: String): TInvoiceItemsDTO;
+
+    [HttpGet]
+    [Route('payments/{id}/{token}')]
+    function InvoicePayments(Id: Integer; Token: String): TInvoicePaymentsDTO;
+
+    [HttpGet]
+    [Route('transactions/{id}/{token}')]
+    function InvoiceTransactions(Id: Integer; Token: String): TInvoiceTransactionsDTO;
 
   end;
 

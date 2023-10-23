@@ -12,10 +12,10 @@ object ServerContainer: TServerContainer
     RoutingPrecedence = Service
     EntitySetPermissions = <>
     SwaggerOptions.Enabled = True
+    SwaggerUIOptions.Enabled = True
     SwaggerUIOptions.DocExpansion = None
     SwaggerUIOptions.DisplayOperationId = True
     SwaggerUIOptions.TryItOutEnabled = True
-    RedocOptions.Enabled = True
     Left = 248
     Top = 80
     object ServerCORS: TSparkleCorsMiddleware

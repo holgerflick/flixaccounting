@@ -13,7 +13,7 @@ uses
   UReportServiceImpl in 'UReportServiceImpl.pas',
   UReportServiceManager in 'UReportServiceManager.pas',
   UReportManager in '..\..\vcl\src\UReportManager.pas' {ReportManager: TDataModule},
-  UServerTypes in 'UServerTypes.pas',
+  UProfitLossDTO in 'DTO\UProfitLossDTO.pas',
   UTokenValidator in 'UTokenValidator.pas',
   UDownloadService in 'UDownloadService.pas',
   UDownloadServiceImpl in 'UDownloadServiceImpl.pas',
@@ -21,7 +21,8 @@ uses
   UInvoicePrinter in '..\..\vcl\src\UInvoicePrinter.pas',
   UInvoiceService in 'UInvoiceService.pas',
   UInvoiceServiceImpl in 'UInvoiceServiceImpl.pas',
-  UInvoiceServiceManager in 'UInvoiceServiceManager.pas';
+  UInvoiceServiceManager in 'UInvoiceServiceManager.pas',
+  UInvoiceDTO in 'DTO\UInvoiceDTO.pas';
 
 {$R *.res}
 

@@ -46,6 +46,29 @@ type
 
   TInvoicesDTO = TList<TInvoiceDTO>;
 
+(*
+
+    function Transactions(AId, AToken: String): TInvoiceTransactionsDTO;
+    function Payments(AId, AToken: String): TInvoicePaymentsDTO;
+    function Items(AId, AToken: String): TInvoiceItemsDTO;
+    *)
+
+  TInvoiceTransactionDTO = class
+
+  end;
+
+  TInvoicePaymentDTO = class
+
+  end;
+
+  TInvoiceItemDTO = class
+
+  end;
+
+  TInvoiceTransactionsDTO = TList<TInvoiceTransactionDTO>;
+  TInvoicePaymentsDTO = TList<TInvoicePaymentDTO>;
+  TInvoiceItemsDTO = TList<TInvoiceItemDTO>;
+
 implementation
 
 { TInvoiceDTO }
