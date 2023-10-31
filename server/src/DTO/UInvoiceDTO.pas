@@ -91,12 +91,15 @@ type
     FQuantity: Double;
     FValue: Double;
     FTotalValue: Double;
+    FDescription: String;
   public
     constructor Create(AItem: TInvoiceItem);
 
     property Id: Integer read FId write FId;
     property Idx: Integer read FIdx write FIdx;
     property Category: String read FCategory write FCategory;
+    property Description: String read FDescription write FDescription;
+
     property Quantity: Double read FQuantity write FQuantity;
     property Value: Double read FValue write FValue;
     property TotalValue: Double read FTotalValue write FTotalValue;
@@ -145,6 +148,7 @@ begin
   self.Quantity := AItem.Quantity;
   self.Value := AItem.Value;
   self.TotalValue := AItem.TotalValue;
+  self.Description :=  AItem.Description;
 end;
 
 { TInvoicePaymentDTO }

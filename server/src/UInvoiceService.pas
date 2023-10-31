@@ -4,6 +4,9 @@ interface
 
 uses
     XData.Service.Common
+
+  , System.Classes
+
   , UInvoiceDTO
   ;
 
@@ -29,6 +32,14 @@ type
     [HttpGet]
     [Route('transactions/{id}/{token}')]
     function InvoiceTransactions(Id: Integer; Token: String): TInvoiceTransactionsDTO;
+
+    [HttpGet]
+    [Route('xlsx/{id}/{token}')]
+    function InvoiceExcel(Id: Integer; Token: String): TStream;
+
+    [HttpGet]
+    [Route('pdf/{id}/{token}')]
+    function InvoicePdf(Id: Integer; Token: String): TStream;
 
   end;
 
