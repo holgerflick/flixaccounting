@@ -53,7 +53,7 @@ type
 
     function Download(AToken: String): TStream;
 
-    property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
+    property ObjectManager: TObjectManager read FObjectManager;
   end;
 
 
@@ -129,7 +129,6 @@ begin
   begin
     Result := DownloadInvoice(AToken);
   end;
-
 end;
 
 function TDownloadManager.DownloadInvoice(AToken: String): TStream;

@@ -92,6 +92,7 @@ procedure TMainForm.UpdateGUI;
 begin
   btStart.Enabled := not ServerContainer.SparkleHttpSysDispatcher.Active;
   btStop.Enabled := not btStart.Enabled;
+  btnSwaggerUI.Enabled := not btStart.Enabled;
   if ServerContainer.SparkleHttpSysDispatcher.Active then
     mmInfo.Lines.Add(SServerStartedAt + ServerContainer.ReadableBaseUrl)
   else

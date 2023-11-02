@@ -21,16 +21,18 @@ uses
   , Aurelius.Drivers.FireDac
   , Aurelius.Drivers.Interfaces
   , Aurelius.Drivers.SQLite
-  , Aurelius.Schema.MySQL
-  , Aurelius.Sql.MySQL
   , Aurelius.Engine.DatabaseManager
   , Aurelius.Mapping.Explorer
+  , Aurelius.Schema.MySQL
+  , Aurelius.Sql.MySQL
 
   , Data.DB
 
   , FireDAC.Comp.Client
   , FireDAC.Phys
   , FireDAC.Phys.Intf
+  , FireDAC.Phys.MySQL
+  , FireDAC.Phys.MySQLDef
   , FireDAC.Stan.Async
   , FireDAC.Stan.Def
   , FireDAC.Stan.Error
@@ -39,9 +41,11 @@ uses
   , FireDAC.Stan.Pool
   , FireDAC.UI.Intf
   , FireDAC.VCLUI.Wait
-  , FireDAC.Phys.MySQLDef
-  , FireDAC.Phys.MySQL
 
+  , Sparkle.Comp.CompressMiddleware
+  , Sparkle.Comp.CorsMiddleware
+  , Sparkle.Comp.ForwardMiddleware
+  , Sparkle.Comp.GenericMiddleware
   , Sparkle.Comp.HttpSysDispatcher
   , Sparkle.Comp.Server
   , Sparkle.HttpServer.Context
@@ -52,12 +56,9 @@ uses
 
   , XData.Comp.ConnectionPool
   , XData.Comp.Server
-  , XData.Server.Module, Sparkle.Comp.GenericMiddleware,
-  Sparkle.Comp.ForwardMiddleware, Sparkle.Comp.CompressMiddleware,
-  Sparkle.Comp.CorsMiddleware
+  , XData.Server.Module
 
   ;
-
 
 type
   TServerContainer = class(TDataModule)
