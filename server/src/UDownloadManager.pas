@@ -53,7 +53,7 @@ type
 
     function Download(AToken: String): TStream;
 
-    property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
+    property ObjectManager: TObjectManager read FObjectManager;
   end;
 
 
@@ -129,7 +129,6 @@ begin
   begin
     Result := DownloadInvoice(AToken);
   end;
-
 end;
 
 function TDownloadManager.DownloadInvoice(AToken: String): TStream;
@@ -140,12 +139,18 @@ var
   LFilename: String;
 
 begin
+  Result := nil;
+
   // find invoice that matches token -- also check if token is not expired
   var LInvoice := ObjectManager.Find<TInvoice>
     .Where( Dic.Invoice.ApiToken.Token = AToken )
     .UniqueResult
     ;
 
+  if not Assigned(LInvoice) then
+  begin
+    raise EXDataHttpException.Create(404, 'Token not linked to invoice.');
+  end;
 
   // either retrieve invoice as Excel document from object instance
   // or create it.
@@ -189,7 +194,6 @@ begin
   TXDataOperationContext.Current.Response.Headers.AddValue(
     'Content-Disposition', 'filename=' + LFilename + '.pdf'
     );
-
 end;
 
 end.

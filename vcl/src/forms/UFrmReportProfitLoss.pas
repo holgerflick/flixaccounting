@@ -62,22 +62,22 @@ uses
 type
   TFrmReportProfitLoss = class(TFrmBase, IReportConfiguration)
     sourceIncome: TDataSource;
-    FlxPanel1: TFlxPanel;
+    FlxPanel1: TPanel;
     GridIncomeTx: TDBGrid;
     Label1: TLabel;
     Splitter1: TSplitter;
     GridIncome: TDBGrid;
     sourceIncomeTx: TDataSource;
     Splitter2: TSplitter;
-    panExpense: TFlxPanel;
+    panExpense: TPanel;
     Label2: TLabel;
     Splitter3: TSplitter;
     GridExpenseTx: TDBGrid;
     GridExpense: TDBGrid;
     sourceExpense: TDataSource;
     sourceExpenseTx: TDataSource;
-    FlxPanel2: TFlxPanel;
-    FlxPanel3: TFlxPanel;
+    FlxPanel2: TPanel;
+    FlxPanel3: TPanel;
     Income: TAureliusDataset;
     IncomeTx: TAureliusDataset;
     IncomeSelf: TAureliusEntityField;
@@ -119,7 +119,7 @@ type
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
     procedure Display;
-    procedure Preview;
+    procedure Print;
 
     function GetName: String;
     procedure SaveToFile(AFilename: String);
@@ -127,7 +127,7 @@ type
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
 
-    function CanPreview: Boolean;
+    function CanPrint: Boolean;
     function CanExport: Boolean;
   end;
 
@@ -163,7 +163,7 @@ begin
   Result := False;
 end;
 
-function TFrmReportProfitLoss.CanPreview: Boolean;
+function TFrmReportProfitLoss.CanPrint: Boolean;
 begin
   Result := False;
 end;
@@ -228,7 +228,7 @@ begin
   Result := 'Profit and Loss';
 end;
 
-procedure TFrmReportProfitLoss.Preview;
+procedure TFrmReportProfitLoss.Print;
 begin
   raise ENotImplemented.Create('Still to come.');
 end;

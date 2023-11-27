@@ -107,6 +107,8 @@ type
 
     procedure QuickItems;
 
+    function NextItemIndex: Integer;
+
   public
     { Public declarations }
     constructor Create(AOwner: TComponent; AObjManager: TObjectManager;
@@ -116,7 +118,8 @@ type
 
 implementation
 uses
-    UFrmQuickItems
+    System.Math
+  , UFrmQuickItems
   , UFrmEditMemoField
   , UDictionary
   , UBoAImporter
@@ -228,6 +231,44 @@ begin
   end;
 end;
 
+function TFrmInvoice.NextItemIndex: Integer;
+var
+  LBookmark: TBookmark;
+
+begin
+  // init
+  Result := 0;
+
+  // remember cursor position
+  LBookmark := Items.GetBookmark;
+
+  // disable controls - no flicker
+  Items.DisableControls;
+  try
+    // move to first
+    Items.First;
+    while not Items.Eof do
+    begin
+      // adjust max
+      Result := max( Items.FieldByName('Idx').AsInteger, Result );
+
+      Items.Next;
+    end;
+
+    // move back to prev position
+    Items.GotoBookmark(LBookmark);
+
+    // next is max + 1
+    Result := Result + 1;
+  finally
+    // release bookmark
+    Items.FreeBookmark(LBookmark);
+
+    // enable controls
+    Items.EnableControls;
+  end;
+end;
+
 procedure TFrmInvoice.OpenDatasets;
 begin
   // line items of the current invoice
@@ -276,7 +317,8 @@ begin
     if Assigned( LQuickItem ) then
     begin
       // determine next number
-      var LNext := FInvoices.Current<TInvoice>.NextItemIndex;
+      // this has to be done on the dataset
+      var LNext := NextItemIndex;
 
       Items.Append;
       Items.FieldByName('Idx').AsInteger := LNext;

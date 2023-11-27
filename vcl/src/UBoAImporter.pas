@@ -63,7 +63,6 @@ begin
       if Length(Splits) = 4 then      // ignore any additional lines
       begin
         try
-          var LConversionCheck := StrToDate( Splits[0] );
           var LAmount := StrToFloat( Splits[2] );
 
           var LDate := Splits[0] + ': ';

@@ -16,7 +16,7 @@ object ServerContainer: TServerContainer
     SwaggerUIOptions.DocExpansion = None
     SwaggerUIOptions.DisplayOperationId = True
     SwaggerUIOptions.TryItOutEnabled = True
-    Left = 264
+    Left = 248
     Top = 80
     object ServerCORS: TSparkleCorsMiddleware
     end
@@ -50,11 +50,11 @@ object ServerContainer: TServerContainer
     Params.Strings = (
       'Database=:memory:'
       'EnableForeignKeys=True')
-    Left = 264
+    Left = 248
     Top = 152
   end
-  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
-    Left = 264
-    Top = 224
+  object MySQLLink: TFDPhysMySQLDriverLink
+    Left = 248
+    Top = 216
   end
 end

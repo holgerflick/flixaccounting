@@ -5,6 +5,7 @@ interface
 uses
     Aurelius.Bind.BaseDataset
   , Aurelius.Bind.Dataset
+  , Aurelius.Engine.ObjectManager
 
   , Data.DB
 
@@ -12,6 +13,8 @@ uses
   , System.Classes
   , System.SysUtils
   , System.Variants
+  , System.ImageList
+  , System.UITypes
 
   , Vcl.ActnList
   , Vcl.Controls
@@ -25,12 +28,15 @@ uses
   , Vcl.Imaging.pngimage
   , Vcl.Mask
   , Vcl.StdCtrls
+  , Vcl.BaseImageCollection
+  , Vcl.ImageCollection
+  , Vcl.ImgList
+  , Vcl.VirtualImageList
 
   , Winapi.Messages
   , Winapi.Windows
 
-  , UFrmBase, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList,
-  Vcl.BaseImageCollection, Vcl.ImageCollection
+  , UFrmBase
   ;
 
 
@@ -57,15 +63,16 @@ type
     Images: TVirtualImageList;
     DlgOpenImage: TFileOpenDialog;
     procedure FormDestroy(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnLoadLogoClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
   private
     function CheckReplaceLogo: Boolean;
+
+    procedure InitializeForm;
     procedure ReplaceLogo;
   public
-
+    constructor Create( AOwner: TComponent; AObjManager: TObjectManager ); reintroduce;
   end;
 
 var
@@ -87,17 +94,8 @@ begin
   inherited;
 end;
 
-procedure TFrmCompany.ReplaceLogo;
+procedure TFrmCompany.InitializeForm;
 begin
-  if DlgOpenImage.Execute then
-  begin
-    CompanyLogo.LoadFromFile(DlgOpenImage.FileName);
-  end;
-end;
-
-procedure TFrmCompany.FormCreate(Sender: TObject);
-begin
-  inherited;
   Caption := 'Edit Company Information';
 
   Company.Manager := ObjectManager;
@@ -106,6 +104,14 @@ begin
   );
   Company.Open;
   Company.Edit;
+end;
+
+procedure TFrmCompany.ReplaceLogo;
+begin
+  if DlgOpenImage.Execute then
+  begin
+    CompanyLogo.LoadFromFile(DlgOpenImage.FileName);
+  end;
 end;
 
 procedure TFrmCompany.btnCancelClick(Sender: TObject);
@@ -143,6 +149,15 @@ begin
        'really want to replace it?',
        mtConfirmation, [mbYes, mbNo], 0 ) = mrYes;
   end;
+end;
+
+constructor TFrmCompany.Create(AOwner: TComponent; AObjManager: TObjectManager);
+begin
+  inherited Create( AOwner );
+
+  ObjectManager := AObjManager;
+
+  InitializeForm;
 end;
 
 end.

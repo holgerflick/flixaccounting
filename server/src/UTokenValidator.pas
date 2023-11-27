@@ -22,6 +22,7 @@ uses
   , Aurelius.Criteria.Linq
   , Aurelius.Engine.ObjectManager
 
+  , XData.Sys.Exceptions
   , XData.Server.Module
   ;
 
@@ -29,7 +30,7 @@ type
   TTokenValidator = class
 
   public
-    class function IsValidUserToken(AToken: String): Boolean;
+    class procedure ValidateUserToken(AToken: String);
   end;
 
 implementation
@@ -38,17 +39,23 @@ uses
   , UDictionary
 
   , System.DateUtils
+  , System.SysUtils
 
   , UServerContainer
   ;
 
 { TTokenAuthentication }
 
-class function TTokenValidator.IsValidUserToken(AToken: String): Boolean;
+class procedure TTokenValidator.ValidateUserToken(AToken: String);
 var
   LUser: TApiUser;
 
 begin
+  if AToken.IsEmpty then
+  begin
+    raise EXDataHttpUnauthorized.Create('Token is required.');
+  end;
+
   var LObjManager := TObjectManager.Create(
     ServerContainer.DefaultConnectionPool.GetPoolInterface.GetConnection );
   try
@@ -60,7 +67,10 @@ begin
       .UniqueResult
       ;
 
-    Result := Assigned(LUser);
+    if not Assigned(LUser) then
+    begin
+      raise EXDataHttpUnauthorized.Create('Token is invalid.');
+    end;
   finally
     LObjManager.Free;
   end;

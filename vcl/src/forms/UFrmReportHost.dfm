@@ -1,20 +1,19 @@
 inherited FrmReportHost: TFrmReportHost
   BorderIcons = [biSystemMenu]
   Caption = 'Reports'
-  ClientHeight = 622
+  ClientHeight = 471
   ClientWidth = 584
   Constraints.MinWidth = 600
   ExplicitWidth = 600
-  ExplicitHeight = 661
+  ExplicitHeight = 510
   TextHeight = 21
-  object panTop: TFlxPanel [0]
+  object panTop: TPanel [0]
     Left = 0
     Top = 0
     Width = 584
     Height = 105
     Align = alTop
     BevelOuter = bvNone
-    Caption = 'panTop'
     ShowCaption = False
     TabOrder = 0
     DesignSize = (
@@ -105,21 +104,24 @@ inherited FrmReportHost: TFrmReportHost
       TabOrder = 4
     end
   end
-  object panHost: TFlxPanel [1]
+  object panHost: TPanel [1]
     Left = 0
     Top = 105
     Width = 584
-    Height = 517
+    Height = 366
     Align = alClient
     BevelOuter = bvNone
-    Caption = 'panHost'
     ShowCaption = False
     TabOrder = 1
+    ExplicitHeight = 517
+  end
+  inherited actFrmBase: TActionList
+    Top = 152
   end
   object ActionList1: TActionList
     Images = Images
     Left = 88
-    Top = 248
+    Top = 240
     object actCustomerProfits: TAction
       Caption = 'Customer'
       ImageIndex = 0
@@ -2335,7 +2337,7 @@ inherited FrmReportHost: TFrmReportHost
     OkButtonLabel = 'Save'
     Options = [fdoOverWritePrompt, fdoPathMustExist]
     Title = 'Export report'
-    Left = 256
+    Left = 152
     Top = 241
   end
 end

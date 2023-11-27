@@ -59,14 +59,14 @@ type
 
   public
     procedure Display;
-    procedure Preview;
+    procedure Print;
 
     procedure SaveToFile(AFilename: String);
     procedure SetRangeEnd(ADate: TDate);
     procedure SetRangeStart(ADate: TDate);
     procedure SetHostControl(AControl: TWinControl);
 
-    function CanPreview: Boolean;
+    function CanPrint: Boolean;
     function CanExport: Boolean;
 
     function GetName: String;
@@ -96,7 +96,7 @@ begin
   Result := 'Income per Customer';
 end;
 
-procedure TFrmReportCustomers.Preview;
+procedure TFrmReportCustomers.Print;
 begin
   raise ENotImplemented.Create('Still to come.');
 end;
@@ -116,7 +116,7 @@ begin
   Result := False;
 end;
 
-function TFrmReportCustomers.CanPreview: Boolean;
+function TFrmReportCustomers.CanPrint: Boolean;
 begin
   Result := False;
 end;

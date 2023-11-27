@@ -21,6 +21,7 @@ uses
   , System.Classes
   , System.SysUtils
   , System.Variants
+  , System.UITypes
 
   , Vcl.ActnList
   , Vcl.ComCtrls
@@ -94,7 +95,6 @@ begin
     LFrm.Caption := ACaption;
     LFrm.ApiToken := AToken;
     LFrm.ShowModal;
-    AToken := LFrm.ApiToken;
   finally
     LFrm.Free;
   end;

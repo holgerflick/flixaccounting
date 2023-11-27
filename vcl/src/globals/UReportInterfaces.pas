@@ -30,10 +30,10 @@ type
 
     function GetName: String;
     function CanExport: Boolean;
-    function CanPreview: Boolean;
+    function CanPrint: Boolean;
 
     procedure Display;
-    procedure Preview;
+    procedure Print;
 
     procedure SaveToFile( AFilename: String );
   end;

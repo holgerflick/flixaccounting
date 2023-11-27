@@ -3,6 +3,7 @@ program FlixAccounting.HttpServices;
 {$R 'resources.res' 'resources.rc'}
 
 uses
+  System.UITypes,
   VCL.FlexCel.Core,
   Vcl.Forms,
   Vcl.Dialogs,
@@ -13,12 +14,16 @@ uses
   UReportServiceImpl in 'UReportServiceImpl.pas',
   UReportServiceManager in 'UReportServiceManager.pas',
   UReportManager in '..\..\vcl\src\UReportManager.pas' {ReportManager: TDataModule},
-  UServerTypes in 'UServerTypes.pas',
+  UProfitLossDTO in 'DTO\UProfitLossDTO.pas',
   UTokenValidator in 'UTokenValidator.pas',
   UDownloadService in 'UDownloadService.pas',
   UDownloadServiceImpl in 'UDownloadServiceImpl.pas',
   UDownloadManager in 'UDownloadManager.pas',
-  UInvoicePrinter in '..\..\vcl\src\UInvoicePrinter.pas';
+  UInvoicePrinter in '..\..\vcl\src\UInvoicePrinter.pas',
+  UInvoiceDTO in 'DTO\UInvoiceDTO.pas',
+  UInvoiceService in 'UInvoiceService.pas',
+  UInvoiceServiceImpl in 'UInvoiceServiceImpl.pas',
+  UInvoiceServiceManager in 'UInvoiceServiceManager.pas';
 
 {$R *.res}
 
@@ -26,7 +31,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TServerContainer, ServerContainer);
-
   if ServerContainer.CanStart then
   begin
     Application.CreateForm(TMainForm, MainForm);
