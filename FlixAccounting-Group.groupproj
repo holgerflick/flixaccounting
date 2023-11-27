@@ -3,9 +3,6 @@
         <ProjectGuid>{5839F9FA-765E-42DF-8057-87C31FA29C33}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="FlxComponents\FlxComponents.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="bpl\src\FlixAccounting.Model.dproj">
             <Dependencies/>
         </Projects>
@@ -23,15 +20,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="FlxComponents">
-        <MSBuild Projects="FlxComponents\FlxComponents.dproj"/>
-    </Target>
-    <Target Name="FlxComponents:Clean">
-        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="FlxComponents:Make">
-        <MSBuild Projects="FlxComponents\FlxComponents.dproj" Targets="Make"/>
-    </Target>
     <Target Name="FlixAccounting_Model">
         <MSBuild Projects="bpl\src\FlixAccounting.Model.dproj"/>
     </Target>
@@ -60,13 +48,13 @@
         <MSBuild Projects="server\src\FlixAccounting.HttpServices.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="FlxComponents;FlixAccounting_Model;FlixAccounting;FlixAccounting_HttpServices"/>
+        <CallTarget Targets="FlixAccounting_Model;FlixAccounting;FlixAccounting_HttpServices"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="FlxComponents:Clean;FlixAccounting_Model:Clean;FlixAccounting:Clean;FlixAccounting_HttpServices:Clean"/>
+        <CallTarget Targets="FlixAccounting_Model:Clean;FlixAccounting:Clean;FlixAccounting_HttpServices:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="FlxComponents:Make;FlixAccounting_Model:Make;FlixAccounting:Make;FlixAccounting_HttpServices:Make"/>
+        <CallTarget Targets="FlixAccounting_Model:Make;FlixAccounting:Make;FlixAccounting_HttpServices:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
