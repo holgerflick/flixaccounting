@@ -18,15 +18,15 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase, Vcl.ExtCtrls, uFlxPanel,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmBase, Vcl.ExtCtrls, 
   Vcl.StdCtrls, System.Actions, Vcl.ActnList, Vcl.BaseImageCollection,
   Vcl.ImageCollection, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList,
   UReportInterfaces;
 
 type
   TFrmReportHost = class(TFrmBase)
-    panTop: TFlxPanel;
-    panHost: TFlxPanel;
+    panTop: TPanel;
+    panHost: TPanel;
     btnCustomers: TButton;
     Button1: TButton;
     ActionList1: TActionList;
@@ -143,7 +143,7 @@ procedure TFrmReportHost.actPrintExecute(Sender: TObject);
 begin
   if Assigned( FHosting ) then
   begin
-    FHosting.Preview;
+    FHosting.Print;
   end;
 end;
 
@@ -152,7 +152,7 @@ begin
   var LEnabled := FHosting <> nil;
   if LEnabled then
   begin
-    LEnabled := FHosting.CanPreview;
+    LEnabled := FHosting.CanPrint;
   end;
   (Sender as TAction).Enabled := LEnabled;
 end;

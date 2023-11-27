@@ -983,7 +983,6 @@ inherited FrmCompany: TFrmCompany
   end
   object DlgOpenImage: TFileOpenDialog
     FavoriteLinks = <>
-    FileName = 'C:\dev\flixaccounting\vcl\resources'
     FileTypes = <
       item
         DisplayName = 'JPEG Image (*.jpg)'

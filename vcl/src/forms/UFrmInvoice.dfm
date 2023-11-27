@@ -6,38 +6,7 @@ inherited FrmInvoice: TFrmInvoice
   ExplicitWidth = 754
   ExplicitHeight = 543
   TextHeight = 21
-  object txtNumber: TDBAdvEdit [0]
-    Left = 339
-    Top = 32
-    Width = 121
-    Height = 29
-    EditType = etNumeric
-    EmptyTextStyle = []
-    FlatLineColor = 11250603
-    FocusColor = clWindow
-    FocusFontColor = 3881787
-    LabelCaption = 'Number'
-    LabelPosition = lpTopLeft
-    LabelFont.Charset = DEFAULT_CHARSET
-    LabelFont.Color = clWindowText
-    LabelFont.Height = -16
-    LabelFont.Name = 'Segoe UI'
-    LabelFont.Style = [fsBold]
-    Lookup.Font.Charset = DEFAULT_CHARSET
-    Lookup.Font.Color = clWindowText
-    Lookup.Font.Height = -11
-    Lookup.Font.Name = 'Segoe UI'
-    Lookup.Font.Style = []
-    Lookup.Separator = ';'
-    Anchors = [akTop, akRight]
-    Color = clWindow
-    TabOrder = 1
-    Text = '0'
-    Visible = True
-    Version = '4.0.4.3'
-    DataField = 'Number'
-  end
-  object GridItems: TDBGrid [1]
+  object GridItems: TDBGrid [0]
     Left = 8
     Top = 99
     Width = 722
@@ -115,7 +84,7 @@ inherited FrmInvoice: TFrmInvoice
         Visible = True
       end>
   end
-  object btnBoA: TButton [2]
+  object btnBoA: TButton [1]
     Left = 143
     Top = 550
     Width = 145
@@ -126,7 +95,7 @@ inherited FrmInvoice: TFrmInvoice
     Visible = False
     OnClick = btnBoAClick
   end
-  object cbCustomer: TDBLookupComboBox [3]
+  object cbCustomer: TDBLookupComboBox [2]
     Left = 8
     Top = 32
     Width = 325
@@ -138,17 +107,7 @@ inherited FrmInvoice: TFrmInvoice
     ListSource = sourceCustomers
     TabOrder = 0
   end
-  object DBNavigator1: TDBNavigator [4]
-    Left = 8
-    Top = 67
-    Width = 720
-    Height = 26
-    DataSource = sourceItems
-    VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 4
-  end
-  object dateIssued: TAdvDBDateTimePicker [5]
+  object dateIssued: TAdvDBDateTimePicker [3]
     Left = 466
     Top = 32
     Width = 129
@@ -180,7 +139,7 @@ inherited FrmInvoice: TFrmInvoice
     LabelFont.Style = [fsBold]
     DataField = 'IssuedOn'
   end
-  object btnCancel: TButton [6]
+  object btnCancel: TButton [4]
     Left = 494
     Top = 464
     Width = 115
@@ -191,18 +150,7 @@ inherited FrmInvoice: TFrmInvoice
     ModalResult = 2
     TabOrder = 9
   end
-  object btnQuickItem: TButton [7]
-    Left = 8
-    Top = 464
-    Width = 129
-    Height = 33
-    Anchors = [akLeft, akBottom]
-    Cancel = True
-    Caption = '&Quick Item...'
-    TabOrder = 6
-    OnClick = btnQuickItemClick
-  end
-  object dateDueOn: TAdvDBDateTimePicker [8]
+  object dateDueOn: TAdvDBDateTimePicker [5]
     Left = 601
     Top = 32
     Width = 129
@@ -234,7 +182,7 @@ inherited FrmInvoice: TFrmInvoice
     LabelFont.Style = [fsBold]
     DataField = 'DueOn'
   end
-  object btnOK: TButton [9]
+  object btnOK: TButton [6]
     Left = 615
     Top = 464
     Width = 115
@@ -244,6 +192,58 @@ inherited FrmInvoice: TFrmInvoice
     ModalResult = 1
     TabOrder = 8
     OnClick = btnOKClick
+  end
+  object btnQuickItem: TButton [7]
+    Left = 8
+    Top = 464
+    Width = 129
+    Height = 33
+    Anchors = [akLeft, akBottom]
+    Cancel = True
+    Caption = '&Quick Item...'
+    TabOrder = 6
+    OnClick = btnQuickItemClick
+  end
+  object DBNavigator1: TDBNavigator [8]
+    Left = 8
+    Top = 67
+    Width = 720
+    Height = 26
+    DataSource = sourceItems
+    VisibleButtons = [nbInsert, nbDelete, nbPost, nbCancel]
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 4
+  end
+  object txtNumber: TDBAdvEdit [9]
+    Left = 339
+    Top = 32
+    Width = 121
+    Height = 29
+    EditType = etNumeric
+    EmptyTextStyle = []
+    FlatLineColor = 11250603
+    FocusColor = clWindow
+    FocusFontColor = 3881787
+    LabelCaption = 'Number'
+    LabelPosition = lpTopLeft
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -16
+    LabelFont.Name = 'Segoe UI'
+    LabelFont.Style = [fsBold]
+    Lookup.Font.Charset = DEFAULT_CHARSET
+    Lookup.Font.Color = clWindowText
+    Lookup.Font.Height = -11
+    Lookup.Font.Name = 'Segoe UI'
+    Lookup.Font.Style = []
+    Lookup.Separator = ';'
+    Anchors = [akTop, akRight]
+    Color = clWindow
+    TabOrder = 1
+    Text = '0'
+    Visible = True
+    Version = '4.0.4.3'
+    DataField = 'Number'
   end
   object Items: TAureliusDataset
     FieldDefs = <

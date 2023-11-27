@@ -16,14 +16,13 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     ExplicitTop = 8
     ExplicitHeight = 510
   end
-  object FlxPanel1: TFlxPanel [1]
+  object FlxPanel1: TPanel [1]
     Left = 0
     Top = 0
     Width = 599
     Height = 706
     Align = alClient
     BevelOuter = bvNone
-    Caption = 'FlxPanel1'
     ShowCaption = False
     TabOrder = 0
     object Label1: TLabel
@@ -112,7 +111,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
           Visible = True
         end>
     end
-    object FlxPanel2: TFlxPanel
+    object FlxPanel2: TPanel
       AlignWithMargins = True
       Left = 3
       Top = 662
@@ -122,7 +121,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Margins.Bottom = 10
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
       object txtTotalIncome: TLabel
@@ -146,14 +144,13 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       end
     end
   end
-  object panExpense: TFlxPanel [2]
+  object panExpense: TPanel [2]
     Left = 602
     Top = 0
     Width = 553
     Height = 706
     Align = alRight
     BevelOuter = bvNone
-    Caption = 'FlxPanel1'
     ShowCaption = False
     TabOrder = 1
     object Label2: TLabel
@@ -242,7 +239,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
           Visible = True
         end>
     end
-    object FlxPanel3: TFlxPanel
+    object FlxPanel3: TPanel
       AlignWithMargins = True
       Left = 3
       Top = 662
@@ -252,7 +249,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Margins.Bottom = 10
       Align = alBottom
       BevelOuter = bvNone
-      Caption = 'FlxPanel2'
       ShowCaption = False
       TabOrder = 2
       object txtTotalExpense: TLabel

@@ -115,14 +115,6 @@ var
   LXlsFile: TXlsFile;
 
 begin
-  (*
-    This method will always return an invoice in `AReport`.
-
-    Make sure to use ProcessedCopy if the invoice
-    has already been processed.
-
-    *)
-
   Assert( Assigned( AReport ) );
 
   if not Assigned(AInvoice) then

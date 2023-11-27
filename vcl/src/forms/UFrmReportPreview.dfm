@@ -2,27 +2,26 @@ inherited FrmReportPreview: TFrmReportPreview
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeToolWin
   Caption = 'FrmReportPreview'
-  ClientHeight = 495
+  ClientHeight = 304
   ClientWidth = 647
   ExplicitWidth = 663
-  ExplicitHeight = 534
+  ExplicitHeight = 343
   TextHeight = 21
   object Preview: TFlexCelPreviewer [0]
     AlignWithMargins = True
     Left = 3
     Top = 90
     Width = 641
-    Height = 402
+    Height = 211
     HorzScrollBar.Range = 20
     HorzScrollBar.Tracking = True
-    VertScrollBar.Range = 412
+    VertScrollBar.Range = 221
     VertScrollBar.Tracking = True
     Zoom = 1.000000000000000000
     Align = alBottom
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 550
-    ExplicitHeight = 363
+    ExplicitHeight = 402
   end
   object Button1: TButton [1]
     Left = 8
@@ -55,7 +54,7 @@ inherited FrmReportPreview: TFrmReportPreview
   object DlgFileSave: TFileSaveDialog
     DefaultExtension = 'pdf'
     FavoriteLinks = <>
-    FileName = 'C:\dev\FlixLLCPL\vcl\src\forms'
+    FileName = 'C:\dev\FlixLLCPL\vcl\src\forms.pdf'
     FileTypes = <
       item
         DisplayName = 'Adobe PDF Document (*.pdf)'

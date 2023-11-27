@@ -95,17 +95,16 @@ begin
         LTx := TTransaction.Create(TTransactionKind.Income);
         LTx.Amount := 0;
         LTx.IsMonthly := False;
+        LTx.PaidOn := AInvoice.Payments.LastPaymentDate;
+        LTx.Category := LCurrentCat;
+        LTx.Title := 'Invoice ' + AInvoice.Number.ToString + '; ' +
+                        AInvoice.Customer.Name;
         LTxCats.Add( LCurrentCat, LTx );
       end
       else
       begin
         LTx := LTxCats[LCurrentCat];
       end;
-
-      LTx.PaidOn := AInvoice.Payments.LastPaymentDate;
-      LTx.Category := LItem.Category;
-      LTx.Title := 'Invoice ' + AInvoice.Number.ToString + '; ' +
-        AInvoice.Customer.Name;
 
       LTx.Amount := LTx.Amount + LItem.TotalValue;
     end;
@@ -136,6 +135,5 @@ begin
     LTxCats.Free;
   end;
 end;
-
 
 end.
