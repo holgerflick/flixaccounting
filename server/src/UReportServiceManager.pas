@@ -63,6 +63,8 @@ var
   LConnection: IDBConnection;
 
 begin
+  Result := nil;
+
   TTokenValidator.ValidateUserToken(AToken);
 
   LConnection := ServerContainer.TemporaryConnection;

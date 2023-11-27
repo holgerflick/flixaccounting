@@ -26,6 +26,7 @@ uses
 
 type
 
+  [JsonNamingStrategy(TCamelCaseNamingStrategy)]
   TPLTransactionDTO = class
   private
     FTitle: String;
@@ -41,6 +42,7 @@ type
 
   TPLTransactionsDTO = TObjectList<TPLTransactionDTO>;
 
+  [JsonNamingStrategy(TCamelCaseNamingStrategy)]
   TPLCategoryDTO = class
   private
     FTransactions: TPLTransactionsDTO;
@@ -63,6 +65,7 @@ type
 
   TPLCategoriesDTO = TObjectList<TPLCategoryDTO>;
 
+  [JsonNamingStrategy(TCamelCaseNamingStrategy)]
   TProfitLossDTO = class
   private
     FCreated: TDateTime;
@@ -82,8 +85,6 @@ type
     property TotalIncome: Double read FTotalIncome;
     property TotalExpense: Double read FTotalExpense;
   end;
-
-
 
 implementation
 
