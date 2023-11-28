@@ -40,7 +40,7 @@ uses
   ;
 
 type
-  TFrmReportCustomers = class(TFrmBase, IReportConfiguration)
+  TFrmReportCustomers = class(TFrmBase, IReport)
     Customers: TDBGrid;
     Splitter1: TSplitter;
     Categories: TDBGrid;

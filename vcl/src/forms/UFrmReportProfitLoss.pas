@@ -52,7 +52,6 @@ uses
   , Winapi.Messages
   , Winapi.Windows
 
-  , uFlxPanel
   , UFrmBase
   , UReportInterfaces
   , UReportManager
@@ -60,7 +59,7 @@ uses
 
 
 type
-  TFrmReportProfitLoss = class(TFrmBase, IReportConfiguration)
+  TFrmReportProfitLoss = class(TFrmBase, IReport)
     sourceIncome: TDataSource;
     FlxPanel1: TPanel;
     GridIncomeTx: TDBGrid;

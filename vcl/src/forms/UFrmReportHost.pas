@@ -51,12 +51,12 @@ type
     procedure cbFilterYearChange(Sender: TObject);
   private
     { Private declarations }
-    FHosting: IReportConfiguration;
+    FHosting: IReport;
 
     function GetSelectedYear: Integer;
 
     procedure UpdateFilter;
-    procedure HostForm( AForm: IReportConfiguration );
+    procedure Display( AReport: IReport );
     procedure UpdateReport;
   public
     { Public declarations }
@@ -108,14 +108,14 @@ end;
 
 procedure TFrmReportHost.actCustomerProfitsExecute(Sender: TObject);
 var
-  LFrm: IReportConfiguration;
+  LReport: IReport;
 
 begin
   FHosting := nil;
 
-  LFrm := TFrmReportCustomers.Create(nil);
+  LReport := TFrmReportCustomers.Create(nil);
 
-  HostForm( LFrm );
+  Display( LReport );
 end;
 
 procedure TFrmReportHost.actExportExecute(Sender: TObject);
@@ -159,14 +159,14 @@ end;
 
 procedure TFrmReportHost.actProfitLossExecute(Sender: TObject);
 var
-  LFrm: IReportConfiguration;
+  LReport: IReport;
 
 begin
   FHosting := nil;
 
-  LFrm := TFrmReportProfitLoss.Create(nil);
+  LReport := TFrmReportProfitLoss.Create(nil);
 
-  HostForm( LFrm );
+  Display( LReport );
 end;
 
 procedure TFrmReportHost.cbFilterYearChange(Sender: TObject);
@@ -174,10 +174,13 @@ begin
   UpdateReport;
 end;
 
-procedure TFrmReportHost.HostForm(AForm: IReportConfiguration);
+procedure TFrmReportHost.Display(AReport: IReport);
 begin
-  AForm.SetHostControl( self.panHost );
-  FHosting := AForm;
+  // tell report where to display...
+  AReport.SetHostControl( self.panHost );
+
+  // remember what this form is hosting
+  FHosting := AReport;
 
   UpdateReport;
 end;

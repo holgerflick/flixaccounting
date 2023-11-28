@@ -2,15 +2,15 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
   Align = alClient
   BorderStyle = bsNone
   Caption = 'Profit Loss'
-  ClientHeight = 706
-  ClientWidth = 1155
-  ExplicitWidth = 1155
-  ExplicitHeight = 706
+  ClientHeight = 585
+  ClientWidth = 1045
+  ExplicitWidth = 1045
+  ExplicitHeight = 585
   TextHeight = 21
   object Splitter1: TSplitter [0]
-    Left = 599
+    Left = 489
     Top = 0
-    Height = 706
+    Height = 585
     Align = alRight
     ExplicitLeft = 311
     ExplicitTop = 8
@@ -19,16 +19,18 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
   object FlxPanel1: TPanel [1]
     Left = 0
     Top = 0
-    Width = 599
-    Height = 706
+    Width = 489
+    Height = 585
     Align = alClient
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 599
+    ExplicitHeight = 706
     object Label1: TLabel
       Left = 0
       Top = 0
-      Width = 599
+      Width = 489
       Height = 25
       Align = alTop
       Alignment = taCenter
@@ -44,7 +46,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object Splitter2: TSplitter
       Left = 0
       Top = 380
-      Width = 599
+      Width = 489
       Height = 3
       Cursor = crVSplit
       Align = alTop
@@ -54,8 +56,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object GridIncomeTx: TDBGrid
       Left = 0
       Top = 383
-      Width = 599
-      Height = 276
+      Width = 489
+      Height = 155
       Align = alClient
       DataSource = sourceIncomeTx
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -86,7 +88,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object GridIncome: TDBGrid
       Left = 0
       Top = 25
-      Width = 599
+      Width = 489
       Height = 355
       Align = alTop
       DataSource = sourceIncome
@@ -114,8 +116,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object FlxPanel2: TPanel
       AlignWithMargins = True
       Left = 3
-      Top = 662
-      Width = 566
+      Top = 541
+      Width = 456
       Height = 34
       Margins.Right = 30
       Margins.Bottom = 10
@@ -123,11 +125,13 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       BevelOuter = bvNone
       ShowCaption = False
       TabOrder = 2
+      ExplicitTop = 662
+      ExplicitWidth = 566
       object txtTotalIncome: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 560
+        Width = 450
         Height = 28
         Align = alClient
         Alignment = taRightJustify
@@ -145,14 +149,16 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     end
   end
   object panExpense: TPanel [2]
-    Left = 602
+    Left = 492
     Top = 0
     Width = 553
-    Height = 706
+    Height = 585
     Align = alRight
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 1
+    ExplicitLeft = 602
+    ExplicitHeight = 706
     object Label2: TLabel
       Left = 0
       Top = 0
@@ -183,7 +189,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Left = 0
       Top = 380
       Width = 553
-      Height = 279
+      Height = 158
       Align = alClient
       DataSource = sourceExpenseTx
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -242,7 +248,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object FlxPanel3: TPanel
       AlignWithMargins = True
       Left = 3
-      Top = 662
+      Top = 541
       Width = 520
       Height = 34
       Margins.Right = 30
@@ -251,6 +257,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       BevelOuter = bvNone
       ShowCaption = False
       TabOrder = 2
+      ExplicitTop = 662
       object txtTotalExpense: TLabel
         AlignWithMargins = True
         Left = 3
@@ -272,25 +279,29 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       end
     end
   end
+  inherited actFrmBase: TActionList
+    Left = 40
+    Top = 104
+  end
   object sourceIncome: TDataSource
     DataSet = Income
-    Left = 304
-    Top = 232
+    Left = 280
+    Top = 256
   end
   object sourceIncomeTx: TDataSource
     DataSet = IncomeTx
-    Left = 368
-    Top = 504
+    Left = 400
+    Top = 200
   end
   object sourceExpense: TDataSource
     DataSet = Expense
-    Left = 688
-    Top = 184
+    Left = 280
+    Top = 200
   end
   object sourceExpenseTx: TDataSource
     DataSet = ExpenseTx
-    Left = 696
-    Top = 480
+    Left = 400
+    Top = 256
   end
   object Income: TAureliusDataset
     FieldDefs = <
@@ -320,8 +331,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Attributes = [faReadonly, faRequired]
         DataType = ftFloat
       end>
-    Left = 152
-    Top = 248
+    Left = 40
+    Top = 192
     DesignClass = 'UProfitLoss.TPLCategory'
     object IncomeSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -379,8 +390,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Attributes = [faRequired]
         DataType = ftFloat
       end>
-    Left = 168
-    Top = 504
+    Left = 40
+    Top = 256
     DesignClass = 'UProfitLoss.TPLTransaction'
     object IncomeTxSelf: TAureliusEntityField
       FieldName = 'Self'
@@ -433,8 +444,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Attributes = [faReadonly, faRequired]
         DataType = ftFloat
       end>
-    Left = 688
-    Top = 256
+    Left = 120
+    Top = 192
     DesignClass = 'UProfitLoss.TPLCategory'
     object AureliusEntityField1: TAureliusEntityField
       FieldName = 'Self'
@@ -492,8 +503,8 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Attributes = [faRequired]
         DataType = ftFloat
       end>
-    Left = 704
-    Top = 544
+    Left = 120
+    Top = 256
     DesignClass = 'UProfitLoss.TPLTransaction'
     object AureliusEntityField2: TAureliusEntityField
       FieldName = 'Self'
