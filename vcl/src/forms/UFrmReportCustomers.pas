@@ -70,7 +70,6 @@ type
     function CanExport: Boolean;
 
     function GetName: String;
-    { Public declarations }
   end;
 
 var

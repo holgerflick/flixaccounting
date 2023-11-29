@@ -103,19 +103,16 @@ inherited FrmReportCustomers: TFrmReportCustomers
       item
         Expanded = False
         FieldName = 'Issued'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Paid'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Total'
-        Width = 64
         Visible = True
       end>
   end
