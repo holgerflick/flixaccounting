@@ -25,7 +25,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 0
-    ExplicitHeight = 585
     object Label1: TLabel
       Left = 0
       Top = 0
@@ -124,7 +123,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       BevelOuter = bvNone
       ShowCaption = False
       TabOrder = 2
-      ExplicitTop = 541
       object txtTotalIncome: TLabel
         AlignWithMargins = True
         Left = 3
@@ -155,7 +153,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 585
     object Label2: TLabel
       Left = 0
       Top = 0
@@ -254,7 +251,6 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       BevelOuter = bvNone
       ShowCaption = False
       TabOrder = 2
-      ExplicitTop = 541
       object txtTotalExpense: TLabel
         AlignWithMargins = True
         Left = 3

@@ -26,6 +26,7 @@ uses
   , System.Actions
 
   , Vcl.ActnList
+  , Vcl.Buttons
   , Vcl.Graphics
   , Vcl.Controls
   , Vcl.Forms

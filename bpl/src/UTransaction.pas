@@ -35,7 +35,7 @@ uses
 
 type
   [Automapping]
-  TTransactionKind = ( Income, Expense, All ); // all is used for filtering
+  TTransactionKind = ( Income, Expense, All ); // All is used for filtering
 
   [Entity]
   [Automapping]
