@@ -1,3 +1,7 @@
+# Software Development with Delphi, First Edition, Source Code
+
+Thanks to participation from avid readers like @hindermath, the source code is constantly changing and new ideas are added. Please use the release on the right side **to download the source code that matches the book** publication [Link](https://github.com/holgerflick/flixaccounting/releases/tag/rel_edition1).
+
 # Disclaimer
 This software example bundled with this book is intended for educational and illustrative purposes only. It is not an official accounting software and should not be used in production or for any critical financial operations.
 
