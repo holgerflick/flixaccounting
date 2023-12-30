@@ -1,4 +1,5 @@
-# Software Development with Delphi, First Edition, Source Code
+# Modern Software Development with Delphi
+## First Edition, Source Code
 
 Thanks to participation from avid readers like @hindermath, the source code is constantly changing and new ideas are added. Please use the release on the right side **to download the source code that matches the book** publication [Link](https://github.com/holgerflick/flixaccounting/releases/tag/rel_edition1).
 
