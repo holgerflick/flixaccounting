@@ -4,17 +4,17 @@
 Thanks to participation from avid readers like @hindermath, the source code is constantly changing and new ideas are added. Please use the release on the right side **to download the source code that matches the book** publication [(Link)](https://github.com/holgerflick/flixaccounting/releases/tag/rel_edition1).
 
 ## FAQ
-- Q: Will there be a video tutorial of the book that explains the source code?
-- A: Yes. Early 2024. Work on this has started already.
+-❓: Will there be a video tutorial of the book that explains the source code?
+-❗️: Yes. Early 2024. Work on this has started already.
 
-- Q: The source code does not compile. Files are missing. Where is the download?
-- A: Please use the release download on the right side [(Link)](https://github.com/holgerflick/flixaccounting/releases/tag/rel_edition1) to download the version that matches the first edition of the book.
+-❓: The source code does not compile. Files are missing. Where is the download?
+-❗️: Please use the release download on the right side [(Link)](https://github.com/holgerflick/flixaccounting/releases/tag/rel_edition1) to download the version that matches the first edition of the book.
 
-- Q: What are the dependencies on TMS products?
-- A: *TMS Aurelius* is used as ORM, *TMS XData* is needed for the Web API, *TMS FlexCel* is used for reporting, and one date editor is used from *TMS VCL UI Pack* that can be replaced with the VCL standard control if needed as described in the book.
+-❓: What are the dependencies on TMS products?
+-❗️: *TMS Aurelius* is used as ORM, *TMS XData* is needed for the Web API, *TMS FlexCel* is used for reporting, and one date editor is used from *TMS VCL UI Pack* that can be replaced with the VCL standard control if needed as described in the book.
 
-- Q: Is Delphi dead?
-- A: No. It still rocks!
+-❓: Is Delphi dead?
+-❗️: No. It still rocks!
 
 # Disclaimer
 This software example bundled with this book is intended for educational and illustrative purposes only. It is not an official accounting software and should not be used in production or for any critical financial operations.
