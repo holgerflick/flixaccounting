@@ -14,7 +14,7 @@ Thanks to participation from avid readers like @hindermath, the source code is c
 ❗️*TMS Aurelius* is used as ORM, *TMS XData* is needed for the Web API, *TMS FlexCel* is used for reporting, and one date editor is used from *TMS VCL UI Pack* that can be replaced with the VCL standard control if needed as described in the book.
 
 ❓Is Delphi dead?  
-❗️No. It still rocks!
+❗️No. It still rocks! As @hindermath puts it: "Those who have been declared dead live longer! This has already proven to be true many times in IT and this is especially true for Delphi. Delphi will be with us for a long time to come and give us a lot of pleasure in programming applications with the RAD paradigm. So, enjoy reading Holger's book and helping to develop the example application from the book."
 
 # Disclaimer
 This software example bundled with this book is intended for educational and illustrative purposes only. It is not an official accounting software and should not be used in production or for any critical financial operations.
