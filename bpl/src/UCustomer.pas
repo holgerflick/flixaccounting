@@ -64,6 +64,8 @@ type
   end;
 
 implementation
+const
+  cCarriageReturn = #13;
 
 { TCustomer }
 
@@ -77,7 +79,7 @@ end;
 
 function TCustomer.GetAddressExcel: String;
 begin
-  Result := Address.Replace(#13, String.Empty );
+  Result := Address.Replace(cCarriageReturn, String.Empty );
 end;
 
 initialization
