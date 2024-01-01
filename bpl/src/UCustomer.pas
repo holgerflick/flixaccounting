@@ -69,15 +69,15 @@ implementation
 
 constructor TCustomer.Create;
 begin
-  FName := '';
-  FContact := '';
-  FAddress := '';
-  FEmail := '';
+  FName := String.Empty;
+  FContact := String.Empty;
+  FAddress := String.Empty;
+  FEmail := String.Empty;
 end;
 
 function TCustomer.GetAddressExcel: String;
 begin
-  Result := Address.Replace(#13, '' );
+  Result := Address.Replace(#13, String.Empty );
 end;
 
 initialization
