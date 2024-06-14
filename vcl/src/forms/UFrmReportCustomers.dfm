@@ -2,15 +2,15 @@ inherited FrmReportCustomers: TFrmReportCustomers
   Align = alClient
   BorderStyle = bsNone
   Caption = 'Customer Report'
-  ClientHeight = 593
-  ClientWidth = 801
-  ExplicitWidth = 801
-  ExplicitHeight = 593
+  ClientHeight = 443
+  ClientWidth = 631
+  ExplicitWidth = 631
+  ExplicitHeight = 443
   TextHeight = 21
   object Splitter1: TSplitter [0]
     Left = 0
     Top = 225
-    Width = 801
+    Width = 631
     Height = 3
     Cursor = crVSplit
     Align = alTop
@@ -18,8 +18,8 @@ inherited FrmReportCustomers: TFrmReportCustomers
   end
   object Splitter2: TSplitter [1]
     Left = 0
-    Top = 470
-    Width = 801
+    Top = 320
+    Width = 631
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -29,7 +29,7 @@ inherited FrmReportCustomers: TFrmReportCustomers
   object Customers: TDBGrid [2]
     Left = 0
     Top = 0
-    Width = 801
+    Width = 631
     Height = 225
     Align = alTop
     DataSource = sourceCustomers
@@ -55,8 +55,8 @@ inherited FrmReportCustomers: TFrmReportCustomers
   end
   object Categories: TDBGrid [3]
     Left = 0
-    Top = 473
-    Width = 801
+    Top = 323
+    Width = 631
     Height = 120
     Align = alBottom
     DataSource = sourceCategories
@@ -83,8 +83,8 @@ inherited FrmReportCustomers: TFrmReportCustomers
   object Invoices: TDBGrid [4]
     Left = 0
     Top = 228
-    Width = 801
-    Height = 242
+    Width = 631
+    Height = 92
     Align = alClient
     DataSource = sourceInvoices
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -119,19 +119,23 @@ inherited FrmReportCustomers: TFrmReportCustomers
         Visible = True
       end>
   end
+  inherited actFrmBase: TActionList
+    Left = 72
+    Top = 72
+  end
   object sourceCustomers: TDataSource
     DataSet = ReportManager.CustomerReport
-    Left = 120
-    Top = 80
+    Left = 312
+    Top = 72
   end
   object sourceInvoices: TDataSource
     DataSet = ReportManager.CRInvoiceTotals
-    Left = 120
-    Top = 328
+    Left = 208
+    Top = 72
   end
   object sourceCategories: TDataSource
     DataSet = ReportManager.CRCategoryTotals
-    Left = 152
-    Top = 504
+    Left = 424
+    Top = 72
   end
 end

@@ -1,23 +1,24 @@
 inherited FrmReportHost: TFrmReportHost
   BorderIcons = [biSystemMenu]
   Caption = 'Reports'
-  ClientHeight = 471
-  ClientWidth = 584
+  ClientHeight = 342
+  ClientWidth = 810
   Constraints.MinWidth = 600
-  ExplicitWidth = 600
-  ExplicitHeight = 510
+  ExplicitWidth = 826
+  ExplicitHeight = 381
   TextHeight = 21
   object panTop: TPanel [0]
     Left = 0
     Top = 0
-    Width = 584
+    Width = 810
     Height = 105
     Align = alTop
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 584
     DesignSize = (
-      584
+      810
       105)
     object btnCustomers: TButton
       Left = 8
@@ -56,7 +57,7 @@ inherited FrmReportHost: TFrmReportHost
     object cbFilterYear: TComboBox
       Left = 220
       Top = 36
-      Width = 137
+      Width = 363
       Height = 29
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
@@ -66,9 +67,10 @@ inherited FrmReportHost: TFrmReportHost
         'Current Year'
         'Last Year'
         '2 Years Ago')
+      ExplicitWidth = 137
     end
     object Button2: TButton
-      Left = 363
+      Left = 589
       Top = 7
       Width = 100
       Height = 92
@@ -84,9 +86,10 @@ inherited FrmReportHost: TFrmReportHost
       Images = Images
       ParentFont = False
       TabOrder = 3
+      ExplicitLeft = 363
     end
     object Button3: TButton
-      Left = 469
+      Left = 695
       Top = 7
       Width = 100
       Height = 92
@@ -102,18 +105,20 @@ inherited FrmReportHost: TFrmReportHost
       Images = Images
       ParentFont = False
       TabOrder = 4
+      ExplicitLeft = 469
     end
   end
   object panHost: TPanel [1]
     Left = 0
     Top = 105
-    Width = 584
-    Height = 366
+    Width = 810
+    Height = 237
     Align = alClient
     BevelOuter = bvNone
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 517
+    ExplicitWidth = 584
+    ExplicitHeight = 366
   end
   inherited actFrmBase: TActionList
     Top = 152

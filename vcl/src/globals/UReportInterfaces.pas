@@ -21,7 +21,7 @@ uses
   ;
 
 type
-  IReportConfiguration = interface
+  IReport = interface
   ['{3A93FF56-1B56-4FA7-B995-2F8ED67509B7}']
 
     procedure SetRangeStart( ADate: TDate );
