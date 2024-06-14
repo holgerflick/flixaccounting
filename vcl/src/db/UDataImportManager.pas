@@ -86,9 +86,10 @@ type
     FImportErrors: TImportErrors;
 
     procedure SetDuplicates(const Value: TStringList);
-    function FileIsInDatabase( AFile: String ): Boolean;
 
     function GetHasNoErrors: Boolean;
+
+    function TransactionFound(AFilenameData: TFilenameData): Boolean;
   public
     constructor Create(AManager: TObjectManager);
     destructor  Destroy; override;
@@ -136,14 +137,17 @@ begin
   inherited;
 end;
 
-function TDataImportManager.FileIsInDatabase(AFile: String): Boolean;
+
+function TDataImportManager.TransactionFound(AFilenameData: TFilenameData): Boolean;
 begin
-  var LDocument := FManager.Find<TDocument>
-    .Where( Dic.Document.OriginalFilename = AFile )
+  var LTransaction := FManager.Find<TTransaction>
+    .Add( Dic.Transaction.Title = AFilenameData.Title )
+    .Add( Dic.Transaction.Category = AFilenameData.Category )
+    .Add( Dic.Transaction.PaidOn.Year = AFilenameData.PaidOn.Value.Year )
     .UniqueResult
     ;
 
-  Result := Assigned( LDocument );
+  Result := Assigned( LTransaction );
 end;
 
 function TDataImportManager.GetHasNoErrors: Boolean;
@@ -167,35 +171,38 @@ begin
   LFiles := TDirectory.GetFiles(AFolder);
   for var LFile in LFiles do
   begin
-    // check if file is already in database
-    if FileIsInDatabase( LFile ) = False  then
-    begin
-      LData := TFilenameData.Create;
+    // checking the filename was a bad idea we need to check
+    // if the category plus the title are in the file already
+    LData := TFilenameData.Create;
+    try
       try
-        try
-          UnclutterFilename( LFile, LData );
+        UnclutterFilename( LFile, LData );
 
+        // now check if we have this already
+        if not TransactionFound( LData ) then
+        begin
           LTx := TTransaction.Create;
           LTx.Kind := ATxKind;
 
           LData.AssignToTransaction(LTx);
           FManager.Save(LTx);
-        except
-          on E: EConvertError do
-          begin
-            var LError := TImportError.Create;
-            LError.FileName := TPath.GetFileName(LFile);
-            LError.Description := E.Message;
-            FImportErrors.Add( LError );
-          end;
+        end
+        else
+        begin
+          FDuplicates.Add(TPath.GetFileName(LFile));
         end;
-      finally
-        LData.Free;
+
+      except
+        on E: EConvertError do
+        begin
+          var LError := TImportError.Create;
+          LError.FileName := TPath.GetFileName(LFile);
+          LError.Description := E.Message;
+          FImportErrors.Add( LError );
+        end;
       end;
-    end
-    else
-    begin
-      FDuplicates.Add(TPath.GetFileName(LFile));
+    finally
+      LData.Free;
     end;
   end;
 end;
