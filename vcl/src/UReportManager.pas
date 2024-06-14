@@ -79,25 +79,20 @@ type
     FRangeEnd: TDate;
     FObjectManager: TObjectManager;
 
-
   public
     { Public declarations }
 
     constructor Create( AObjManager: TObjectManager ); reintroduce;
 
+    procedure BuildProfitsCustomer;
     procedure GetCategories(ACategories: TStrings);
+    function  GetProfitLoss( AObjManager: TObjectManager ): TProfitLoss;
 
-    property ObjectManager: TObjectManager read FObjectManager write FObjectManager;
     property RangeStart: TDate read FRangeStart write FRangeStart;
     property RangeEnd: TDate read FRangeEnd write FRangeEnd;
 
-    procedure BuildProfitsCustomer;
-    function GetProfitLoss( AObjManager: TObjectManager ): TProfitLoss;
-
+    property ObjectManager: TObjectManager read FObjectManager;
   end;
-
-var
-  ReportManager: TReportManager;
 
 implementation
 
@@ -133,7 +128,7 @@ begin
 
   // get all transactions that need to be considered
   // -- don't care if it is income or expense
-  // -- also look this up in the persistent object manager
+  // -- also look this up in the persistent object manager
   var LTransactions := ObjectManager.Find<TTransaction>
     .Where(
       (Dic.Transaction.PaidOn >= self.RangeStart) AND
@@ -207,6 +202,7 @@ end;
 procedure TReportManager.BuildProfitsCustomer;
 var
   LCustomers: TObjectList<TCriteriaResult>;
+
 begin
   CustomerReport.DisableControls;
   CustomerReport.Close;
@@ -258,8 +254,6 @@ begin
                 .Add(Dic.Invoice.Transactions.Category.Group.As_('Category'))
               )
               .Where(
-                (Dic.Invoice.IssuedOn >= self.RangeStart) AND
-                (Dic.Invoice.IssuedOn <= self.RangeEnd ) AND
                 (Dic.Invoice.Id = LInvoice.Id)
               )
               .ListValues

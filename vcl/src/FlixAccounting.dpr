@@ -54,7 +54,15 @@ begin
   end
   else
   begin
-    MessageDlg('Cannot launch application. Please check that database configuration ' +
-     'exists in settings.ini.', mtError, [mbOK], 0);
+    MessageDlg(
+      '''
+      Cannot launch application. Please check
+      that database configuration
+      exists in settings.ini.
+      ''',
+     mtError,
+     [mbOK],
+     0
+     );
   end;
 end.

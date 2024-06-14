@@ -2,15 +2,15 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
   Align = alClient
   BorderStyle = bsNone
   Caption = 'Profit Loss'
-  ClientHeight = 585
+  ClientHeight = 531
   ClientWidth = 1045
   ExplicitWidth = 1045
-  ExplicitHeight = 585
+  ExplicitHeight = 531
   TextHeight = 21
   object Splitter1: TSplitter [0]
     Left = 489
     Top = 0
-    Height = 585
+    Height = 531
     Align = alRight
     ExplicitLeft = 311
     ExplicitTop = 8
@@ -20,7 +20,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     Left = 0
     Top = 0
     Width = 489
-    Height = 585
+    Height = 531
     Align = alClient
     BevelOuter = bvNone
     ShowCaption = False
@@ -57,7 +57,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Left = 0
       Top = 383
       Width = 489
-      Height = 155
+      Height = 101
       Align = alClient
       DataSource = sourceIncomeTx
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -116,7 +116,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object FlxPanel2: TPanel
       AlignWithMargins = True
       Left = 3
-      Top = 541
+      Top = 487
       Width = 456
       Height = 34
       Margins.Right = 30
@@ -142,7 +142,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 415
+        ExplicitLeft = 305
         ExplicitWidth = 148
         ExplicitHeight = 24
       end
@@ -152,7 +152,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     Left = 492
     Top = 0
     Width = 553
-    Height = 585
+    Height = 531
     Align = alRight
     BevelOuter = bvNone
     ShowCaption = False
@@ -189,7 +189,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
       Left = 0
       Top = 380
       Width = 553
-      Height = 158
+      Height = 104
       Align = alClient
       DataSource = sourceExpenseTx
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -248,7 +248,7 @@ inherited FrmReportProfitLoss: TFrmReportProfitLoss
     object FlxPanel3: TPanel
       AlignWithMargins = True
       Left = 3
-      Top = 541
+      Top = 487
       Width = 520
       Height = 34
       Margins.Right = 30

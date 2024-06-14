@@ -1,7 +1,7 @@
 object ReportManager: TReportManager
   OnCreate = DataModuleCreate
-  Height = 403
-  Width = 579
+  Height = 305
+  Width = 718
   object CustomerReport: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -12,8 +12,8 @@ object ReportManager: TReportManager
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 72
-    Top = 96
+    Left = 64
+    Top = 40
     object CustomerReportCustomerId: TIntegerField
       FieldName = 'CustomerId'
     end
@@ -40,8 +40,8 @@ object ReportManager: TReportManager
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 72
-    Top = 160
+    Left = 272
+    Top = 40
     object CRInvoiceTotalsInvoiceId: TIntegerField
       FieldName = 'InvoiceId'
     end
@@ -75,8 +75,8 @@ object ReportManager: TReportManager
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 72
-    Top = 232
+    Left = 544
+    Top = 40
     object CRCategoryTotalsCategory: TStringField
       FieldName = 'Category'
       Size = 500

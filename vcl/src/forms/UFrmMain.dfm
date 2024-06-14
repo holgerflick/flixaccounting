@@ -1,15 +1,13 @@
 inherited FrmMain: TFrmMain
   BorderStyle = bsDialog
   ClientHeight = 151
-  ClientWidth = 809
+  ClientWidth = 771
   DoubleBuffered = True
   Font.Height = -12
   StyleElements = [seFont, seClient]
   OnShow = FormShow
-  ExplicitLeft = 3
-  ExplicitTop = 3
-  ExplicitWidth = 831
-  ExplicitHeight = 207
+  ExplicitWidth = 787
+  ExplicitHeight = 190
   TextHeight = 15
   object btnTransactions: TButton [0]
     Left = 114

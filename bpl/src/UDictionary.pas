@@ -13,6 +13,7 @@ type
   TCSControlDictionary = class;
   TCSDBGridColumnDictionary = class;
   TCSDBGridControlDictionary = class;
+  TCompanyDictionary = class;
   TCustomerDictionary = class;
   TDocumentDictionary = class;
   TInvoiceDictionary = class;
@@ -32,6 +33,8 @@ type
   ICSDBGridColumnDictionary = interface;
   
   ICSDBGridControlDictionary = interface;
+  
+  ICompanyDictionary = interface;
   
   ICustomerDictionary = interface;
   
@@ -106,6 +109,14 @@ type
     function Owner: ICSControlDictionary;
     function Children: ICSControlDictionary;
     function Columns: ICSDBGridColumnDictionary;
+  end;
+  
+  ICompanyDictionary = interface(IAureliusEntityDictionary)
+    function Id: TLinqProjection;
+    function Name: TLinqProjection;
+    function AddressLine: TLinqProjection;
+    function CityZipLine: TLinqProjection;
+    function Logo: TLinqProjection;
   end;
   
   ICustomerDictionary = interface(IAureliusEntityDictionary)
@@ -239,6 +250,15 @@ type
     function Columns: ICSDBGridColumnDictionary;
   end;
   
+  TCompanyDictionary = class(TAureliusEntityDictionary, ICompanyDictionary)
+  public
+    function Id: TLinqProjection;
+    function Name: TLinqProjection;
+    function AddressLine: TLinqProjection;
+    function CityZipLine: TLinqProjection;
+    function Logo: TLinqProjection;
+  end;
+  
   TCustomerDictionary = class(TAureliusEntityDictionary, ICustomerDictionary)
   public
     function Address: TLinqProjection;
@@ -317,6 +337,7 @@ type
     function CSControl: ICSControlDictionary;
     function CSDBGridColumn: ICSDBGridColumnDictionary;
     function CSDBGridControl: ICSDBGridControlDictionary;
+    function Company: ICompanyDictionary;
     function Customer: ICustomerDictionary;
     function Document: IDocumentDictionary;
     function Invoice: IInvoiceDictionary;
@@ -334,6 +355,7 @@ type
     function CSControl: ICSControlDictionary;
     function CSDBGridColumn: ICSDBGridColumnDictionary;
     function CSDBGridControl: ICSDBGridControlDictionary;
+    function Company: ICompanyDictionary;
     function Customer: ICustomerDictionary;
     function Document: IDocumentDictionary;
     function Invoice: IInvoiceDictionary;
@@ -581,6 +603,33 @@ end;
 function TCSDBGridControlDictionary.Columns: ICSDBGridColumnDictionary;
 begin
   Result := TCSDBGridColumnDictionary.Create(PropName('Columns'));
+end;
+
+{ TCompanyDictionary }
+
+function TCompanyDictionary.Id: TLinqProjection;
+begin
+  Result := Prop('Id');
+end;
+
+function TCompanyDictionary.Name: TLinqProjection;
+begin
+  Result := Prop('Name');
+end;
+
+function TCompanyDictionary.AddressLine: TLinqProjection;
+begin
+  Result := Prop('AddressLine');
+end;
+
+function TCompanyDictionary.CityZipLine: TLinqProjection;
+begin
+  Result := Prop('CityZipLine');
+end;
+
+function TCompanyDictionary.Logo: TLinqProjection;
+begin
+  Result := Prop('Logo');
 end;
 
 { TCustomerDictionary }
@@ -842,6 +891,11 @@ end;
 function TDefaultDictionary.CSDBGridControl: ICSDBGridControlDictionary;
 begin
   Result := TCSDBGridControlDictionary.Create;
+end;
+
+function TDefaultDictionary.Company: ICompanyDictionary;
+begin
+  Result := TCompanyDictionary.Create;
 end;
 
 function TDefaultDictionary.Customer: ICustomerDictionary;
